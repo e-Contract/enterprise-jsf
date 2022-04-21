@@ -1,0 +1,66 @@
+% Enterprise JSF project.
+%
+% Copyright 2022 e-Contract.be BV. All rights reserved.
+% e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+\documentclass[12pt, a4paper]{report}
+\usepackage{fullpage}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{gensymb}
+\usepackage[pdftex]{graphicx}
+\usepackage{color}
+\usepackage{figlatex}
+\DeclareGraphicsExtensions{.fig,.pdf}
+\usepackage[export]{adjustbox}
+\usepackage{multirow}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[nottoc]{tocbibind}
+\usepackage{tcolorbox}
+
+\hypersetup{
+	urlcolor=cyan,
+}
+
+\definecolor{orange}{HTML}{FF7F00}
+
+\newtcolorbox[auto counter,number within=section]{QUESTION}[2][]{
+	colback=blue!5!white,colframe=blue!75!black,fonttitle=\bfseries, title=QUESTION~\thetcbcounter: #2,#1
+}
+
+\newtcolorbox[auto counter,number within=section]{TODO}[2][]{
+	colback=red!5!white,colframe=red!75!black,fonttitle=\bfseries, title=TODO~\thetcbcounter: #2,#1
+}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\includegraphics[scale=0.8]{e-contract-logoFINAL}
+\end{center}
+\vspace{8cm}
+\begin{center}
+{\fontsize{50}{60}\selectfont\textbf{Enterprise JSF}}
+\end{center}
+\vspace{8cm}
+\begin{flushright}
+e-Contract.be BV\\
+\today \\
+Version: DRAFT
+\end{flushright}
+\end{titlepage}
+
+\tableofcontents
+
+\include{preface}
+
+\include{copyright}
+
+\include{introduction}
+
+\listoffigures
+
+\end{document}
