@@ -4,5 +4,24 @@
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Introduction}
+
+\section{Basic Project Structure}
 Basic Maven POM file.
 \lstinputlisting[language=XML]{helloworld/pom.xml}
+
+Basic \texttt{src/main/webapp/index.xhtml} file.
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/index.xhtml}
+
+You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF:
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/web.xml}
+
+You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI:
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/beans.xml}
+
+\section{CDI Bean}
+
+The source code of our first CDI bean \texttt{HelloWorldController.java} looks as follows.
+\lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/HelloWorldController.java}
+
+We can use this within a JSF page as follows:
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/helloworld.xhtml}
