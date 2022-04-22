@@ -3,10 +3,11 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Input Validation</title>
+        <title>CSS</title>
+        <h:outputStylesheet library="css" name="style.css"/>
     </h:head>
     <h:body>
-        <h1>Input Validation</h1>
+        <h1>CSS</h1>
         <h:form>
             <p>
                 Result: #{inputOutputController.value}
@@ -15,7 +16,7 @@
                          required="true">
                 <f:validateLength minimum="4"/>
             </h:inputText>
-            <h:message for="input"/>
+            <h:message for="input" styleClass="my-message-class"/>
             <h:commandButton value="click me">
                 <f:ajax execute="@form" render="@form"/>
             </h:commandButton>
