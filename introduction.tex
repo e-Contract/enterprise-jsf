@@ -15,6 +15,9 @@ Basic \texttt{src/main/webapp/index.xhtml} file.
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/web.xml}
 
+You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to activate JSF:
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/faces-config.xml}
+
 You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/beans.xml}
 
@@ -56,3 +59,9 @@ With the CSS file under \texttt{src/main/webapp/resources/css/style.css}:
 \section{Templates}
 
 \section{Data Iterators}
+
+CDI controller:
+\lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/DataController.java}
+
+JSF page:
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/datatable.xhtml}
