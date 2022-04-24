@@ -21,6 +21,27 @@ You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml}
 You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/beans.xml}
 
+Compile via:
+\begin{lstlisting}[language=bash]
+cd helloworld
+mvn clean install
+\end{lstlisting}
+
+Start a WildFly application server via:
+\begin{lstlisting}[language=bash]
+cd wildfly-26.1.0.Final/bin
+./standalone.sh --server-config=standalone-full.xml
+\end{lstlisting}
+
+Deploy to the application server via:
+\begin{lstlisting}[language=bash]
+cd helloworld
+mvn wildfly:deploy
+\end{lstlisting}
+
+Check out the deployed application via:
+http://localhost:8080/helloworld-1.0.0-SNAPSHOT/
+
 \section{CDI Bean}
 
 The source code of our first CDI bean \texttt{HelloWorldController.java} looks as follows.
@@ -56,8 +77,6 @@ With the CSS file under \texttt{src/main/webapp/resources/css/style.css}:
 \lstinputlisting[language=CSS]{helloworld/src/main/webapp/resources/css/style.css}
 
 
-\section{Templates}
-
 \section{Data Iterators}
 
 CDI controller:
@@ -65,3 +84,8 @@ CDI controller:
 
 JSF page:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/datatable.xhtml}
+
+
+\section{Templates}
+
+Facelets stuff here.

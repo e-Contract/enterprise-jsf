@@ -7,7 +7,7 @@
 
 FIGS =
 PUML =
-TEX_INCLUDES = preface.tex copyright.tex introduction.tex
+TEX_INCLUDES = preface.tex copyright.tex introduction.tex testing.tex production.tex
 SVG = e-contract-logoFINAL.svg
 
 .PHONY: all
