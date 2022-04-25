@@ -5,9 +5,13 @@
 
 \chapter{Introduction}
 
+Within this chapter we give a brief overview of JSF.
+
 \section{Basic Project Structure}
-Basic Maven POM file.
+Basic Maven \texttt{pom.xml} file.
 \lstinputlisting[language=XML]{helloworld/pom.xml}
+
+This Maven POM file will create a deployable WAR file, as indicated by the \texttt{package} element.
 
 Basic \texttt{src/main/webapp/index.xhtml} file.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/index.xhtml}
@@ -15,13 +19,13 @@ Basic \texttt{src/main/webapp/index.xhtml} file.
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/web.xml}
 
-You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to activate JSF:
+You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/faces-config.xml}
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/beans.xml}
 
-Compile via:
+Compile the example via:
 \begin{lstlisting}[language=bash]
 cd helloworld
 mvn clean install
@@ -33,34 +37,43 @@ cd wildfly-26.1.0.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
 \end{lstlisting}
 
-Deploy to the application server via:
+Deploy the \texttt{helloworld} WAR to the application server via:
 \begin{lstlisting}[language=bash]
 cd helloworld
 mvn wildfly:deploy
 \end{lstlisting}
 
-Check out the deployed application via:
+Check out the deployed application within a web browser by navigating to:
+
 http://localhost:8080/helloworld-1.0.0-SNAPSHOT/
 
 \section{CDI Bean}
 
 The source code of our first CDI bean \texttt{HelloWorldController.java} looks as follows.
 \lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/HelloWorldController.java}
+Via the \texttt{@Named} annotation, we make our CDI bean available within the context of our JSF web application with a default naming.
 
 We can use this within a JSF page as follows:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/helloworld.xhtml}
+
+Notice how we access the \texttt{value} property of our CDI bean via the \texttt{\#\{...\}} expression.
 
 \section{Basic Input/Output}
 
 CDI controller:
 \lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/InputOutputController.java}
 
+Notice the usage of the \texttt{@ViewScoped} annotation to control the lifecycle of our CDI bean within the context of the JSF page.
+
 JSF page:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/input-output.xhtml}
 
-Entire page is being reloaded.
+When we click on the \texttt{h:commandButton}, the entire page is being reloaded with an updated value of course.
+
 
 \section{AJAX}
+
+Avoiding the reloading of the entire JSF page can be avoided by using AJAX as shown in the following example JSF page.
 
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/ajax.xhtml}
 
@@ -84,6 +97,9 @@ CDI controller:
 
 JSF page:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/datatable.xhtml}
+
+
+\section{JSF Lifecycle}
 
 
 \section{Templates}
