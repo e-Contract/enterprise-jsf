@@ -19,6 +19,9 @@ Basic \texttt{src/main/webapp/index.xhtml} file.
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/web.xml}
 
+Please notice here that an explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to properly disable web browser caching.
+For proper development, the web browser caching has to be disabled.
+
 You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/faces-config.xml}
 
