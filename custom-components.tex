@@ -18,8 +18,15 @@ The POM of our tag library JAR module looks as follows.
 The POM of our WAR module looks as follows.
 \lstinputlisting[language=XML]{helloworld-ear/war/pom.xml}
 
+The content of the WAR is similar to the initial example.
+
 The POM of our deployable EAR module looks as follows.
 \lstinputlisting[language=XML]{helloworld-ear/ear/pom.xml}
+
+The tag library itself is a regular JAR with some additional structure.
+The most important file here is our \texttt{src/main/resources/META-INF/ejsf.taglib.xml} tag library descriptor file:
+\lstinputlisting[language=XML]{helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+You can name this file anyway you want, as long as it ends with \texttt{.taglib.xml}.
 
 Compile the example via:
 \begin{lstlisting}[language=bash]
@@ -38,6 +45,14 @@ Check out the deployed application within a web browser by navigating to:
 http://localhost:8080/helloworld-ear/
 
 \section{Validator}
+
+We start off with our first custom JSF component, a validator.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleValidator.java}
+
+Notice that we register this custom validator within our \texttt{.taglib.xml} tag library descriptor.
+
+Example usage of our custom validator is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/validation.xhtml}
 
 \subsection{Validator Parameters}
 
