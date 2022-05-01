@@ -18,6 +18,25 @@ The POM of our tag library JAR module looks as follows.
 The POM of our WAR module looks as follows.
 \lstinputlisting[language=XML]{helloworld-ear/war/pom.xml}
 
+The POM of our deployable EAR module looks as follows.
+\lstinputlisting[language=XML]{helloworld-ear/ear/pom.xml}
+
+Compile the example via:
+\begin{lstlisting}[language=bash]
+	cd helloworld-ear
+	mvn clean install
+\end{lstlisting}
+
+Deploy the \texttt{helloworld-ear} EAR to the application server via:
+\begin{lstlisting}[language=bash]
+	cd ear
+	mvn wildfly:deploy
+\end{lstlisting}
+
+Check out the deployed application within a web browser by navigating to:
+
+http://localhost:8080/helloworld-ear/
+
 \section{Validator}
 
 \subsection{Validator Parameters}
