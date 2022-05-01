@@ -42,4 +42,8 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <modules>
+        <module>taglib</module>
+        <module>war</module>
+    </modules>
 </project>
