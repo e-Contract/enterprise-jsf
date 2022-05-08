@@ -90,7 +90,19 @@ Notice the usage of \texttt{getSubmittedValue()} and \texttt{setSubmittedValue()
 The submitted value only gets propagated towards the actual value in case all input validators are happy.
 Upon an input validation error, the component keeps working on the submitted value.
 
+Example usage of our custom input JSF component is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/input.xhtml}
+
 \section{AJAX Events}
+
+Source code of our custom JSF component that can fire AJAX events is given below:
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjax.java}
+
+Example usage of our custom JSF component is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/ajax.xhtml}
+
+With the corresponding CDI controller:
+\lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/AjaxController.java}
 
 \section{Tag Handlers}
 

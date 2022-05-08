@@ -51,5 +51,12 @@
             <type>java.lang.String</type>
         </attribute>
     </tag>
+    
+    <tag>
+        <tag-name>exampleAjax</tag-name>
+        <component>
+            <component-type>ejsf.exampleAjax</component-type>
+        </component>
+    </tag>
 
 </facelet-taglib>
