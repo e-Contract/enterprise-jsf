@@ -39,5 +39,17 @@
             <type>java.lang.String</type>
         </attribute>
     </tag>
+    
+    <tag>
+        <tag-name>exampleInput</tag-name>
+        <component>
+            <component-type>ejsf.exampleInput</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
 
 </facelet-taglib>
