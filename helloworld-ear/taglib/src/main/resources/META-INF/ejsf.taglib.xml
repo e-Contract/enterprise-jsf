@@ -58,5 +58,12 @@
             <component-type>ejsf.exampleAjax</component-type>
         </component>
     </tag>
+    
+    <tag>
+        <tag-name>exampleAjaxEvent</tag-name>
+        <component>
+            <component-type>ejsf.exampleAjaxEvent</component-type>
+        </component>
+    </tag>
 
 </facelet-taglib>

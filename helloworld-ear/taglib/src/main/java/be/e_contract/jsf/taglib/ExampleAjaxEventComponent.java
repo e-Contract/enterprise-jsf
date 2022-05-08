@@ -13,11 +13,13 @@ import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.FacesEvent;
 
-@FacesComponent(ExampleAjax.COMPONENT_TYPE)
-public class ExampleAjax extends UIComponentBase implements ClientBehaviorHolder {
+@FacesComponent(ExampleAjaxEventComponent.COMPONENT_TYPE)
+public class ExampleAjaxEventComponent extends UIComponentBase implements ClientBehaviorHolder {
 
-    public static final String COMPONENT_TYPE = "ejsf.exampleAjax";
+    public static final String COMPONENT_TYPE = "ejsf.exampleAjaxEvent";
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
@@ -87,5 +89,30 @@ public class ExampleAjax extends UIComponentBase implements ClientBehaviorHolder
     @Override
     public String getDefaultEventName() {
         return "click";
+    }
+
+    @Override
+    public void queueEvent(FacesEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        Map<String, String> requestParameterMap
+                = externalContext.getRequestParameterMap();
+        String clientId = getClientId(facesContext);
+        String behaviorSource = requestParameterMap.get(
+                ClientBehaviorContext.BEHAVIOR_SOURCE_PARAM_NAME);
+        if (clientId.equals(behaviorSource)) {
+            String eventName = requestParameterMap.get(
+                    ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
+            if ("click".equals(eventName)) {
+                AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) event;
+                String parameter = requestParameterMap.get(clientId + "_parameter");
+                ExampleAjaxBehaviorEvent exampleAjaxBehaviorEvent
+                        = new ExampleAjaxBehaviorEvent(this, behaviorEvent.getBehavior(), parameter);
+                exampleAjaxBehaviorEvent.setPhaseId(behaviorEvent.getPhaseId());
+                super.queueEvent(exampleAjaxBehaviorEvent);
+                return;
+            }
+        }
+        super.queueEvent(event);
     }
 }
