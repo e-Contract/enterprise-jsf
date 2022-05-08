@@ -82,6 +82,14 @@ Notice that we selectively update our custom output component via the \texttt{re
 Source code of our custom input JSF component:
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleInput.java}
 
+Notice again that we put an explicit \texttt{id} attribute containing the client id on our HTML output element so JSF AJAX updates can locate our component.
+
+Our \texttt{input} element has a \texttt{name} attribute used to locate the request parameter during the \texttt{decode} phase.
+
+Notice the usage of \texttt{getSubmittedValue()} and \texttt{setSubmittedValue()} during encoding and decoding.
+The submitted value only gets propagated towards the actual value in case all input validators are happy.
+Upon an input validation error, the component keeps working on the submitted value.
+
 \section{AJAX Events}
 
 \section{Tag Handlers}

@@ -54,6 +54,7 @@ public class ExampleInput extends UIInput {
                 = (String) requestParameterMap.get(clientId + separatorChar + "input");
         if (null != submittedValue) {
             setSubmittedValue(submittedValue);
+            setValid(true);
         }
     }
 }
