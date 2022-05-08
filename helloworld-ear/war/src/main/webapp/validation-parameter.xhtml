@@ -4,17 +4,17 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ejsf="urn:be:e-contract:enterprise-jsf">
     <h:head>
-        <title>Custom Validator</title>
+        <title>Custom Validator with Parameters</title>
     </h:head>
     <h:body>
-        <h1>Custom Validator</h1>
+        <h1>Custom Validator with Parameters</h1>
         <h:form>
             <p>
                 Result: #{inputOutputController.value}
             </p>
             <h:inputText id="input" value="#{inputOutputController.value}"
                          required="true">
-                <ejsf:exampleValidator/>
+                <ejsf:parameterValidator parameter="foobar"/>
             </h:inputText>
             <h:message for="input"/>
             <h:commandButton value="click me">

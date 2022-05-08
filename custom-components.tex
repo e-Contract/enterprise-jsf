@@ -56,6 +56,14 @@ Example usage of our custom validator is given below.
 
 \subsection{Validator Parameters}
 
+The custom JSF  validator with a parameter attribute looks as follows.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ParameterValidator.java}
+
+Notice that we register this custom validator within our \texttt{.taglib.xml} tag library descriptor.
+
+Example usage of our custom validator is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/validation-parameter.xhtml}
+
 \section{Output Component}
 
 \section{Input Component}

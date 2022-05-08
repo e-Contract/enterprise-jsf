@@ -15,5 +15,17 @@
             <validator-id>ejsf.exampleValidator</validator-id>
         </validator>
     </tag>
+    
+    <tag>
+        <tag-name>parameterValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.parameterValidator</validator-id>
+        </validator>
+        <attribute>
+            <name>parameter</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
 
 </facelet-taglib>
