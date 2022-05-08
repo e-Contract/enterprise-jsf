@@ -66,6 +66,17 @@ Example usage of our custom validator is given below.
 
 \section{Output Component}
 
+Source code of our custom output JSF component:
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleOutput.java}
+
+Important here is to notice that we are setting the \texttt{id} attribute on our \texttt{span} HTML element to the value of client id.
+This is required so that the JSF AJAX javascript code can find our JSF component for updates.
+
+Example usage of our custom output JSF component is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/output.xhtml}
+
+Notice that we selectively update our custom output component via the \texttt{render="output"} attribute on \texttt{f:ajax}.
+
 \section{Input Component}
 
 \section{AJAX Events}

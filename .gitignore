@@ -1,0 +1,9 @@
+target/
+faces-config.NavData
+*.aux
+*.pdf
+*.out
+*.log
+*.toc
+*.lof
+*.synctex.gz
