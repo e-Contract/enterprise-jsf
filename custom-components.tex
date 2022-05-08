@@ -104,6 +104,18 @@ Example usage of our custom JSF component is given below.
 With the corresponding CDI controller:
 \lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/AjaxController.java}
 
+\subsection{Custom AJAX Events}
+
+One can also create custom AJAX Events that can contain component specific parameters.
+For example,
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjaxBehaviorEvent.java}
+
+This custom AJAX event is passed as parameter to the CDI bean listener method as shown below.
+\lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/AjaxCustomEventController.java}
+
+The following example JSF component demonstrates how to fire such custom AJAX JSF events.
+
+
 \section{Tag Handlers}
 
 \section{Composites}
