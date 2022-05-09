@@ -52,7 +52,6 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
         if (behaviors.containsKey("click")) {
             AjaxBehavior ajaxBehavior = (AjaxBehavior) behaviors.get("click").get(0);
             String renderParam = resolveClientIds(context, ajaxBehavior.getRender());
-
             String executeParam = resolveClientIds(context, ajaxBehavior.getExecute());
             responseWriter.writeAttribute("onclick", "exampleAjaxEventOnClick('"
                     + clientId + "',event," + executeParam + "," + renderParam + ")", null);
