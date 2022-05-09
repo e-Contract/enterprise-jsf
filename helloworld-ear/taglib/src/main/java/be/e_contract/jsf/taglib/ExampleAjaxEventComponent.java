@@ -5,8 +5,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import javax.faces.application.ResourceDependencies;
+import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.component.behavior.ClientBehavior;
 import javax.faces.component.behavior.ClientBehaviorContext;
 import javax.faces.component.behavior.ClientBehaviorHolder;
@@ -17,6 +21,10 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.FacesEvent;
 
 @FacesComponent(ExampleAjaxEventComponent.COMPONENT_TYPE)
+@ResourceDependencies({
+    @ResourceDependency(library = "javax.faces", name = "jsf.js"),
+    @ResourceDependency(library = "ejsf", name = "example-ajax-event.js")
+})
 public class ExampleAjaxEventComponent extends UIComponentBase implements ClientBehaviorHolder {
 
     public static final String COMPONENT_TYPE = "ejsf.exampleAjaxEvent";
@@ -42,12 +50,41 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
 
         Map<String, List<ClientBehavior>> behaviors = getClientBehaviors();
         if (behaviors.containsKey("click")) {
-            String click = behaviors.get("click").get(0).getScript(behaviorContext);
-            responseWriter.writeAttribute("onclick", click, null);
+            AjaxBehavior ajaxBehavior = (AjaxBehavior) behaviors.get("click").get(0);
+            String renderParam = resolveClientIds(context, ajaxBehavior.getRender());
+
+            String executeParam = resolveClientIds(context, ajaxBehavior.getExecute());
+            responseWriter.writeAttribute("onclick", "exampleAjaxEventOnClick('"
+                    + clientId + "',event," + executeParam + "," + renderParam + ")", null);
         }
 
         responseWriter.write("Click me");
         responseWriter.endElement("button");
+    }
+
+    private String resolveClientIds(FacesContext facesContext, Collection<String> relativeClientIds) {
+        if (null == relativeClientIds) {
+            return "null";
+        }
+        if (relativeClientIds.isEmpty()) {
+            return "null";
+        }
+        StringBuilder absoluteClientIds = new StringBuilder();
+        for (String relativeClientId : relativeClientIds) {
+            if (absoluteClientIds.length() > 0) {
+                absoluteClientIds.append(' ');
+            }
+            if (relativeClientId.charAt(0) == '@') {
+                absoluteClientIds.append(relativeClientId);
+            } else {
+                UIComponent found = findComponent(relativeClientId);
+                if (found == null) {
+                    throw new IllegalArgumentException("component not found: " + relativeClientId);
+                }
+                absoluteClientIds.append(found.getClientId(facesContext));
+            }
+        }
+        return "'" + absoluteClientIds.toString() + "'";
     }
 
     @Override
