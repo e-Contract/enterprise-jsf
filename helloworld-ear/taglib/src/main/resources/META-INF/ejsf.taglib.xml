@@ -65,5 +65,17 @@
             <component-type>ejsf.exampleAjaxEvent</component-type>
         </component>
     </tag>
+    
+    <tag>
+        <tag-name>exampleStyledOutput</tag-name>
+        <component>
+            <component-type>ejsf.exampleStyledOutput</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>be.e_contract.jsf.taglib.ExampleEnum</type>
+        </attribute>
+    </tag>
 
 </facelet-taglib>

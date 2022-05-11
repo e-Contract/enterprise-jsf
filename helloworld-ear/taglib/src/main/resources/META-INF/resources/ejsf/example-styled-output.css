@@ -1,0 +1,23 @@
+.example-styled-output {
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px solid;
+}
+
+.example-styled-output-PENDING {
+    color: black;
+    background-color: lightgray;
+    border-color: black;
+}
+
+.example-styled-output-OK {
+    color: green;
+    background-color: greenyellow;
+    border-color: green;
+}
+
+.example-styled-output-FAILED {
+    color: red;
+    background-color: lightpink;
+    border-color: red;
+}

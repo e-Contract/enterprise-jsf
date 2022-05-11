@@ -77,6 +77,25 @@ Example usage of our custom output JSF component is given below.
 
 Notice that we selectively update our custom output component via the \texttt{render="output"} attribute on \texttt{f:ajax}.
 
+\subsection{Output Component with Style}
+
+In this example, we will create an output component that has been styled via a CSS file.
+Suppose we have an enumerate, which we want to visualize using different colors.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleEnum.java}
+
+The JSF output component looks as follows:
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleStyledOutput.java}
+
+With the corresponding CSS resource,
+\lstinputlisting[language=CSS]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-styled-output.css}
+
+We can use this custom output component as follows,
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/output-styled.xhtml}
+
+With the corresponding CDI controller,
+\lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/EnumOutputController.java}
+
+
 \section{Input Component}
 
 Source code of our custom input JSF component:
