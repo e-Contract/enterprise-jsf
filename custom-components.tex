@@ -154,7 +154,26 @@ The \texttt{ejsf-widget-example.js} Javascript resource:
 Example usage of our custom JSF component is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/widget.xhtml}
 
-\section{Tag Handlers}
+\section{Client Behavior}
+Example client behavior where we change the color of the button when we move over the mouse.
+Example usage of this custom client behavior is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/client-behavior.xhtml}
+
+The custom client behavior source code,
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleClientBehavior.java}
+
+The corresponding renderer:
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleClientBehaviorRenderer.java}
+
+The tag handler:
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleClientBehaviorTagHandler.java}
+Important here is to instantiate the custom behavior via \texttt{application.createBehavior} to ensure that the \texttt{@ResourceDependency} annotations on the renderer are interpreted by JSF.
+
+The JS resource:
+\lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-client-behavior.js}
+
+The CSS resource:
+\lstinputlisting[language=CSS]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-client-behavior.css}
 
 \section{Composites}
 
