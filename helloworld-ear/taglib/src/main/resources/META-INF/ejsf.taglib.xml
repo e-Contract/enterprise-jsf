@@ -77,5 +77,21 @@
             <type>be.e_contract.jsf.taglib.ExampleEnum</type>
         </attribute>
     </tag>
+    
+    <tag>
+        <tag-name>exampleWidget</tag-name>
+        <component>
+            <component-type>ejsf.exampleWidget</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
 
 </facelet-taglib>

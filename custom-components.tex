@@ -138,6 +138,22 @@ The following example JSF component demonstrates how to fire such custom AJAX JS
 With the corresponding Javascript resource file:
 \lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-ajax-event.js}
 
+Example usage of our custom JSF component is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/ajax-event.xhtml}
+
+\section{JSF Component with client-side API}
+The JSF component source code,
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleWidget.java}
+
+The \texttt{ejsf-widget.js} Javascript resource:
+\lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-widget.js}
+
+The \texttt{ejsf-widget-example.js} Javascript resource:
+\lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-widget-example.js}
+
+Example usage of our custom JSF component is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/widget.xhtml}
+
 \section{Tag Handlers}
 
 \section{Composites}
