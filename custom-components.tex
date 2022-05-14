@@ -139,7 +139,7 @@ This custom AJAX event is passed as parameter to the CDI bean listener method as
 The following example JSF component demonstrates how to fire such custom AJAX JSF events.
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjaxEventComponent.java}
 
-With the corresponding Javascript resource file:
+With the corresponding \texttt{example-ajax-event.js} Javascript resource file:
 \lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-ajax-event.js}
 
 Example usage of our custom JSF component is given below.
@@ -180,5 +180,12 @@ The \texttt{example-client-behavior.css} CSS resource:
 \lstinputlisting[language=CSS]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-client-behavior.css}
 
 \section{Composites}
+JSF also allows us to define component entirely within XHTML.
+An example composite components \texttt{exampleComposite.xhtml} is given below.
+\lstinputlisting[language=XML]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/exampleComposite.xhtml}
+Important here is to put a proper \texttt{id} attribute with \texttt{cc.clientId} value so the JSF AJAX updates can locate our composite component.
+
+Example usage of our composite component is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/composite.xhtml}
 
 \subsection{Backing Component}

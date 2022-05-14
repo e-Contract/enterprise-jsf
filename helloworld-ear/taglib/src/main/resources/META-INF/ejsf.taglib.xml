@@ -7,7 +7,7 @@
     
     <namespace>urn:be:e-contract:enterprise-jsf</namespace>
     
-    <composite-library-name>enterprise-jsf</composite-library-name>
+    <composite-library-name>ejsf</composite-library-name>
     
     <tag>
         <tag-name>exampleValidator</tag-name>
