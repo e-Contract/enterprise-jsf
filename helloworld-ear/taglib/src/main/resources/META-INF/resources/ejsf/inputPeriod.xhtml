@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <cc:interface componentType="ejsf.exampleBackingComponent">
+        <cc:attribute name="value" type="java.lang.Integer" required="true"/>
+    </cc:interface>
+    <cc:implementation>
+        <p id="#{cc.clientId}">
+            <h:inputText id="days" binding="#{cc.days}" size="4"/>
+            days and
+            <h:selectOneMenu id="hours" binding="#{cc.hours}">
+                <f:selectItems value="#{cc.hoursSelectItems}"/>
+            </h:selectOneMenu>
+            hours
+        </p>
+    </cc:implementation>
+</html>
