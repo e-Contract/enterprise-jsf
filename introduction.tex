@@ -5,10 +5,10 @@
 
 \chapter{Introduction}
 
-Within this chapter we give a brief overview of JSF.
+Within this chapter we give a brief overview of JSF \cite{JSF23}.
 
 \section{Basic Project Structure}
-Basic Maven \texttt{pom.xml} file.
+Basic Maven \cite{ApacheMaven} \texttt{pom.xml} file.
 \lstinputlisting[language=XML]{helloworld/pom.xml}
 
 This Maven POM file will create a deployable WAR file, as indicated by the \texttt{package} element.
@@ -16,16 +16,16 @@ This Maven POM file will create a deployable WAR file, as indicated by the \text
 Basic \texttt{src/main/webapp/index.xhtml} file.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/index.xhtml}
 
-You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF:
+You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/web.xml}
 
-Please notice here that an explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to properly disable web browser caching.
+Please notice here that an explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
 For proper development, the web browser caching has to be disabled.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/faces-config.xml}
 
-You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI:
+You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI \cite{CDI2}:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/beans.xml}
 
 Compile the example via:
@@ -34,7 +34,7 @@ cd helloworld
 mvn clean install
 \end{lstlisting}
 
-Start a WildFly application server via:
+Start a WildFly \cite{WildFly} application server via:
 \begin{lstlisting}[language=bash]
 cd wildfly-26.1.0.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
@@ -52,18 +52,20 @@ http://localhost:8080/helloworld-1.0.0-SNAPSHOT/
 
 \section{CDI Bean}
 
-The source code of our first CDI bean \texttt{HelloWorldController.java} looks as follows.
+The source code of our first CDI \cite{CDI2} bean \texttt{HelloWorldController.java} looks as follows.
 \lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/HelloWorldController.java}
 Via the \texttt{@Named} annotation, we make our CDI bean available within the context of our JSF web application with a default naming.
+Notice the usage of the \texttt{@PostConstruct} annotation to initialize our CDI bean when its lifecycle starts.
 
-We can use this within a JSF page as follows:
+We can use this CDI bean within a JSF page as follows:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/helloworld.xhtml}
 
 Notice how we access the \texttt{value} property of our CDI bean via the \texttt{\#\{...\}} expression.
 
 \section{Basic Input/Output}
 
-CDI controller:
+In this example we do some basic input and output.
+The CDI controller for this looks as follows:
 \lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/InputOutputController.java}
 
 Notice the usage of the \texttt{@ViewScoped} annotation to control the lifecycle of our CDI bean within the context of the JSF page.
@@ -76,29 +78,36 @@ When we click on the \texttt{h:commandButton}, the entire page is being reloaded
 
 \section{AJAX}
 
-Avoiding the reloading of the entire JSF page can be avoided by using AJAX as shown in the following example JSF page.
-
+The reloading of the entire JSF page can be avoided by using AJAX as shown in the following example JSF page.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/ajax.xhtml}
+
+Via the \texttt{f:ajax} tag we enable AJAX on the \texttt{h:commandButton} component.
+The \texttt{execute} attribute instructs what has to be processed, while the \texttt{render} attributes defines what needs to be rendered again.
 
 \section{Input Validation}
 
+Enabling input validation on JSF input components is demonstrated in the following example.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/validation.xhtml}
+
+Here you will get an error message when the length of the input is less than 4.
 
 \section{CSS}
 
+Styling JSF can easily be done by attaching a CSS stylesheet as demonstrated within the following example.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/css.xhtml}
 
 With the CSS file under \texttt{src/main/webapp/resources/css/style.css}:
-
 \lstinputlisting[language=CSS]{helloworld/src/main/webapp/resources/css/style.css}
 
+Now JSF messages show up colored in red.
 
 \section{Data Iterators}
 
-CDI controller:
+JSF has several components to ease visualization of lists.
+The following CDI controller holds a list of items that we want to visualize within a table on the JSF page.
 \lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/DataController.java}
 
-JSF page:
+The JSF page uses a \texttt{h:dataTable} to visualize the list within a table.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/datatable.xhtml}
 
 

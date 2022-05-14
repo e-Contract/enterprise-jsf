@@ -6,4 +6,6 @@ faces-config.NavData
 *.log
 *.toc
 *.lof
+*.bbl
+*.blg
 *.synctex.gz

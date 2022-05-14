@@ -13,8 +13,9 @@ SVG = e-contract-logoFINAL.svg
 .PHONY: all
 all: enterprise-jsf.pdf
 
-enterprise-jsf.pdf : enterprise-jsf.tex $(TEX_INCLUDES) $(SVG:.svg=.pdf) $(FIGS:.fig=.pdftex) $(PUML:.puml=.pdf)
+enterprise-jsf.pdf : enterprise-jsf.tex $(TEX_INCLUDES) $(SVG:.svg=.pdf) $(FIGS:.fig=.pdftex) $(PUML:.puml=.pdf) bibliography.bib
 	pdflatex -shell-escape $<
+	bibtex enterprise-jsf.aux
 	pdflatex -shell-escape $<
 	pdflatex -shell-escape $<
 

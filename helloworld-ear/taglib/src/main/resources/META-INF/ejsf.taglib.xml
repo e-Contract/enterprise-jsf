@@ -98,7 +98,9 @@
         <tag-name>exampleClientBehavior</tag-name>
         <behavior>
             <behavior-id>exampleClientBehavior</behavior-id>
-            <handler-class>be.e_contract.jsf.taglib.ExampleClientBehaviorTagHandler</handler-class>
+            <handler-class>
+                be.e_contract.jsf.taglib.ExampleClientBehaviorTagHandler
+            </handler-class>
         </behavior>
     </tag>
 

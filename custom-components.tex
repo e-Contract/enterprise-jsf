@@ -72,6 +72,8 @@ Source code of our custom output JSF component:
 Important here is to notice that we are setting the \texttt{id} attribute on our \texttt{span} HTML element to the value of client id.
 This is required so that the JSF AJAX javascript code can find our JSF component for updates.
 
+Notice that we register this custom component within our \texttt{.taglib.xml} tag library descriptor.
+
 Example usage of our custom output JSF component is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/output.xhtml}
 
@@ -86,7 +88,9 @@ Suppose we have an enumerate, which we want to visualize using different colors.
 The JSF output component looks as follows:
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleStyledOutput.java}
 
-With the corresponding CSS resource,
+With the corresponding
+
+\texttt{src/main/resources/META-INF/resources/ejsf/example-styled-output.css} CSS resource,
 \lstinputlisting[language=CSS]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-styled-output.css}
 
 We can use this custom output component as follows,
@@ -169,10 +173,10 @@ The tag handler:
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleClientBehaviorTagHandler.java}
 Important here is to instantiate the custom behavior via \texttt{application.createBehavior} to ensure that the \texttt{@ResourceDependency} annotations on the renderer are interpreted by JSF.
 
-The JS resource:
+The \texttt{example-client-behavior.js} JavaScript resource:
 \lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-client-behavior.js}
 
-The CSS resource:
+The \texttt{example-client-behavior.css} CSS resource:
 \lstinputlisting[language=CSS]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-client-behavior.css}
 
 \section{Composites}
