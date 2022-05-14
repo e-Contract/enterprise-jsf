@@ -1,4 +1,4 @@
-package be.e_contract.jsf.taglib;
+package be.e_contract.jsf.taglib.behavior;
 
 import javax.faces.component.behavior.ClientBehaviorBase;
 import javax.faces.component.behavior.FacesBehavior;

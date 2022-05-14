@@ -74,7 +74,7 @@
         <attribute>
             <name>value</name>
             <required>true</required>
-            <type>be.e_contract.jsf.taglib.ExampleEnum</type>
+            <type>be.e_contract.jsf.taglib.output.ExampleEnum</type>
         </attribute>
     </tag>
     
@@ -99,7 +99,7 @@
         <behavior>
             <behavior-id>exampleClientBehavior</behavior-id>
             <handler-class>
-                be.e_contract.jsf.taglib.ExampleClientBehaviorTagHandler
+                be.e_contract.jsf.taglib.behavior.ExampleClientBehaviorTagHandler
             </handler-class>
         </behavior>
     </tag>

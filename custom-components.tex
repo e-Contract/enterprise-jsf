@@ -47,7 +47,7 @@ http://localhost:8080/helloworld-ear/
 \section{Validator}
 
 We start off with our first custom JSF component, a validator.
-\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleValidator.java}
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleValidator.java}
 
 Notice that we register this custom validator within our \texttt{.taglib.xml} tag library descriptor.
 
@@ -57,7 +57,7 @@ Example usage of our custom validator is given below.
 \subsection{Validator Parameters}
 
 The custom JSF  validator with a parameter attribute looks as follows.
-\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ParameterValidator.java}
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ParameterValidator.java}
 
 Notice that we register this custom validator within our \texttt{.taglib.xml} tag library descriptor.
 
@@ -67,7 +67,7 @@ Example usage of our custom validator is given below.
 \section{Output Component}
 
 Source code of our custom output JSF component:
-\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleOutput.java}
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleOutput.java}
 
 Important here is to notice that we are setting the \texttt{id} attribute on our \texttt{span} HTML element to the value of client id.
 This is required so that the JSF AJAX javascript code can find our JSF component for updates.
@@ -83,10 +83,10 @@ Notice that we selectively update our custom output component via the \texttt{re
 
 In this example, we will create an output component that has been styled via a CSS file.
 Suppose we have an enumerate, which we want to visualize using different colors.
-\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleEnum.java}
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleEnum.java}
 
 The JSF output component looks as follows:
-\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleStyledOutput.java}
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleStyledOutput.java}
 
 With the corresponding
 
@@ -164,13 +164,13 @@ Example usage of this custom client behavior is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/client-behavior.xhtml}
 
 The custom client behavior source code,
-\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleClientBehavior.java}
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/behavior/ExampleClientBehavior.java}
 
 The corresponding renderer:
-\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleClientBehaviorRenderer.java}
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/behavior/ExampleClientBehaviorRenderer.java}
 
 The tag handler:
-\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleClientBehaviorTagHandler.java}
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/behavior/ExampleClientBehaviorTagHandler.java}
 Important here is to instantiate the custom behavior via \texttt{application.createBehavior} to ensure that the \texttt{@ResourceDependency} annotations on the renderer are interpreted by JSF.
 
 The \texttt{example-client-behavior.js} JavaScript resource:

@@ -1,6 +1,6 @@
 package be.e_contract.jsf.helloworld;
 
-import be.e_contract.jsf.taglib.ExampleEnum;
+import be.e_contract.jsf.taglib.output.ExampleEnum;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
