@@ -7,7 +7,22 @@
 
 \section{Tag Library}
 
-We structure the application as deployable EAR.
+We structure the application as deployable EAR as depicted in Figure \ref{fig:ear}.
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=1.0]{ear}
+		\caption{EAR project structure.}
+		\label{fig:ear}
+	\end{center}
+\end{figure}
+While you can put custom JSF components directly within your web application archive (WAR) file,
+we strongly advice to directly isolate this within a separate JAR file.
+Some reasons to do so:
+\begin{itemize}
+	\item Within larger teams, this allows developers to specialize and take responsibility over the custom JSF library.
+	\item Most application have multiple portals, and hence multiple WAR files. For example: an end-user portal and an administrative portal. A separate JSF library allows you to use the library within different WAR artifacts.
+	\item Directly isolating custom JSF components within their proper library makes it easier to later on propagate generic JSF components to for example a company-wide JSF library, or to push it even further towards open source.
+\end{itemize}
 
 Parent POM of our project.
 \lstinputlisting[language=XML]{helloworld-ear/pom.xml}

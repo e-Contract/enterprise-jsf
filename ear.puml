@@ -1,0 +1,10 @@
+@startuml
+
+component EAR {
+    component taglib
+    component WAR
+}
+
+WAR -> taglib
+
+@enduml
