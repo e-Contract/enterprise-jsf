@@ -166,9 +166,12 @@ The JSF component source code,
 
 The \texttt{ejsf-widget.js} Javascript resource:
 \lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-widget.js}
+Here we basically create a generic \texttt{Widget} class within the \texttt{ejsf} namespace that allows us to resolve widgets on the client-side using the \texttt{EJSF} method.
 
 The \texttt{ejsf-widget-example.js} Javascript resource:
 \lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-widget-example.js}
+Our \texttt{ExampleWidget} simple exposes a \texttt{setValue} method to change the content of the widget element.
+Further we attach a widget to each rendered JSF component instance upon loading the page.
 
 Example usage of our custom JSF component is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/widget.xhtml}
