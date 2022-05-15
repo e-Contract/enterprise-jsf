@@ -112,7 +112,33 @@ The JSF page uses a \texttt{h:dataTable} to visualize the list within a table.
 
 
 \section{JSF Lifecycle}
-
+Understanding the JSF page lifecycle is important.
+Using the following custom \texttt{PhaseListener} you can follow the phases of each request.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExamplePhaseListener.java}
+This phase listener should be configured within \texttt{faces-config.xml} as follows:
+\lstinputlisting[language=XML]{helloworld-ear/taglib/src/main/resources/META-INF/faces-config.xml}
+Configure the WildFly logging within \texttt{standalone/configuration/standalone-full.xml} under the \texttt{subsystem} with namespace \texttt{urn:jboss:domain:logging:8.0} as follows.
+\begin{lstlisting}[language=XML]
+<periodic-rotating-file-handler name="EJSF" autoflush="true">
+	<formatter>
+		<named-formatter name="PATTERN"/>
+	</formatter>
+	<file relative-to="jboss.server.log.dir" path="ejsf.log"/>
+	<suffix value=".yyyy-MM-dd"/>
+	<append value="true"/>
+</periodic-rotating-file-handler>
+<logger category="be.e_contract.jsf">
+	<level name="DEBUG"/>
+	<handlers>
+		<handler name="EJSF"/>
+	</handlers>
+</logger>
+\end{lstlisting}
+You can follow this log via:
+\begin{lstlisting}[language=bash]
+	cd wildfly-26.1.0.Final/standalone/log
+	tail -F ejsf.log
+\end{lstlisting}
 
 \section{Templates}
 

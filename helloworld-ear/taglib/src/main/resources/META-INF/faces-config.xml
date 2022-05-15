@@ -5,4 +5,10 @@
     https://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
               version="2.3">
 
+    <lifecycle>
+        <phase-listener>
+            be.e_contract.jsf.taglib.ExamplePhaseListener
+        </phase-listener>
+    </lifecycle>
+    
 </faces-config>
