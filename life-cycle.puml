@@ -1,0 +1,28 @@
+@startuml
+
+hide empty description
+
+state "Restore View" as RestoreView
+
+state "Apply Request Values" as ApplyRequestValues
+
+state "Process Validations" as ProcessValidations
+
+state "Update Model Values" as UpdateModelValues
+
+state "Invoke Application" as InvokeApplication
+
+state "Render Response" as RenderResponse
+
+[*] -right-> RestoreView
+RestoreView -right-> ApplyRequestValues
+ApplyRequestValues -right-> ProcessValidations
+ProcessValidations -down-> UpdateModelValues
+UpdateModelValues -left-> InvokeApplication
+InvokeApplication -left-> RenderResponse
+RenderResponse -left-> [*]
+
+RestoreView --> RenderResponse: initial page loading
+ProcessValidations --> RenderResponse: validation errors
+
+@enduml

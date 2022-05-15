@@ -6,7 +6,7 @@
 #
 
 FIGS =
-PUML =
+PUML = life-cycle.puml
 TEX_INCLUDES = preface.tex copyright.tex introduction.tex testing.tex production.tex
 SVG = e-contract-logoFINAL.svg
 

@@ -139,6 +139,34 @@ You can follow this log via:
 	cd wildfly-26.1.0.Final/standalone/log
 	tail -F ejsf.log
 \end{lstlisting}
+Within Figure \ref{fig:life-cycle} we visualized the JSF request lifecycle.
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=0.7]{life-cycle}
+		\caption{JSF request lifecycle.}
+		\label{fig:life-cycle}
+	\end{center}
+\end{figure}
+Please notice that we did not depict every possible state transition within this diagram.
+We give a description of each JSF phase.
+\begin{description}[style=nextline]
+	\item[Restore View]
+	During this initial phase, the \texttt{UIViewRoot} component tree is reconstructed using the corresponding XHTML page.
+	\item[Apply Request Values]
+	During this phase, each component decodes the request parameters to update its local values.
+	This is done via the \texttt{decode} method of each involved component.
+	\item[Process Validations]
+	During this phase, all convertors and validators are executed against the component local values.
+	\item[Update Model Values]
+	During this phase, the backing beans properties are updated with the components local values.
+	\item[Invoke Application]
+	During this phase, all actions are executed.
+	\item[Render Response]
+	During this final phase, the components are rendered.
+	The response state is also saved for subsequent access during the restore view phase.
+\end{description}
+Not every JSF request will walk through all these phases. For example, an initial JSF request will directly jump from \textbf{Restore View} to \textbf{Render Response} as there is no input to process.
+Similarly, when a validator fails during the \textbf{Process Validations} phase, we directly jump to \textbf{Render Response} as we don't want to process invalid input towards our backing beans.
 
 \section{Templates}
 
