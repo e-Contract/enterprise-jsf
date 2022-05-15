@@ -189,3 +189,17 @@ Example usage of our composite component is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/composite.xhtml}
 
 \subsection{Backing Component}
+A composite component can also be further enhanced using a backing component.
+We demonstrate such construct within the following example.
+This composite component allows us to input a period (days and hours).
+The \texttt{inputPeriod.xhtml} composite component XHTML source is given below.
+\lstinputlisting[language=XML]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/inputPeriod.xhtml}
+The corresponding backing component source code is given below.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleBackingComponent.java}
+\begin{TODO}{Submitted Value}
+	Submitted value is not retained on input validation.
+\end{TODO}
+Example usage:
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/composite-input.xhtml}
+With the corresponding CDI controller given by,
+\lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/InputPeriodController.java}
