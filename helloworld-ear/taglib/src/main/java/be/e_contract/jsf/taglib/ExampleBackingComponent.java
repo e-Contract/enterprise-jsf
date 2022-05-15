@@ -37,10 +37,12 @@ public class ExampleBackingComponent extends UIInput implements NamingContainer 
         this.days = days;
     }
 
-
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
-        Integer totalHours = (Integer) getValue();
+        Integer totalHours = (Integer) getSubmittedValue();
+        if (null == totalHours) {
+            totalHours = (Integer) getValue();
+        }
         if (null == totalHours) {
             this.days.setValue(null);
             this.hours.setValue(null);
@@ -55,7 +57,9 @@ public class ExampleBackingComponent extends UIInput implements NamingContainer 
     }
 
     @Override
-    public Object getSubmittedValue() {
+    public void processDecodes(FacesContext context) {
+        super.processDecodes(context);
+
         String daysSubmittedValue = (String) this.days.getSubmittedValue();
         int daysValue;
         if (UIInput.isEmpty(daysSubmittedValue)) {
@@ -72,7 +76,8 @@ public class ExampleBackingComponent extends UIInput implements NamingContainer 
             hoursValue = Integer.parseInt(hoursSubmittedValue);
         }
 
-        return daysValue * 24 + hoursValue;
+        int submittedValue = daysValue * 24 + hoursValue;
+        setSubmittedValue(submittedValue);
     }
 
     public List<SelectItem> getHoursSelectItems() {
