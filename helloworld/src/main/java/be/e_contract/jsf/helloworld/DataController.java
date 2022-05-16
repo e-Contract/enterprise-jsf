@@ -11,10 +11,10 @@ import javax.inject.Named;
 @ViewScoped
 public class DataController implements Serializable {
 
-    public static class Item {
+    public static class Item implements Serializable {
 
-        private String name;
-        private String value;
+        private final String name;
+        private final String value;
 
         public Item(String name, String value) {
             this.name = name;

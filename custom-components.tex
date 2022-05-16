@@ -67,9 +67,11 @@ Notice that we register this custom validator within our \texttt{.taglib.xml} ta
 
 Example usage of our custom validator is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/validation.xhtml}
+Hence entering "foobar" as input will result in a JSF message being displayed.
+
 
 \subsection{Validator Parameters}
-
+Validators can also be parameterized so we can influence its behavior at runtime. 
 The custom JSF  validator with a parameter attribute looks as follows.
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ParameterValidator.java}
 Notice that we register this custom validator within our \texttt{.taglib.xml} tag library descriptor.
@@ -78,11 +80,12 @@ Example usage of our custom validator is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/validation-parameter.xhtml}
 
 \section{Output Component}
-
-Source code of our custom output JSF component:
+In this section we will construct our first "real" JSF component.
+This component simply outputs its value.
+The source code of our custom output JSF component is given below.
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleOutput.java}
 Important here is to notice that we are setting the \texttt{id} attribute on our \texttt{span} HTML element to the value of client id.
-This is required so that the JSF AJAX javascript code can find our JSF component for updates.
+This is required so that the JSF AJAX Javascript code can find our JSF component during response updates.
 
 Notice that we register this custom component within our \texttt{.taglib.xml} tag library descriptor.
 
@@ -98,10 +101,11 @@ Suppose we have an enumerate, which we want to visualize using different colors.
 
 The JSF output component looks as follows:
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleStyledOutput.java}
+Notice here that depending on the value of our enumerate, we change the \texttt{class} attribute value of our rendered \texttt{span} element.
 
-With the corresponding
+The corresponding
 
-\texttt{src/main/resources/META-INF/resources/ejsf/example-styled-output.css} CSS resource,
+\texttt{src/main/resources/META-INF/resources/ejsf/example-styled-output.css} CSS resource file looks as follows:
 \lstinputlisting[language=CSS]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-styled-output.css}
 
 We can use this custom output component as follows,
@@ -112,8 +116,8 @@ With the corresponding CDI controller,
 
 
 \section{Input Component}
-
-Source code of our custom input JSF component:
+In this section, we construct our first custom JSF input component.
+Source code of our custom input JSF component is given below:
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleInput.java}
 Notice again that we put an explicit \texttt{id} attribute containing the client id on our HTML output element so JSF AJAX updates can locate our component.
 

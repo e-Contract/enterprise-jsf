@@ -18,13 +18,15 @@ This is a very important aspect when you have to manage a lot of projects.
 Our basic Maven \cite{ApacheMaven} \texttt{pom.xml} file looks as follows.
 \lstinputlisting[language=XML]{helloworld/pom.xml}
 This Maven POM file will create a deployable WAR file, as indicated by the \texttt{package} element.
+Please notice that we stick with Java 8 \cite{GoslingJoyEtAl14} and Java EE 8 \cite{JavaEE8}.
 
 Our initial \texttt{src/main/webapp/index.xhtml} XHTML file looks as follows.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/index.xhtml}
-This XHTML page simply shows some text.
+This JSF page simply shows some text.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/web.xml}
+As indicated by the \texttt{version} attribute, we are using servlet container version 4.0, which is part of Java EE 8.
 Please notice here that an explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
 For proper development, the web browser caching has to be disabled.
 
@@ -36,19 +38,26 @@ You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} config
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/beans.xml}
 As indicated by the \texttt{version} attribute, we are using CDI version 2.0, which is part of Java EE 8.
 
-Compile the example via:
+Compile the example project using Apache Maven via:
 \begin{lstlisting}[language=bash]
 cd helloworld
 mvn clean install
 \end{lstlisting}
+This will build a deployable Java EE WAR file.
+
+We will be using WildFly \cite{WildFly} as application server to host our example projects.
+Among all available compliant Java EE 8 application servers out there,
+WildFly/JBoss is by far the best one in terms of quality and manageability.
 
 Start a WildFly \cite{WildFly} application server via:
 \begin{lstlisting}[language=bash]
 cd wildfly-26.1.0.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
 \end{lstlisting}
+Notice that we are using the full Java EE profile here.
+While you could start off with a lighter profile, this is most of the time pointless for large enterprise applications, where in the end you almost always need like everything available within the box.
 
-Deploy the \texttt{helloworld} WAR to the application server via:
+Within a new terminal window, deploy the \texttt{helloworld} WAR to the local running application server via:
 \begin{lstlisting}[language=bash]
 cd helloworld
 mvn wildfly:deploy
@@ -79,7 +88,7 @@ Notice the usage of the \texttt{@ViewScoped} annotation to control the lifecycle
 
 The JSF page demonstrating basic input/output using our CDI bean is given below:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/input-output.xhtml}
-When we click on the \texttt{h:commandButton}, the entire page is being reloaded with an updated value of course.
+When we click on the \texttt{h:commandButton}, the entire page is being reloaded, with an updated value of course.
 
 
 \section{AJAX}
@@ -113,16 +122,36 @@ JSF has several components to ease visualization of lists.
 The following CDI controller holds a list of items that we want to visualize within a table on the JSF page.
 \lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/DataController.java}
 
-The JSF page uses a \texttt{h:dataTable} to visualize the list within a table.
+The JSF page uses a \texttt{h:dataTable} to visualize the list within a table as displayed below.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/datatable.xhtml}
-
+Notice here the variable \texttt{item} used to iterate over the different items within our list of items.
+Via the \texttt{f:facet} elements we can define various facets of JSF components.
+Here the \texttt{h:column} component will interpret the \texttt{header} facet as column header within the data table.
 
 \section{JSF Lifecycle}
 Understanding the JSF page lifecycle is important.
-Using the following custom \texttt{PhaseListener} you can follow the phases of each request.
+Actually, understanding the lifecycle of every type of container defined by Java EE is equally important.
+This is the major different between regular Java and Java EE: lifecycle management of various "things" within some kind of container.
+Java EE defines several types of containers:
+\begin{itemize}
+	\item Servlet Container
+	\item JAX-WS (runs within servlet container)
+	\item JSF (runs within servlet container)
+	\item CDI
+	\item EJB
+	\item JPA
+	\item JCA runtime and corresponding MDB
+\end{itemize}
+
+Using the following custom \texttt{PhaseListener}, you can follow the phases of each JSF request.
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExamplePhaseListener.java}
+Via the \texttt{getPhaseId} method we indicate that we want to receive a callback during every JSF phase execution.
+
 This phase listener should be configured within \texttt{faces-config.xml} as follows:
 \lstinputlisting[language=XML]{helloworld-ear/taglib/src/main/resources/META-INF/faces-config.xml}
+
+Of course we want to view the generated logging somehow.
+For this we first have to configure the WildFly application server.
 Configure the WildFly logging within \texttt{standalone/configuration/standalone-full.xml} under the \texttt{subsystem} with namespace \texttt{urn:jboss:domain:logging:8.0} as follows.
 \begin{lstlisting}[language=XML]
 <periodic-rotating-file-handler name="EJSF" autoflush="true">
@@ -140,7 +169,7 @@ Configure the WildFly logging within \texttt{standalone/configuration/standalone
 	</handlers>
 </logger>
 \end{lstlisting}
-You can follow this log via:
+After restarting the WildFly application server, you can now follow our log via:
 \begin{lstlisting}[language=bash]
 	cd wildfly-26.1.0.Final/standalone/log
 	tail -F ejsf.log
