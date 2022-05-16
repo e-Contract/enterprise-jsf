@@ -221,6 +221,18 @@ With the corresponding CDI controller given by,
 \lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/InputPeriodController.java}
 
 \subsection{Children and Facets}
+In the following composite component we demonstrate the usage of children and facets.
+The source code of our \texttt{panel.xhtml} composite component is given below.
+\lstinputlisting[language=XML]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/panel.xhtml}
+Notice that we have to declare our custom facet, named \texttt{footer},
+via the \texttt{cc:facet} element within the \texttt{cc:interface} section of our composite component.
+Notice that the panel footer is only rendered when the \texttt{footer} facet has been set.
+
+The corresponding CSS resource file is given below.
+\lstinputlisting[language=CSS]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/panel.css}
+
+An example usage of our panel composite component is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/composite-panel.xhtml}
 
 \section{Value Expressions}
 
