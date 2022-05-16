@@ -15,6 +15,7 @@
         <cc:attribute name="headerBackgroundColor"
                       shortDescription="The header background color."
                       type="java.lang.String" default="#eeeeee"/>
+        <cc:facet name="footer"/>
     </cc:interface>
     <cc:implementation>
         <h:outputStylesheet library="ejsf" name="panel.css" />
@@ -34,6 +35,15 @@
                         </td>
                     </tr>
                 </tbody>
+                <h:panelGroup rendered="#{not empty cc.facets.footer}">
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <cc:renderFacet name="footer"/>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </h:panelGroup>
             </table>
         </div>
     </cc:implementation>

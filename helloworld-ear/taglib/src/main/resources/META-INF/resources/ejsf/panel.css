@@ -22,3 +22,10 @@ div.ejsf-panel {
 .ejsf-panel > table > tbody > tr > td {
     padding: 10px;
 }
+
+.ejsf-panel > table > tfoot > tr > td {
+    padding: 10px;
+    border-radius: 10px;
+    text-align: left;
+    background-color: #eeeeee;
+}
