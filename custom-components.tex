@@ -23,25 +23,25 @@ Some reasons to do so:
 	\item Most application have multiple portals, and hence multiple WAR files. For example: an end-user portal and an administrative portal. A separate JSF library allows you to use the library within different WAR artifacts.
 	\item Directly isolating custom JSF components within their proper library makes it easier to later on propagate generic JSF components to for example a company-wide JSF library, or to push it even further towards open source.
 \end{itemize}
-
-Parent POM of our project.
+The Maven parent POM of our project looks as follows.
 \lstinputlisting[language=XML]{helloworld-ear/pom.xml}
 
-The POM of our tag library JAR module looks as follows.
+The Maven POM of our tag library JAR module looks as follows.
 \lstinputlisting[language=XML]{helloworld-ear/taglib/pom.xml}
 
-The POM of our WAR module looks as follows.
+The Maven POM of our WAR module looks as follows.
 \lstinputlisting[language=XML]{helloworld-ear/war/pom.xml}
 
 The content of the WAR is similar to the initial example.
 
-The POM of our deployable EAR module looks as follows.
+The Maven POM of our deployable EAR module looks as follows.
 \lstinputlisting[language=XML]{helloworld-ear/ear/pom.xml}
 
 The tag library itself is a regular JAR with some additional structure.
 The most important file here is our \texttt{src/main/resources/META-INF/ejsf.taglib.xml} tag library descriptor file:
 \lstinputlisting[language=XML]{helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 You can name this file anyway you want, as long as it ends with \texttt{.taglib.xml}.
+Please notice that the above \texttt{.taglib.xml} tag library descriptor file already contains some declarations of custom tags that we will define later on.
 
 Compile the example via:
 \begin{lstlisting}[language=bash]
@@ -63,7 +63,6 @@ http://localhost:8080/helloworld-ear/
 
 We start off with our first custom JSF component, a validator.
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleValidator.java}
-
 Notice that we register this custom validator within our \texttt{.taglib.xml} tag library descriptor.
 
 Example usage of our custom validator is given below.
@@ -73,7 +72,6 @@ Example usage of our custom validator is given below.
 
 The custom JSF  validator with a parameter attribute looks as follows.
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ParameterValidator.java}
-
 Notice that we register this custom validator within our \texttt{.taglib.xml} tag library descriptor.
 
 Example usage of our custom validator is given below.
@@ -83,7 +81,6 @@ Example usage of our custom validator is given below.
 
 Source code of our custom output JSF component:
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleOutput.java}
-
 Important here is to notice that we are setting the \texttt{id} attribute on our \texttt{span} HTML element to the value of client id.
 This is required so that the JSF AJAX javascript code can find our JSF component for updates.
 
@@ -91,7 +88,6 @@ Notice that we register this custom component within our \texttt{.taglib.xml} ta
 
 Example usage of our custom output JSF component is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/output.xhtml}
-
 Notice that we selectively update our custom output component via the \texttt{render="output"} attribute on \texttt{f:ajax}.
 
 \subsection{Output Component with Style}
@@ -119,7 +115,6 @@ With the corresponding CDI controller,
 
 Source code of our custom input JSF component:
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleInput.java}
-
 Notice again that we put an explicit \texttt{id} attribute containing the client id on our HTML output element so JSF AJAX updates can locate our component.
 
 Our \texttt{input} element has a \texttt{name} attribute used to locate the request parameter during the \texttt{decode} phase.
@@ -212,9 +207,15 @@ We demonstrate such construct within the following example.
 This composite component allows us to input a period (days and hours).
 The \texttt{inputPeriod.xhtml} composite component XHTML source is given below.
 \lstinputlisting[language=XML]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/inputPeriod.xhtml}
+Via the \texttt{componentType} attribute we refer to the backing component.
+Using the \texttt{binding} attribute we bind JSF components to our backing component.
+
 The corresponding backing component source code is given below.
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleBackingComponent.java}
-Example usage:
+Notice here to setup of both \texttt{encodeBegin} and \texttt{processDecodes} methods.
+We have to correctly handle the value of submitted value here to ensure that input validations on our composite component use the correct intermediate value at all times. E.g., if an input validation occurs on value "xyz", an update of our component should still display "xyz".
+
+Example usage of our composite component with backing component is given below:
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/composite-input.xhtml}
 With the corresponding CDI controller given by,
 \lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/InputPeriodController.java}

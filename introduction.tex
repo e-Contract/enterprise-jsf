@@ -8,25 +8,33 @@
 Within this chapter we give a brief overview of JSF \cite{JSF23}.
 
 \section{Basic Project Structure}
-Basic Maven \cite{ApacheMaven} \texttt{pom.xml} file.
-\lstinputlisting[language=XML]{helloworld/pom.xml}
+Within our example code, we use Maven as build system.
+Without going into the rabbit-hole of Maven versus Gradle, we prefer a declarative build system over a "procedural" build system.
+Some argue that Maven, due to its strict declarative nature, is more restrictive than for example Gradle.
+This is indeed true, and exactly the reason to pick Maven over other build systems.
+With Maven, every project looks exactly the same, leaving no room for developer-look-how-intelligent-I-am toying.
+This is a very important aspect when you have to manage a lot of projects.
 
+Our basic Maven \cite{ApacheMaven} \texttt{pom.xml} file looks as follows.
+\lstinputlisting[language=XML]{helloworld/pom.xml}
 This Maven POM file will create a deployable WAR file, as indicated by the \texttt{package} element.
 
-Basic \texttt{src/main/webapp/index.xhtml} file.
+Our initial \texttt{src/main/webapp/index.xhtml} XHTML file looks as follows.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/index.xhtml}
+This XHTML page simply shows some text.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/web.xml}
-
 Please notice here that an explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
 For proper development, the web browser caching has to be disabled.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/faces-config.xml}
+As indicated by the \texttt{version} attribute, we are using JSF version 2.3, which is part of Java EE 8.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI \cite{CDI2}:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/beans.xml}
+As indicated by the \texttt{version} attribute, we are using CDI version 2.0, which is part of Java EE 8.
 
 Compile the example via:
 \begin{lstlisting}[language=bash]
@@ -59,7 +67,6 @@ Notice the usage of the \texttt{@PostConstruct} annotation to initialize our CDI
 
 We can use this CDI bean within a JSF page as follows:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/helloworld.xhtml}
-
 Notice how we access the \texttt{value} property of our CDI bean via the \texttt{\#\{...\}} expression.
 
 \section{Basic Input/Output}
@@ -68,12 +75,10 @@ Notice how we access the \texttt{value} property of our CDI bean via the \texttt
 In this example we do some basic input and output.
 The CDI controller for this looks as follows:
 \lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/InputOutputController.java}
-
 Notice the usage of the \texttt{@ViewScoped} annotation to control the lifecycle of our CDI bean within the context of the JSF page.
 
-JSF page:
+The JSF page demonstrating basic input/output using our CDI bean is given below:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/input-output.xhtml}
-
 When we click on the \texttt{h:commandButton}, the entire page is being reloaded with an updated value of course.
 
 
@@ -81,25 +86,25 @@ When we click on the \texttt{h:commandButton}, the entire page is being reloaded
 
 The reloading of the entire JSF page can be avoided by using AJAX as shown in the following example JSF page.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/ajax.xhtml}
-
 Via the \texttt{f:ajax} tag we enable AJAX on the \texttt{h:commandButton} component.
 The \texttt{execute} attribute instructs what has to be processed, while the \texttt{render} attributes defines what needs to be rendered again.
+
 
 \section{Input Validation}
 
 Enabling input validation on JSF input components is demonstrated in the following example.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/validation.xhtml}
-
 Here you will get an error message when the length of the input is less than 4.
 
 \section{CSS}
 
 Styling JSF can easily be done by attaching a CSS stylesheet as demonstrated within the following example.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/css.xhtml}
+Via the \texttt{h:outputStylesheet} tag we can include our CSS stylesheet as part of the rendering of our JSF page.
+With the CSS resource file under
 
-With the CSS file under \texttt{src/main/webapp/resources/css/style.css}:
+\texttt{src/main/webapp/resources/css/style.css} containing:
 \lstinputlisting[language=CSS]{helloworld/src/main/webapp/resources/css/style.css}
-
 Now JSF messages show up colored in red.
 
 \section{Data Iterators}
