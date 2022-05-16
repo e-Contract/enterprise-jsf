@@ -20,3 +20,12 @@ Converting our \ref{sec:basic-input-output} \nameref{sec:basic-input-output} exa
 \lstinputlisting[language=XML]{helloworld-primefaces/war/src/main/webapp/hello-world.xhtml}
 
 \section{Widgets}
+Our custom component with corresponding client-side widget is composed out of the actual component, and the corresponding renderer.
+The source code for the component is given below.
+\lstinputlisting[language=Java]{helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleComponent.java}
+The source code for the corresponding renderer is given below.
+\lstinputlisting[language=Java]{helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleRenderer.java}
+The source code of the Javascript resource is given below.
+\lstinputlisting[language=Javascript]{helloworld-primefaces/taglib/src/main/resources/META-INF/resources/ejsf/example-widget.js}
+Example usage is demonstrated below:
+\lstinputlisting[language=XML]{helloworld-primefaces/war/src/main/webapp/widget.xhtml}

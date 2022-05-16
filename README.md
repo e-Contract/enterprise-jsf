@@ -1,7 +1,7 @@
 # Enterprise JSF
 
 Latest version of Enterprise JSF is available at:
-TODO
+https://github.com/e-Contract/enterprise-jsf
 
 ## Requirements
 
@@ -18,3 +18,7 @@ Compile the PDF document via:
 ```
 make
 ```
+
+We prefer to edit the LaTeX document using TeXstudio.
+TeXstudio can be downloaded from:
+https://texstudio.org
