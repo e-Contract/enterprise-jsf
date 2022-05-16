@@ -1,0 +1,24 @@
+div.ejsf-panel {
+    margin: 10px;
+}
+
+.ejsf-panel > table {
+    border: 1px solid black;
+    background-color: white;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.ejsf-panel > table > thead {
+    background-color: #eeeeee;
+}
+
+.ejsf-panel > table > thead > tr > th {
+    padding: 10px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.ejsf-panel > table > tbody > tr > td {
+    padding: 10px;
+}

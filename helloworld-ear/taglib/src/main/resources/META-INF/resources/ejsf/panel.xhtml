@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
     <cc:interface shortDescription="A simple panel.">
-        <cc:attribute name="header" required="true" shortDescription="The panel header."
+        <cc:attribute name="header" required="true"
+                      shortDescription="The panel header."
                       type="java.lang.String"/>
-        <cc:attribute name="backgroundColor" shortDescription="The background color."
+        <cc:attribute name="backgroundColor"
+                      shortDescription="The background color."
                       type="java.lang.String" default="white"/>
-        <cc:attribute name="borderColor" shortDescription="The border color."
+        <cc:attribute name="borderColor"
+                      shortDescription="The border color."
                       type="java.lang.String" default="black"/>
-        <cc:attribute name="headerBackgroundColor" shortDescription="The header background color."
+        <cc:attribute name="headerBackgroundColor"
+                      shortDescription="The header background color."
                       type="java.lang.String" default="#eeeeee"/>
     </cc:interface>
     <cc:implementation>
-        <div id="#{cc.clientId}" style="margin: 10px;">
-            <table style="border: 1px solid #{cc.attrs.borderColor}; background-color: #{cc.attrs.backgroundColor}; width: 100%; border-radius: 10px;">
+        <h:outputStylesheet library="ejsf" name="panel.css" />
+        <div id="#{cc.clientId}" class="ejsf-panel">
+            <table style="border: 1px solid #{cc.attrs.borderColor}; background-color: #{cc.attrs.backgroundColor};">
                 <thead style="background-color: #{cc.attrs.headerBackgroundColor};">
                     <tr>
-                        <th align="left" style="padding: 10px; border-radius: 10px;">
+                        <th>
                             #{cc.attrs.header}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="padding: 10px;">
+                        <td>
                             <cc:insertChildren />
                         </td>
                     </tr>
