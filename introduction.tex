@@ -9,16 +9,30 @@ Within this chapter we give a brief overview of JSF \cite{JSF23}.
 
 \section{Basic Project Structure}
 Within our example code, we use Maven as build system.
-Without going into the rabbit-hole of Maven versus Gradle, we prefer a declarative build system over a "procedural" build system.
-Some argue that Maven, due to its strict declarative nature, is more restrictive than for example Gradle.
-This is indeed true, and exactly the reason to pick Maven over other build systems.
-With Maven, every project looks exactly the same, leaving no room for developer-look-how-intelligent-I-am toying.
-This is a very important aspect when you have to manage a lot of projects.
+
+\begin{ClownComputing}{Maven versus Gradle}
+	Without going into the rabbit-hole of Maven versus Gradle, we prefer a declarative build system over a "procedural" build system.
+	Some argue that Maven, due to its strict declarative nature, is more restrictive than for example Gradle.
+	This is indeed true, and exactly the reason to pick Maven over other build systems.
+	With Maven, every project looks exactly the same, leaving no room for developer-look-how-intelligent-I-am toying.
+	This is a very important aspect when you have to manage a lot of projects.
+\end{ClownComputing}
 
 Our basic Maven \cite{ApacheMaven} \texttt{pom.xml} file looks as follows.
 \lstinputlisting[language=XML]{helloworld/pom.xml}
 This Maven POM file will create a deployable WAR file, as indicated by the \texttt{package} element.
 Please notice that we stick with Java 8 \cite{GoslingJoyEtAl14} and Java EE 8 \cite{JavaEE8}.
+
+\begin{TIP}{XML schema location}
+	When working with XML files, like Maven POM files, do yourself a favor and always put proper \texttt{xsi:schemaLocation} metadata.
+	That way every IDE can give you hints about the expected elements.
+	This to avoid situation like we see with JSON or YAML, where you are left completely clueless about what to type unless your IDE knows exactly which schema it belongs to (if there is already one defined at least).
+\end{TIP}
+
+\begin{ClownComputing}{XML versus JSON/YAML}
+	It is very tempting here to go down the JSON/YAML versus XML rabbit-hole.
+	Let's not go so far, as they forgot one little detail, being how to declare the corresponding namespace of the JSON/YAML data structure which ends the discussion right there.
+\end{ClownComputing}
 
 Our initial \texttt{src/main/webapp/index.xhtml} XHTML file looks as follows.
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/index.xhtml}
@@ -56,6 +70,35 @@ cd wildfly-26.1.0.Final/bin
 \end{lstlisting}
 Notice that we are using the full Java EE profile here.
 While you could start off with a lighter profile, this is most of the time pointless for large enterprise applications, where in the end you almost always need like everything available within the box.
+\begin{ClownComputing}{Monoliths versus microservices}
+	Where to start this one?
+	
+	Running a full application server indeed consumes more memory compared to some bootable JAR construct.
+	This is especially important if you are a cloud provider that wants to run/invoice as much customers on a given cloud capacity as possible.
+	But if you look at the price of memory, this is only a very small fraction of the cost compared to other aspects including the development cost of your application.
+	Of course, from the point-of-view of a cloud provider, memory consumption indeed yields a major constraint.
+	Hence cloud providers go to great efforts to be able to reduce resource usage of applications.
+	Simply look at the sponsors of frameworks that provide microservices, serverless, bootable JARs, you name it,
+	and you end up with some cloud provider.
+	
+	The big culprit here are of course monolithic applications.
+	Problem with monoliths for cloud providers is that they consume a lot of resources, and you can only invoice one thing per month.
+	A microservices architecture is much more interesting for a cloud provider: small applications that consume little resources,
+	and for each of them you can invoice separately.
+	The best clients here put every bytecode instruction within a separate microservice.
+	So you can have microservices like: add, sub, mul, div, and so on.
+	
+	Are monolithic applications really this bad?
+	When deploying an application, consisting of different let's name it "things", at some point you want atomicity.
+	You want your entire application to deploy, or nothing.
+	Of course at a certain point, you can break things down in separate deployable units so they can have different release cycles and can be assigned their own development team/responsible.
+	20 years ago we called this Service Oriented Architectures (SOA), years of buzz-wording later, we have microservices I guess.
+	Of course we had progress in some areas over all these years. Just to name one, which is for me a real game changer: Ansible.
+	
+	The point here is that, after you strip out all the buzz-words, in the end, nothing has changed. Software still runs on hardware.
+	For your application architecture, you want a combination of monoliths with guaranteed atomic deployment and at some point a break down into different services.
+	If you don't blindly follow the clown provider hypes, there is no need for the monolith versus microservices discussion at all.
+\end{ClownComputing}
 
 Within a new terminal window, deploy the \texttt{helloworld} WAR to the local running application server via:
 \begin{lstlisting}[language=bash]
@@ -132,7 +175,7 @@ Here the \texttt{h:column} component will interpret the \texttt{header} facet as
 Understanding the JSF page lifecycle is important.
 Actually, understanding the lifecycle of every type of container defined by Java EE is equally important.
 This is the major different between regular Java and Java EE: lifecycle management of various "things" within some kind of container.
-Java EE defines several types of containers:
+Java EE defines several types of containers/runtimes:
 \begin{itemize}
 	\item Servlet Container
 	\item JAX-WS (runs within servlet container)

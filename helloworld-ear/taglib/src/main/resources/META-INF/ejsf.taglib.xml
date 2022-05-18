@@ -103,5 +103,17 @@
             </handler-class>
         </behavior>
     </tag>
+    
+    <tag>
+        <tag-name>panelGrid</tag-name>
+        <component>
+            <component-type>ejsf.panelGrid</component-type>
+        </component>
+        <attribute>
+            <name>columns</name>
+            <required>true</required>
+            <type>java.lang.Integer</type>
+        </attribute>
+    </tag>
 
 </facelet-taglib>

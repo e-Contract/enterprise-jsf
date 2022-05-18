@@ -88,6 +88,15 @@ Important here is to notice that we are setting the \texttt{id} attribute on our
 This is required so that the JSF AJAX Javascript code can find our JSF component during response updates.
 
 Notice that we register this custom component within our \texttt{.taglib.xml} tag library descriptor.
+\begin{TIP}{XML Descriptors}
+While JSF allows you to define the tag directly via the \texttt{@FacesComponent} annotation,
+we prefer to use the classical XML descriptors for several reasons:
+\begin{itemize}
+	\item not everything can be declared via annotations.
+	\item XML descriptors allow you to isolate the documentation of a component from the implementation.
+	\item there is nothing wrong with XML, really.
+\end{itemize}
+\end{TIP}
 
 Example usage of our custom output JSF component is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/output.xhtml}
@@ -130,10 +139,27 @@ Upon an input validation error, the component keeps working on the submitted val
 Example usage of our custom input JSF component is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/input.xhtml}
 
+\section{Rendering Children}
+In this example, we demonstrate how to render your own children.
+We do this by constructing our own \texttt{panelGrid} component.
+The source code of this component is given below.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/PanelGridComponent.java}
+Via the \texttt{true} return value of the \texttt{getRendersChildren} we indicate that we render our child components ourselves.
+This happens within the \texttt{encodeChildren} method, where we render each child component via \texttt{child.encodeAll}.
+
+An example usage of our custom \texttt{panelGrid} component is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/panel-grid.xhtml}
+
+
 \section{AJAX Events}
 
 Source code of our custom JSF component that can fire AJAX events is given below:
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjax.java}
+Our component defines a \texttt{click} client-side event.
+Within \texttt{encodeBegin} we weave in this client behavior event via the \texttt{onclick} Javascript hook.
+At the server-side, we process our event within the \texttt{decode} method.
+Here we first check whether our \texttt{click} event is part of the incoming request.
+Next we verify whether it is really meant for our component, after which we delegate further decoding to the specific client behavior.
 
 Example usage of our custom JSF component is given below.
 \lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/ajax.xhtml}
@@ -152,6 +178,7 @@ This custom AJAX event is passed as parameter to the CDI bean listener method as
 
 The following example JSF component demonstrates how to fire such custom AJAX JSF events.
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjaxEventComponent.java}
+Only additional thing here is that, within \texttt{queueEvent}, we like upgrade the \texttt{AjaxBehaviorEvent} to our own flavor.
 
 With the corresponding \texttt{example-ajax-event.js} Javascript resource file:
 \lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-ajax-event.js}
@@ -162,6 +189,7 @@ Example usage of our custom JSF component is given below.
 \section{JSF Component with client-side API}
 The JSF component source code,
 \lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleWidget.java}
+Notice that we set some \texttt{data-} attributes here, that will be picked up by our Javascript code.
 
 The \texttt{ejsf-widget.js} Javascript resource:
 \lstinputlisting[language=Javascript]{helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-widget.js}
