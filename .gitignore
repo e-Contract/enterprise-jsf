@@ -9,3 +9,4 @@ faces-config.NavData
 *.bbl
 *.blg
 *.synctex.gz
+.DS_Store
