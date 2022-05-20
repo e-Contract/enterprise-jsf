@@ -171,6 +171,53 @@ Notice here the variable \texttt{item} used to iterate over the different items 
 Via the \texttt{f:facet} elements we can define various facets of JSF components.
 Here the \texttt{h:column} component will interpret the \texttt{header} facet as column header within the data table.
 
+\section{Pass-through JSF}
+Jumping the HTML5 bandwagon hype, in JSF version 2.2 they introduced something call pass-through attributes.
+The following example demonstrates the usage of this feature.
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/pass-through.xhtml}
+As you can see, things are becoming so much clearer this way.\footnote{Irony intended.}
+Not only should you not forget to put \texttt{jsf:id} attributes,
+you also have to keep in mind to which actual JSF components the corresponding HTML5\footnote{Mentioning 5 here is important. Remember, you want to put 5 on your CV. 5 is good.} elements are being mapped internally.
+
+The idea of this all is to being able to expose the full power of HTML5\footnote{Never forget to mention the 5 here.} to the developer.
+To free the developer from using nicely encapsulated JSF components and to let him/her being able to go like as low-level as possible.
+This of course because since HTML5\footnote{Yes the 5.}, all web browsers suddenly react in a uniform manner.
+No more need for web browser specific tweaks are needed.
+After like 20 years of web browser specific tweaks and work-arounds, with HTML5\footnote{Yes ,again.}, they all behave in a standardized way.
+
+Some observations here:
+\begin{itemize}
+	\item Most developers are very lousy as web design/development. With HTML5 the options and possible solutions to a problem have only increased, making things even worse.
+	\item Applying a nice HTML5 design pattern to like 50 JSF pages is cool, until the point where your customer asks you to change that cool behavior to something else. Then you find yourself in the lovely position of having to revisit every JSF page on which you applied this cool HTML5 thingy.
+	If this cool HTML5 thingy would have been isolated within a custom JSF component, you would have to make changes to only one place.
+	\item Separation of concerns. Even if you find yourself in the position of being both a perfect developer and a good web designer, you still want to keep these things separate as much as possible.
+	Over time, I learned that most people can only attack one problem at a time.
+	For example, you have the implement a new business functionality that will require some new technology (web sockets to name one).
+	How do you tackle this problem? Right, you first investigate on the technology, so you know what you can express/achieve with it.
+	And then, in a second phase, you taclke the business problem with it.
+	
+	The same strategy applies to web design/behavior versus implementation of web functionality.
+	
+	\item Looking at for example the Github issues of different web frameworks,
+	you still see the need for browser specific work-arounds and tweaks.
+	This phenomenon has always existed, and will never go away.
+	Again here, it is much easier to implement the required work-arounds in a single custom JSF component versus all over the place directly within your JSF pages.
+	
+	\item The argument that JSF components are difficult to tweak/style is true, but not JSF specific.
+	Every component technology, whether it is using server-side rendering or client-side rendering,
+	is subject to this problem.
+	You always have to investigate the renderer (unless there is good documentation of course)
+	to see which classes and/or CSS selectors you can use to fiddle with the look and feel of the component.
+	This is not much more painful for JSF than it is for other "modern" web frameworks out there.
+\end{itemize}
+
+Just like you don't start to add inline assembly code within your C/C++ applications when a new CPU generation comes out,
+you want to minimize exposure to the assembly language of the web (HTML/CSS/Javascript) as much as possible.
+Admitted, this is not always possible.
+But once you see a common HTML/CSS pattern appear within your web application,
+you should try to isolate this within a custom component as much as possible.
+That way, your development team can keep focus on the implementation of web functionality instead of fighting with low-level web constructs.
+
 \section{JSF Lifecycle}
 Understanding the JSF page lifecycle is important.
 Actually, understanding the lifecycle of every type of container defined by Java EE is equally important.
