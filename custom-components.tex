@@ -269,5 +269,22 @@ An example usage of our panel composite component is given below.
 \section{Value Expressions}
 
 \section{Method Expressions}
+The demonstrate the usage of \texttt{MethodExpression} we construct a custom \texttt{Converter}.
+The source code of our custom converter is given below.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/converter/GenericConverter.java}
+This custom \texttt{Converter} simply delegates its method implementations towards method expressions.
+Notice that we implement the \texttt{StateHolder} interface to ensure that the state of our converter gets properly saved and recovered.
+
+Via a tag handler we attach our custom converter to its input parent component.
+The source code of our tag handler is given below.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/converter/GenericConverterTagHandler.java}
+
+Example usage within a JSF page of our custom converter is given below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/generic-converter.xhtml}
+The \texttt{getAsObject} and \texttt{getAsString} attributes on our custom converter are interpreted as method expressions.
+
+With the corresponding CDI controller given below.
+\lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/GenericConverterController.java}
+
 
 \section{Facets}

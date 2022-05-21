@@ -115,5 +115,26 @@
             <type>java.lang.Integer</type>
         </attribute>
     </tag>
+    
+    <tag>
+        <tag-name>genericConverter</tag-name>
+        <handler-class>
+            be.e_contract.jsf.taglib.converter.GenericConverterTagHandler
+        </handler-class>
+        <attribute>
+            <name>getAsObject</name>
+            <required>true</required>
+            <method-signature>
+                java.lang.Object getAsObject(java.lang.String)
+            </method-signature>
+        </attribute>
+        <attribute>
+            <name>getAsString</name>
+            <required>true</required>
+            <method-signature>
+                java.lang.String getAsString(java.lang.Object)
+            </method-signature>
+        </attribute>
+    </tag>
 
 </facelet-taglib>
