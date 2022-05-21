@@ -121,6 +121,13 @@ We can use this CDI bean within a JSF page as follows:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/helloworld.xhtml}
 Notice how we access the \texttt{value} property of our CDI bean via the \texttt{\#\{...\}} expression.
 
+\begin{TIP}{Model-View-Controller naming}
+	Although strictly speaking the controller within the classical MVC naming is the \texttt{FacesServlet}, and our CDI beans should be regarded as model,
+	we prefer an alternative naming here.
+	Since the \texttt{FacesServlet} JSF servlet completely operates behind the scene, we rather refer to our CDI beans as being the controllers,
+	and regard our business (transactional EJB) beans as being part of the model.
+\end{TIP}
+
 \section{Basic Input/Output}
 \label{sec:basic-input-output}
 
