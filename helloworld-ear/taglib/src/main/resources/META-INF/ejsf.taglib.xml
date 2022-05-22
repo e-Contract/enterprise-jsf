@@ -9,13 +9,16 @@
     
     <composite-library-name>ejsf</composite-library-name>
     
+    <!-- exampleValidator begin -->
     <tag>
         <tag-name>exampleValidator</tag-name>
         <validator>
             <validator-id>ejsf.exampleValidator</validator-id>
         </validator>
     </tag>
+    <!-- exampleValidator end -->
     
+    <!-- parameterValidator begin -->
     <tag>
         <tag-name>parameterValidator</tag-name>
         <validator>
@@ -27,7 +30,9 @@
             <type>java.lang.String</type>
         </attribute>
     </tag>
+    <!-- parameterValidator end -->
     
+    <!-- exampleOutput begin -->
     <tag>
         <tag-name>exampleOutput</tag-name>
         <component>
@@ -39,7 +44,9 @@
             <type>java.lang.String</type>
         </attribute>
     </tag>
+    <!-- exampleOutput end -->
     
+    <!-- exampleInput begin -->
     <tag>
         <tag-name>exampleInput</tag-name>
         <component>
@@ -51,21 +58,27 @@
             <type>java.lang.String</type>
         </attribute>
     </tag>
+    <!-- exampleInput end -->
     
+    <!-- exampleAjax begin -->
     <tag>
         <tag-name>exampleAjax</tag-name>
         <component>
             <component-type>ejsf.exampleAjax</component-type>
         </component>
     </tag>
+    <!-- exampleAjax end -->
     
+    <!-- exampleAjaxEvent begin -->
     <tag>
         <tag-name>exampleAjaxEvent</tag-name>
         <component>
             <component-type>ejsf.exampleAjaxEvent</component-type>
         </component>
     </tag>
+    <!-- exampleAjaxEvent end -->
     
+    <!-- exampleStyledOutput begin -->
     <tag>
         <tag-name>exampleStyledOutput</tag-name>
         <component>
@@ -77,7 +90,9 @@
             <type>be.e_contract.jsf.taglib.output.ExampleEnum</type>
         </attribute>
     </tag>
+    <!-- exampleStyledOutput end -->
     
+    <!-- exampleWidget begin -->
     <tag>
         <tag-name>exampleWidget</tag-name>
         <component>
@@ -93,7 +108,9 @@
             <type>java.lang.String</type>
         </attribute>
     </tag>
+    <!-- exampleWidget end -->
     
+    <!-- exampleClientBehavior begin -->
     <tag>
         <tag-name>exampleClientBehavior</tag-name>
         <behavior>
@@ -103,7 +120,9 @@
             </handler-class>
         </behavior>
     </tag>
+    <!-- exampleClientBehavior end -->
     
+    <!-- panelGrid begin -->
     <tag>
         <tag-name>panelGrid</tag-name>
         <component>
@@ -115,7 +134,9 @@
             <type>java.lang.Integer</type>
         </attribute>
     </tag>
+    <!-- panelGrid end -->
     
+    <!-- genericConverter begin -->
     <tag>
         <tag-name>genericConverter</tag-name>
         <handler-class>
@@ -136,5 +157,6 @@
             </method-signature>
         </attribute>
     </tag>
+    <!-- genericConverter end -->
 
 </facelet-taglib>

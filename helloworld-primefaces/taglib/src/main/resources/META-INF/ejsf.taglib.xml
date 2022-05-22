@@ -9,6 +9,7 @@
     
     <composite-library-name>ejsf</composite-library-name>
     
+    <!-- exampleComponent begin -->
     <tag>
         <tag-name>exampleComponent</tag-name>
         <component>
@@ -25,5 +26,6 @@
             <type>java.lang.String</type>
         </attribute>
     </tag>
+    <!-- exampleComponent end -->
 
 </facelet-taglib>

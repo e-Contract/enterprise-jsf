@@ -50,5 +50,8 @@ The source code of the Javascript resource \texttt{example-widget.js} is given b
 \lstinputlisting[language=Javascript]{helloworld-primefaces/taglib/src/main/resources/META-INF/resources/ejsf/example-widget.js}
 Notice how we extend the PrimeFaces \texttt{BaseWidget}. Via the \texttt{init} method our custom widget gets initialized by the PrimeFaces client-side framework.
 
+We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
+\lstinputlisting[language=XML,linerange=exampleComponent]{helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+
 An example usage is demonstrated below:
 \lstinputlisting[language=XML]{helloworld-primefaces/war/src/main/webapp/widget.xhtml}

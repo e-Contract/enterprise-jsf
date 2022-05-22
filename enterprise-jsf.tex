@@ -143,6 +143,15 @@
 	sensitive=true
 }
 
+\lstset{
+	language=XML,
+	includerangemarker=true,
+	rangebeginprefix={\ \ \ \ <!--\ },
+	rangebeginsuffix={\ begin\ -->},
+	rangeendprefix={\ \ \ \ <!--\ },
+	rangeendsuffix={\ end\ -->},
+}
+
 \hypersetup{
 	urlcolor=cyan,
 }
@@ -196,6 +205,10 @@ Version: DRAFT
 \include{testing}
 
 \include{production}
+
+\include{security}
+
+\include{runtimes}
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
