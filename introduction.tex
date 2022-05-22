@@ -7,6 +7,16 @@
 
 Within this chapter we give a brief overview of JSF \cite{JSF23}.
 
+\section{Why JSF?}
+JSF evolved quite naturally from plain servlets, over JSP and such towards where we are today.
+Looking at the most simple servlet that can handle input and output,
+\lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/HelloServlet.java}
+you immediately see that the manual construction of the HTML content from within Java itself is rather painful.
+Next to that, this simple example also managed to bring us a lovely XSS vulnerability within its 15 something lines of code.
+
+Hence template language frameworks and such were invented, up to the point where JSF is today.
+
+
 \section{Basic Project Structure}
 Within our example code, we use Maven as build system.
 
@@ -41,8 +51,10 @@ This JSF page simply shows some text.
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/web.xml}
 As indicated by the \texttt{version} attribute, we are using servlet container version 4.0, which is part of Java EE 8.
+\begin{TIP}{javax.faces.PROJECT\_STAGE}
 Please notice here that an explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
 For proper development, the web browser caching has to be disabled.
+\end{TIP}
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate:
 \lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/faces-config.xml}
