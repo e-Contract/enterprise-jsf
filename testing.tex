@@ -5,9 +5,26 @@
 
 \chapter{Testing JSF Components}
 
-\section{Jetty}
-
 \section{Selenium}
+Using Selenium \cite{selenium} one can easily test web applications, and hence JSF components.
+Let us test out the functionality of the following JSF page.
+\lstinputlisting[language=XML]{testing/war/src/main/webapp/input-output.xhtml}
+Notice that we gave every JSF component that we want to access from within our test an \texttt{id} attribute.
+
+We represent this JSF page by the following test class.
+\lstinputlisting[language=Java]{testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/InputOutputPage.java}
+Notice how we locate the web elements using \texttt{By.id}.
+
+Our basic integration test using Selenium looks as follows.
+\lstinputlisting[language=Java]{testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/SeleniumTest.java}
+Via \texttt{WebDriverManager} we make sure that the web driver \cite{webdriver} for the Chrome web browser is properly installed on our system.
+Within the actual test we simply set some input value, perform a submit, and verify whether the output corresponds with the set input.
+
+Since this Selenium based integration test assumes that the application has been deployed on a local running application server, we need some special constructs within our Maven POM file.
+\lstinputlisting[language=XML]{testing/tests/pom.xml}
+Notice that, per default, we disable the executing of the tests.
+Only upon explicit activation of our \texttt{integration-tests} Maven profile,
+the Selenium integration tests will run as part of a Maven build.
 
 \subsection{PrimeFaces Selenium}
 
