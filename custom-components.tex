@@ -31,6 +31,12 @@ The Maven POM of our tag library JAR module looks as follows.
 
 The Maven POM of our WAR module looks as follows.
 \lstinputlisting[language=XML]{helloworld-ear/war/pom.xml}
+\begin{TIP}{Maven module naming}
+	As you can notice, we use as \texttt{groupId} of project modules the concatenation
+	of the \texttt{parent} \texttt{groupId} and \texttt{artifactId}.
+	This has the advantage of yielding a clean result when pushing the project towards a Maven repository.
+	Hence every artifact produced by this project, can be found under the same directory structure within the Maven repository.
+\end{TIP}
 
 The content of the WAR is similar to the initial example.
 
