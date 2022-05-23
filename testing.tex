@@ -4,8 +4,20 @@
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Testing JSF Components}
+Within this chapter we investigate different strategies for testing out custom developed JSF components.
+
+\section{Unit Testing}
+Simple components like validators or converters, that don't really depend on the behavior of the JSF runtime, can be unit tested like we do with regular POJOs.
+
+As example, we demonstrate the unit testing of the validator from Section \ref{sec:validator} \nameref{sec:validator} on page \pageref{sec:validator}.
+\lstinputlisting[language=Java]{testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleValidatorTest.java}
+We are using JUnit \cite{junit5} as testing framework here.
+
 
 \section{Selenium}
+Unfortunately plain POJO unit testing has its limitations.
+For most tests you  need to be able to verify the interaction of your custom JSF component with an actual JSF runtime.
+Hence your JSF component really needs to be testing within an actual JSF enabled container.
 Using Selenium \cite{selenium} one can easily test web applications, and hence JSF components.
 Let us test out the functionality of the following JSF page.
 \lstinputlisting[language=XML]{testing/war/src/main/webapp/input-output.xhtml}

@@ -12,4 +12,11 @@
     <groupId>be.e-contract.enterprise-jsf.testing</groupId>
     <artifactId>taglib</artifactId>
     <name>Testing Taglib</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
