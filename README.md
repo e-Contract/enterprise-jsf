@@ -1,7 +1,8 @@
 # Enterprise JSF
 
 Latest version of Enterprise JSF is available at:
-https://github.com/e-Contract/enterprise-jsf
+https://github.com/e-Contract/enterprise-jsf/releases/download/2022-05-24/enterprise-jsf-2022-05-24.pdf
+
 
 ## Requirements
 
