@@ -323,4 +323,22 @@ With the corresponding CDI controller given below.
 \lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/GenericConverterController.java}
 
 
+\section{Dynamic Components}
+In this section we demonstrate how to construct dynamic components, i.e., components that change behavior at runtime.
+Imagine we have a list of objects, each object has its own type as shown in the following example controller.
+\lstinputlisting[language=Java]{helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/DataController.java}
+
+We now want to construct a component that is capable of inputting this dynamic typed value, as shown in the example below.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/dynamic-input.xhtml}
+
+Our JSF component for this looks as follows.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/DynamicInputComponent.java}
+Via the \texttt{PostAddToViewEvent} event we add specific input components to the component tree within the \texttt{processEvent} method.
+Notice here that we add all possible input components here,  since at this point we don't know yet which exact type will be required at render/decode time.
+Via the \texttt{getRendersChildren} method we indicate that we will take care of rendering/decoding our children.
+And this is exactly what we do within the \texttt{encodeChildren} and \texttt{decode} methods where we delegate towards the appropriate child component.
+
+We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
+\lstinputlisting[language=XML,linerange=dynamicInput]{helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+
 \section{Facets}

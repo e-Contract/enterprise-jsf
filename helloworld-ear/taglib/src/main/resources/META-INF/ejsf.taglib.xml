@@ -158,5 +158,24 @@
         </attribute>
     </tag>
     <!-- genericConverter end -->
+    
+    <!-- dynamicInput begin -->
+    <tag>
+        <tag-name>dynamicInput</tag-name>
+        <component>
+            <component-type>ejsf.dynamicInput</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>true</required>
+            <type>java.lang.Class</type>
+        </attribute>
+    </tag>
+    <!-- dynamicInput end -->
 
 </facelet-taglib>
