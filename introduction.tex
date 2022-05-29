@@ -164,9 +164,19 @@ The \texttt{execute} attribute instructs what has to be processed, while the \te
 
 
 \section{Page Actions}
-\begin{TODO}{Write Me}
-	heh, we did not cover basic page actions.
-\end{TODO}
+While the previous example demonstrated how an AJAX call is executed, we did not yet cover how to actually perform a server-side action along with it.
+The following example demonstrates such page action.
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/action.xhtml}
+Via the \texttt{h:commandButton} \texttt{action} attribute, we indicate the method expression that should get executed during the AJAX call.
+Since proper user feedback is often required when executing a page action, we also demonstrate how to use the JSF message functionality.
+Within the example we have \texttt{h:messages} that displays global JSF messages only.
+Specific for the \texttt{h:inputText} component, we have a dedicated \texttt{h:message} component.
+Notice how we also mark the \texttt{messages} component for rendering via the \texttt{f:ajax} \texttt{render} attribute.
+
+The corresponding CDI controller demonstrates how to generate JSF messages when our action method is being invoked.
+\lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/PageController.java}
+Global JSF messages are added by setting \texttt{null} as client identifier.
+Via the \texttt{mainForm:input} client identifier we explicitly target a JSF message towards our input component.
 
 \section{Input Validation}
 
