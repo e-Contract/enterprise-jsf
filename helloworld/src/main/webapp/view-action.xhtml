@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:metadata>
+        <f:viewParam name="param" value="#{viewController.param}"/>
+        <f:viewAction action="#{viewController.viewAction()}"/>
+    </f:metadata>
+    <h:head>
+        <title>View Action</title>
+    </h:head>
+    <h:body>
+        <h1>View Action</h1>
+        <h:messages globalOnly="true"/>
+        <h:form>
+            <h:panelGrid columns="1">
+                <h:link value="No param" outcome="view-action"/>
+                <h:link value="Click me" outcome="view-action">
+                    <f:param name="param" value="hello world"/>
+                </h:link>
+                <h:button value="Click me" outcome="view-action">
+                    <f:param name="param" value="button param"/>
+                </h:button>
+                <h:commandButton value="Click me"
+    action="view-action?faces-redirect=true&amp;includeViewParams=true">
+                    <f:param name="param" value="commandButton param"/>
+                </h:commandButton>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>

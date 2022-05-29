@@ -343,3 +343,13 @@ Via the \texttt{ui:define} tags, we materialize our template.
 
 The corresponding CDI backing controller is given below.
 \lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/ExampleFaceletsController.java}
+
+\section{View Actions}
+When you want URLs that can be bookmarked, you have to use view parameters and view actions.
+The following JSF page demonstrates this.
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/view-action.xhtml}
+Within the \texttt{f:metadata} element we indicate the view parameters and view actions of our JSF page.
+The JSF page body demonstrates different ways on how to invoke this page with a view parameter.
+
+The corresponding CDI backing controller is given below.
+\lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/ViewController.java}
