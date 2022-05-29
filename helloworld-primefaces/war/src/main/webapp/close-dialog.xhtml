@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:enterprise-jsf">
     <h:head>
         <title>CRUD with dialogs</title>
         <h:outputScript library="js" name="crud-dialogs.js" />
@@ -60,8 +61,9 @@
                                  update="@form,mainForm:dataTable,messages"
                                  action="#{crudController.add}"
                                  oncomplete="addDialogOnComplete(xhr, status, args)"/>
-                <p:commandButton value="Dismiss"
-                                 onclick="PF('addDialog').hide()"/>
+                <p:commandButton value="Dismiss">
+                    <ejsf:closeDialog/>
+                </p:commandButton>
             </h:panelGrid>
         </h:form>
     </p:dialog>
@@ -69,13 +71,16 @@
     <p:dialog id="removeDialog" widgetVar="removeDialog" header="Remove Item">
         Do you want to remove #{crudController.selectedItem.name}?
         <h:form>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="4">
                 <p:commandButton value="Remove"
                                  update="mainForm:dataTable,messages"
                                  action="#{crudController.removeSelectedItem}"
                                  oncomplete="PF('removeDialog').hide()"/>
-                <p:commandButton value="Dismiss"
-                                 onclick="PF('removeDialog').hide()"/>
+                <!-- closeDialog begin -->
+                <p:commandButton value="Dismiss">
+                    <ejsf:closeDialog/>
+                </p:commandButton>
+                <!-- closeDialog end -->
             </h:panelGrid>
         </h:form>
     </p:dialog>

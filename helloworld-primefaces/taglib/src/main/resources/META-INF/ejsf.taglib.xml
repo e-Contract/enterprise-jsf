@@ -9,6 +9,15 @@
     
     <composite-library-name>ejsf</composite-library-name>
     
+    <!-- closeDialog begin -->
+    <tag>
+        <tag-name>closeDialog</tag-name>
+        <behavior>
+            <behavior-id>ejsf.closeDialog</behavior-id>
+        </behavior>
+    </tag>
+    <!-- closeDialog end -->
+    
     <!-- exampleComponent begin -->
     <tag>
         <tag-name>exampleComponent</tag-name>
