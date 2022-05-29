@@ -6,6 +6,8 @@
 \chapter{Introduction}
 
 Within this chapter we give a brief overview of JSF \cite{JSF23}.
+We will not cover every feature of JSF but just enough to get you started.
+See \nameref{chap:references} on page \pageref{chap:references} if you are looking for more in-depth material.
 
 \section{Why JSF?}
 JSF evolved quite naturally from plain servlets, over JSP and such towards where we are today.
@@ -77,7 +79,7 @@ WildFly/JBoss is by far the best one in terms of quality and manageability.
 
 Start a WildFly \cite{WildFly} application server via:
 \begin{lstlisting}[language=bash]
-cd wildfly-26.1.0.Final/bin
+cd wildfly-26.1.1.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
 \end{lstlisting}
 Notice that we are using the full Java EE profile here.
@@ -160,6 +162,11 @@ The reloading of the entire JSF page can be avoided by using AJAX as shown in th
 Via the \texttt{f:ajax} tag we enable AJAX on the \texttt{h:commandButton} component.
 The \texttt{execute} attribute instructs what has to be processed, while the \texttt{render} attributes defines what needs to be rendered again.
 
+
+\section{Page Actions}
+\begin{TODO}{Write Me}
+	heh, we did not cover basic page actions.
+\end{TODO}
 
 \section{Input Validation}
 
@@ -280,7 +287,7 @@ Configure the WildFly logging within \texttt{standalone/configuration/standalone
 \end{lstlisting}
 After restarting the WildFly application server, you can now follow our log via:
 \begin{lstlisting}[language=bash]
-	cd wildfly-26.1.0.Final/standalone/log
+	cd wildfly-26.1.1.Final/standalone/log
 	tail -F ejsf.log
 \end{lstlisting}
 Within Figure \ref{fig:life-cycle} we visualized the JSF request lifecycle.
@@ -312,7 +319,17 @@ We give a description of each JSF phase.
 Not every JSF request will walk through all these phases. For example, an initial JSF request will directly jump from \textbf{Restore View} to \textbf{Render Response} as there is no input to process.
 Similarly, when a validator fails during the \textbf{Process Validations} phase, we directly jump to \textbf{Render Response} as we don't want to process invalid input towards our backing beans.
 
-\section{Templates}
-\begin{TODO}{Facelets}
-Facelets stuff here.
-\end{TODO}
+\section{Facelets Templates}
+JSF comes with a powerful template declaration language called facelets.
+This allows us to define, for example, a common template used by all our JSF pages,
+giving us a common look and behavior.
+The following example template, located under \texttt{WEB-INF/template.xhtml},
+gives us a common header structure that also shows us global JSF messages right after the page title.
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/WEB-INF/template.xhtml}
+Via the \texttt{ui:insert} tags we define insertion points to be used by our actual JSF pages like shown in the following example.
+\lstinputlisting[language=XML]{helloworld/src/main/webapp/facelets.xhtml}
+Notice how to refer to our template via the \texttt{ui:composition} \texttt{template} attribute.
+Via the \texttt{ui:define} tags, we materialize our template.
+
+The corresponding CDI backing controller is given below.
+\lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/ExampleFaceletsController.java}
