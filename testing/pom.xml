@@ -47,6 +47,7 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jetty.version>9.4.46.v20220331</jetty.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -80,6 +81,31 @@
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces-selenium-components</artifactId>
                 <version>11.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlet</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-webapp</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty.toolchain</groupId>
+                <artifactId>jetty-test-helper</artifactId>
+                <version>5.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.13</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
