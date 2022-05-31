@@ -1,5 +1,6 @@
 target/
 faces-config.NavData
+nb-configuration.xml
 *.aux
 *.pdf
 *.out
