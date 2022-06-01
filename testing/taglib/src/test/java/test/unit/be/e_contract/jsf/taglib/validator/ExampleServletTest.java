@@ -9,7 +9,7 @@ import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,18 +26,17 @@ public class ExampleServletTest {
     public void setUp() throws Exception {
         this.server = new Server(0);
 
-        ServletContextHandler context = new ServletContextHandler();
-        context.setContextPath("/test");
+        ServletHandler context = new ServletHandler();
         this.server.setHandler(context);
 
         ServletHolder servletHolder = new ServletHolder(ExampleServlet.class);
-        context.addServlet(servletHolder, "/hello");
+        context.addServletWithMapping(servletHolder, "/hello");
 
         this.server.start();
 
         ServerConnector serverConnector = (ServerConnector) this.server.getConnectors()[0];
         int port = serverConnector.getLocalPort();
-        this.url = "http://localhost:" + port + "/test/hello";
+        this.url = "http://localhost:" + port + "/hello";
     }
 
     @AfterEach
