@@ -9,12 +9,5 @@
         }
     }
     ejsf.ExampleWidget = ExampleWidget;
-
-    window.addEventListener("load", function () {
-        let componentElements =
-                document.querySelectorAll("[data-ejsf-type='ExampleWidget']");
-        componentElements.forEach((componentElement) => {
-            new ejsf.ExampleWidget(componentElement);
-        });
-    });
+    ejsf.registerWidgetType("ExampleWidget", ejsf.ExampleWidget);
 })();
