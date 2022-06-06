@@ -50,3 +50,14 @@ We can now unit test the servlet via an embedded servlet container as shown in t
 Here we run Jetty \cite{jetty} as full servlet container.
 Via Apache HttpClient \cite{httpclient} we test out the behavior of our servlet.
 
+\subsection{CDI}
+Setting up an embedded Jetty runtime correctly is always fun.
+Hence let us take small steps to evolve towards an embedded Jetty container that is capable of handling JSF requests.
+
+In this example, we simply enable CDI within the embedded Jetty container.
+Our example servlet for this looks as follows:
+\lstinputlisting[language=Java]{testing/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleCDIServlet.java}
+Here we simply output whether the CDI \texttt{BeanManager} has been injected within our servlet.
+
+We can now unit test the servlet via an embedded servlet container as shown in the following example.
+\lstinputlisting[language=Java]{testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleCDIServletTest.java}
