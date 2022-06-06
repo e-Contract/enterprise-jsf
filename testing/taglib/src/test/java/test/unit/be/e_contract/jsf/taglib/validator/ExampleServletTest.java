@@ -26,11 +26,11 @@ public class ExampleServletTest {
     public void setUp() throws Exception {
         this.server = new Server(0);
 
-        ServletHandler context = new ServletHandler();
-        this.server.setHandler(context);
+        ServletHandler handler = new ServletHandler();
+        this.server.setHandler(handler);
 
         ServletHolder servletHolder = new ServletHolder(ExampleServlet.class);
-        context.addServletWithMapping(servletHolder, "/hello");
+        handler.addServletWithMapping(servletHolder, "/hello");
 
         this.server.start();
 
