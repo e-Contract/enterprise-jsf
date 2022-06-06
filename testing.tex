@@ -61,3 +61,11 @@ Here we simply output whether the CDI \texttt{BeanManager} has been injected wit
 
 We can now unit test the servlet via an embedded servlet container as shown in the following example.
 \lstinputlisting[language=Java]{testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleCDIServletTest.java}
+
+\subsection{JSF}
+
+Next step is to enable JSF within our embedded servlet container.
+\lstinputlisting[language=Java]{testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleJSFServletTest.java}
+
+\section{Jetty and Selenium}
+Since we need to have the web browser for correct interpretation of possible Javascript, the final step is to combine our Jetty JSF runtime with Selenium.
