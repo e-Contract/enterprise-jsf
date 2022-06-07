@@ -177,5 +177,20 @@
         </attribute>
     </tag>
     <!-- dynamicInput end -->
+    
+    <!-- dataList begin -->
+    <tag>
+        <tag-name>dataList</tag-name>
+        <component>
+            <component-type>ejsf.dataList</component-type>
+            <renderer-type>ejsf.dataListRenderer</renderer-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+        </attribute>
+    </tag>
+    <!-- dataList end -->
 
 </facelet-taglib>
