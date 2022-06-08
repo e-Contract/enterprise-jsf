@@ -344,3 +344,17 @@ We register this custom component within our \texttt{.taglib.xml} tag library de
 \lstinputlisting[language=XML,linerange=dynamicInput]{helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
 \section{Facets}
+
+\section{UIData}
+The source code of our custom \texttt{UIData} component is given below.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/datalist/DataList.java}
+
+The source code of the corresponding rendered is given below.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/datalist/DataListRenderer.java}
+
+We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
+\lstinputlisting[language=XML,linerange=dataList]{helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+
+\begin{TODO}{Input decoding}
+	Seems like the input decoding is missing from the above component.
+\end{TODO}
