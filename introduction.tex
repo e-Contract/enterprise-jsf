@@ -353,3 +353,13 @@ The JSF page body demonstrates different ways on how to invoke this page with a 
 
 The corresponding CDI backing controller is given below.
 \lstinputlisting[language=Java]{helloworld/src/main/java/be/e_contract/jsf/helloworld/ViewController.java}
+
+\section{Single Page Applications}
+Although JSF is not a Single Page Application framework, one can come to a point where a certain JSF page within your web application behaves as such.
+For example, a page where you present some (JPA) entity that has a lot of different aspects, and hence a lot of different visual tabs.
+Such page will have a lot of AJAX based actions, and hence selective updates of this page.
+Important here is to avoid the temptation to put the entire page within one big \texttt{h:form} JSF form.
+\begin{TODO}{Write Me}
+Explain JSF form request/response scope.
+Maybe touch on NamingContainer also?
+\end{TODO}
