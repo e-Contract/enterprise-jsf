@@ -13,5 +13,26 @@
 
 \subsection{Quarkus}
 
+Maven project file:
+\lstinputlisting[language=XML]{quarkus/pom.xml}
+
+Configuration file \texttt{src/main/resources/application.properties}:
+\lstinputlisting{quarkus/src/main/resources/application.properties}
+
+Web deployment descriptor \texttt{src/main/resources/META-INF/web.xml}:
+\lstinputlisting[language=XML]{quarkus/src/main/resources/META-INF/web.xml}
+
+Index page \texttt{src/main/resources/META-INF/resources/index.xhtml}:
+\lstinputlisting[language=XML]{quarkus/src/main/resources/META-INF/resources/index.xhtml}
+
+Our \texttt{HelloController.java} CDI based controller:
+\lstinputlisting[language=Java]{quarkus/src/main/java/be/e_contract/ejsf/quarkus/HelloController.java}
+
+Compile and run the application via:
+\begin{lstlisting}[language=bash]
+	cd quarkus
+	mvn clean compile quarkus:dev
+\end{lstlisting}
+Press "w" to view the application in a web browser.
 
 
