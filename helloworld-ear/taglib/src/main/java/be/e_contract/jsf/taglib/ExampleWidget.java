@@ -20,6 +20,10 @@ public class ExampleWidget extends UIOutput {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public ExampleWidget() {
+        setRendererType(null);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

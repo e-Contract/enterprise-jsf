@@ -27,6 +27,10 @@ public class DynamicInputComponent extends UIInput implements ComponentSystemEve
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public DynamicInputComponent() {
+        setRendererType(null);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

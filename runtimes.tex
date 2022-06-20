@@ -13,8 +13,27 @@
 
 \subsection{Quarkus}
 
+Compared to a classical Java EE application server like WildFly \cite{WildFly}, the Quarkus \cite{quarkus} platform offers some advantages.
+\begin{itemize}
+	\item Most important advantage is the live coding feature, where edited Java classes automatically get recompiled and loaded at runtime.
+	This feature cuts down the development-deploy-test cycle tremendously.
+	\item Easy configuration of the runtime.
+\end{itemize}
+Besides the obvious advantages, which you can find all over the internet, there might also be some disadvantages to such more recent platforms.
+\begin{itemize}
+	\item You have to construct yourself a platform, by activating different so called extensions.
+	Whether your selected extensions will not fight each other at runtime is entirely your problem.
+	With a Java EE application server, you don't have to worry about this aspect.
+	The application server vendor had this fight for you.
+	\item Quarkus is still very young compared to the established Java EE application servers.
+	Hence keeping your application up to date with the latest version of Quarkus might eat away some of your time.
+	\item A classical application server has a stronger focus on production stability versus adding new features all the time to keep up the fight with Spring Boot \cite{spring}.
+\end{itemize}
+
 Maven project file:
 \lstinputlisting[language=XML]{quarkus/pom.xml}
+Notice here that we simplified our POM file compared to what Quarkus normally generates for you.
+This was done to more easily highlight to required configuration aspects.
 
 Configuration file \texttt{src/main/resources/application.properties}:
 \lstinputlisting{quarkus/src/main/resources/application.properties}
@@ -34,5 +53,9 @@ Compile and run the application via:
 	mvn clean compile quarkus:dev
 \end{lstlisting}
 Press "w" to view the application in a web browser.
+
+\subsubsection{Tag library}
+Since the default setup of a Quarkus project is to have a single Maven module,
+embedding a tag library has to be done by simply adding the tag library code and descriptors within the same Maven project as your application itself.
 
 

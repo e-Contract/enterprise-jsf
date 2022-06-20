@@ -1,24 +1,19 @@
-package be.e_contract.jsf.taglib.output;
+package be.e_contract.ejsf.quarkus;
 
 import java.io.IOException;
-import javax.faces.application.ResourceDependencies;
-import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-@FacesComponent(ExampleStyledOutput.COMPONENT_TYPE)
-@ResourceDependencies({
-    @ResourceDependency(library = "ejsf", name = "example-styled-output.css")
-})
-public class ExampleStyledOutput extends UIOutput {
+@FacesComponent(ExampleOutput.COMPONENT_TYPE)
+public class ExampleOutput extends UIOutput {
 
-    public static final String COMPONENT_TYPE = "ejsf.exampleStyledOutput";
+    public static final String COMPONENT_TYPE = "ejsf.exampleOutput";
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
-    public ExampleStyledOutput() {
+    public ExampleOutput() {
         setRendererType(null);
     }
 
@@ -29,14 +24,12 @@ public class ExampleStyledOutput extends UIOutput {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
-        ExampleEnum value = (ExampleEnum) getValue();
+        String value = (String) getValue();
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
-        responseWriter.writeAttribute("class", "example-styled-output "
-                + "example-styled-output-" + value.name(), null);
-        responseWriter.write(value.toString());
+        responseWriter.write("hello: " + value);
         responseWriter.endElement("span");
     }
 }

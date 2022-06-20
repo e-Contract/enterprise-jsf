@@ -15,6 +15,10 @@ public class ExampleInput extends UIInput {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public ExampleInput() {
+        setRendererType(null);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

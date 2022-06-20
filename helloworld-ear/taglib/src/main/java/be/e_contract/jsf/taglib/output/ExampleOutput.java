@@ -13,6 +13,10 @@ public class ExampleOutput extends UIOutput {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public ExampleOutput() {
+        setRendererType(null);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;
