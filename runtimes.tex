@@ -11,6 +11,34 @@
 
 \subsection{Spring}
 
+Maven project file:
+\lstinputlisting[language=XML]{spring/pom.xml}
+
+Configuration file \texttt{src/main/resources/application.properties}:
+\lstinputlisting{spring/src/main/resources/application.properties}
+
+Our \texttt{Application.java} entry class:
+\lstinputlisting[language=Java]{spring/src/main/java/be/e_contract/ejsf/spring/Application.java}
+
+Index page \texttt{src/main/resources/META-INF/resources/index.xhtml}:
+\lstinputlisting[language=XML]{spring/src/main/webapp/index.xhtml}
+
+Our \texttt{HelloWorldBean.java} controller:
+\lstinputlisting[language=Java]{spring/src/main/java/be/e_contract/ejsf/spring/HelloWorldBean.java}
+
+Compile and run the application via:
+\begin{lstlisting}[language=bash]
+	cd spring
+	mvn clean spring-boot:run
+\end{lstlisting}
+The application should now be available at:
+https://localhost:8080/test/index.xhtml
+
+\begin{TODO}{index.xhtml}
+	How to configure index.xhtml as default welcome file?
+\end{TODO}
+
+
 \subsection{Quarkus}
 
 Compared to a classical Java EE application server like WildFly \cite{WildFly}, the Quarkus \cite{quarkus} platform offers some advantages.
