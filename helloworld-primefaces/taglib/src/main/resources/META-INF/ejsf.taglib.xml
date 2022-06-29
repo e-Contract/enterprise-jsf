@@ -36,5 +36,24 @@
         </attribute>
     </tag>
     <!-- exampleComponent end -->
+    
+    <!-- echarts begin -->
+    <tag>
+        <tag-name>echarts</tag-name>
+        <component>
+            <component-type>ejsf.echartsComponent</component-type>
+            <renderer-type>ejsf.echartsRenderer</renderer-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+    <!-- echarts end -->
 
 </facelet-taglib>
