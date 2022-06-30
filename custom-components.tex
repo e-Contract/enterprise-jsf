@@ -359,3 +359,15 @@ We register this custom component within our \texttt{.taglib.xml} tag library de
 \begin{TODO}{Input decoding}
 	Seems like the input decoding is missing from the above component.
 \end{TODO}
+
+
+\section{EL functions}
+In this section we demonstrate how to add custom EL functions.
+In the following example we use our custom \texttt{gcd} function to calculate the greatest common divisor of two given numbers.
+\lstinputlisting[language=XML]{helloworld-ear/war/src/main/webapp/custom-function.xhtml}
+
+This function is simply defined as a static function as shown below.
+\lstinputlisting[language=Java]{helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/GreatestCommonDivisor.java}
+
+We register this custom function within our \texttt{.taglib.xml} tag library descriptor as follows.
+\lstinputlisting[language=XML,linerange=gcd]{helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}

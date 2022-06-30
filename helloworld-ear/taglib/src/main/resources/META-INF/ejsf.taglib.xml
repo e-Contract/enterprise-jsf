@@ -190,7 +190,22 @@
             <required>true</required>
             <type>java.lang.Object</type>
         </attribute>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
     <!-- dataList end -->
+    
+    <!-- gcd begin -->
+    <function>
+        <function-name>gcd</function-name>
+        <function-class>
+            be.e_contract.jsf.taglib.GreatestCommonDivisor
+        </function-class>
+        <function-signature>long gcd(long, long)</function-signature>
+    </function>
+    <!-- gcd end -->
 
 </facelet-taglib>
