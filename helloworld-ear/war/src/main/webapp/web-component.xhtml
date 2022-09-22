@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ejsf="urn:be:e-contract:enterprise-jsf">
+    <h:head>
+        <title>Web Component</title>
+    </h:head>
+    <h:body>
+        <h1>Web Component</h1>
+        <h:form id="mainForm">
+            <p>
+                <ejsf:exampleWebComponent id="comp"
+                                          value="#{inputOutputController.value}"/>
+            </p>
+        </h:form>
+        <h:form>
+            <h:inputText value="#{inputOutputController.value}"/>
+            <h:commandButton value="Update Web Component">
+                <f:ajax execute="@form" render=":mainForm:comp"/>
+            </h:commandButton>
+            <h:commandButton value="AJAX call">
+                <f:ajax/>
+            </h:commandButton>
+            <h:button value="Back" outcome="index"/>
+        </h:form>
+    </h:body>
+</html>

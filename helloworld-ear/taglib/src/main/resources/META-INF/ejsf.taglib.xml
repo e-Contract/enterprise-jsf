@@ -207,5 +207,19 @@
         <function-signature>long gcd(long, long)</function-signature>
     </function>
     <!-- gcd end -->
+    
+    <!-- exampleWebComponent begin -->
+    <tag>
+        <tag-name>exampleWebComponent</tag-name>
+        <component>
+            <component-type>ejsf.exampleWebComponent</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+    <!-- exampleWebComponent end -->
 
 </facelet-taglib>
