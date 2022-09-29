@@ -39,6 +39,16 @@ It has been there for ages, and will be there for ages to come.
 I find myself in the position where I own a company and hence need to keep the maintenance money burn under control.
 I rather have difficulty finding developers, because of not fancy, than to find myself in a situation where I have to manage yet another new framework introduced by some dude that since has long left the building.
 This is also one of the reasons why we still stick with Java 8 \cite{GoslingJoyEtAl14} and Java EE 8 \cite{JavaEE8} for the moment.
+
+One technical argument however, I want to touch on here.
+In my view, a component technology should be able to define both server-side and client-side behavior AT THE SAME TIME.
+Hence, if I put a component,
+\begin{lstlisting}[language=XML]
+	<mycomps:myCoolComponent/>
+\end{lstlisting}
+on my web page, I want that this component can articulate behavior on both server-side and client-side, without the need to define some extras like a communication protocol or whatever.
+As far as I know, all those fancy Javascript frameworks out there are completely missing the server-side part of the story, which forces you to start defining REST endpoints per server-side behavior you want to add for a certain component.
+
  \begin{flushright}
 \today \\
 Frank Cornelis 
