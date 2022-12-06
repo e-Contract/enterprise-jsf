@@ -30,17 +30,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-ear-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>3.0.0.Final</version>
+                    <version>3.0.2.Final</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.github.eirslett</groupId>
@@ -64,7 +64,7 @@
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
-                <version>11.0.0</version>
+                <version>12.0.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
