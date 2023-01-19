@@ -1,7 +1,7 @@
 #
 # Enterprise JSF project.
 #
-# Copyright 2022 e-Contract.be BV. All rights reserved.
+# Copyright 2022-2023 e-Contract.be BV. All rights reserved.
 # e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 #
 
@@ -32,8 +32,8 @@ enterprise-jsf.pdf : enterprise-jsf.tex $(TEX_INCLUDES) $(SVG:.svg=.pdf) $(FIGS:
 # tried chromium headless: always outputs in A4
 %.pdf: %.puml
 	java -jar $(PLANTUML_JAR) -DPLANTUML_LIMIT_SIZE=8192 -Djava.awt.headless=true -charset UTF-8 -tlatex $*.puml
-	pdflatex $*.latex
-	rm $*.latex
+	pdflatex $*.tex
+	rm $*.tex
 
 # tried svg2pdf: no shadow effect, but also gives good result
 #%.pdf: %.puml
