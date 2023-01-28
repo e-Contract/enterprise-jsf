@@ -1,6 +1,6 @@
 % Enterprise JSF project.
 %
-% Copyright 2022 e-Contract.be BV. All rights reserved.
+% Copyright 2022-2023 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Introduction}
@@ -77,9 +77,18 @@ We will be using WildFly \cite{WildFly} as application server to host our exampl
 Among all available compliant Java EE 8 application servers out there,
 WildFly/JBoss is by far the best one in terms of quality and manageability.
 
+\begin{ClownComputing}{Jakarta EE 10}
+	Notice that WildFly version 26.1.3.Final is (for the moment) the latest version of WildFly that supports Java EE 8.
+	WildFly version 27 and higher only supports Jakarta EE 10.
+	Unfortunately Jakarta EE 10 is not compatible with Java EE 8 as some lawyers at Oracle decided that protecting the Java trademark was so important that the entire world has to change Java EE package prefixes from \texttt{javax} to \texttt{jakarta}.
+	It is actually unbelievable that a handful of lawyers caused such an artificial technological barrier.
+	Reminds me of a Radiohead lyric: When I am king
+	You will be first against the wall.
+\end{ClownComputing}
+
 Start a WildFly \cite{WildFly} application server via:
 \begin{lstlisting}[language=bash]
-cd wildfly-26.1.1.Final/bin
+cd wildfly-26.1.3.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
 \end{lstlisting}
 Notice that we are using the full Java EE profile here.
@@ -297,7 +306,7 @@ Configure the WildFly logging within \texttt{standalone/configuration/standalone
 \end{lstlisting}
 After restarting the WildFly application server, you can now follow our log via:
 \begin{lstlisting}[language=bash]
-	cd wildfly-26.1.1.Final/standalone/log
+	cd wildfly-26.1.3.Final/standalone/log
 	tail -F ejsf.log
 \end{lstlisting}
 Within Figure \ref{fig:life-cycle} we visualized the JSF request lifecycle.
