@@ -1,6 +1,6 @@
 % Enterprise JSF project.
 %
-% Copyright 2022 e-Contract.be BV. All rights reserved.
+% Copyright 2022-2023 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{JSF runtimes}
@@ -25,6 +25,10 @@ Index page \texttt{src/main/resources/META-INF/resources/index.xhtml}:
 
 Our \texttt{HelloWorldBean.java} controller:
 \lstinputlisting[language=Java]{spring/src/main/java/be/e_contract/ejsf/spring/HelloWorldBean.java}
+
+\begin{TIP}{Java Runtime}
+	Please notice that Spring requires at least Java version 11 as runtime.
+\end{TIP}
 
 Compile and run the application via:
 \begin{lstlisting}[language=bash]
@@ -74,6 +78,10 @@ Index page \texttt{src/main/resources/META-INF/resources/index.xhtml}:
 
 Our \texttt{HelloController.java} CDI based controller:
 \lstinputlisting[language=Java]{quarkus/src/main/java/be/e_contract/ejsf/quarkus/HelloController.java}
+
+\begin{TIP}{Java Runtime}
+	Please notice that Quarkus requires at least Java version 11 as runtime.
+\end{TIP}
 
 Compile and run the application via:
 \begin{lstlisting}[language=bash]
