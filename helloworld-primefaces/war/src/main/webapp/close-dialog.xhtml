@@ -1,87 +1,26 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ejsf="urn:be:e-contract:enterprise-jsf">
     <h:head>
-        <title>CRUD with dialogs</title>
-        <h:outputScript library="js" name="crud-dialogs.js" />
+        <title>Close Dialog Example</title>
     </h:head>
     <h:body>
-        <h1>CRUD with dialogs</h1>
-        <p:messages id="messages" globalOnly="true"/>
-        <h:form id="mainForm">
-            <p:dataTable id="dataTable" value="#{crudController.items}"
-                         var="item">
-                <p:column headerText="Name">
-                    #{item.name}
-                </p:column>
-                <p:column headerText="Amount">
-                    #{item.amount}
-                </p:column>
-                <p:column headerText="Actions">
-                    <p:commandButton icon="pi pi-trash"
-                                     action="#{crudController.selectItem(item)}"
-                                     update="removeDialog,messages"
-                                     oncomplete="PF('removeDialog').show()"/>
-                </p:column>
-                <f:facet name="footer">
-                    <p:commandButton icon="pi pi-plus-circle"
-                                     action="#{crudController.initAdd}"
-                                     update="addDialog,messages"
-                                     oncomplete="PF('addDialog').show()">
-                        <p:resetInput target="addDialog"/>
-                    </p:commandButton>
-                </f:facet>
-            </p:dataTable>
+        <h1>Close Dialog Example</h1>
+        <h:form>
+            <p:commandButton value="Open Dialog"
+                             oncomplete="PF('demoDialog').show()"/>
+            <p:button value="Back" outcome="index"/>
         </h:form>
     </h:body>
-    <h:form>
-        <p:button value="Back" outcome="index"/>
-    </h:form>
 
-    <p:dialog id="addDialog" widgetVar="addDialog" header="Add Item">
+    <p:dialog id="demoDialog" widgetVar="demoDialog" header="Demo Dialog">
         <h:form>
-            <h:panelGrid columns="3">
-                <p:outputLabel value="Name" for="name"/>
-                <p:inputText id="name" required="true"
-                             value="#{crudController.newItem.name}"/>
-                <p:message for="name"/>
-
-                <p:outputLabel value="Amount" for="amount"/>
-                <p:inputText id="amount" required="true"
-                             value="#{crudController.newItem.amount}">
-                    <f:validateLongRange minimum="1"/>
-                </p:inputText>
-                <p:message for="amount"/>
-            </h:panelGrid>
-            <h:panelGrid columns="2">
-                <p:commandButton value="Add"
-                                 update="@form,mainForm:dataTable,messages"
-                                 action="#{crudController.add}"
-                                 oncomplete="addDialogOnComplete(xhr, status, args)"/>
-                <p:commandButton value="Dismiss">
-                    <ejsf:closeDialog/>
-                </p:commandButton>
-            </h:panelGrid>
-        </h:form>
-    </p:dialog>
-
-    <p:dialog id="removeDialog" widgetVar="removeDialog" header="Remove Item">
-        Do you want to remove #{crudController.selectedItem.name}?
-        <h:form>
-            <h:panelGrid columns="4">
-                <p:commandButton value="Remove"
-                                 update="mainForm:dataTable,messages"
-                                 action="#{crudController.removeSelectedItem}"
-                                 oncomplete="PF('removeDialog').hide()"/>
-                <!-- closeDialog begin -->
-                <p:commandButton value="Dismiss">
-                    <ejsf:closeDialog/>
-                </p:commandButton>
-                <!-- closeDialog end -->
-            </h:panelGrid>
+            This is a demo.
+            <p:commandButton value="Dismiss">
+                <ejsf:closeDialog/>
+            </p:commandButton>
         </h:form>
     </p:dialog>
 </html>
