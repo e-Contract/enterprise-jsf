@@ -23,18 +23,28 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>jakarta</shadedClassifierName>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <shadedArtifactAttached>
+                                true
+                            </shadedArtifactAttached>
+                            <shadedClassifierName>
+                                jakarta
+                            </shadedClassifierName>
+                            <createDependencyReducedPom>
+                                false
+                            </createDependencyReducedPom>
                             <artifactSet>
                                 <includes>
-                                    <include>${project.groupId}:${project.artifactId}</include>
+                                    <include>
+                                        ${project.groupId}:${project.artifactId}
+                                    </include>
                                 </includes>
                             </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>javax.faces</pattern>
-                                    <shadedPattern>jakarta.faces</shadedPattern>
+                                    <shadedPattern>
+                                        jakarta.faces
+                                    </shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

@@ -7,7 +7,7 @@
 
 FIGS =
 PUML = life-cycle.puml ear.puml
-TEX_INCLUDES = preface.tex references.tex copyright.tex introduction.tex testing.tex production.tex security.tex runtimes.tex
+TEX_INCLUDES = preface.tex references.tex copyright.tex introduction.tex testing.tex production.tex security.tex runtimes.tex jakarta.tex
 SVG = e-contract-logoFINAL.svg
 
 .PHONY: all
