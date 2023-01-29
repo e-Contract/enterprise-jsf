@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ejsf="urn:be:e-contract:enterprise-jsf">
+    <h:head>
+        <title>Custom Output Component</title>
+    </h:head>
+    <h:body>
+        <h1>Custom Output Component</h1>
+        <h:form>
+            <p>
+                <ejsf:exampleOutput id="output"
+                                    value="#{inputOutputController.value}"/>
+            </p>
+            <h:inputText id="input" value="#{inputOutputController.value}"/>
+            <h:commandButton value="click me">
+                <f:ajax execute="@form" render="output"/>
+            </h:commandButton>
+        </h:form>
+    </h:body>
+</html>

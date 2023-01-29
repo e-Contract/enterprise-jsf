@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facelet-taglib xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+    http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-facelettaglibrary_2_3.xsd"
+                version="2.3">
+    
+    <namespace>urn:be:e-contract:enterprise-jsf</namespace>
+    
+    <tag>
+        <tag-name>exampleOutput</tag-name>
+        <component>
+            <component-type>ejsf.exampleOutput</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+</facelet-taglib>
