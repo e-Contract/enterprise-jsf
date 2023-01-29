@@ -1,6 +1,7 @@
 package be.e_contract.jsf.helloworld;
 
 import java.io.IOException;
+import java.io.InputStream;
 import javax.inject.Named;
 import org.apache.commons.io.IOUtils;
 
@@ -8,8 +9,10 @@ import org.apache.commons.io.IOUtils;
 public class EChartsController {
 
     public String getValue() {
+        InputStream inputStream
+                = EChartsController.class.getResourceAsStream("/echarts.json");
         try {
-            return IOUtils.toString(EChartsController.class.getResourceAsStream("/echarts.json"), "UTF-8");
+            return IOUtils.toString(inputStream, "UTF-8");
         } catch (IOException ex) {
             return "";
         }

@@ -1,4 +1,8 @@
 {
+    "title": {
+        "text": "ECharts Demo",
+        "left": "center"
+    },
     "xAxis": {
         "type": "category",
         "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]

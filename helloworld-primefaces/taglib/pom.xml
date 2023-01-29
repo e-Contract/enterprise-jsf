@@ -25,7 +25,9 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target</outputDirectory>
+                            <outputDirectory>
+                                ${basedir}/target
+                            </outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/node</directory>
@@ -41,12 +43,16 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/META-INF/resources/echarts</outputDirectory>
+                            <outputDirectory>
+                                ${basedir}/target/classes/META-INF/resources/echarts
+                            </outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/target/node_modules/echarts/dist</directory>
+                                    <directory>
+                                        ${basedir}/target/node_modules/echarts/dist
+                                    </directory>
                                     <includes>
-                                        <include>echarts.js</include>
+                                        <include>echarts.min.js</include>
                                     </includes>
                                 </resource>
                             </resources>
@@ -65,8 +71,8 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v16.15.0</nodeVersion>
-                            <npmVersion>8.8.0</npmVersion>
+                            <nodeVersion>v18.13.0</nodeVersion>
+                            <npmVersion>9.4.0</npmVersion>
                         </configuration>
                     </execution>
                     <execution>

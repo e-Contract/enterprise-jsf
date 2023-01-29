@@ -12,7 +12,7 @@ import org.primefaces.component.api.Widget;
     @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
     @ResourceDependency(library = "primefaces", name = "core.js"),
     @ResourceDependency(library = "primefaces", name = "components.js"),
-    @ResourceDependency(library = "echarts", name = "echarts.js"),
+    @ResourceDependency(library = "echarts", name = "echarts.min.js"),
     @ResourceDependency(library = "ejsf", name = "echarts-widget.js")
 })
 public class EChartsComponent extends UIOutput implements Widget {

@@ -67,3 +67,27 @@ We register this custom component within our \texttt{.taglib.xml} tag library de
 
 An example usage is demonstrated below:
 \lstinputlisting[language=XML]{helloworld-primefaces/war/src/main/webapp/widget.xhtml}
+
+\section{Turning a Javascript library into a JSF component}
+Within this section we will demonstrate how to turn a Javascript library into an easy to use JSF component.
+As example we will wrap the Apache ECharts \cite{ECharts} Javascript library within a JSF component.
+The source code for the component is given below.
+\lstinputlisting[language=Java]{helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/EChartsComponent.java}
+
+The source code for the corresponding renderer is given below.
+\lstinputlisting[language=Java]{helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/EChartsRenderer.java}
+
+The source code of the Javascript resource \texttt{echarts-widget.js} is given below.
+\lstinputlisting[language=Javascript]{helloworld-primefaces/taglib/src/main/resources/META-INF/resources/ejsf/echarts-widget.js}
+
+We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
+\lstinputlisting[language=XML,linerange=echarts]{helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+
+An example usage is demonstrated below:
+\lstinputlisting[language=XML]{helloworld-primefaces/war/src/main/webapp/echarts.xhtml}
+
+And the CDI controller as follows:
+\lstinputlisting[language=Java]{helloworld-primefaces/war/src/main/java/be/e_contract/jsf/helloworld/EChartsController.java}
+
+To retrieve the Javascript for Apache EChart, we use some specific build instructions as indicated in the following \texttt{pom.xml}.
+\lstinputlisting[language=XML]{helloworld-primefaces/taglib/pom.xml}
