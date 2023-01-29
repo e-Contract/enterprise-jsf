@@ -14,4 +14,34 @@
         </component>
     </tag>
 
+    <tag>
+        <description>
+            Outputs a value as currency
+        </description>
+        <tag-name>outputCurrency</tag-name>
+        <component>
+            <component-type>ejsf.outputCurrency</component-type>
+            <renderer-type>ejsf.outputCurrencyRenderer</renderer-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional currency. Defaults to "EUR".</description>
+            <name>currency</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional locale as String or Locale.</description>
+            <name>locale</name>
+            <type>java.lang.Object</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
