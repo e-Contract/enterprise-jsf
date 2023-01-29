@@ -1,0 +1,26 @@
+/*
+ * Enterprise JSF project.
+ *
+ * Copyright 2022-2023 e-Contract.be BV. All rights reserved.
+ * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+ */
+
+.output-boolean {
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px solid;
+    display: inline-block;
+    margin: 1px;
+}
+
+.output-boolean-true {
+    color: green;
+    background-color: greenyellow;
+    border-color: green;
+}
+
+.output-boolean-false {
+    color: red;
+    background-color: lightpink;
+    border-color: red;
+}

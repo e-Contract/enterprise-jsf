@@ -44,4 +44,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Outputs a styled i18n boolean value.
+        </description>
+        <tag-name>outputBoolean</tag-name>
+        <component>
+            <component-type>ejsf.outputBoolean</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Boolean</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

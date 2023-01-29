@@ -4,4 +4,17 @@
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
               version="2.1">
 
+    <application>
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>en</supported-locale>
+            <supported-locale>nl</supported-locale>
+            <supported-locale>fr</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>be.e_contract.ejsf.Messages</base-name>
+            <var>ejsfMessages</var>
+        </resource-bundle>
+    </application>
+
 </faces-config>

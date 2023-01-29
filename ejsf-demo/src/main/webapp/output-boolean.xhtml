@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>Output Boolean Demo</title>
+    </h:head>
+    <h:body>
+        <h1>Output Boolean Demo</h1>
+        <ejsf:outputBoolean value="#{true}"/>
+        <ejsf:outputBoolean value="#{false}"/>
+        <h:form>
+            <h:panelGrid columns="1">
+                <p:button outcome="index" value="Back"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
