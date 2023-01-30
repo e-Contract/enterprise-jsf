@@ -171,4 +171,14 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Validator for OTP input.
+        </description>
+        <tag-name>otpValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.otpValidator</validator-id>
+        </validator>
+    </tag>
+
 </facelet-taglib>
