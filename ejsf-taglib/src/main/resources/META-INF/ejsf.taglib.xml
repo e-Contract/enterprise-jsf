@@ -181,4 +181,29 @@
         </validator>
     </tag>
 
+    <tag>
+        <description>
+            Inline translation.
+        </description>
+        <tag-name>inlineTranslation</tag-name>
+        <component>
+            <component-type>ejsf.inlineTranslation</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <description>
+            Translation.
+        </description>
+        <tag-name>translation</tag-name>
+        <component>
+            <component-type>ejsf.translation</component-type>
+        </component>
+        <attribute>
+            <name>language</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
