@@ -126,4 +126,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Outputs the language in the language of the language.
+        </description>
+        <tag-name>outputLanguage</tag-name>
+        <component>
+            <component-type>ejsf.outputLanguage</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
