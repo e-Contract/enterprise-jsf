@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>Output Month Demo</title>
+    </h:head>
+    <h:body>
+        <h1>Output Month Demo</h1>
+        <h:form>
+            <h:panelGrid columns="1">
+                <ejsf:outputMonth value="#{0}"/>
+                <ejsf:outputMonth value="#{1}"/>
+                <ejsf:outputMonth value="#{11}"/>
+                <ejsf:outputMonth value="#{12}"/>
+                <ejsf:outputMonth value="#{13}"/>
+                <p:button outcome="index" value="Back"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>

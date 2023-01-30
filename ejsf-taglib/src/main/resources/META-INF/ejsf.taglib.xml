@@ -156,4 +156,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Outputs month.
+        </description>
+        <tag-name>outputMonth</tag-name>
+        <component>
+            <component-type>ejsf.outputMonth</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Integer</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
