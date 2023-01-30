@@ -26,6 +26,10 @@ public class OutputBooleanComponent extends UIOutput {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public OutputBooleanComponent() {
+        setRendererType(null);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

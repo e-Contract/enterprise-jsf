@@ -59,4 +59,20 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Validator for email addresses.
+        </description>
+        <tag-name>emailValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.emailValidator</validator-id>
+        </validator>
+        <attribute>
+            <description>Allows for multiple comma separated email addresses. Defaults to false.</description>
+            <name>allowMultiple</name>
+            <required>false</required>
+            <type>java.lang.Boolean</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
