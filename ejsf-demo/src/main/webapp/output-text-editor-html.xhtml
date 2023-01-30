@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>Output Text Editor HTML Demo</title>
+    </h:head>
+    <h:body>
+        <h1>Output Text Editor HTML Demo</h1>
+        <h:form>
+            <ejsf:outputTextEditorHtml value="#{outputTextEditorHtmlController.value}"/>
+            <h:panelGrid columns="1">
+                <p:button outcome="index" value="Back"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
