@@ -111,4 +111,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Output formatted bytes (KB, MB, GB).
+        </description>
+        <tag-name>outputBytes</tag-name>
+        <component>
+            <component-type>ejsf.outputBytes</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Long</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

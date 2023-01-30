@@ -7,26 +7,18 @@
 package be.e_contract.ejsf.output;
 
 import java.io.IOException;
-import javax.faces.application.ResourceDependencies;
-import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import org.apache.commons.io.FileUtils;
 
-@FacesComponent(OutputTextEditorHtmlComponent.COMPONENT_TYPE)
-@ResourceDependencies(value = {
-    @ResourceDependency(library = "primefaces", name = "texteditor/texteditor.css")
-})
-public class OutputTextEditorHtmlComponent extends UIOutput {
+@FacesComponent(OutputBytesComponent.COMPONENT_TYPE)
+public class OutputBytesComponent extends UIOutput {
 
-    public static final String COMPONENT_TYPE = "ejsf.outputTextEditorHtml";
+    public static final String COMPONENT_TYPE = "ejsf.outputBytes";
 
     public static final String COMPONENT_FAMILY = "ejsf";
-
-    public OutputTextEditorHtmlComponent() {
-        setRendererType(null);
-    }
 
     @Override
     public String getFamily() {
@@ -34,19 +26,17 @@ public class OutputTextEditorHtmlComponent extends UIOutput {
     }
 
     @Override
-    public void encodeEnd(FacesContext context) throws IOException {
+    public void encodeBegin(FacesContext context) throws IOException {
+        Long value = (Long) getValue();
+        if (null == value) {
+            return;
+        }
+        String formattedBytes = FileUtils.byteCountToDisplaySize(value);
         ResponseWriter responseWriter = context.getResponseWriter();
-
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
-        responseWriter.writeAttribute("class", "ql-editor", null);
-
-        Object value = getValue();
-        if (null != value) {
-            responseWriter.write(getValue().toString());
-        }
-
+        responseWriter.write(formattedBytes);
         responseWriter.endElement("span");
     }
 }
