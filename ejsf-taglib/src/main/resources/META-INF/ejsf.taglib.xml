@@ -75,4 +75,25 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Validator for URLs.
+        </description>
+        <tag-name>urlValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.urlValidator</validator-id>
+        </validator>
+        <attribute>
+            <name>allowLocalhost</name>
+            <required>false</required>
+            <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <description>Also allow for HTTP next to HTTPS. Defaults to false.</description>
+            <name>allowHttp</name>
+            <required>false</required>
+            <type>java.lang.Boolean</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
