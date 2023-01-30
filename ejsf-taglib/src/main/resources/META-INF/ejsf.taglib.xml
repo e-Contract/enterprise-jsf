@@ -206,4 +206,11 @@
         </attribute>
     </tag>
 
+    <tag>
+        <tag-name>closeDialog</tag-name>
+        <behavior>
+            <behavior-id>ejsf.closeDialog</behavior-id>
+        </behavior>
+    </tag>
+
 </facelet-taglib>
