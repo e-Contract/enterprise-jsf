@@ -213,4 +213,14 @@
         </behavior>
     </tag>
 
+    <tag>
+        <description>
+            Plain text validator.
+        </description>
+        <tag-name>plainTextValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.plainTextValidator</validator-id>
+        </validator>
+    </tag>
+
 </facelet-taglib>
