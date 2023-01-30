@@ -141,4 +141,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Validator for mobile numbers.
+        </description>
+        <tag-name>mobileNumberValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.mobileNumberValidator</validator-id>
+        </validator>
+        <attribute>
+            <name>defaultRegion</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

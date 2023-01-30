@@ -76,6 +76,11 @@
                 <artifactId>commons-validator</artifactId>
                 <version>1.7</version>
             </dependency>
+            <dependency>
+                <groupId>com.googlecode.libphonenumber</groupId>
+                <artifactId>libphonenumber</artifactId>
+                <version>8.13.5</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
