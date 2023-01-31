@@ -386,4 +386,17 @@
         </validator>
     </tag>
 
+    <tag>
+        <tag-name>geolocation</tag-name>
+        <component>
+            <component-type>ejsf.geolocationComponent</component-type>
+            <renderer-type>ejsf.geolocationRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
