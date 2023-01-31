@@ -267,4 +267,23 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Output Text with PrimeFaces widgetVar support.
+        </description>
+        <tag-name>outputText</tag-name>
+        <component>
+            <component-type>ejsf.outputText</component-type>
+            <renderer-type>ejsf.outputTextRenderer</renderer-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
