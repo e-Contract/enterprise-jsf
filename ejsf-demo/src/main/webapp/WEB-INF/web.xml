@@ -25,4 +25,13 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
 
+    <servlet>
+        <servlet-name>ClockSyncServlet</servlet-name>
+        <servlet-class>be.e_contract.ejsf.clocksync.ClockSyncServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClockSyncServlet</servlet-name>
+        <url-pattern>/clock</url-pattern>
+    </servlet-mapping>
+
 </web-app>

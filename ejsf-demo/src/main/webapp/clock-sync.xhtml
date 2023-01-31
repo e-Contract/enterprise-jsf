@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>Clock Sync Demo</title>
+    </h:head>
+    <h:body>
+        <h1>Clock Sync Demo</h1>
+        <h:form>
+            <ejsf:clockSync clockLocation="clock">
+                <ejsf:clockSyncListener action="#{clockSyncController.clockSynchronized}"/>
+            </ejsf:clockSync>
+            <h:panelGrid columns="1">
+                <p:button outcome="index" value="Back"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>

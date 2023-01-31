@@ -321,4 +321,59 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Clock synchronization component.
+        </description>
+        <tag-name>clockSync</tag-name>
+        <component>
+            <component-type>ejsf.clockSync</component-type>
+            <renderer-type>ejsf.clockSyncRenderer</renderer-type>
+        </component>
+        <attribute>
+            <name>clockLocation</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Number of attempts to synchronize the clock.</description>
+            <name>syncCount</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The accepted round trip delay in milliseconds for synchronization.</description>
+            <name>acceptedRoundTripDelay</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The maximum clock drift in milliseconds to consider us out-of-sync.</description>
+            <name>maximumClockDrift</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>Set to true to periodically generate an HTTP session keep alive ping.</description>
+            <name>sessionKeepAlivePing</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>Adds a listener for be.e_contract.ejsf.clocksync.ClockSyncEvent JSF events.</description>
+        <tag-name>clockSyncListener</tag-name>
+        <component>
+            <component-type>ejsf.clockSyncListener</component-type>
+            <handler-class>be.e_contract.ejsf.clocksync.ClockSyncListenerTagHandler</handler-class>
+        </component>
+        <attribute>
+            <description>The listener method to invoke.</description>
+            <name>action</name>
+            <required>true</required>
+            <type>javax.el.MethodExpression</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
