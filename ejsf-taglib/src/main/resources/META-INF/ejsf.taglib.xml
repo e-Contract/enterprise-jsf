@@ -244,4 +244,27 @@
         </attribute>
     </tag>
 
+    <tag>
+        <tag-name>matomoTracking</tag-name>
+        <component>
+            <component-type>ejsf.matomoTrackingComponent</component-type>
+            <renderer-type>ejsf.matomoTrackingRenderer</renderer-type>
+        </component>
+        <attribute>
+            <name>enableTracking</name>
+            <required>true</required>
+            <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <name>matomoUrl</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>siteId</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

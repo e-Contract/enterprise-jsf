@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>Matomo Tracking Demo</title>
+    </h:head>
+    <h:body>
+        <h1>Matomo Tracking Demo</h1>
+        <h:form>
+            <ejsf:matomoTracking enableTracking="#{matomoTrackingController.enableTracking}"
+                                 matomoUrl="#{matomoTrackingController.matomoUrl}"
+                                 siteId="#{matomoTrackingController.siteId}"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel for="enableTracking" value="Enable Tracking:"/>
+                <p:selectBooleanCheckbox id="enableTracking" value="#{matomoTrackingController.enableTracking}"/>
+
+                <p:outputLabel for="matomoUrl" value="Matomo URL:"/>
+                <p:inputText id="matomoUrl" value="#{matomoTrackingController.matomoUrl}"/>
+
+                <p:outputLabel for="siteId" value="Site ID:"/>
+                <p:inputText id="siteId" value="#{matomoTrackingController.siteId}"/>
+            </h:panelGrid>
+            <p:commandButton value="Update" update="@form"/>
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="1">
+                <p:button outcome="index" value="Back"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
