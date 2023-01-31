@@ -22,14 +22,16 @@ import javax.faces.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@FacesValidator("ejsf.mobileNumberValidator")
-public class MobileNumberValidator implements Validator, StateHolder {
+@FacesValidator("ejsf.phoneNumberValidator")
+public class PhoneNumberValidator implements Validator, StateHolder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MobileNumberValidator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhoneNumberValidator.class);
 
     private boolean _transient;
 
     private String defaultRegion;
+
+    private String phoneNumberType;
 
     public String getDefaultRegion() {
         return this.defaultRegion;
@@ -37,6 +39,14 @@ public class MobileNumberValidator implements Validator, StateHolder {
 
     public void setDefaultRegion(String defaultRegion) {
         this.defaultRegion = defaultRegion;
+    }
+
+    public String getPhoneNumberType() {
+        return this.phoneNumberType;
+    }
+
+    public void setPhoneNumberType(String phoneNumberType) {
+        this.phoneNumberType = phoneNumberType;
     }
 
     @Override
@@ -48,7 +58,7 @@ public class MobileNumberValidator implements Validator, StateHolder {
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         try {
             Phonenumber.PhoneNumber phoneNumber = phoneUtil.parseAndKeepRawInput((String) value, this.defaultRegion);
-            boolean validNumber = phoneUtil.isPossibleNumberForType(phoneNumber, PhoneNumberUtil.PhoneNumberType.MOBILE);
+            boolean validNumber = phoneUtil.isPossibleNumberForType(phoneNumber, PhoneNumberUtil.PhoneNumberType.valueOf(this.phoneNumberType));
             if (!validNumber) {
                 Application application = facesContext.getApplication();
                 ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
@@ -73,7 +83,7 @@ public class MobileNumberValidator implements Validator, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
-        return new Object[]{this.defaultRegion};
+        return new Object[]{this.defaultRegion, this.phoneNumberType};
     }
 
     @Override
@@ -89,6 +99,7 @@ public class MobileNumberValidator implements Validator, StateHolder {
             return;
         }
         this.defaultRegion = (String) stateObjects[0];
+        this.phoneNumberType = (String) stateObjects[1];
     }
 
     @Override

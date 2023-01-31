@@ -4,20 +4,21 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ejsf="urn:be:e-contract:ejsf">
     <h:head>
-        <title>Mobile Number Validator Demo</title>
+        <title>Phone Number Validator Demo</title>
     </h:head>
     <h:body>
-        <h1>Mobile Number Validator Demo</h1>
+        <h1>Phone Number Validator Demo</h1>
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="mobileNumber" value="Mobile Number:"/>
                 <p:inputText id="mobileNumber" value="#{inputOutputController.value}">
-                    <ejsf:mobileNumberValidator defaultRegion="BE"/>
+                    <ejsf:phoneNumberValidator defaultRegion="BE"
+                                               phoneNumberType="MOBILE"/>
                 </p:inputText>
                 <p:message for="mobileNumber"/>
             </h:panelGrid>
             <h:panelGrid columns="1">
-                Submitted mobile number is: #{inputOutputController.value}
+                Submitted phone number is: #{inputOutputController.value}
             </h:panelGrid>
             <h:panelGrid columns="1">
                 <p:commandButton value="Submit" update="@form"/>
