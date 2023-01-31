@@ -223,4 +223,25 @@
         </validator>
     </tag>
 
+    <tag>
+        <description>
+            Outputs the localized version of the day of week (full stand-alone text)
+        </description>
+        <tag-name>outputDayOfWeek</tag-name>
+        <component>
+            <component-type>ejsf.outputDayOfWeek</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.time.DayOfWeek</type>
+        </attribute>
+        <attribute>
+            <description>Style class of the main container element.</description>
+            <name>styleClass</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
