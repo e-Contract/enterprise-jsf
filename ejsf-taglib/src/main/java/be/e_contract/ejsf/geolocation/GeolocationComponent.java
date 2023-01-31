@@ -10,6 +10,7 @@ import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.event.FacesListener;
 import org.primefaces.component.api.Widget;
 
 @FacesComponent(GeolocationComponent.COMPONENT_TYPE)
@@ -28,5 +29,15 @@ public class GeolocationComponent extends UIComponentBase implements Widget {
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;
+    }
+
+    public void addGeolocationEventListener(GeolocationEventListener listener) {
+        FacesListener[] facesListeners = getFacesListeners(GeolocationEventListener.class);
+        for (FacesListener existingFacesListener : facesListeners) {
+            if (existingFacesListener == listener) {
+                return;
+            }
+        }
+        addFacesListener(listener);
     }
 }

@@ -9,8 +9,11 @@
     <h:body>
         <h1>Geolocation Demo</h1>
         <h:form>
-            <ejsf:geolocation/>
+            <ejsf:geolocation widgetVar="geolocation">
+                <ejsf:geolocationListener action="#{geolocationController.handleEvent}"/>
+            </ejsf:geolocation>
             <h:panelGrid columns="1">
+                <p:commandButton oncomplete="PF('geolocation').currentPosition()" value="Get Current Position"/>
                 <p:button outcome="index" value="Back"/>
             </h:panelGrid>
         </h:form>

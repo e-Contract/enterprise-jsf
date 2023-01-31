@@ -8,5 +8,52 @@
 PrimeFaces.widget.EJSFGeolocation = PrimeFaces.widget.BaseWidget.extend({
     init: function (cfg) {
         this._super(cfg);
+    },
+
+    currentPosition: function () {
+        let $this = this;
+        navigator.geolocation.getCurrentPosition(function (position) {
+            $this.onSuccess(position);
+        }, function (error) {
+            $this.onError(error);
+        });
+    },
+
+    onSuccess: function (position) {
+        let coords = position.coords;
+        console.log("latitude: " + coords.latitude);
+        console.log("longitude: " + coords.longitude);
+        console.log("accuracy: " + coords.accuracy);
+        console.log(this);
+        let options = {
+            source: this.id,
+            process: this.id,
+            async: true,
+            global: false,
+            params: [
+                {
+                    name: this.id + '_latitude',
+                    value: coords.latitude
+                },
+                {
+                    name: this.id + '_longitude',
+                    value: coords.longitude
+                },
+                {
+                    name: this.id + '_accuracy',
+                    value: coords.accuracy
+                }
+            ],
+            oncomplete: function (xhr, status, args, data) {
+                console.log("ajax call completed");
+            }
+        };
+        PrimeFaces.ajax.Request.handle(options);
+    },
+
+    onError: function (error) {
+        console.log("error code: " + error.code);
+        console.log("error message: " + error.message);
+        console.log(this);
     }
 });

@@ -7,7 +7,10 @@
 package be.e_contract.ejsf.geolocation;
 
 import java.io.IOException;
+import java.util.Map;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.render.FacesRenderer;
 import org.primefaces.renderkit.CoreRenderer;
@@ -29,5 +32,40 @@ public class GeolocationRenderer extends CoreRenderer {
         WidgetBuilder widgetBuilder = getWidgetBuilder(context);
         widgetBuilder.init("EJSFGeolocation", trackingComponent);
         widgetBuilder.finish();
+    }
+
+    @Override
+    public void decode(FacesContext context, UIComponent component) {
+        LOGGER.debug("decode");
+        GeolocationComponent geolocationComponent = (GeolocationComponent) component;
+        ExternalContext externalContext = context.getExternalContext();
+        Map<String, String> requestParameterMap = externalContext.getRequestParameterMap();
+        String clientId = component.getClientId(context);
+        if (!requestParameterMap.containsKey(clientId)) {
+            return;
+        }
+
+        String latitudeParam = requestParameterMap.get(clientId + "_latitude");
+        if (UIInput.isEmpty(latitudeParam)) {
+            LOGGER.warn("missing latitude parameter");
+            return;
+        }
+        double latitude = Double.parseDouble(latitudeParam);
+
+        String longitudeParam = requestParameterMap.get(clientId + "_longitude");
+        if (UIInput.isEmpty(longitudeParam)) {
+            LOGGER.warn("missing longitude parameter");
+            return;
+        }
+        double longitude = Double.parseDouble(longitudeParam);
+
+        String accuracyParam = requestParameterMap.get(clientId + "_accuracy");
+        if (UIInput.isEmpty(accuracyParam)) {
+            LOGGER.warn("missing accuracy parameter");
+            return;
+        }
+        double accuracy = Double.parseDouble(accuracyParam);
+        LOGGER.debug("queueing event: GeolocationEvent {} {} {}", latitude, longitude, accuracy);
+        geolocationComponent.queueEvent(new GeolocationEvent(component, latitude, longitude, accuracy));
     }
 }
