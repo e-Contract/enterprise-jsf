@@ -376,4 +376,14 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Validator for XML input.
+        </description>
+        <tag-name>xmlValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.xmlValidator</validator-id>
+        </validator>
+    </tag>
+
 </facelet-taglib>
