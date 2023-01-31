@@ -292,4 +292,33 @@
         </attribute>
     </tag>
 
+    <tag>
+        <tag-name>dictionary</tag-name>
+        <component>
+            <component-type>ejsf.dictionaryComponent</component-type>
+            <renderer-type>ejsf.dictionaryRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <tag-name>dictionaryEntry</tag-name>
+        <handler-class>be.e_contract.ejsf.dictionary.DictionaryEntryTagHandler</handler-class>
+        <attribute>
+            <name>key</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>Dictionary Demo</title>
+    </h:head>
+    <h:body>
+        <h1>Dictionary Demo</h1>
+        <ejsf:dictionary widgetVar="dictionary">
+            <ejsf:dictionaryEntry key="label1" value="Some message {0}."/>
+        </ejsf:dictionary>
+        <ejsf:outputText widgetVar="outputText"/>
+        <h:form>
+            <p:commandButton oncomplete="PF('outputText').setValue(PF('dictionary').getFormattedMessage('label1', 'hello world'))"
+                             value="Client-side API call"/>
+            <h:panelGrid columns="1">
+                <p:button outcome="index" value="Back"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
