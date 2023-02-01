@@ -46,12 +46,12 @@ public class GeolocationComponent extends UIComponentBase implements Widget, Cli
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(GeolocationAjaxBehaviorEvent.NAME);
+        return Arrays.asList(GeolocationPositionEvent.NAME, GeolocationErrorEvent.NAME);
     }
 
     @Override
     public String getDefaultEventName() {
-        return GeolocationAjaxBehaviorEvent.NAME;
+        return GeolocationPositionEvent.NAME;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class GeolocationComponent extends UIComponentBase implements Widget, Cli
             final String eventName = requestParameterMap.get(Constants.RequestParams.PARTIAL_BEHAVIOR_EVENT_PARAM);
             final String clientId = getClientId(facesContext);
             final AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) facesEvent;
-            if (GeolocationAjaxBehaviorEvent.NAME.equals(eventName)) {
+            if (GeolocationPositionEvent.NAME.equals(eventName)) {
                 String latitudeParam = requestParameterMap.get(clientId + "_latitude");
                 if (UIInput.isEmpty(latitudeParam)) {
                     LOGGER.warn("missing latitude parameter");
@@ -116,12 +116,20 @@ public class GeolocationComponent extends UIComponentBase implements Widget, Cli
                 }
                 double accuracy = Double.parseDouble(accuracyParam);
 
-                final GeolocationAjaxBehaviorEvent geolocationAjaxBehaviorEvent
-                        = new GeolocationAjaxBehaviorEvent(this, behaviorEvent.getBehavior(),
+                GeolocationPositionEvent geolocationPositionEvent
+                        = new GeolocationPositionEvent(this, behaviorEvent.getBehavior(),
                                 latitude, longitude, accuracy);
-                geolocationAjaxBehaviorEvent.setPhaseId(facesEvent.getPhaseId());
-                super.queueEvent(geolocationAjaxBehaviorEvent);
-
+                geolocationPositionEvent.setPhaseId(facesEvent.getPhaseId());
+                super.queueEvent(geolocationPositionEvent);
+                return;
+            }
+            if (GeolocationErrorEvent.NAME.equals(eventName)) {
+                String codeParam = requestParameterMap.get(clientId + "_error_code");
+                int code = Integer.parseInt(codeParam);
+                String message = requestParameterMap.get(clientId + "_error_message");
+                GeolocationErrorEvent geolocationErrorEvent = new GeolocationErrorEvent(this, behaviorEvent.getBehavior(), code, message);
+                geolocationErrorEvent.setPhaseId(facesEvent.getPhaseId());
+                super.queueEvent(geolocationErrorEvent);
                 return;
             }
         }

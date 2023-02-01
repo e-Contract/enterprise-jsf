@@ -21,11 +21,6 @@ PrimeFaces.widget.EJSFGeolocation = PrimeFaces.widget.BaseWidget.extend({
 
     onSuccess: function (position) {
         let coords = position.coords;
-        console.log("latitude: " + coords.latitude);
-        console.log("longitude: " + coords.longitude);
-        console.log("accuracy: " + coords.accuracy);
-        console.log(this);
-
         var options = {
             params: [
                 {
@@ -48,6 +43,18 @@ PrimeFaces.widget.EJSFGeolocation = PrimeFaces.widget.BaseWidget.extend({
     onError: function (error) {
         console.log("error code: " + error.code);
         console.log("error message: " + error.message);
-        console.log(this);
+        var options = {
+            params: [
+                {
+                    name: this.id + "_error_code",
+                    value: error.code
+                },
+                {
+                    name: this.id + "_error_message",
+                    value: error.message
+                }
+            ]
+        };
+        this.callBehavior("error", options);
     }
 });

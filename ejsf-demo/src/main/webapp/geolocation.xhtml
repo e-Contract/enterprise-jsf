@@ -8,9 +8,11 @@
     </h:head>
     <h:body>
         <h1>Geolocation Demo</h1>
+        <p:messages id="messages" globalOnly="true"/>
         <h:form>
             <ejsf:geolocation widgetVar="geolocation">
                 <p:ajax listener="#{geolocationController.handleEvent}" update="results"/>
+                <p:ajax event="error" update=":messages" listener="#{geolocationController.handleErrorEvent}"/>
             </ejsf:geolocation>
             <h:panelGrid columns="2" id="results">
                 <h:outputText value="Latitude:"/>

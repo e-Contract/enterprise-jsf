@@ -10,7 +10,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.Behavior;
 import org.primefaces.event.AbstractAjaxBehaviorEvent;
 
-public class GeolocationAjaxBehaviorEvent extends AbstractAjaxBehaviorEvent {
+public class GeolocationPositionEvent extends AbstractAjaxBehaviorEvent {
 
     public static final String NAME = "geolocation";
 
@@ -20,7 +20,7 @@ public class GeolocationAjaxBehaviorEvent extends AbstractAjaxBehaviorEvent {
 
     private final double accuracy;
 
-    public GeolocationAjaxBehaviorEvent(UIComponent component, Behavior behavior, double latitude, double longitude, double accuracy) {
+    public GeolocationPositionEvent(UIComponent component, Behavior behavior, double latitude, double longitude, double accuracy) {
         super(component, behavior);
         this.latitude = latitude;
         this.longitude = longitude;
