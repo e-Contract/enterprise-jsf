@@ -399,19 +399,4 @@
         </attribute>
     </tag>
 
-    <tag>
-        <description>Adds a listener for be.e_contract.ejsf.geolocation.GeolocationEvent JSF events.</description>
-        <tag-name>geolocationListener</tag-name>
-        <component>
-            <component-type>ejsf.geolocationListener</component-type>
-            <handler-class>be.e_contract.ejsf.geolocation.GeolocationListenerTagHandler</handler-class>
-        </component>
-        <attribute>
-            <description>The listener method to invoke.</description>
-            <name>action</name>
-            <required>true</required>
-            <type>javax.el.MethodExpression</type>
-        </attribute>
-    </tag>
-
 </facelet-taglib>

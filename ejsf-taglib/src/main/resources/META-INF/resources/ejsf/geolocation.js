@@ -25,30 +25,24 @@ PrimeFaces.widget.EJSFGeolocation = PrimeFaces.widget.BaseWidget.extend({
         console.log("longitude: " + coords.longitude);
         console.log("accuracy: " + coords.accuracy);
         console.log(this);
-        let options = {
-            source: this.id,
-            process: this.id,
-            async: true,
-            global: false,
+
+        var options = {
             params: [
                 {
-                    name: this.id + '_latitude',
+                    name: this.id + "_latitude",
                     value: coords.latitude
                 },
                 {
-                    name: this.id + '_longitude',
+                    name: this.id + "_longitude",
                     value: coords.longitude
                 },
                 {
-                    name: this.id + '_accuracy',
+                    name: this.id + "_accuracy",
                     value: coords.accuracy
                 }
-            ],
-            oncomplete: function (xhr, status, args, data) {
-                console.log("ajax call completed");
-            }
+            ]
         };
-        PrimeFaces.ajax.Request.handle(options);
+        this.callBehavior("geolocation", options);
     },
 
     onError: function (error) {

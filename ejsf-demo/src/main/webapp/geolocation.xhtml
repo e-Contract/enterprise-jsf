@@ -10,8 +10,18 @@
         <h1>Geolocation Demo</h1>
         <h:form>
             <ejsf:geolocation widgetVar="geolocation">
-                <ejsf:geolocationListener action="#{geolocationController.handleEvent}"/>
+                <p:ajax listener="#{geolocationController.handleEvent}" update="results"/>
             </ejsf:geolocation>
+            <h:panelGrid columns="2" id="results">
+                <h:outputText value="Latitude:"/>
+                <h:outputText value="#{geolocationController.latitude}"/>
+
+                <h:outputText value="Longitude:"/>
+                <h:outputText value="#{geolocationController.longitude}"/>
+
+                <h:outputText value="Accuracy:"/>
+                <h:outputText value="#{geolocationController.accuracy}"/>
+            </h:panelGrid>
             <h:panelGrid columns="1">
                 <p:commandButton oncomplete="PF('geolocation').currentPosition()" value="Get Current Position"/>
                 <p:button outcome="index" value="Back"/>

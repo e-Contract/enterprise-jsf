@@ -7,10 +7,12 @@
 package be.e_contract.ejsf.geolocation;
 
 import javax.faces.component.UIComponent;
-import javax.faces.event.FacesEvent;
-import javax.faces.event.FacesListener;
+import javax.faces.component.behavior.Behavior;
+import org.primefaces.event.AbstractAjaxBehaviorEvent;
 
-public class GeolocationEvent extends FacesEvent {
+public class GeolocationAjaxBehaviorEvent extends AbstractAjaxBehaviorEvent {
+
+    public static final String NAME = "geolocation";
 
     private final double latitude;
 
@@ -18,22 +20,11 @@ public class GeolocationEvent extends FacesEvent {
 
     private final double accuracy;
 
-    public GeolocationEvent(UIComponent component, double latitude, double longitude, double accuracy) {
-        super(component);
+    public GeolocationAjaxBehaviorEvent(UIComponent component, Behavior behavior, double latitude, double longitude, double accuracy) {
+        super(component, behavior);
         this.latitude = latitude;
         this.longitude = longitude;
         this.accuracy = accuracy;
-    }
-
-    @Override
-    public boolean isAppropriateListener(FacesListener listener) {
-        return (listener instanceof GeolocationEventListener);
-    }
-
-    @Override
-    public void processListener(FacesListener listener) {
-        GeolocationEventListener geolocationEventListener = (GeolocationEventListener) listener;
-        geolocationEventListener.processEvent(this);
     }
 
     public double getLatitude() {
