@@ -14,20 +14,24 @@ Notice the \texttt{jakarta} namespace prefix for the Java EE packages.
 
 Similarly, we have some namespace changes within our XHTML files as well.
 \lstinputlisting[language=XML]{../helloworld-ee10/war-ee10/src/main/webapp/index.xhtml}
+Notice the \texttt{jakarta.faces} XML namespace prefix for the JSF namespaces.
+
 And the updated web descriptor looks as follows:
 \lstinputlisting[language=XML]{../helloworld-ee10/war-ee10/src/main/webapp/WEB-INF/web.xml}
+Again \texttt{jakarta.faces} prefixes here.
+
 The CDI descriptor becomes:
 \lstinputlisting[language=XML]{../helloworld-ee10/war-ee10/src/main/webapp/WEB-INF/beans.xml}
 And the JSF descriptor becomes:
 \lstinputlisting[language=XML]{../helloworld-ee10/war-ee10/src/main/webapp/WEB-INF/faces-config.xml}
 
 Jakarta EE 10 is supported by WildFly version 27 and higher.
-Please notice that this requires Java 11 as JVM.
+This requires Java 11 as JVM.
 
-While converting from Java EE 8 towards Jakarta EE 10 is not a big deal for a single project, things are different for company-wide JSF component libraries.
+While converting from Java EE 8 towards Jakarta EE 10 is not a big deal for a single project, things are different for (company-wide) JSF component libraries.
 Since you will not be able to transition all your Java EE 8 projects at the same time, you need JSF component libraries that can support Java EE 8 in parallel with Jakarta EE 10.
 
-Luckily this can easily be achieved using the \texttt{maven-shade-plugin} as demonstrated within the following Maven POM.
+Luckily this can easily be achieved using the \texttt{maven-shade-plugin} Maven plugin as demonstrated within the following Maven POM.
 \lstinputlisting[language=XML]{../helloworld-ee10/taglib/pom.xml}
 Hence we keep producing a Java EE 8 JSF component library, and via the \texttt{maven-shade-plugin} Maven plugin we create a Jakarta EE 10 flavored version as well.
 Notice the usage of the \texttt{jakarta} artifact classifier here.

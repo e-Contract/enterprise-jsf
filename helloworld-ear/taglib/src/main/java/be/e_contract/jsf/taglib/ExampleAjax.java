@@ -21,6 +21,10 @@ public class ExampleAjax extends UIComponentBase implements ClientBehaviorHolder
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public ExampleAjax() {
+        setRendererType(null);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;
@@ -29,9 +33,6 @@ public class ExampleAjax extends UIComponentBase implements ClientBehaviorHolder
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         String clientId = super.getClientId(context);
-        ClientBehaviorContext behaviorContext
-                = ClientBehaviorContext.createClientBehaviorContext(
-                        context, this, "click", clientId, null);
 
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.startElement("button", this);
@@ -40,6 +41,9 @@ public class ExampleAjax extends UIComponentBase implements ClientBehaviorHolder
 
         Map<String, List<ClientBehavior>> behaviors = getClientBehaviors();
         if (behaviors.containsKey("click")) {
+            ClientBehaviorContext behaviorContext
+                    = ClientBehaviorContext.createClientBehaviorContext(
+                            context, this, "click", clientId, null);
             String click = behaviors.get("click").get(0).getScript(behaviorContext);
             responseWriter.writeAttribute("onclick", click, null);
         }

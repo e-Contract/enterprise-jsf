@@ -15,6 +15,10 @@ public class PanelGridComponent extends UIComponentBase {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public PanelGridComponent() {
+        setRendererType(null);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

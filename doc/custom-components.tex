@@ -1,9 +1,10 @@
 % Enterprise JSF project.
 %
-% Copyright 2022 e-Contract.be BV. All rights reserved.
+% Copyright 2022-2023 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Custom Components}
+Within the chapter we explain how to construct custom JSF components.
 
 \section{Tag Library}
 
@@ -20,11 +21,13 @@ we strongly advice to directly isolate this within a separate JAR file.
 Some reasons to do so:
 \begin{itemize}
 	\item Within larger teams, this allows developers to specialize and take responsibility over the custom JSF library.
-	\item Most application have multiple portals, and hence multiple WAR files. For example: an end-user portal and an administrative portal. A separate JSF library allows you to use the library within different WAR artifacts.
-	\item Directly isolating custom JSF components within their proper library makes it easier to later on propagate generic JSF components to for example a company-wide JSF library, or to push it even further towards open source.
+	Creating custom JSF components requires specific skills, that not all developers necessarily master.
+	\item Most application have multiple portals, and hence multiple WAR files. For example: an end-user portal and an administrative portal. A separate JSF library allows you to use the same library within different WAR artifacts.
+	\item Directly isolating custom JSF components within their proper library makes it easier to later on propagate generic JSF components to for example a company-wide JSF library, or to push it even further towards open source (for example PrimeFaces Extensions).
 \end{itemize}
 The Maven parent POM of our project looks as follows.
 \lstinputlisting[language=XML]{../helloworld-ear/pom.xml}
+Notice here that we defined the Java EE API as global dependency for all our modules.
 
 The Maven POM of our tag library JAR module looks as follows.
 \lstinputlisting[language=XML]{../helloworld-ear/taglib/pom.xml}
@@ -34,7 +37,7 @@ The Maven POM of our WAR module looks as follows.
 \begin{TIP}{Maven module naming}
 	As you can notice, we use as \texttt{groupId} of project modules the concatenation
 	of the \texttt{parent} \texttt{groupId} and \texttt{artifactId}.
-	This has the advantage of yielding a clean result when pushing the project towards a Maven repository.
+	This has the advantage of yielding a clean directory structure when pushing the project towards a Maven repository.
 	Hence every artifact produced by this project, can be found under the same directory structure within the Maven repository.
 \end{TIP}
 
@@ -43,13 +46,13 @@ The content of the WAR is similar to the initial example.
 The Maven POM of our deployable EAR module looks as follows.
 \lstinputlisting[language=XML]{../helloworld-ear/ear/pom.xml}
 
-The tag library itself is a regular JAR with some additional structure.
+The tag library itself is a regular JAR with a specific structure.
 The most important file here is our \texttt{src/main/resources/META-INF/ejsf.taglib.xml} tag library descriptor file:
 \lstinputlisting[language=XML,linerange=1-10]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 You can name this file anyway you want, as long as it ends with \texttt{.taglib.xml}.
-Please notice that the above \texttt{.taglib.xml} tag library descriptor file already contains some declarations of custom tags that we will define later on.
+Please notice that the above \texttt{.taglib.xml} tag library descriptor file already contains some declarations of custom tags that we will define later on (file not shown completely here).
 
-Compile the example via:
+You can compile the example as follows.
 \begin{lstlisting}[language=bash]
 	cd helloworld-ear
 	mvn clean install
@@ -61,7 +64,7 @@ Deploy the \texttt{helloworld-ear} EAR to the application server via:
 	mvn wildfly:deploy
 \end{lstlisting}
 
-Check out the deployed application within a web browser by navigating to:
+Check out the deployed application within a web browser by navigating to the following URL:
 
 http://localhost:8080/helloworld-ear/
 
@@ -73,15 +76,16 @@ We start off with our first custom JSF component, a validator.
 We register this custom validator within our \texttt{.taglib.xml} tag library descriptor.
 \lstinputlisting[language=XML,linerange=exampleValidator]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
-Example usage of our custom validator is given below.
+An example usage of our custom validator is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/validation.xhtml}
-Hence entering "foobar" as input will result in a JSF message being displayed.
+Hence entering "foobar" as input will result in a JSF error message being displayed.
 
 
 \subsection{Validator Parameters}
 Validators can also be parameterized so we can influence its behavior at runtime. 
-The custom JSF  validator with a parameter attribute looks as follows.
+A JSF  validator with a parameter attribute looks as follows.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ParameterValidator.java}
+This validator implements \texttt{StateHolder} to ensure that its state is correctly preserved over different requests.
 
 We register this custom validator within our \texttt{.taglib.xml} tag library descriptor.
 \lstinputlisting[language=XML,linerange=parameterValidator]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
@@ -90,12 +94,12 @@ Example usage of our custom validator is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/validation-parameter.xhtml}
 
 \section{Output Component}
-In this section we will construct our first "real" JSF component.
+In this section we construct our first "real" JSF component.
 This component simply outputs its value.
 The source code of our custom output JSF component is given below.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleOutput.java}
-Important here is to notice that we are setting the \texttt{id} attribute on our \texttt{span} HTML element to the value of client id.
-This is required so that the JSF AJAX Javascript code can find our JSF component during response updates.
+Important here is that we are setting the \texttt{id} attribute on our \texttt{span} HTML element to the value of client id.
+This is required so that the JSF AJAX Javascript code can find our JSF component during response updates within the rendered HTML.
 We also explicitly set the renderer type to \texttt{null} to prevent a warning when using Apache MyFaces \cite{myfaces} as JSF implementation.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
@@ -107,17 +111,18 @@ we prefer to use the classical XML descriptors for several reasons:
 \begin{itemize}
 	\item not everything can be declared via annotations.
 	\item XML descriptors allow you to isolate the documentation of a component from the implementation.
+	As not all developers are good technical writers, it can be very practical to have the component documentation separated from its implementation.
 	\item there is nothing wrong with XML, really.
 \end{itemize}
 \end{TIP}
 
 Example usage of our custom output JSF component is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/output.xhtml}
-Notice that we selectively update our custom output component via the \texttt{render="output"} attribute on \texttt{f:ajax}.
+Notice that we selectively update our custom output component via the \texttt{render="output"} attribute on the \texttt{f:ajax} tag.
 
 \subsection{Output Component with Style}
 
-In this example, we will create an output component that has been styled via a CSS file.
+In this example, we create an output component that has been styled via a CSS file.
 Suppose we have an enumerate, which we want to visualize using different colors.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleEnum.java}
 
@@ -147,10 +152,12 @@ Source code of our custom input JSF component is given below:
 Notice again that we put an explicit \texttt{id} attribute containing the client id on our HTML output element so JSF AJAX updates can locate our component.
 
 Our \texttt{input} element has a \texttt{name} attribute used to locate the request parameter during the \texttt{decode} phase.
+Obviously the attribute value has to contain the client id.
 
 Notice the usage of \texttt{getSubmittedValue()} and \texttt{setSubmittedValue()} during encoding and decoding.
 The submitted value only gets propagated towards the actual value in case all input validators are happy.
 Upon an input validation error, the component keeps working on the submitted value.
+We also clear previous validation errors via \texttt{setValid(true)}.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
 \lstinputlisting[language=XML,linerange=exampleInput]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
@@ -159,12 +166,15 @@ Example usage of our custom input JSF component is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/input.xhtml}
 
 \section{Rendering Children}
-In this example, we demonstrate how to render your own children.
+In this example, we demonstrate how to render children of a component.
 We do this by constructing our own \texttt{panelGrid} component.
 The source code of this component is given below.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/PanelGridComponent.java}
+This component uses a custom attribute named "columns" to be able to define the number of columns to be rendered within the table.
+Notice the usage of the \texttt{StateHelper} to force JSF to keep track of the internal state of our component.
+This state is used during the JSF restore phase.
 Via the \texttt{true} return value of the \texttt{getRendersChildren} we indicate that we render our child components ourselves.
-This happens within the \texttt{encodeChildren} method, where we render each child component via \texttt{child.encodeAll}.
+Within the \texttt{encodeChildren} method we render each child component via \texttt{child.encodeAll}.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
 \lstinputlisting[language=XML,linerange=panelGrid]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
@@ -174,14 +184,15 @@ An example usage of our custom \texttt{panelGrid} component is given below.
 
 
 \section{AJAX Events}
-
+JSF components can trigger AJAX events that can be handled at the server-side.
+The following component demonstrates how to fire such AJAX event, and how to capture and process the AJAX call at the server-side.
 Source code of our custom JSF component that can fire AJAX events is given below:
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjax.java}
 Our component defines a \texttt{click} client-side event.
 Within \texttt{encodeBegin} we weave in this client behavior event via the \texttt{onclick} Javascript hook.
 At the server-side, we process our event within the \texttt{decode} method.
 Here we first check whether our \texttt{click} event is part of the incoming request.
-Next we verify whether it is really meant for our component, after which we delegate further decoding to the specific client behavior.
+Next we verify whether it is really meant for our component by checking the client id, after which we delegate further decoding to the specific client behavior.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
 \lstinputlisting[language=XML,linerange=exampleAjax]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
@@ -194,7 +205,7 @@ With the corresponding CDI controller:
 
 \subsection{Custom AJAX Events}
 
-One can also create custom AJAX Events that can contain component specific parameters.
+One can also create custom AJAX events that contain component specific parameters.
 For example,
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjaxBehaviorEvent.java}
 
@@ -244,15 +255,19 @@ Example usage of this custom client behavior is given below.
 The custom client behavior source code,
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/behavior/ExampleClientBehavior.java}
 
-The corresponding renderer:
+The corresponding client behavior renderer:
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/behavior/ExampleClientBehaviorRenderer.java}
+This renderer simply attaches its Javascript method invocation.
 
-The tag handler:
+Via a tag handler we weave in our client behavior into its parent component.
+The source code of the tag handler looks as follows.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/behavior/ExampleClientBehaviorTagHandler.java}
 Important here is to instantiate the custom behavior via \texttt{application.createBehavior} to ensure that the \texttt{@ResourceDependency} annotations on the renderer are interpreted by JSF.
+We simply attach our behavior to the "mouseover" and "mouseout" client events.
 
 The \texttt{example-client-behavior.js} JavaScript resource:
 \lstinputlisting[language=Javascript]{../helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-client-behavior.js}
+Since we use only a single client-side event method, we have to distinguish between the two event types within our event method itself.
 
 The \texttt{example-client-behavior.css} CSS resource:
 \lstinputlisting[language=CSS]{../helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-client-behavior.css}
@@ -262,26 +277,33 @@ We register this custom component within our \texttt{.taglib.xml} tag library de
 
 \section{Composites}
 JSF also allows us to define component entirely within XHTML.
-An example composite components \texttt{exampleComposite.xhtml} is given below.
+Such components are called composite components, as they are basically a composition of already existing JSF components.
+An example composite component \texttt{exampleComposite.xhtml} is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/exampleComposite.xhtml}
 Important here is to put a proper \texttt{id} attribute with \texttt{cc.clientId} value so the JSF AJAX updates can locate our composite component.
+When defining composite components, always pay special attention to provide a complete and correct \texttt{cc:interface} descriptor.
+Thay way your IDE can give you nice hints about the parametrization of your composite component.
 
 Example usage of our composite component is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/composite.xhtml}
 
 \subsection{Backing Component}
-A composite component can also be further enhanced using a backing component.
+A composite component can be further enhanced using a backing component.
 We demonstrate such construct within the following example.
 This composite component allows us to input a period (days and hours).
 The \texttt{inputPeriod.xhtml} composite component XHTML source is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/inputPeriod.xhtml}
 Via the \texttt{componentType} attribute we refer to the backing component.
 Using the \texttt{binding} attribute we bind JSF components to our backing component.
+Via the \texttt{cc} expression language variable we can access properties sand methods of our backing component.
 
 The corresponding backing component source code is given below.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleBackingComponent.java}
-Notice here to setup of both \texttt{encodeBegin} and \texttt{processDecodes} methods.
+Notice here the setup of both \texttt{encodeBegin} and \texttt{processDecodes} methods.
 We have to correctly handle the value of submitted value here to ensure that input validations on our composite component use the correct intermediate value at all times. E.g., if an input validation occurs on value "xyz", an update of our component should still display "xyz".
+Within \texttt{encodeBegin} we first update our child components using the submitted value, or if no submitted value is available, with the actual value.
+Next we continue the rendering of our child components via \texttt{super.encodeBegin}.
+Similarly within \texttt{processDecodes} we first decode our child components via \texttt{super.processDecodes}, and next we calculate our submitted value based on the submitted values of our child components.
 
 Example usage of our composite component with backing component is given below:
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/composite-input.xhtml}
@@ -294,22 +316,26 @@ The source code of our \texttt{panel.xhtml} composite component is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/panel.xhtml}
 Notice that we have to declare our custom facet, named \texttt{footer},
 via the \texttt{cc:facet} element within the \texttt{cc:interface} section of our composite component.
-Notice that the panel footer is only rendered when the \texttt{footer} facet has been set.
+The panel footer is only rendered when the \texttt{footer} facet has been set.
+Via \texttt{cc:insertChildren} we obviously insert our children within our composite component rendering lifecycle.
 
-The corresponding CSS resource file is given below.
+The corresponding CSS resource file \texttt{panel.css} is given below.
 \lstinputlisting[language=CSS]{../helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/panel.css}
 
 An example usage of our panel composite component is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/composite-panel.xhtml}
 
 \section{Value Expressions}
+\begin{TODO}{TODO}
+	Write me.
+\end{TODO}
 
 \section{Method Expressions}
-The demonstrate the usage of \texttt{MethodExpression} we construct a custom \texttt{Converter}.
+To demonstrate the usage of \texttt{MethodExpression} we construct a custom \texttt{Converter}.
 The source code of our custom converter is given below.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/converter/GenericConverter.java}
-This custom \texttt{Converter} simply delegates its method implementations towards method expressions.
-Notice that we implement the \texttt{StateHolder} interface to ensure that the state of our converter gets properly saved and recovered.
+This custom \texttt{Converter} simply delegates its \texttt{getAsObject} and \texttt{getAsString} method implementations towards method expressions.
+We implement the \texttt{StateHolder} interface to ensure that the state of our converter gets properly saved and recovered.
 
 Via a tag handler we attach our custom converter to its input parent component.
 The source code of our tag handler is given below.
@@ -333,18 +359,22 @@ Imagine we have a list of objects, each object has its own type as shown in the 
 
 We now want to construct a component that is capable of inputting this dynamic typed value, as shown in the example below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/dynamic-input.xhtml}
+Depending on the actual type of the item, the \texttt{dynamicInput} component changes its rendering accordingly.
 
 Our JSF component for this looks as follows.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/DynamicInputComponent.java}
 Via the \texttt{PostAddToViewEvent} event we add specific input components to the component tree within the \texttt{processEvent} method.
 Notice here that we add all possible input components here,  since at this point we don't know yet which exact type will be required at render/decode time.
-Via the \texttt{getRendersChildren} method we indicate that we will take care of rendering/decoding our children.
-And this is exactly what we do within the \texttt{encodeChildren} and \texttt{decode} methods where we delegate towards the appropriate child component.
+Via the \texttt{getRendersChildren} method we indicate that we take care of rendering/decoding our children.
+And this is exactly what we do within the \texttt{encodeChildren} and \texttt{decode} methods where we delegate towards the appropriate child component depending on the type.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
 \lstinputlisting[language=XML,linerange=dynamicInput]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
 \section{Facets}
+\begin{TODO}{TODO}
+	Write me.
+\end{TODO}
 
 \section{UIData}
 The source code of our custom \texttt{UIData} component is given below.
@@ -366,7 +396,7 @@ In this section we demonstrate how to add custom EL functions.
 In the following example we use our custom \texttt{gcd} function to calculate the greatest common divisor of two given numbers.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/custom-function.xhtml}
 
-This function is simply defined as a static function as shown below.
+This EL (expression language) function is simply defined as a static Java function as shown below.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/GreatestCommonDivisor.java}
 
 We register this custom function within our \texttt{.taglib.xml} tag library descriptor as follows.

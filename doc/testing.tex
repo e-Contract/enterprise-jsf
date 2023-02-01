@@ -7,7 +7,7 @@
 Within this chapter we investigate different strategies for testing out custom developed JSF components.
 
 \section{Unit Testing}
-Simple components like validators or converters, that don't really depend on the behavior of the JSF runtime, can be unit tested like we do with regular POJOs.
+Simple components like validators or converters, that don't really depend on the behavior of the JSF runtime, can be unit tested like we are used to do with regular POJOs.
 
 As example, we demonstrate the unit testing of the validator from Section \ref{sec:validator} \nameref{sec:validator} on page \pageref{sec:validator}.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleValidatorTest.java}
@@ -39,15 +39,18 @@ Only upon explicit activation of our \texttt{integration-tests} Maven profile,
 the Selenium integration tests will run as part of a Maven build.
 
 \subsection{PrimeFaces Selenium}
+\begin{TODO}{TODO}
+	Write me.
+\end{TODO}
 
 \section{Embedded Jetty}
-Next to testing against a full-blown Java EE application server, we can also use embedded containers to test out expected behavior of our Java EE custom developed components.
+Besides testing against a full-blown Java EE application server, we can also use embedded containers to test out expected behavior of our custom developed JSF components.
 Let us start easy here, and test out the following simple servlet.
 \lstinputlisting[language=Java]{../testing/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleServlet.java}
 
 We can now unit test the servlet via an embedded servlet container as shown in the following example.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleServletTest.java}
-Here we run Jetty \cite{jetty} as full servlet container.
+Here we run Jetty \cite{jetty} as embedded servlet container.
 Via Apache HttpClient \cite{httpclient} we test out the behavior of our servlet.
 
 \subsection{CDI}
@@ -64,9 +67,10 @@ We can now unit test the servlet via an embedded servlet container as shown in t
 
 \subsection{JSF}
 
-Next step is to enable JSF within our embedded servlet container.
+Next step is to enable a JSF runtime within our embedded servlet container.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleJSFServletTest.java}
 
 \section{Jetty and Selenium}
 Since we need to have the web browser for correct interpretation of possible Javascript, the final step is to combine our Jetty JSF runtime with Selenium.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/JettySeleniumTest.java}
+The \texttt{index.xhtml} JSF page is the one given at the beginning of this chapter.

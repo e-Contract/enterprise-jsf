@@ -6,20 +6,21 @@
 \chapter{Introduction}
 
 Within this chapter we give a brief overview of JSF \cite{JSF23}.
-We will not cover every feature of JSF but just enough to get you started.
-See \nameref{chap:references} on page \pageref{chap:references} if you are looking for more in-depth material.
+We will not review every feature of JSF but just enough to get you started.
+Please check out the \nameref{chap:references} on page \pageref{chap:references} if you are looking for more in-depth material.
 
 \section{Why JSF?}
 JSF evolved quite naturally from plain servlets, over JSP and such towards where we are today.
 Looking at the most simple servlet that can handle input and output,
 \lstinputlisting[language=Java]{../helloworld/src/main/java/be/e_contract/jsf/helloworld/HelloServlet.java}
-you immediately see that the manual construction of the HTML content from within Java itself is rather painful.
-Next to that, this simple example also managed to bring us a lovely XSS vulnerability within its 15 something lines of code.
+you immediately notice that the manual construction of the HTML content from within Java itself is rather painful.
+Next to that, this simple example also manages to bring us a lovely XSS vulnerability within its 15 something lines of code.
 
 Hence template language frameworks and such were invented, up to the point where JSF is today.
 
 
 \section{Basic Project Structure}
+Let us start with the classic "hello world" using JSF technology.
 Within our example code, we use Maven as build system.
 
 \begin{ClownComputing}{Maven versus Gradle}
@@ -27,18 +28,18 @@ Within our example code, we use Maven as build system.
 	Some argue that Maven, due to its strict declarative nature, is more restrictive than for example Gradle.
 	This is indeed true, and exactly the reason to pick Maven over other build systems.
 	With Maven, every project looks exactly the same, leaving no room for developer-look-how-intelligent-I-am toying.
-	This is a very important aspect when you have to manage a lot of projects.
+	This is a very important aspect when you have to manage a lot of projects within your organization.
 \end{ClownComputing}
 
 Our basic Maven \cite{ApacheMaven} \texttt{pom.xml} file looks as follows.
 \lstinputlisting[language=XML]{../helloworld/pom.xml}
-This Maven POM file will create a deployable WAR file, as indicated by the \texttt{package} element.
-Please notice that we stick with Java 8 \cite{GoslingJoyEtAl14} and Java EE 8 \cite{JavaEE8}.
+This Maven POM file will create a deployable WAR file, as indicated by the \texttt{packaging} element.
+Please notice that we stick with Java 8 \cite{GoslingJoyEtAl14} and Java EE 8 \cite{JavaEE8} for the moment.
 
 \begin{TIP}{XML schema location}
 	When working with XML files, like Maven POM files, do yourself a favor and always put proper \texttt{xsi:schemaLocation} metadata.
-	That way every IDE can give you hints about the expected elements.
-	This to avoid situation like we see with JSON or YAML, where you are left completely clueless about what to type unless your IDE knows exactly which schema it belongs to (if there is already one defined at least).
+	That way every IDE can give you hints about the expected elements even if your IDE has no explicit notion of Maven.
+	This to avoid situations like we see with JSON or YAML, where you are left completely clueless about what to type unless your IDE knows exactly which schema it belongs to (if there is already one defined at least).
 \end{TIP}
 
 \begin{ClownComputing}{XML versus JSON/YAML}
@@ -52,28 +53,29 @@ This JSF page simply shows some text.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/web.xml}
-As indicated by the \texttt{version} attribute, we are using servlet container version 4.0, which is part of Java EE 8.
+Notice here that the JSF runtime actually lives within its own servlet, just like every other front-end technology within Java EE (JAX-WS, JAX-RS).
+As indicated by the \texttt{version} attribute, we are targeting servlet containers version 4.0, which is part of Java EE 8.
 \begin{TIP}{javax.faces.PROJECT\_STAGE}
 Please notice here that an explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
 For proper development, the web browser caching has to be disabled.
 \end{TIP}
 
-You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate:
+You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/faces-config.xml}
-As indicated by the \texttt{version} attribute, we are using JSF version 2.3, which is part of Java EE 8.
+As indicated by the \texttt{version} attribute, we are targeting JSF version 2.3, which is part of Java EE 8.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI \cite{CDI2}:
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/beans.xml}
 As indicated by the \texttt{version} attribute, we are using CDI version 2.0, which is part of Java EE 8.
 
-Compile the example project using Apache Maven via:
+You can compile the example project using Apache Maven via:
 \begin{lstlisting}[language=bash]
 cd helloworld
 mvn clean install
 \end{lstlisting}
 This will build a deployable Java EE WAR file.
 
-We will be using WildFly \cite{WildFly} as application server to host our example projects.
+We are using WildFly \cite{WildFly} as application server to host our example projects.
 Among all available compliant Java EE 8 application servers out there,
 WildFly/JBoss is by far the best one in terms of quality and manageability.
 
@@ -81,7 +83,7 @@ WildFly/JBoss is by far the best one in terms of quality and manageability.
 	Notice that WildFly version 26.1.3.Final is (for the moment) the latest version of WildFly that supports Java EE 8.
 	WildFly version 27 and higher only supports Jakarta EE 10.
 	Unfortunately Jakarta EE 10 is not compatible with Java EE 8 as some lawyers at Oracle decided that protecting the Java trademark was so important that the entire world has to change Java EE package prefixes from \texttt{javax} to \texttt{jakarta}.
-	It is actually unbelievable that a handful of lawyers caused such an artificial technological barrier.
+	It is actually unbelievable that a handful of lawyers caused such a disruptive artificial technological barrier.
 	Reminds me of a Radiohead lyric: When I am king
 	You will be first against the wall.
 \end{ClownComputing}
@@ -99,7 +101,7 @@ While you could start off with a lighter profile, this is most of the time point
 	Running a full application server indeed consumes more memory compared to some bootable JAR construct.
 	This is especially important if you are a cloud provider that wants to run/invoice as much customers on a given cloud capacity as possible.
 	But if you look at the price of memory, this is only a very small fraction of the cost compared to other aspects including the development cost of your application.
-	Of course, from the point-of-view of a cloud provider, memory consumption indeed yields a major constraint.
+	Of course, from the point-of-view of a cloud provider, memory consumption indeed is a major constraint.
 	Hence cloud providers go to great efforts to be able to reduce resource usage of applications.
 	Simply look at the sponsors of frameworks that provide microservices, serverless, bootable JARs, you name it,
 	and you end up with some cloud provider.
@@ -108,13 +110,13 @@ While you could start off with a lighter profile, this is most of the time point
 	Problem with monoliths for cloud providers is that they consume a lot of resources, and you can only invoice one thing per month.
 	A microservices architecture is much more interesting for a cloud provider: small applications that consume little resources,
 	and for each of them you can invoice separately.
-	The best clients here put every bytecode instruction within a separate microservice.
+	The best cloud customers here put every bytecode instruction within a separate microservice.
 	So you can have microservices like: add, sub, mul, div, and so on.
 	
 	Are monolithic applications really this bad?
 	When deploying an application, consisting of different let's name it "things", at some point you want atomicity.
 	You want your entire application to deploy, or nothing.
-	Of course at a certain point, you can break things down in separate deployable units so they can have different release cycles and can be assigned their own development team/responsible.
+	Of course at a certain point, you can break things down in separately deployable units so they can have different release cycles and can be assigned their own development team/responsible.
 	20 years ago we called this Service Oriented Architectures (SOA), years of buzz-wording later, we have microservices I guess.
 	Of course we had progress in some areas over all these years. Just to name one, which is for me a real game changer: Ansible.
 	
@@ -129,7 +131,7 @@ cd helloworld
 mvn wildfly:deploy
 \end{lstlisting}
 
-Check out the deployed application within a web browser by navigating to:
+Check out the deployed application with a web browser by navigating to:
 
 http://localhost:8080/helloworld-1.0.0-SNAPSHOT/
 
@@ -137,10 +139,10 @@ http://localhost:8080/helloworld-1.0.0-SNAPSHOT/
 
 The source code of our first CDI \cite{CDI2} bean \texttt{HelloWorldController.java} looks as follows.
 \lstinputlisting[language=Java]{../helloworld/src/main/java/be/e_contract/jsf/helloworld/HelloWorldController.java}
-Via the \texttt{@Named} annotation, we make our CDI bean available within the context of our JSF web application with a default naming.
+Via the \texttt{@Named} annotation, we make our CDI bean available within the context of our JSF web application with a default naming "\texttt{helloWorldController}".
 Notice the usage of the \texttt{@PostConstruct} annotation to initialize our CDI bean when its lifecycle starts.
 
-We can use this CDI bean within a JSF page as follows:
+We use this CDI bean within a JSF page as follows:
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/helloworld.xhtml}
 Notice how we access the \texttt{value} property of our CDI bean via the \texttt{\#\{...\}} expression.
 
@@ -148,7 +150,7 @@ Notice how we access the \texttt{value} property of our CDI bean via the \texttt
 	Although strictly speaking the controller within the classical MVC naming is the \texttt{FacesServlet}, and our CDI beans should be regarded as model,
 	we prefer an alternative naming here.
 	Since the \texttt{FacesServlet} JSF servlet completely operates behind the scene, we rather refer to our CDI beans as being the controllers,
-	and regard our business (transactional EJB) beans as being part of the model.
+	and regard our business (transactional EJB/CDI) beans as being the model.
 \end{TIP}
 
 \section{Basic Input/Output}
@@ -158,10 +160,11 @@ In this example we do some basic input and output.
 The CDI controller for this looks as follows:
 \lstinputlisting[language=Java]{../helloworld/src/main/java/be/e_contract/jsf/helloworld/InputOutputController.java}
 Notice the usage of the \texttt{@ViewScoped} annotation to control the lifecycle of our CDI bean within the context of the JSF page.
+This also requires our class to implement the \texttt{Serializable} interface.
 
 The JSF page demonstrating basic input/output using our CDI bean is given below:
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/input-output.xhtml}
-When we click on the \texttt{h:commandButton}, the entire page is being reloaded, with an updated value of course.
+When we click on the \texttt{h:commandButton}, the entire page is being reloaded, with an updated value reflecting the given input.
 
 
 \section{AJAX}
@@ -169,7 +172,7 @@ When we click on the \texttt{h:commandButton}, the entire page is being reloaded
 The reloading of the entire JSF page can be avoided by using AJAX as shown in the following example JSF page.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/ajax.xhtml}
 Via the \texttt{f:ajax} tag we enable AJAX on the \texttt{h:commandButton} component.
-The \texttt{execute} attribute instructs what has to be processed, while the \texttt{render} attributes defines what needs to be rendered again.
+The \texttt{execute} attribute instructs which components has to be processed, while the \texttt{render} attributes defines which components needs to be rendered again.
 
 
 \section{Page Actions}
@@ -191,30 +194,30 @@ Via the \texttt{mainForm:input} client identifier we explicitly target a JSF mes
 
 Enabling input validation on JSF input components is demonstrated in the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/validation.xhtml}
-Here you will get an error message when the length of the input is less than 4.
+Here you get an error message when the length of the input is less than 4.
 
 \section{CSS}
 
 Styling JSF can easily be done by attaching a CSS stylesheet as demonstrated within the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/css.xhtml}
 Via the \texttt{h:outputStylesheet} tag we can include our CSS stylesheet as part of the rendering of our JSF page.
-With the CSS resource file under
-
-\texttt{src/main/webapp/resources/css/style.css} containing:
+The CSS resource file under
+\texttt{src/main/webapp/resources/css/style.css} contains the following style:
 \lstinputlisting[language=CSS]{../helloworld/src/main/webapp/resources/css/style.css}
 Now JSF messages show up colored in red.
 
 \section{Data Iterators}
 
-JSF has several components to ease visualization of lists.
+JSF has several components to ease visualization of data lists.
 The following CDI controller holds a list of items that we want to visualize within a table on the JSF page.
 \lstinputlisting[language=Java]{../helloworld/src/main/java/be/e_contract/jsf/helloworld/DataController.java}
+Using a \texttt{@PostConstruct} method we initialize our list with some example data values.
 
 The JSF page uses a \texttt{h:dataTable} to visualize the list within a table as displayed below.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/datatable.xhtml}
 Notice here the variable \texttt{item} used to iterate over the different items within our list of items.
 Via the \texttt{f:facet} elements we can define various facets of JSF components.
-Here the \texttt{h:column} component will interpret the \texttt{header} facet as column header within the data table.
+Here the \texttt{h:column} component will interpret the facet named "\texttt{header}" as column header within the rendered data table.
 
 \section{Pass-through JSF}
 Jumping the HTML5 bandwagon hype, in JSF version 2.2 they introduced something call pass-through attributes.
@@ -222,24 +225,24 @@ The following example demonstrates the usage of this feature.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/pass-through.xhtml}
 As you can see, things are becoming so much clearer this way.\footnote{Irony intended.}
 Not only should you not forget to put \texttt{jsf:id} attributes,
-you also have to keep in mind to which actual JSF components the corresponding HTML5\footnote{Mentioning 5 here is important. Remember, you want to put 5 on your CV. 5 is good.} elements are being mapped internally.
+you also have to keep in mind to which actual JSF components the corresponding HTML5 elements are being mapped internally.
 
-The idea of this all is to being able to expose the full power of HTML5\footnote{Never forget to mention the 5 here.} to the developer.
+The idea of this all is to being able to expose the full power of HTML5 to the developer.
 To free the developer from using nicely encapsulated JSF components and to let him/her being able to go like as low-level as possible.
-This of course because since HTML5\footnote{Yes the 5.}, all web browsers suddenly react in a uniform manner.
+This of course because since HTML5, all web browsers suddenly react in a uniform manner.
 No more need for web browser specific tweaks are needed.
-After like 20 years of web browser specific tweaks and work-arounds, with HTML5\footnote{Yes ,again.}, they all behave in a standardized way.
+After like 20 years of web browser specific tweaks and work-arounds, with HTML5, they all behave in a standardized way.
 
 Some observations here:
 \begin{itemize}
 	\item Most developers are very lousy as web design/development. With HTML5 the options and possible solutions to a problem have only increased, making things even worse.
 	\item Applying a nice HTML5 design pattern to like 50 JSF pages is cool, until the point where your customer asks you to change that cool behavior to something else. Then you find yourself in the lovely position of having to revisit every JSF page on which you applied this cool HTML5 thingy.
-	If this cool HTML5 thingy would have been isolated within a custom JSF component, you would have to make changes to only one place.
+	If this cool HTML5 thingy would have been isolated within a custom JSF component, you would have to make changes to only one component.
 	\item Separation of concerns. Even if you find yourself in the position of being both a perfect developer and a good web designer, you still want to keep these things separate as much as possible.
 	Over time, I learned that most people can only attack one problem at a time.
-	For example, you have the implement a new business functionality that will require some new technology (web sockets to name one).
+	For example, you have to implement a new business functionality that will require some new technology (web sockets to name one).
 	How do you tackle this problem? Right, you first investigate on the technology, so you know what you can express/achieve with it.
-	And then, in a second phase, you taclke the business problem with it.
+	And in a second phase, you taclke the business problem with this technological knowledge in mind.
 	
 	The same strategy applies to web design/behavior versus implementation of web functionality.
 	
@@ -252,7 +255,7 @@ Some observations here:
 	Every component technology, whether it is using server-side rendering or client-side rendering,
 	is subject to this problem.
 	You always have to investigate the renderer (unless there is good documentation of course)
-	to see which classes and/or CSS selectors you can use to fiddle with the look and feel of the component.
+	to see which style classes and/or CSS selectors you can use to fiddle with the look and feel of the component.
 	This is not much more painful for JSF than it is for other "modern" web frameworks out there.
 \end{itemize}
 
@@ -269,9 +272,10 @@ Actually, understanding the lifecycle of every type of container defined by Java
 This is the major different between regular Java and Java EE: lifecycle management of various "things" within some kind of container.
 Java EE defines several types of containers/runtimes:
 \begin{itemize}
-	\item Servlet Container
-	\item JAX-WS (runs within servlet container)
-	\item JSF (runs within servlet container)
+	\item Servlet Container, which serves as entry point within your (web) application.
+	\item JAX-WS (runs within the servlet container)
+	\item JAX-RS (runs within the servlet container)
+	\item JSF (runs within the servlet container)
 	\item CDI
 	\item EJB
 	\item JPA
@@ -304,7 +308,7 @@ Configure the WildFly logging within \texttt{standalone/configuration/standalone
 	</handlers>
 </logger>
 \end{lstlisting}
-After restarting the WildFly application server, you can now follow our log via:
+After restarting the WildFly application server, you can now follow the log via:
 \begin{lstlisting}[language=bash]
 	cd wildfly-26.1.3.Final/standalone/log
 	tail -F ejsf.log
@@ -312,7 +316,7 @@ After restarting the WildFly application server, you can now follow our log via:
 Within Figure \ref{fig:life-cycle} we visualized the JSF request lifecycle.
 \begin{figure}[htbp]
 	\begin{center}
-		\includegraphics[scale=0.7]{life-cycle}
+		\includegraphics[scale=0.8]{life-cycle}
 		\caption{JSF request lifecycle.}
 		\label{fig:life-cycle}
 	\end{center}
@@ -328,7 +332,7 @@ We give a description of each JSF phase.
 	\item[Process Validations]
 	During this phase, all convertors and validators are executed against the component local values.
 	\item[Update Model Values]
-	During this phase, the backing beans properties are updated with the components local values.
+	During this phase, the CDI backing beans properties are updated with the components local values.
 	\item[Invoke Application]
 	During this phase, all actions are executed.
 	\item[Render Response]
@@ -336,35 +340,35 @@ We give a description of each JSF phase.
 	The response state is also saved for subsequent access during the restore view phase.
 \end{description}
 Not every JSF request will walk through all these phases. For example, an initial JSF request will directly jump from \textbf{Restore View} to \textbf{Render Response} as there is no input to process.
-Similarly, when a validator fails during the \textbf{Process Validations} phase, we directly jump to \textbf{Render Response} as we don't want to process invalid input towards our backing beans.
+Similarly, when a validator fails during the \textbf{Process Validations} phase, we directly jump to the \textbf{Render Response} phase as we don't want to process invalid input towards our CDI backing beans.
 
 \section{Facelets Templates}
-JSF comes with a powerful template declaration language called facelets.
+JSF comes with a template declaration language called facelets.
 This allows us to define, for example, a common template used by all our JSF pages,
-giving us a common look and behavior.
+giving us a common look and feel.
 The following example template, located under \texttt{WEB-INF/template.xhtml},
 gives us a common header structure that also shows us global JSF messages right after the page title.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/template.xhtml}
 Via the \texttt{ui:insert} tags we define insertion points to be used by our actual JSF pages like shown in the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/facelets.xhtml}
 Notice how to refer to our template via the \texttt{ui:composition} \texttt{template} attribute.
-Via the \texttt{ui:define} tags, we materialize our template.
+Via the \texttt{ui:define} tags, we materialize our template with the actual content.
 
 The corresponding CDI backing controller is given below.
 \lstinputlisting[language=Java]{../helloworld/src/main/java/be/e_contract/jsf/helloworld/ExampleFaceletsController.java}
 
 \section{View Actions}
 When you want URLs that can be bookmarked, you have to use view parameters and view actions.
-The following JSF page demonstrates this.
+The following JSF page demonstrates this concept.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/view-action.xhtml}
 Within the \texttt{f:metadata} element we indicate the view parameters and view actions of our JSF page.
-The JSF page body demonstrates different ways on how to invoke this page with a view parameter.
+The JSF page demonstrates different ways on how to invoke this page with a view parameter.
 
 The corresponding CDI backing controller is given below.
 \lstinputlisting[language=Java]{../helloworld/src/main/java/be/e_contract/jsf/helloworld/ViewController.java}
 
 \section{Single Page Applications}
-Although JSF is not a Single Page Application framework, one can come to a point where a certain JSF page within your web application behaves as such.
+Although JSF is not a Single Page Application framework, one can create JSF pages that behave as such.
 For example, a page where you present some (JPA) entity that has a lot of different aspects, and hence a lot of different visual tabs.
 Such page will have a lot of AJAX based actions, and hence selective updates of this page.
 Important here is to avoid the temptation to put the entire page within one big \texttt{h:form} JSF form.
