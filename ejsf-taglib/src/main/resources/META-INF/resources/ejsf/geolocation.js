@@ -8,15 +8,30 @@
 PrimeFaces.widget.EJSFGeolocation = PrimeFaces.widget.BaseWidget.extend({
     init: function (cfg) {
         this._super(cfg);
+        if (typeof this.cfg.AUTO_START !== "undefined") {
+            if (this.cfg.AUTO_START === "true") {
+                this.currentPosition();
+            }
+        }
     },
 
     currentPosition: function () {
         let $this = this;
+        let options = {};
+        if (typeof this.cfg.MAXIMUM_AGE !== "undefined") {
+            options.maximumAge = parseInt(this.cfg.MAXIMUM_AGE);
+        }
+        if (typeof this.cfg.TIMEOUT !== "undefined") {
+            options.timeout = parseInt(this.cfg.TIMEOUT);
+        }
+        if (typeof this.cfg.HIGH_ACCURACY !== "undefined") {
+            options.enableHighAccuracy = this.cfg.HIGH_ACCURACY === "true";
+        }
         navigator.geolocation.getCurrentPosition(function (position) {
             $this.onSuccess(position);
         }, function (error) {
             $this.onError(error);
-        });
+        }, options);
     },
 
     onSuccess: function (position) {

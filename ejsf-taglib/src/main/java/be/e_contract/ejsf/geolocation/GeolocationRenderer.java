@@ -24,6 +24,10 @@ public class GeolocationRenderer extends CoreRenderer {
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(context);
         widgetBuilder.init("EJSFGeolocation", geolocationComponent);
+        widgetBuilder.attr("MAXIMUM_AGE", geolocationComponent.getMaximumAge());
+        widgetBuilder.attr("TIMEOUT", geolocationComponent.getTimeout());
+        widgetBuilder.attr("HIGH_ACCURACY", geolocationComponent.isEnableHighAccuracy());
+        widgetBuilder.attr("AUTO_START", geolocationComponent.isAutoStart());
         encodeClientBehaviors(context, geolocationComponent);
         widgetBuilder.finish();
     }

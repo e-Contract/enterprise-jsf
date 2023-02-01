@@ -397,6 +397,25 @@
             <name>widgetVar</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>maximum age in milliseconds of a possible cached position </description>
+            <name>maximumAge</name>
+            <type>java.lang.Long</type>
+        </attribute>
+        <attribute>
+            <description>the maximum length of time (in milliseconds) the device is allowed to take in order to return a position</description>
+            <name>timeout</name>
+            <type>java.lang.Long</type>
+        </attribute>
+        <attribute>
+            <name>enableHighAccuracy</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <description>Automatically start the geolocation.</description>
+            <name>autoStart</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>

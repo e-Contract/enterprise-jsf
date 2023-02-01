@@ -44,6 +44,45 @@ public class GeolocationComponent extends UIComponentBase implements Widget, Cli
         return COMPONENT_FAMILY;
     }
 
+    enum PropertyKeys {
+        maximumAge,
+        timeout,
+        enableHighAccuracy,
+        autoStart,
+    }
+
+    public Long getMaximumAge() {
+        return (Long) getStateHelper().eval(PropertyKeys.maximumAge, null);
+    }
+
+    public void setMaximumAge(Long maximumAge) {
+        getStateHelper().put(PropertyKeys.maximumAge, maximumAge);
+    }
+
+    public Long getTimeout() {
+        return (Long) getStateHelper().eval(PropertyKeys.timeout, null);
+    }
+
+    public void setTimeout(Long timeout) {
+        getStateHelper().put(PropertyKeys.timeout, timeout);
+    }
+
+    public boolean isEnableHighAccuracy() {
+        return (Boolean) getStateHelper().eval(PropertyKeys.enableHighAccuracy, false);
+    }
+
+    public void setEnableHighAccuracy(boolean enableHighAccuracy) {
+        getStateHelper().put(PropertyKeys.enableHighAccuracy, enableHighAccuracy);
+    }
+
+    public boolean isAutoStart() {
+        return (Boolean) getStateHelper().eval(PropertyKeys.autoStart, false);
+    }
+
+    public void setAutoStart(boolean autoStart) {
+        getStateHelper().put(PropertyKeys.autoStart, autoStart);
+    }
+
     @Override
     public Collection<String> getEventNames() {
         return Arrays.asList(GeolocationPositionEvent.NAME, GeolocationErrorEvent.NAME);

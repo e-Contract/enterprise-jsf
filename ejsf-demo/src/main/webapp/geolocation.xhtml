@@ -10,7 +10,7 @@
         <h1>Geolocation Demo</h1>
         <p:messages id="messages" globalOnly="true"/>
         <h:form>
-            <ejsf:geolocation widgetVar="geolocation">
+            <ejsf:geolocation widgetVar="geolocation" enableHighAccuracy="true" maximumAge="#{1000 * 60}">
                 <p:ajax listener="#{geolocationController.handleEvent}" update="results"/>
                 <p:ajax event="error" update=":messages" listener="#{geolocationController.handleErrorEvent}"/>
             </ejsf:geolocation>
