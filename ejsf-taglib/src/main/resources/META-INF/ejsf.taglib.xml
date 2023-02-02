@@ -362,21 +362,6 @@
     </tag>
 
     <tag>
-        <description>Adds a listener for be.e_contract.ejsf.clocksync.ClockSyncEvent JSF events.</description>
-        <tag-name>clockSyncListener</tag-name>
-        <component>
-            <component-type>ejsf.clockSyncListener</component-type>
-            <handler-class>be.e_contract.ejsf.clocksync.ClockSyncListenerTagHandler</handler-class>
-        </component>
-        <attribute>
-            <description>The listener method to invoke.</description>
-            <name>action</name>
-            <required>true</required>
-            <type>javax.el.MethodExpression</type>
-        </attribute>
-    </tag>
-
-    <tag>
         <description>
             Validator for XML input.
         </description>

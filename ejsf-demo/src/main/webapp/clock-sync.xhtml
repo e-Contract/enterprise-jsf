@@ -8,10 +8,19 @@
     </h:head>
     <h:body>
         <h1>Clock Sync Demo</h1>
+        <p:messages globalOnly="true" id="messages"/>
+        <ejsf:clockSync clockLocation="clock">
+            <p:ajax listener="#{clockSyncController.clockSynchronized}"
+                    update="messages,results"/>
+        </ejsf:clockSync>
+        <h:panelGrid columns="2" id="results">
+            <h:outputText value="Best round trip delay:"/>
+            <h:outputText value="#{clockSyncController.bestRoundTripDelay}"/>
+
+            <h:outputText value="Delta T:"/>
+            <h:outputText value="#{clockSyncController.deltaT}"/>
+        </h:panelGrid>
         <h:form>
-            <ejsf:clockSync clockLocation="clock">
-                <ejsf:clockSyncListener action="#{clockSyncController.clockSynchronized}"/>
-            </ejsf:clockSync>
             <h:panelGrid columns="1">
                 <p:button outcome="index" value="Back"/>
             </h:panelGrid>

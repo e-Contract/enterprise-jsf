@@ -25,9 +25,6 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
         }
     },
 
-    /**
-     * @private
-     */
     sync: function () {
         if (this.syncCount < this.cfg.SYNC_COUNT) {
             let $this = this;
@@ -53,23 +50,18 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
                         console.log("best round-trip delay: " + $this.bestRoundTripDelay + " ms");
                         console.log("corresponding dt: " + $this.dt + " ms");
                         let options = {
-                            source: $this.id,
-                            process: $this.id,
-                            async: true,
-                            global: false,
                             params: [
                                 {
-                                    name: $this.id + '_bestRoundTripDelay', value: $this.bestRoundTripDelay
+                                    name: $this.id + '_bestRoundTripDelay',
+                                    value: $this.bestRoundTripDelay
                                 },
                                 {
-                                    name: $this.id + '_deltaT', value: Math.round($this.dt)
+                                    name: $this.id + '_deltaT',
+                                    value: Math.round($this.dt)
                                 }
-                            ],
-                            oncomplete: function (xhr, status, args, data) {
-                                console.log("ajax call completed");
-                            }
+                            ]
                         };
-                        PrimeFaces.ajax.Request.handle(options);
+                        $this.callBehavior("sync", options);
                         $this.clockDriftCount = 0;
                     }
                 }
@@ -115,9 +107,6 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
         return bestRemainingMilliseconds;
     },
 
-    /**
-     * @private
-     */
     keepAlive: function () {
         console.log("keep alive ping");
         let xmlHttpRequest = new XMLHttpRequest();
