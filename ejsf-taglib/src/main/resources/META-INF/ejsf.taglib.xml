@@ -7,7 +7,7 @@
     <namespace>urn:be:e-contract:ejsf</namespace>
 
     <tag>
-        <description>Component to view the JBoss EAP log files.</description>
+        <description>Component to view the JBoss EAP log files. This requires proper configuration of ViewLogsResourceHandler and ejsf.viewLogs.REQUIRED_ROLE context-param.</description>
         <tag-name>viewLogs</tag-name>
         <component>
             <component-type>ejsf.viewLogsComponent</component-type>
@@ -16,7 +16,7 @@
 
     <tag>
         <description>
-            Outputs a value as currency
+            Outputs a value as currency.
         </description>
         <tag-name>outputCurrency</tag-name>
         <component>
@@ -84,6 +84,7 @@
             <validator-id>ejsf.urlValidator</validator-id>
         </validator>
         <attribute>
+            <description>Allow localhost URLs.</description>
             <name>allowLocalhost</name>
             <required>false</required>
             <type>java.lang.Boolean</type>
@@ -150,12 +151,13 @@
             <validator-id>ejsf.phoneNumberValidator</validator-id>
         </validator>
         <attribute>
+            <description>The default region. For example: BE.</description>
             <name>defaultRegion</name>
             <required>true</required>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>FIXED_LINE, MOBILE, FIXED_LINE_OR_MOBILE, TOLL_FREE, PREMIUM_RATE, SHARED_COST, VOIP, PERSONAL_NUMBER, PAGER, UAN, VOICEMAIL, UNKNOWN</description>
+            <description>The type of phone number. Possible values: FIXED_LINE, MOBILE, FIXED_LINE_OR_MOBILE, TOLL_FREE, PREMIUM_RATE, SHARED_COST, VOIP, PERSONAL_NUMBER, PAGER, UAN, VOICEMAIL, UNKNOWN</description>
             <name>phoneNumberType</name>
             <required>true</required>
             <type>java.lang.String</type>
@@ -199,13 +201,14 @@
 
     <tag>
         <description>
-            Translation.
+            Translation. Child of inlineTranslation.
         </description>
         <tag-name>translation</tag-name>
         <component>
             <component-type>ejsf.translation</component-type>
         </component>
         <attribute>
+            <description>The language of this specific translation. For example: nl.</description>
             <name>language</name>
             <required>true</required>
             <type>java.lang.String</type>
@@ -213,6 +216,7 @@
     </tag>
 
     <tag>
+        <description>Client-side behavior to close PrimeFaces dialogs.</description>
         <tag-name>closeDialog</tag-name>
         <behavior>
             <behavior-id>ejsf.closeDialog</behavior-id>
@@ -251,22 +255,26 @@
     </tag>
 
     <tag>
+        <description>Tracking component using Matomo.</description>
         <tag-name>matomoTracking</tag-name>
         <component>
             <component-type>ejsf.matomoTrackingComponent</component-type>
             <renderer-type>ejsf.matomoTrackingRenderer</renderer-type>
         </component>
         <attribute>
+            <description>Set to true to enable page visits tracking.</description>
             <name>enableTracking</name>
             <required>true</required>
             <type>java.lang.Boolean</type>
         </attribute>
         <attribute>
+            <description>The URL of the used Matomo instance.</description>
             <name>matomoUrl</name>
             <required>true</required>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The Matomo site id.</description>
             <name>siteId</name>
             <required>true</required>
             <type>java.lang.String</type>
@@ -293,6 +301,7 @@
     </tag>
 
     <tag>
+        <description>Client-side dictionary component. Useful to provide i18n support from within Javascripts.</description>
         <tag-name>dictionary</tag-name>
         <component>
             <component-type>ejsf.dictionaryComponent</component-type>
@@ -307,6 +316,7 @@
     </tag>
 
     <tag>
+        <description>An entry for the dictionary.</description>
         <tag-name>dictionaryEntry</tag-name>
         <handler-class>be.e_contract.ejsf.dictionary.DictionaryEntryTagHandler</handler-class>
         <attribute>
@@ -323,7 +333,7 @@
 
     <tag>
         <description>
-            Clock synchronization component.
+            Clock synchronization component. Requires proper configuration of the ClockSyncServlet within web.xml.
         </description>
         <tag-name>clockSync</tag-name>
         <component>
@@ -331,6 +341,7 @@
             <renderer-type>ejsf.clockSyncRenderer</renderer-type>
         </component>
         <attribute>
+            <description>The location of the ClockSyncServlet.</description>
             <name>clockLocation</name>
             <required>true</required>
             <type>java.lang.String</type>
@@ -372,6 +383,7 @@
     </tag>
 
     <tag>
+        <description>Component to provide geolocation.</description>
         <tag-name>geolocation</tag-name>
         <component>
             <component-type>ejsf.geolocationComponent</component-type>
