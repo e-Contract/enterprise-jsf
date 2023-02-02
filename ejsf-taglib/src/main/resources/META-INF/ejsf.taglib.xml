@@ -29,6 +29,7 @@
             <type>java.lang.Object</type>
         </attribute>
         <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
             <name>widgetVar</name>
             <type>java.lang.String</type>
         </attribute>
@@ -295,6 +296,7 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
             <name>widgetVar</name>
             <type>java.lang.String</type>
         </attribute>
@@ -347,6 +349,7 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
             <name>widgetVar</name>
             <type>java.lang.String</type>
         </attribute>
@@ -412,6 +415,36 @@
             <description>Automatically start the geolocation.</description>
             <name>autoStart</name>
             <type>java.lang.Boolean</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>Component for Apache ECharts.</description>
+        <tag-name>echarts</tag-name>
+        <component>
+            <component-type>ejsf.echartsComponent</component-type>
+            <renderer-type>ejsf.echartsRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The ECharts option JSON structure.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional width of the chart. Defaults to 600.</description>
+            <name>width</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The optional height of the chart. Defaults to 400.</description>
+            <name>height</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
         </attribute>
     </tag>
 

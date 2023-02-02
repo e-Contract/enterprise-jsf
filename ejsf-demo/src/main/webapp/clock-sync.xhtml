@@ -9,10 +9,12 @@
     <h:body>
         <h1>Clock Sync Demo</h1>
         <p:messages globalOnly="true" id="messages"/>
-        <ejsf:clockSync clockLocation="clock">
-            <p:ajax listener="#{clockSyncController.clockSynchronized}"
-                    update="messages,results"/>
-        </ejsf:clockSync>
+        <h:form>
+            <ejsf:clockSync clockLocation="clock">
+                <p:ajax listener="#{clockSyncController.clockSynchronized}"
+                        update=":messages,:results"/>
+            </ejsf:clockSync>
+        </h:form>
         <h:panelGrid columns="2" id="results">
             <h:outputText value="Best round trip delay:"/>
             <h:outputText value="#{clockSyncController.bestRoundTripDelay}"/>
