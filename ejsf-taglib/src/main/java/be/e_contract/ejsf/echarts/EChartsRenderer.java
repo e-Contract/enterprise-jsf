@@ -45,20 +45,22 @@ public class EChartsRenderer extends CoreRenderer {
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
         widgetBuilder.init("EJSFECharts", eChartsComponent);
+        encodeClientBehaviors(facesContext, eChartsComponent);
         widgetBuilder.finish();
     }
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
-        EChartsComponent eChartsComponent = (EChartsComponent) component;
         ExternalContext externalContext = context.getExternalContext();
         Map<String, String> requestParameterMap = externalContext.getRequestParameterMap();
         String clientId = component.getClientId(context);
-        if (!requestParameterMap.containsKey(clientId)) {
+        if (requestParameterMap.containsKey(clientId + "_request_option")) {
+            EChartsComponent eChartsComponent = (EChartsComponent) component;
+            String value = (String) eChartsComponent.getValue();
+            PrimeFaces.current().ajax().addCallbackParam("option", value);
+            context.renderResponse();
             return;
         }
-        String value = (String) eChartsComponent.getValue();
-        PrimeFaces.current().ajax().addCallbackParam("option", value);
-        context.renderResponse();
+        decodeBehaviors(context, component);
     }
 }

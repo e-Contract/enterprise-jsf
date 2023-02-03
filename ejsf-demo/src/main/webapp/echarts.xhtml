@@ -8,7 +8,13 @@
     </h:head>
     <h:body>
         <h1>Apache ECharts Demo</h1>
-        <ejsf:echarts value="#{echartsController.value}"/>
+        <p:messages globalOnly="true" id="messages"/>
+        <h:form>
+            <ejsf:echarts value="#{echartsController.value}">
+                <p:ajax listener="#{echartsController.handleClick}"
+                        update=":messages"/>
+            </ejsf:echarts>
+        </h:form>
         <h:form>
             <p:button value="Back" outcome="index"/>
         </h:form>
