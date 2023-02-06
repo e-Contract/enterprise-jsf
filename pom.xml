@@ -9,6 +9,29 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>Enterprise JSF Project</name>
     <packaging>pom</packaging>
+    <inceptionYear>2023</inceptionYear>
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+            <url>LICENSE.txt</url>
+        </license>
+    </licenses>
+    <organization>
+        <name>e-Contract.be BV</name>
+        <url>https://www.e-contract.be/</url>
+    </organization>
+    <url>https://github.com/e-Contract/jtrust</url>
+    <developers>
+        <developer>
+            <id>fcorneli</id>
+            <name>Frank Cornelis</name>
+            <email>info@e-contract.be</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git@github.com:e-Contract/enterprise-jsf.git</connection>
+        <tag>HEAD</tag>
+    </scm>
     <build>
         <pluginManagement>
             <plugins>
@@ -20,6 +43,7 @@
                         <source>1.8</source>
                         <target>1.8</target>
                         <encoding>UTF-8</encoding>
+                        <showDeprecation>true</showDeprecation>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -51,6 +75,25 @@
                     <groupId>com.github.eirslett</groupId>
                     <artifactId>frontend-maven-plugin</artifactId>
                     <version>1.12.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.4.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <configuration>
+                        <goals>install</goals>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

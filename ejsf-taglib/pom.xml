@@ -91,6 +91,44 @@
                     <installDirectory>target/</installDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>jakarta</id>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>
+                                true
+                            </shadedArtifactAttached>
+                            <shadedClassifierName>
+                                jakarta
+                            </shadedClassifierName>
+                            <createDependencyReducedPom>
+                                false
+                            </createDependencyReducedPom>
+                            <artifactSet>
+                                <includes>
+                                    <include>
+                                        ${project.groupId}:${project.artifactId}
+                                    </include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>javax.faces</pattern>
+                                    <shadedPattern>
+                                        jakarta.faces
+                                    </shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
