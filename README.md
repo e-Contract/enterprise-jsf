@@ -30,6 +30,45 @@ https://texstudio.org
 
 ## The JSF component library
 
+The JSF component library is available within the e-Contract.be public Maven repository.
+If you use Maven, refer to the e-Contract.be Maven repository via:
+```xml
+<repository>
+    <id>e-contract</id>
+    <url>https://www.e-contract.be/maven2/</url>
+    <releases>
+        <enabled>true</enabled>
+    </releases>
+</repository>
+```
+Add the JSF component library to your web application WAR project via:
+```xml
+<dependency>
+    <groupId>be.e-contract.enterprise-jsf</groupId>
+    <artifactId>ejsf-taglib</artifactId>
+    <version>0.2.0</version>
+</dependency>
+```
+Within you JSF pages, use the following JSF namespace declaration:
+```
+xmlns:ejsf="urn:be:e-contract:ejsf"
+```
+Now you are ready to use our components, for example:
+```xml
+<ejsf:outputBoolean value="#{true}"/>
+```
+For Jakarta EE 10 runtimes, use the following dependency:
+```xml
+<dependency>
+    <groupId>be.e-contract.enterprise-jsf</groupId>
+    <artifactId>ejsf-taglib</artifactId>
+    <version>0.2.0</version>
+    <classifier>jakarta</classifier>
+</dependency>
+```
+
+### Running the demo web application
+
 We use Apache Maven as build system.
 Apache Maven can be downloaded from: https://maven.apache.org
 
