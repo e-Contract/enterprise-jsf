@@ -58,6 +58,11 @@
             <required>true</required>
             <type>java.lang.Boolean</type>
         </attribute>
+        <attribute>
+            <description>Reverses the color indication.</description>
+            <name>reverse</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
     <tag>

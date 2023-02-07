@@ -35,6 +35,18 @@ public class OutputBooleanComponent extends UIOutput {
         return COMPONENT_FAMILY;
     }
 
+    enum PropertyKeys {
+        reverse
+    }
+
+    public boolean isReverse() {
+        return (Boolean) getStateHelper().eval(PropertyKeys.reverse, false);
+    }
+
+    public void setReverse(boolean reverse) {
+        getStateHelper().put(PropertyKeys.reverse, reverse);
+    }
+
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         Boolean value = (Boolean) getValue();
@@ -43,8 +55,9 @@ public class OutputBooleanComponent extends UIOutput {
         }
         Application application = context.getApplication();
         ResourceBundle resourceBundle = application.getResourceBundle(context, "ejsfMessages");
+        boolean reverse = isReverse();
         String output;
-        String classValue = "output-boolean output-boolean-" + Boolean.toString(value);
+        String classValue = "output-boolean output-boolean-" + Boolean.toString(value ^ reverse);
         if (value) {
             output = resourceBundle.getString("yes");
         } else {

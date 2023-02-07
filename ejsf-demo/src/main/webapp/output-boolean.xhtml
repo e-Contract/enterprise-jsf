@@ -8,8 +8,21 @@
     </h:head>
     <h:body>
         <h1>Output Boolean Demo</h1>
-        <ejsf:outputBoolean value="#{true}"/>
-        <ejsf:outputBoolean value="#{false}"/>
+        <p>
+            null: <ejsf:outputBoolean value="#{null}"/>
+        </p>
+        <p>
+            true: <ejsf:outputBoolean value="#{true}"/>
+        </p>
+        <p>
+            false: <ejsf:outputBoolean value="#{false}"/>
+        </p>
+        <p>
+            true reverse: <ejsf:outputBoolean value="#{true}" reverse="true"/>
+        </p>
+        <p>
+            false reverse: <ejsf:outputBoolean value="#{false}" reverse="true"/>
+        </p>
         <h:form>
             <h:panelGrid columns="1">
                 <p:button outcome="index" value="Back"/>
