@@ -6,10 +6,9 @@ The Enterprise JSF project delivers:
 
 ## The document
 
-Latest version of Enterprise JSF is available at:
-https://github.com/e-Contract/enterprise-jsf/releases/download/2022-05-24/enterprise-jsf-2022-05-24.pdf
+The latest version of the Enterprise JSF document is available at:
 
-### Requirements
+https://github.com/e-Contract/enterprise-jsf/releases/download/2023-02-07/enterprise-jsf.pdf
 
 The following dependencies are required for building the PDF document:
 * make
@@ -19,13 +18,42 @@ PlantUML can be downloaded from: https://plantuml.com
 
 Building this project should be possible on Mac OS, Linux, and FreeBSD.
 
-### PDF
-
 Compile the PDF document via:
 ```
+cd doc
 make
 ```
 
 We prefer to edit the LaTeX document using TeXstudio.
 TeXstudio can be downloaded from:
 https://texstudio.org
+
+## The JSF component library
+
+We use Apache Maven as build system.
+Apache Maven can be downloaded from: https://maven.apache.org
+
+Build the project via:
+```
+mvn clean install
+```
+
+Running the demo web application requires an application server that supports Java EE version 8.
+We prefer WildFly as application server.
+WildFly version 26.1.3.Final is the latest version that still supports Java EE 8.
+WildFly can be downloaded from: https://www.wildfly.org
+
+Start a WildFly version 26.1.3.Final via:
+```
+cd wildfly-26.1.3.Final/bin
+./standalone.sh --server-config=standalone-full.xml
+```
+
+Deploy the demo web application via:
+```
+cd ejsf-demo
+mvn wildfly:deploy
+```
+
+Try out the demo web application via:
+http://localhost:8080/ejsf-demo/
