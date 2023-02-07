@@ -29,6 +29,17 @@
         <connection>scm:git:git@github.com:e-Contract/enterprise-jsf.git</connection>
         <tag>HEAD</tag>
     </scm>
+    <distributionManagement>
+        <downloadUrl>https://www.e-contract.be/maven2/be/e-contract/enterprise-jsf/</downloadUrl>
+        <repository>
+            <id>e-contract-deploy</id>
+            <url>sftp://192.168.100.1/maven2</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+    </distributionManagement>
+    <issueManagement>
+        <url>https://github.com/e-Contract/enterprise-jsf/issues</url>
+    </issueManagement>
     <build>
         <pluginManagement>
             <plugins>
@@ -88,7 +99,6 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
                     <configuration>
-                        <goals>install</goals>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                     </configuration>
                 </plugin>
