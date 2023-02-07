@@ -12,7 +12,7 @@ import javax.inject.Named;
 public class OutputEnumController {
 
     public enum ExampleEnum {
-        STATE1, STATE2, STATE3
+        STATE1, STATE2, STATE3, STATE4
     }
 
     public ExampleEnum[] getEnums() {

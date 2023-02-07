@@ -32,19 +32,23 @@ public class EnumTagHandler extends TagHandler {
             throw new TagException(this.tag, "Enum can only be attached to OutputEnum components.");
         }
         String name = getRequiredAttribute("name").getValue();
-        String label;
-        TagAttribute labelAttribute = getAttribute("label");
-        if (null != labelAttribute) {
-            label = labelAttribute.getValue(faceletContext);
-        } else {
-            label = null;
-        }
+        String label = getOptionalAttributeValue("label", faceletContext);
+        String color = getOptionalAttributeValue("color", faceletContext);
+        String background = getOptionalAttributeValue("background", faceletContext);
         OutputEnumComponent outputEnumComponent = (OutputEnumComponent) parent;
         Map<String, OutputEnumComponent.EnumInfo> enums = outputEnumComponent.getEnums();
         if (null == enums) {
             enums = new HashMap<>();
             outputEnumComponent.setEnums(enums);
         }
-        enums.put(name, new OutputEnumComponent.EnumInfo(name, label));
+        enums.put(name, new OutputEnumComponent.EnumInfo(label, color, background));
+    }
+
+    private String getOptionalAttributeValue(String attributeName, FaceletContext faceletContext) {
+        TagAttribute attribute = getAttribute(attributeName);
+        if (null == attribute) {
+            return null;
+        }
+        return attribute.getValue(faceletContext);
     }
 }

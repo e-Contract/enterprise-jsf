@@ -481,6 +481,14 @@
             <name>label</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>color</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>background</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>
