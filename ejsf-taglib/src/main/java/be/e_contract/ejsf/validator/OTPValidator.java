@@ -16,8 +16,10 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator("ejsf.otpValidator")
+@FacesValidator(OTPValidator.VALIDATOR_ID)
 public class OTPValidator implements Validator {
+
+    public static final String VALIDATOR_ID = "ejsf.otpValidator";
 
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {

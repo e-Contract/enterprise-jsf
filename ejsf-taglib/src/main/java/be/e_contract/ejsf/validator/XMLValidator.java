@@ -26,8 +26,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-@FacesValidator("ejsf.xmlValidator")
+@FacesValidator(XMLValidator.VALIDATOR_ID)
 public class XMLValidator implements Validator {
+
+    public static final String VALIDATOR_ID = "ejsf.xmlValidator";
 
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {

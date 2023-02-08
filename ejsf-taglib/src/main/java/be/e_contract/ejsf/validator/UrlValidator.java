@@ -19,8 +19,10 @@ import javax.faces.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@FacesValidator("ejsf.urlValidator")
+@FacesValidator(UrlValidator.VALIDATOR_ID)
 public class UrlValidator implements Validator, StateHolder {
+
+    public static final String VALIDATOR_ID = "ejsf.urlValidator";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UrlValidator.class);
 

@@ -20,8 +20,10 @@ import org.owasp.html.PolicyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@FacesValidator("ejsf.plainTextValidator")
+@FacesValidator(PlainTextValidator.VALIDATOR_ID)
 public class PlainTextValidator implements Validator {
+
+    public static final String VALIDATOR_ID = "ejsf.plainTextValidator";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PlainTextValidator.class);
 

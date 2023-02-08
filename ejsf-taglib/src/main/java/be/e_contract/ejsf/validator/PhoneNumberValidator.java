@@ -22,8 +22,10 @@ import javax.faces.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@FacesValidator("ejsf.phoneNumberValidator")
+@FacesValidator(PhoneNumberValidator.VALIDATOR_ID)
 public class PhoneNumberValidator implements Validator, StateHolder {
+
+    public static final String VALIDATOR_ID = "ejsf.phoneNumberValidator";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PhoneNumberValidator.class);
 
