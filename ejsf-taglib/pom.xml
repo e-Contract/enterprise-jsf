@@ -98,15 +98,9 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <shadedArtifactAttached>
-                                true
-                            </shadedArtifactAttached>
-                            <shadedClassifierName>
-                                jakarta
-                            </shadedClassifierName>
-                            <createDependencyReducedPom>
-                                false
-                            </createDependencyReducedPom>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>jakarta</shadedClassifierName>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <artifactSet>
                                 <includes>
                                     <include>
@@ -117,9 +111,11 @@
                             <relocations>
                                 <relocation>
                                     <pattern>javax.faces</pattern>
-                                    <shadedPattern>
-                                        jakarta.faces
-                                    </shadedPattern>
+                                    <shadedPattern>jakarta.faces</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>javax.servlet</pattern>
+                                    <shadedPattern>jakarta.servlet</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
