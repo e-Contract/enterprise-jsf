@@ -72,6 +72,8 @@ For Jakarta EE 10 runtimes, use the following dependency:
 We use Apache Maven as build system.
 Apache Maven can be downloaded from: https://maven.apache.org
 
+You need Java JDK 11 or higher to build this project.
+
 Build the project via:
 ```
 mvn clean install

@@ -134,6 +134,12 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-api</artifactId>
+                <version>10.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
                 <version>12.0.0</version>
@@ -173,5 +179,6 @@
     <modules>
         <module>ejsf-taglib</module>
         <module>ejsf-demo</module>
+        <module>ejsf-demo-ee10</module>
     </modules>
 </project>
