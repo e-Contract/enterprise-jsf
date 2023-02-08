@@ -49,6 +49,15 @@ public class UrlValidator implements Validator, StateHolder {
         } else {
             options = 0;
         }
+        try {
+            Class.forName("org.apache.commons.validator.routines.UrlValidator");
+        } catch (ClassNotFoundException ex) {
+            String errorMessage = "Missing commons-validator";
+            LOGGER.error(errorMessage);
+            FacesMessage facesMessage = new FacesMessage(errorMessage);
+            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(facesMessage);
+        }
         org.apache.commons.validator.routines.UrlValidator urlValidator = new org.apache.commons.validator.routines.UrlValidator(schemes, options);
         boolean valid = urlValidator.isValid((String) value);
         if (valid) {

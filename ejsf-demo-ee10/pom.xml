@@ -31,12 +31,6 @@
             <artifactId>ejsf-taglib</artifactId>
             <version>0.2.1-SNAPSHOT</version>
             <classifier>jakarta</classifier>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.primefaces</groupId>
-                    <artifactId>primefaces</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>

@@ -48,7 +48,15 @@ public class EmailValidator implements Validator, StateHolder {
         if (strValue.isEmpty()) {
             return;
         }
-
+        try {
+            Class.forName("org.apache.commons.validator.routines.EmailValidator");
+        } catch (ClassNotFoundException ex) {
+            String errorMessage = "Missing commons-validator";
+            LOGGER.error(errorMessage);
+            FacesMessage facesMessage = new FacesMessage(errorMessage);
+            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(facesMessage);
+        }
         org.apache.commons.validator.routines.EmailValidator validator = org.apache.commons.validator.routines.EmailValidator.getInstance();
         boolean valid;
         if (this.allowMultiple) {

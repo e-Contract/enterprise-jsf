@@ -17,9 +17,13 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @FacesValidator("ejsf.plainTextValidator")
 public class PlainTextValidator implements Validator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlainTextValidator.class);
 
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
@@ -29,6 +33,15 @@ public class PlainTextValidator implements Validator {
         String strValue = (String) value;
         if (UIInput.isEmpty(strValue)) {
             return;
+        }
+        try {
+            Class.forName("org.owasp.html.HtmlPolicyBuilder");
+        } catch (ClassNotFoundException ex) {
+            String errorMessage = "Missing owasp-java-html-sanitizer";
+            LOGGER.error(errorMessage);
+            FacesMessage facesMessage = new FacesMessage(errorMessage);
+            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(facesMessage);
         }
         PolicyFactory policy = new HtmlPolicyBuilder().toFactory();
         String safeHTML = policy.sanitize(strValue);
