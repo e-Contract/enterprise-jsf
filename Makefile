@@ -17,6 +17,17 @@ run-ee8: docker-start-ee8 app-deploy-ee8
 .PHONY:run-ee10
 run-ee10: docker-start-ee10 app-deploy-ee10
 
+.PHONY:run-spring
+run-spring: app-start-spring
+
+.PHONY: doc-with-docker
+doc-with-docker:
+	@docker build -t e-contract.be/enterprise-jsf -f docker/Dockerfile.build-doc .
+	@docker kill e-contract.be_enterprise-jsf || echo "Error while killing container - container could already be killed"
+	@docker run --name e-contract.be_enterprise-jsf --rm -d -p 2380:80 e-contract.be/enterprise-jsf
+	@echo " > > > > > >  Shut down the container with: 'docker stop e-contract.be_enterprise-jsf'"
+	@x-www-browser "http://localhost:2380"
+
 .PHONY: docker-start-ee8
 docker-start-ee8: docker-stop docker-build-ee8
 	docker run --rm --name ${DOCKER_USERNAME}_${APPLICATION_NAME} -p 8080:8080 -p 9990:9990 -p 9999:9999 -d ${DOCKER_USERNAME}/${APPLICATION_NAME}:${JEE8_VERSION_TAG}
@@ -44,6 +55,11 @@ app-deploy-ee8: app-build
 .PHONY: app-deploy-ee10
 app-deploy-ee10: app-build
 	cd ejsf-demo-ee10 && mvn wildfly:deploy -Dwildfly.password=e-contract.be -Dwildfly.username=admin
+
+# We stop the Docker containers here because they are also listening on port 8080, as will the spring-boot server
+.PHONY: app-start-spring
+app-start-spring: app-build docker-stop
+	cd spring && mvn clean spring-boot:run
 
 .PHONY: docker-stop
 docker-stop:
