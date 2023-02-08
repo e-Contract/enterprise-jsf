@@ -1,0 +1,12 @@
+#
+# Enterprise JSF project.
+#
+# Copyright 2022-2023 e-Contract.be BV. All rights reserved.
+# e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+#
+
+FROM quay.io/wildfly/wildfly:27.0.1.Final-jdk11
+
+RUN /opt/jboss/wildfly/bin/add-user.sh admin e-contract.be --silent
+
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

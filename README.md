@@ -98,3 +98,17 @@ mvn wildfly:deploy
 
 Try out the demo web application via:
 http://localhost:8080/ejsf-demo/
+
+Alternatively, the Java EE application can be compiled and deployed to a WildFly Docker container
+that is built on the fly (using the `Dockerfile` located in `docker/`) by entering the following command:
+```shell
+make
+```
+
+Other usefull `make` targets are:
+* `make run-ee10`: to deploy the JEE 10 version on a WildFly Docker 27.x container
+* `make docker-start-ee8`: to start the WildFly Docker 26.x container, with l/p: admin/e-contract.be
+* `make docker-start-ee10`: to start the WildFly Docker 27.x container, with l/p: admin/e-contract.be
+* `make clean`: to clean the maven project and to stop the running WildFly Docker container
+* `make mrproper`: to clean everything and remove the WildFly Docker image(s)
+
