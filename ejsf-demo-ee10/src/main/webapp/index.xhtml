@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:ejsf="urn:be:e-contract:enterprise-jsf">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
 
     <h:head>
         <title>Enterprise JSF Demo - Jakarta EE 10</title>
@@ -12,8 +13,21 @@
         <p>
             This web application demonstrates the Enterprise JSF component library.
         </p>
-        <h:outputText value="hello world"/>
+        <p:messages globalOnly="true" id="messages"/>
         <ejsf:outputBoolean value="#{true}"/>
+        <h:form>
+            <ejsf:clockSync clockLocation="clock">
+                <p:ajax listener="#{clockSyncController.clockSynchronized}"
+                        update=":messages,:results"/>
+            </ejsf:clockSync>
+        </h:form>
+        <h:panelGrid columns="2" id="results">
+            <h:outputText value="Best round trip delay:"/>
+            <h:outputText value="#{clockSyncController.bestRoundTripDelay}"/>
+
+            <h:outputText value="Delta T:"/>
+            <h:outputText value="#{clockSyncController.deltaT}"/>
+        </h:panelGrid>
     </h:body>
 
 </html>
