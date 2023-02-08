@@ -34,9 +34,7 @@ public class PlainTextValidator implements Validator {
         if (UIInput.isEmpty(strValue)) {
             return;
         }
-        try {
-            Class.forName("org.owasp.html.HtmlPolicyBuilder");
-        } catch (ClassNotFoundException ex) {
+        if (!be.e_contract.ejsf.Runtime.hasOwaspHtmlSanitizer()) {
             String errorMessage = "Missing owasp-java-html-sanitizer";
             LOGGER.error(errorMessage);
             FacesMessage facesMessage = new FacesMessage(errorMessage);

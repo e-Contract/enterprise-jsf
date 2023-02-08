@@ -48,9 +48,7 @@ public class EmailValidator implements Validator, StateHolder {
         if (strValue.isEmpty()) {
             return;
         }
-        try {
-            Class.forName("org.apache.commons.validator.routines.EmailValidator");
-        } catch (ClassNotFoundException ex) {
+        if (!be.e_contract.ejsf.Runtime.hasCommonsValidator()) {
             String errorMessage = "Missing commons-validator";
             LOGGER.error(errorMessage);
             FacesMessage facesMessage = new FacesMessage(errorMessage);

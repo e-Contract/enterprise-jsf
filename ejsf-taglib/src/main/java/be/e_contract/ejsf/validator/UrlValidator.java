@@ -49,9 +49,7 @@ public class UrlValidator implements Validator, StateHolder {
         } else {
             options = 0;
         }
-        try {
-            Class.forName("org.apache.commons.validator.routines.UrlValidator");
-        } catch (ClassNotFoundException ex) {
+        if (!be.e_contract.ejsf.Runtime.hasCommonsValidator()) {
             String errorMessage = "Missing commons-validator";
             LOGGER.error(errorMessage);
             FacesMessage facesMessage = new FacesMessage(errorMessage);
