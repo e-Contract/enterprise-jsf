@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>Rate Limiter Demo</title>
+    </h:head>
+    <h:body>
+        <h1>Rate Limiter Demo</h1>
+        <p:messages id="messages" globalOnly="true"/>
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="username" value="Username:"/>
+                <p:inputText id="username" value="#{rateLimiterController.username}"/>
+                <p:message for="username"/>
+
+                <p:outputLabel for="password" value="Password:"/>
+                <p:password id="password" value="#{rateLimiterController.password}">
+                    <ejsf:rateLimiter for="username"/>
+                </p:password>
+                <p:message for="password"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Submit"
+                                 action="#{rateLimiterController.login()}"
+                                 update="@form,:messages"/>
+            </h:panelGrid>
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="1">
+                <p:button outcome="index" value="Back"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>

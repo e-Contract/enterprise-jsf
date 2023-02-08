@@ -12,6 +12,8 @@ public class Runtime {
 
     private static boolean hasOwaspHtmlSanitizer;
 
+    private static boolean hasCaffeine;
+
     static {
         try {
             Class.forName("org.apache.commons.validator.routines.EmailValidator");
@@ -26,6 +28,13 @@ public class Runtime {
         } catch (ClassNotFoundException ex) {
             hasOwaspHtmlSanitizer = false;
         }
+
+        try {
+            Class.forName("com.github.benmanes.caffeine.cache.Expiry");
+            hasCaffeine = true;
+        } catch (ClassNotFoundException ex) {
+            hasCaffeine = false;
+        }
     }
 
     public static boolean hasCommonsValidator() {
@@ -34,5 +43,9 @@ public class Runtime {
 
     public static boolean hasOwaspHtmlSanitizer() {
         return hasOwaspHtmlSanitizer;
+    }
+
+    public static boolean hasCaffeine() {
+        return hasCaffeine;
     }
 }
