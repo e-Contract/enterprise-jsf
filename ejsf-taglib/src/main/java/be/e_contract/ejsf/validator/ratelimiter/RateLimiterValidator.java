@@ -210,7 +210,7 @@ public class RateLimiterValidator implements Validator, StateHolder {
             servletContext.setAttribute(CACHES_ATTRIBUTE, caches);
         }
 
-        RateExpiry rateExpiry = new RateExpiry(this.limitForPeriod, this.timeoutDuration);
+        RateExpiry rateExpiry = new RateExpiry(this.limitRefreshPeriod, this.timeoutDuration);
         Cache<String, RateInfo> cache = caches.get(rateExpiry);
         if (null == cache) {
             LOGGER.debug("creating new cache: {}", rateExpiry);

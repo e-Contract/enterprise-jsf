@@ -19,19 +19,19 @@ public class RateExpiry implements Expiry<String, RateInfo> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateExpiry.class);
 
-    private final int limitForPeriod;
+    private final int limitRefreshPeriod;
 
     private final int timeoutDuration;
 
-    public RateExpiry(int limitForPeriod, int timeoutDuration) {
-        this.limitForPeriod = limitForPeriod;
+    public RateExpiry(int limitRefreshPeriod, int timeoutDuration) {
+        this.limitRefreshPeriod = limitRefreshPeriod;
         this.timeoutDuration = timeoutDuration;
     }
 
     @Override
     public long expireAfterCreate(String key, RateInfo value, long currentTime) {
         LOGGER.debug("expire after create");
-        return TimeUnit.SECONDS.toNanos(this.limitForPeriod);
+        return TimeUnit.SECONDS.toNanos(this.limitRefreshPeriod);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class RateExpiry implements Expiry<String, RateInfo> {
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-                .append(this.limitForPeriod)
+                .append(this.limitRefreshPeriod)
                 .append(this.timeoutDuration)
                 .toHashCode();
     }
@@ -64,7 +64,7 @@ public class RateExpiry implements Expiry<String, RateInfo> {
         }
         RateExpiry other = (RateExpiry) obj;
         return new EqualsBuilder()
-                .append(this.limitForPeriod, other.limitForPeriod)
+                .append(this.limitRefreshPeriod, other.limitRefreshPeriod)
                 .append(this.timeoutDuration, other.timeoutDuration)
                 .isEquals();
     }
@@ -72,7 +72,7 @@ public class RateExpiry implements Expiry<String, RateInfo> {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.NO_CLASS_NAME_STYLE)
-                .append(this.limitForPeriod)
+                .append(this.limitRefreshPeriod)
                 .append(this.timeoutDuration)
                 .build();
     }
