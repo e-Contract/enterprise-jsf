@@ -6,14 +6,20 @@
  */
 package be.e_contract.ejsf.validator.ratelimiter;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +28,17 @@ public class RateLimiterValidator implements Validator, StateHolder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateLimiterValidator.class);
 
+    private static final String CACHES_ATTRIBUTE = RateLimiterValidator.class.getName() + ".caches";
+
     public static final String VALIDATOR_ID = "ejsf.rateLimiterValidator";
 
     private String _for;
+
+    private int timeoutDuration;
+
+    private int limitRefreshPeriod;
+
+    private int limitForPeriod;
 
     private boolean _transient;
 
@@ -34,6 +48,30 @@ public class RateLimiterValidator implements Validator, StateHolder {
 
     public void setFor(String _for) {
         this._for = _for;
+    }
+
+    public int getTimeoutDuration() {
+        return this.timeoutDuration;
+    }
+
+    public void setTimeoutDuration(int timeoutDuration) {
+        this.timeoutDuration = timeoutDuration;
+    }
+
+    public int getLimitRefreshPeriod() {
+        return this.limitRefreshPeriod;
+    }
+
+    public void setLimitRefreshPeriod(int limitRefreshPeriod) {
+        this.limitRefreshPeriod = limitRefreshPeriod;
+    }
+
+    public int getLimitForPeriod() {
+        return this.limitForPeriod;
+    }
+
+    public void setLimitForPeriod(int limitForPeriod) {
+        this.limitForPeriod = limitForPeriod;
     }
 
     @Override
@@ -53,7 +91,7 @@ public class RateLimiterValidator implements Validator, StateHolder {
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
         }
-        boolean reachedLimit = RateKeeper.reachedLimit(facesContext, forValue);
+        boolean reachedLimit = reachedLimit(facesContext, forValue);
         if (reachedLimit) {
             FacesMessage facesMessage = new FacesMessage("Please try again later.");
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -66,7 +104,12 @@ public class RateLimiterValidator implements Validator, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
-        return new Object[]{this._for};
+        return new Object[]{
+            this._for,
+            this.timeoutDuration,
+            this.limitRefreshPeriod,
+            this.limitForPeriod
+        };
     }
 
     @Override
@@ -82,6 +125,9 @@ public class RateLimiterValidator implements Validator, StateHolder {
             return;
         }
         this._for = (String) stateObjects[0];
+        this.timeoutDuration = (Integer) stateObjects[1];
+        this.limitRefreshPeriod = (Integer) stateObjects[2];
+        this.limitForPeriod = (Integer) stateObjects[3];
     }
 
     @Override
@@ -92,5 +138,33 @@ public class RateLimiterValidator implements Validator, StateHolder {
     @Override
     public void setTransient(boolean newTransientValue) {
         this._transient = newTransientValue;
+    }
+
+    private boolean reachedLimit(FacesContext facesContext, String identifier) {
+        ExternalContext externalContext = facesContext.getExternalContext();
+        ServletContext servletContext = (ServletContext) externalContext.getContext();
+        Map<RateExpiry, Cache<String, RateInfo>> caches
+                = (Map<RateExpiry, Cache<String, RateInfo>>) servletContext.getAttribute(CACHES_ATTRIBUTE);
+        if (null == caches) {
+            caches = new ConcurrentHashMap<>();
+            servletContext.setAttribute(CACHES_ATTRIBUTE, caches);
+        }
+
+        RateExpiry rateExpiry = new RateExpiry(this.limitForPeriod, this.timeoutDuration);
+        Cache<String, RateInfo> cache = caches.get(rateExpiry);
+        if (null == cache) {
+            LOGGER.debug("creating new cache: {}", rateExpiry);
+            cache = Caffeine.newBuilder()
+                    .expireAfter(rateExpiry)
+                    .build();
+            caches.put(rateExpiry, cache);
+        }
+        RateInfo rateInfo = cache.get(identifier, key -> new RateInfo(this.limitForPeriod));
+        boolean reachedLimit = rateInfo.reachedLimit();
+        if (reachedLimit) {
+            // trigger timeoutDuration
+            cache.put(identifier, rateInfo);
+        }
+        return reachedLimit;
     }
 }

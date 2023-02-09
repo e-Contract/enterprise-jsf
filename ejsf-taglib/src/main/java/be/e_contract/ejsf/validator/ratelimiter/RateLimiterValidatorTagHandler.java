@@ -35,13 +35,27 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
 
         TagAttribute forTagAttribute = getAttribute("for");
         String forValue = forTagAttribute.getValue();
+        int timeoutDuration = getIntegerAttributeValue("timeoutDuration", 30, context);
+        int limitRefreshPeriod = getIntegerAttributeValue("limitRefreshPeriod", 10, context);
+        int limitForPeriod = getIntegerAttributeValue("limitForPeriod", 5, context);
 
         FacesContext facesContext = context.getFacesContext();
         Application application = facesContext.getApplication();
         RateLimiterValidator rateLimiterValidator = (RateLimiterValidator) application.createValidator(RateLimiterValidator.VALIDATOR_ID);
         rateLimiterValidator.setFor(forValue);
+        rateLimiterValidator.setTimeoutDuration(timeoutDuration);
+        rateLimiterValidator.setLimitRefreshPeriod(limitRefreshPeriod);
+        rateLimiterValidator.setLimitForPeriod(limitForPeriod);
 
         EditableValueHolder parentEditableValueHolder = (EditableValueHolder) parent;
         parentEditableValueHolder.addValidator(rateLimiterValidator);
+    }
+
+    private int getIntegerAttributeValue(String attributeName, int defaultValue, FaceletContext context) {
+        TagAttribute tagAttribute = getAttribute(attributeName);
+        if (null == tagAttribute) {
+            return defaultValue;
+        }
+        return tagAttribute.getInt(context);
     }
 }

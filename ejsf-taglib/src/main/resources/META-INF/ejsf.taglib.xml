@@ -76,7 +76,6 @@
         <attribute>
             <description>Allows for multiple comma separated email addresses. Defaults to false.</description>
             <name>allowMultiple</name>
-            <required>false</required>
             <type>java.lang.Boolean</type>
         </attribute>
     </tag>
@@ -92,13 +91,11 @@
         <attribute>
             <description>Allow localhost URLs.</description>
             <name>allowLocalhost</name>
-            <required>false</required>
             <type>java.lang.Boolean</type>
         </attribute>
         <attribute>
             <description>Also allow for HTTP next to HTTPS. Defaults to false.</description>
             <name>allowHttp</name>
-            <required>false</required>
             <type>java.lang.Boolean</type>
         </attribute>
     </tag>
@@ -255,7 +252,6 @@
         <attribute>
             <description>Style class of the main container element.</description>
             <name>styleClass</name>
-            <required>false</required>
             <type>java.lang.String</type>
         </attribute>
     </tag>
@@ -503,6 +499,18 @@
         <attribute>
             <name>for</name>
             <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>timeoutDuration</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <name>limitRefreshPeriod</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <name>limitForPeriod</name>
+            <type>java.lang.Integer</type>
         </attribute>
     </tag>
 

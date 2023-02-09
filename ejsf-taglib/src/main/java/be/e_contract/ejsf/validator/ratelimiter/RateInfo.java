@@ -15,13 +15,13 @@ public class RateInfo {
 
     private int tries;
 
-    public RateInfo() {
+    public RateInfo(int limitForPeriod) {
         LOGGER.debug("constructor");
-        this.tries = 5;
+        this.tries = limitForPeriod;
     }
 
     public boolean reachedLimit() {
         this.tries--;
-        return this.tries <= 0;
+        return this.tries < 0;
     }
 }
