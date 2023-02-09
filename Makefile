@@ -22,11 +22,9 @@ run-spring: app-start-spring
 
 .PHONY: doc-with-docker
 doc-with-docker:
-	@docker build -t e-contract.be/enterprise-jsf -f docker/Dockerfile.build-doc .
-	@docker kill e-contract.be_enterprise-jsf || echo "Error while killing container - container could already be killed"
-	@docker run --name e-contract.be_enterprise-jsf --rm -d -p 2380:80 e-contract.be/enterprise-jsf
-	@echo " > > > > > >  Shut down the container with: 'docker stop e-contract.be_enterprise-jsf'"
-	@x-www-browser "http://localhost:2380"
+	@docker build -t e-contract.be/enterprise-jsf-doc -f docker/Dockerfile.build-doc .
+	@docker run --rm -v ${PWD}:/build/ e-contract.be/enterprise-jsf-doc
+	@echo " > > > > > > Documentation can be found here: doc/enterprise-jsf.pdf"
 
 .PHONY: docker-start-ee8
 docker-start-ee8: docker-stop docker-build-ee8

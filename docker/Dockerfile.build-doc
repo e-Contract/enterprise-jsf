@@ -5,11 +5,7 @@
 # e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 #
 
-#####################################################################################
-# Phase 1 : Build environment
-#####################################################################################
-
-FROM debian:sid AS build-environment
+FROM debian:sid
 
 RUN apt-get update && \
     apt-get install -y build-essential librsvg2-bin fig2dev plantuml texlive texlive-lang-french texlive-latex-extra wget
@@ -22,29 +18,6 @@ ENV PLANTUML_JAR="/usr/share/plantuml/plantuml.jar"
 # Update plantuml since Frank is using recent features that aren't supported in the version provided by Debian nor Ubuntu
 RUN wget -O $PLANTUML_JAR https://sourceforge.net/projects/plantuml/files/plantuml.${PLANTUML_VERSION}.jar/download
 
-
-#####################################################################################
-# Phase 2 : Compile project
-#####################################################################################
-
-FROM build-environment AS compile
-
 WORKDIR /build/doc
 
-ADD . /build
-
-RUN echo "<html><body><h1>Enterprise JSF Documentation:</h1><ul>" > index.html && \
-    echo "<li><a href='enterprise-jsf.pdf'>Enterprise JSF</a></li>" >> index.html && \
-    echo "</ul></body></html>" >> index.html
-
-RUN make
-
-
-#####################################################################################
-# Final Phase: Make documentation available via nginx
-#####################################################################################
-
-FROM nginx:stable-alpine
-
-COPY --from=compile /build/doc/enterprise-jsf.pdf /usr/share/nginx/html
-COPY --from=compile /build/doc/index.html /usr/share/nginx/html
+ENTRYPOINT make
