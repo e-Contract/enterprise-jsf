@@ -517,6 +517,12 @@
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>onLimit</name>
+            <method-signature>
+                java.lang.Object onLimit
+            </method-signature>
+        </attribute>
     </tag>
 
 </facelet-taglib>

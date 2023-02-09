@@ -7,6 +7,7 @@
 package be.e_contract.ejsf.validator.ratelimiter;
 
 import java.io.IOException;
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.EditableValueHolder;
@@ -48,6 +49,14 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
             messageValueExpression = null;
         }
 
+        MethodExpression onLimitMethodExpression;
+        TagAttribute onLimitTagAttribute = getAttribute("onLimit");
+        if (null != onLimitTagAttribute) {
+            onLimitMethodExpression = onLimitTagAttribute.getMethodExpression(context, Object.class, new Class[]{String.class});
+        } else {
+            onLimitMethodExpression = null;
+        }
+
         FacesContext facesContext = context.getFacesContext();
         Application application = facesContext.getApplication();
         RateLimiterValidator rateLimiterValidator = (RateLimiterValidator) application.createValidator(RateLimiterValidator.VALIDATOR_ID);
@@ -56,6 +65,7 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
         rateLimiterValidator.setLimitRefreshPeriod(limitRefreshPeriod);
         rateLimiterValidator.setLimitForPeriod(limitForPeriod);
         rateLimiterValidator.setMessageValueExpression(messageValueExpression);
+        rateLimiterValidator.setOnLimitMethodExpression(onLimitMethodExpression);
 
         EditableValueHolder parentEditableValueHolder = (EditableValueHolder) parent;
         parentEditableValueHolder.addValidator(rateLimiterValidator);

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.el.ELContext;
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -45,6 +46,8 @@ public class RateLimiterValidator implements Validator, StateHolder {
     private int limitForPeriod;
 
     private ValueExpression messageValueExpression;
+
+    private MethodExpression onLimitMethodExpression;
 
     private boolean _transient;
 
@@ -88,6 +91,14 @@ public class RateLimiterValidator implements Validator, StateHolder {
         this.messageValueExpression = messageValueExpression;
     }
 
+    public MethodExpression getOnLimitMethodExpression() {
+        return this.onLimitMethodExpression;
+    }
+
+    public void setOnLimitMethodExpression(MethodExpression onLimitMethodExpression) {
+        this.onLimitMethodExpression = onLimitMethodExpression;
+    }
+
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
         LOGGER.debug("validate");
@@ -107,6 +118,10 @@ public class RateLimiterValidator implements Validator, StateHolder {
         }
         boolean reachedLimit = reachedLimit(facesContext, forValue);
         if (reachedLimit) {
+            if (null != this.onLimitMethodExpression) {
+                ELContext elContext = facesContext.getELContext();
+                this.onLimitMethodExpression.invoke(elContext, new Object[]{forValue});
+            }
             String message;
             if (null != this.messageValueExpression) {
                 ELContext elContext = facesContext.getELContext();
@@ -132,7 +147,8 @@ public class RateLimiterValidator implements Validator, StateHolder {
             this.timeoutDuration,
             this.limitRefreshPeriod,
             this.limitForPeriod,
-            this.messageValueExpression
+            this.messageValueExpression,
+            this.onLimitMethodExpression
         };
     }
 
@@ -153,6 +169,7 @@ public class RateLimiterValidator implements Validator, StateHolder {
         this.limitRefreshPeriod = (Integer) stateObjects[2];
         this.limitForPeriod = (Integer) stateObjects[3];
         this.messageValueExpression = (ValueExpression) stateObjects[4];
+        this.onLimitMethodExpression = (MethodExpression) stateObjects[5];
     }
 
     @Override

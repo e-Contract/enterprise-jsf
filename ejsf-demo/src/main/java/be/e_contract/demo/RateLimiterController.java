@@ -40,4 +40,10 @@ public class RateLimiterController {
         facesContext.addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "username: " + this.username, null));
     }
+
+    public void onLimit(String username) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Trying to hack into " + username + "?", null));
+    }
 }
