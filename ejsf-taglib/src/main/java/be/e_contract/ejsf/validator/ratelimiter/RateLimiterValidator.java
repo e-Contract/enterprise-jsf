@@ -49,6 +49,8 @@ public class RateLimiterValidator implements Validator, StateHolder {
 
     private MethodExpression onLimitMethodExpression;
 
+    private ValueExpression forValueExpression;
+
     private boolean _transient;
 
     public String getFor() {
@@ -99,17 +101,31 @@ public class RateLimiterValidator implements Validator, StateHolder {
         this.onLimitMethodExpression = onLimitMethodExpression;
     }
 
+    public ValueExpression getForValueExpression() {
+        return this.forValueExpression;
+    }
+
+    public void setForValueExpression(ValueExpression forValueExpression) {
+        this.forValueExpression = forValueExpression;
+    }
+
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
         LOGGER.debug("validate");
         LOGGER.debug("for: {}", this._for);
-        UIInput forInput = (UIInput) component.findComponent(this._for);
-        if (null == forInput) {
-            FacesMessage facesMessage = new FacesMessage("Config error.");
-            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ValidatorException(facesMessage);
+        String forValue;
+        if (null != this.forValueExpression) {
+            ELContext elContext = facesContext.getELContext();
+            forValue = (String) this.forValueExpression.getValue(elContext);
+        } else {
+            UIInput forInput = (UIInput) component.findComponent(this._for);
+            if (null == forInput) {
+                FacesMessage facesMessage = new FacesMessage("Config error.");
+                facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+                throw new ValidatorException(facesMessage);
+            }
+            forValue = (String) forInput.getValue();
         }
-        String forValue = (String) forInput.getValue();
         LOGGER.debug("for value: {}", forValue);
         if (!be.e_contract.ejsf.Runtime.hasCaffeine()) {
             FacesMessage facesMessage = new FacesMessage("Missing caffeine.");
@@ -148,7 +164,8 @@ public class RateLimiterValidator implements Validator, StateHolder {
             this.limitRefreshPeriod,
             this.limitForPeriod,
             this.messageValueExpression,
-            this.onLimitMethodExpression
+            this.onLimitMethodExpression,
+            this.forValueExpression
         };
     }
 
@@ -170,6 +187,7 @@ public class RateLimiterValidator implements Validator, StateHolder {
         this.limitForPeriod = (Integer) stateObjects[3];
         this.messageValueExpression = (ValueExpression) stateObjects[4];
         this.onLimitMethodExpression = (MethodExpression) stateObjects[5];
+        this.forValueExpression = (ValueExpression) stateObjects[6];
     }
 
     @Override

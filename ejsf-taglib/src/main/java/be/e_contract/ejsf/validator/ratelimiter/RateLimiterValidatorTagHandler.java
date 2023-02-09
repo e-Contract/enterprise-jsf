@@ -37,6 +37,12 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
 
         TagAttribute forTagAttribute = getRequiredAttribute("for");
         String forValue = forTagAttribute.getValue();
+        ValueExpression forValueExpression;
+        if (forValue.startsWith("#{") && forValue.endsWith("}")) {
+            forValueExpression = forTagAttribute.getValueExpression(context, String.class);
+        } else {
+            forValueExpression = null;
+        }
         int timeoutDuration = getIntegerAttributeValue("timeoutDuration", 30, context);
         int limitRefreshPeriod = getIntegerAttributeValue("limitRefreshPeriod", 10, context);
         int limitForPeriod = getIntegerAttributeValue("limitForPeriod", 5, context);
@@ -66,6 +72,7 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
         rateLimiterValidator.setLimitForPeriod(limitForPeriod);
         rateLimiterValidator.setMessageValueExpression(messageValueExpression);
         rateLimiterValidator.setOnLimitMethodExpression(onLimitMethodExpression);
+        rateLimiterValidator.setForValueExpression(forValueExpression);
 
         EditableValueHolder parentEditableValueHolder = (EditableValueHolder) parent;
         parentEditableValueHolder.addValidator(rateLimiterValidator);

@@ -520,7 +520,7 @@
         <attribute>
             <name>onLimit</name>
             <method-signature>
-                java.lang.Object onLimit
+                java.lang.Object onLimit(java.lang.String)
             </method-signature>
         </attribute>
     </tag>
