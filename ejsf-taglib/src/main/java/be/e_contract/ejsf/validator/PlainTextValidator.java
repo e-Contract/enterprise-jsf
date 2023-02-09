@@ -9,6 +9,7 @@ package be.e_contract.ejsf.validator;
 import java.util.ResourceBundle;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -21,11 +22,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesValidator(PlainTextValidator.VALIDATOR_ID)
-public class PlainTextValidator implements Validator {
+public class PlainTextValidator implements Validator, StateHolder {
 
     public static final String VALIDATOR_ID = "ejsf.plainTextValidator";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PlainTextValidator.class);
+
+    private boolean _transient;
+
+    private String message;
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
@@ -46,12 +59,52 @@ public class PlainTextValidator implements Validator {
         PolicyFactory policy = new HtmlPolicyBuilder().toFactory();
         String safeHTML = policy.sanitize(strValue);
         if (!safeHTML.equals(strValue)) {
-            Application application = facesContext.getApplication();
-            ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
-            String errorMessage = resourceBundle.getString("invalidCharacters");
+            String errorMessage;
+            if (null != this.message) {
+                errorMessage = this.message;
+            } else {
+                Application application = facesContext.getApplication();
+                ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
+                errorMessage = resourceBundle.getString("invalidCharacters");
+            }
             FacesMessage facesMessage = new FacesMessage(errorMessage);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
         }
+    }
+
+    @Override
+    public Object saveState(FacesContext context) {
+        if (context == null) {
+            throw new NullPointerException();
+        }
+        return new Object[]{
+            this.message
+        };
+    }
+
+    @Override
+    public void restoreState(FacesContext context, Object state) {
+        if (context == null) {
+            throw new NullPointerException();
+        }
+        if (state == null) {
+            return;
+        }
+        Object[] stateObjects = (Object[]) state;
+        if (stateObjects.length == 0) {
+            return;
+        }
+        this.message = (String) stateObjects[0];
+    }
+
+    @Override
+    public boolean isTransient() {
+        return this._transient;
+    }
+
+    @Override
+    public void setTransient(boolean newTransientValue) {
+        this._transient = newTransientValue;
     }
 }

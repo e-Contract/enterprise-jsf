@@ -30,12 +30,22 @@ public class EmailValidator implements Validator, StateHolder {
 
     private boolean allowMultiple;
 
+    private String message;
+
     public boolean isAllowMultiple() {
         return this.allowMultiple;
     }
 
     public void setAllowMultiple(boolean allowMultiple) {
         this.allowMultiple = allowMultiple;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
@@ -72,9 +82,14 @@ public class EmailValidator implements Validator, StateHolder {
         }
 
         if (!valid) {
-            Application application = facesContext.getApplication();
-            ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
-            String errorMessage = resourceBundle.getString("invalidEmail");
+            String errorMessage;
+            if (null != this.message) {
+                errorMessage = this.message;
+            } else {
+                Application application = facesContext.getApplication();
+                ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
+                errorMessage = resourceBundle.getString("invalidEmail");
+            }
             FacesMessage facesMessage = new FacesMessage(errorMessage);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
@@ -86,7 +101,10 @@ public class EmailValidator implements Validator, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
-        return new Object[]{this.allowMultiple};
+        return new Object[]{
+            this.allowMultiple,
+            this.message
+        };
     }
 
     @Override
@@ -102,6 +120,7 @@ public class EmailValidator implements Validator, StateHolder {
             return;
         }
         this.allowMultiple = (Boolean) stateObjects[0];
+        this.message = (String) stateObjects[1];
     }
 
     @Override

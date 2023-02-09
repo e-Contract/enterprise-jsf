@@ -30,6 +30,8 @@ public class UrlValidator implements Validator, StateHolder {
 
     private boolean allowHttp;
 
+    private String message;
+
     private boolean _transient;
 
     @Override
@@ -64,9 +66,14 @@ public class UrlValidator implements Validator, StateHolder {
             return;
         }
         LOGGER.warn("invalid URL: {}", value);
-        Application application = facesContext.getApplication();
-        ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
-        String errorMessage = resourceBundle.getString("invalidUrl");
+        String errorMessage;
+        if (this.message != null) {
+            errorMessage = this.message;
+        } else {
+            Application application = facesContext.getApplication();
+            ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
+            errorMessage = resourceBundle.getString("invalidUrl");
+        }
         FacesMessage facesMessage = new FacesMessage(errorMessage);
         facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
         throw new ValidatorException(facesMessage);
@@ -88,13 +95,25 @@ public class UrlValidator implements Validator, StateHolder {
         this.allowHttp = allowHttp;
     }
 
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public Object saveState(FacesContext context) {
         LOGGER.trace("saveState(..)");
         if (context == null) {
             throw new NullPointerException();
         }
-        return new Object[]{this.allowLocalhost, this.allowHttp};
+        return new Object[]{
+            this.allowLocalhost,
+            this.allowHttp,
+            this.message
+        };
     }
 
     @Override
@@ -112,6 +131,7 @@ public class UrlValidator implements Validator, StateHolder {
         }
         this.allowLocalhost = (Boolean) stateObjects[0];
         this.allowHttp = (Boolean) stateObjects[1];
+        this.message = (String) stateObjects[2];
     }
 
     @Override

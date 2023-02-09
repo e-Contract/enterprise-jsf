@@ -1,16 +1,18 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2015-2020 e-Contract.be BV. All rights reserved.
+ * Copyright 2015-2023 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
@@ -27,9 +29,21 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 @FacesValidator(XMLValidator.VALIDATOR_ID)
-public class XMLValidator implements Validator {
+public class XMLValidator implements Validator, StateHolder {
 
     public static final String VALIDATOR_ID = "ejsf.xmlValidator";
+
+    private boolean _transient;
+
+    private String message;
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
@@ -61,10 +75,16 @@ public class XMLValidator implements Validator {
         try {
             documentBuilder.parse(new InputSource(new StringReader(strValue)));
         } catch (SAXException | IOException ex) {
-            Application application = facesContext.getApplication();
-            ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
-            String message = resourceBundle.getString("invalidXml") + " (" + errorHandler.getLineNumber() + "," + errorHandler.getColumnNumber() + ")";
-            FacesMessage facesMessage = new FacesMessage(message);
+            String errorMessage;
+            if (null != this.message) {
+                errorMessage = this.message;
+            } else {
+                Application application = facesContext.getApplication();
+                ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
+                errorMessage = resourceBundle.getString("invalidXml");
+            }
+            errorMessage = MessageFormat.format(errorMessage, errorHandler.getLineNumber(), errorHandler.getColumnNumber());
+            FacesMessage facesMessage = new FacesMessage(errorMessage);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
         }
@@ -108,5 +128,40 @@ public class XMLValidator implements Validator {
             LOGGER.error("XML fatal error: {} {}", exception.getLineNumber(), exception.getColumnNumber());
             storeLocation(exception);
         }
+    }
+
+    @Override
+    public Object saveState(FacesContext context) {
+        if (context == null) {
+            throw new NullPointerException();
+        }
+        return new Object[]{
+            this.message
+        };
+    }
+
+    @Override
+    public void restoreState(FacesContext context, Object state) {
+        if (context == null) {
+            throw new NullPointerException();
+        }
+        if (state == null) {
+            return;
+        }
+        Object[] stateObjects = (Object[]) state;
+        if (stateObjects.length == 0) {
+            return;
+        }
+        this.message = (String) stateObjects[0];
+    }
+
+    @Override
+    public boolean isTransient() {
+        return this._transient;
+    }
+
+    @Override
+    public void setTransient(boolean newTransientValue) {
+        this._transient = newTransientValue;
     }
 }

@@ -78,6 +78,10 @@
             <name>allowMultiple</name>
             <type>java.lang.Boolean</type>
         </attribute>
+        <attribute>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -165,6 +169,10 @@
             <required>true</required>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -190,6 +198,10 @@
         <validator>
             <validator-id>ejsf.otpValidator</validator-id>
         </validator>
+        <attribute>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -234,6 +246,10 @@
         <validator>
             <validator-id>ejsf.plainTextValidator</validator-id>
         </validator>
+        <attribute>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

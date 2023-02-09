@@ -35,6 +35,8 @@ public class PhoneNumberValidator implements Validator, StateHolder {
 
     private String phoneNumberType;
 
+    private String message;
+
     public String getDefaultRegion() {
         return this.defaultRegion;
     }
@@ -49,6 +51,14 @@ public class PhoneNumberValidator implements Validator, StateHolder {
 
     public void setPhoneNumberType(String phoneNumberType) {
         this.phoneNumberType = phoneNumberType;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
@@ -71,9 +81,14 @@ public class PhoneNumberValidator implements Validator, StateHolder {
             }
         } catch (NumberParseException ex) {
             LOGGER.debug("invalid phone number: {} : {}", value, ex.getMessage());
-            Application application = facesContext.getApplication();
-            ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
-            String errorMessage = resourceBundle.getString("invalidPhoneNumber");
+            String errorMessage;
+            if (null != this.message) {
+                errorMessage = this.message;
+            } else {
+                Application application = facesContext.getApplication();
+                ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
+                errorMessage = resourceBundle.getString("invalidPhoneNumber");
+            }
             FacesMessage facesMessage = new FacesMessage(errorMessage);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
@@ -85,7 +100,11 @@ public class PhoneNumberValidator implements Validator, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
-        return new Object[]{this.defaultRegion, this.phoneNumberType};
+        return new Object[]{
+            this.defaultRegion,
+            this.phoneNumberType,
+            this.message
+        };
     }
 
     @Override
@@ -102,6 +121,7 @@ public class PhoneNumberValidator implements Validator, StateHolder {
         }
         this.defaultRegion = (String) stateObjects[0];
         this.phoneNumberType = (String) stateObjects[1];
+        this.message = (String) stateObjects[2];
     }
 
     @Override
