@@ -498,6 +498,7 @@
         </validator>
         <attribute>
             <name>for</name>
+            <required>true</required>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
@@ -511,6 +512,10 @@
         <attribute>
             <name>limitForPeriod</name>
             <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <name>message</name>
+            <type>java.lang.String</type>
         </attribute>
     </tag>
 

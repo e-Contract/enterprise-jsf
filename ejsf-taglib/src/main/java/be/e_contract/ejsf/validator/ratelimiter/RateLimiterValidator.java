@@ -11,6 +11,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.el.ELContext;
+import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.StateHolder;
@@ -41,6 +43,8 @@ public class RateLimiterValidator implements Validator, StateHolder {
     private int limitRefreshPeriod;
 
     private int limitForPeriod;
+
+    private ValueExpression messageValueExpression;
 
     private boolean _transient;
 
@@ -76,6 +80,14 @@ public class RateLimiterValidator implements Validator, StateHolder {
         this.limitForPeriod = limitForPeriod;
     }
 
+    public ValueExpression getMessageValueExpression() {
+        return this.messageValueExpression;
+    }
+
+    public void setMessageValueExpression(ValueExpression messageValueExpression) {
+        this.messageValueExpression = messageValueExpression;
+    }
+
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
         LOGGER.debug("validate");
@@ -95,9 +107,15 @@ public class RateLimiterValidator implements Validator, StateHolder {
         }
         boolean reachedLimit = reachedLimit(facesContext, forValue);
         if (reachedLimit) {
-            Application application = facesContext.getApplication();
-            ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
-            String message = resourceBundle.getString("rateLimiter");
+            String message;
+            if (null != this.messageValueExpression) {
+                ELContext elContext = facesContext.getELContext();
+                message = (String) this.messageValueExpression.getValue(elContext);
+            } else {
+                Application application = facesContext.getApplication();
+                ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
+                message = resourceBundle.getString("rateLimiter");
+            }
             FacesMessage facesMessage = new FacesMessage(message);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
@@ -113,7 +131,8 @@ public class RateLimiterValidator implements Validator, StateHolder {
             this._for,
             this.timeoutDuration,
             this.limitRefreshPeriod,
-            this.limitForPeriod
+            this.limitForPeriod,
+            this.messageValueExpression
         };
     }
 
@@ -133,6 +152,7 @@ public class RateLimiterValidator implements Validator, StateHolder {
         this.timeoutDuration = (Integer) stateObjects[1];
         this.limitRefreshPeriod = (Integer) stateObjects[2];
         this.limitForPeriod = (Integer) stateObjects[3];
+        this.messageValueExpression = (ValueExpression) stateObjects[4];
     }
 
     @Override

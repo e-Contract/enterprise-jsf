@@ -7,6 +7,7 @@
 package be.e_contract.ejsf.validator.ratelimiter;
 
 import java.io.IOException;
+import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
@@ -33,11 +34,19 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
             return;
         }
 
-        TagAttribute forTagAttribute = getAttribute("for");
+        TagAttribute forTagAttribute = getRequiredAttribute("for");
         String forValue = forTagAttribute.getValue();
         int timeoutDuration = getIntegerAttributeValue("timeoutDuration", 30, context);
         int limitRefreshPeriod = getIntegerAttributeValue("limitRefreshPeriod", 10, context);
         int limitForPeriod = getIntegerAttributeValue("limitForPeriod", 5, context);
+
+        ValueExpression messageValueExpression;
+        TagAttribute messageTagAttribute = getTagAttribute("message");
+        if (null != messageTagAttribute) {
+            messageValueExpression = messageTagAttribute.getValueExpression(context, String.class);
+        } else {
+            messageValueExpression = null;
+        }
 
         FacesContext facesContext = context.getFacesContext();
         Application application = facesContext.getApplication();
@@ -46,6 +55,7 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
         rateLimiterValidator.setTimeoutDuration(timeoutDuration);
         rateLimiterValidator.setLimitRefreshPeriod(limitRefreshPeriod);
         rateLimiterValidator.setLimitForPeriod(limitForPeriod);
+        rateLimiterValidator.setMessageValueExpression(messageValueExpression);
 
         EditableValueHolder parentEditableValueHolder = (EditableValueHolder) parent;
         parentEditableValueHolder.addValidator(rateLimiterValidator);

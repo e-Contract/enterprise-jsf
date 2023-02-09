@@ -17,7 +17,7 @@
 
                 <p:outputLabel for="password" value="Password:"/>
                 <p:password id="password" value="#{rateLimiterController.password}">
-                    <ejsf:rateLimiter for="username"/>
+                    <ejsf:rateLimiter for="username" message="#{ejsfMessages.rateLimiter} Woopsy!"/>
                 </p:password>
                 <p:message for="password"/>
             </h:panelGrid>
