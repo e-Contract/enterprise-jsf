@@ -22,9 +22,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>
-                                ${basedir}/target
-                            </outputDirectory>
+                            <outputDirectory>${basedir}/target</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/node</directory>
@@ -40,14 +38,10 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>
-                                ${basedir}/target/classes/META-INF/resources/echarts
-                            </outputDirectory>
+                            <outputDirectory>${basedir}/target/classes/META-INF/resources/echarts</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>
-                                        ${basedir}/target/node_modules/echarts/dist
-                                    </directory>
+                                    <directory>${basedir}/target/node_modules/echarts/dist</directory>
                                     <includes>
                                         <include>echarts.min.js</include>
                                     </includes>
@@ -101,11 +95,18 @@
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <shadedClassifierName>jakarta</shadedClassifierName>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer implementation="io.yupiik.maven.shade.transformer.RelocationTransformer">
+                                    <delegates>
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer">
+                                            <resource>META-INF/faces-config.xml</resource>
+                                        </transformer>
+                                    </delegates>
+                                </transformer>
+                            </transformers>
                             <artifactSet>
                                 <includes>
-                                    <include>
-                                        ${project.groupId}:${project.artifactId}
-                                    </include>
+                                    <include>${project.groupId}:${project.artifactId}</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -121,6 +122,13 @@
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.yupiik.maven</groupId>
+                        <artifactId>maven-shade-transformers</artifactId>
+                        <version>0.0.3</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

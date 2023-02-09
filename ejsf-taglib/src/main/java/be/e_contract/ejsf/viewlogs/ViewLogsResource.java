@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.faces.application.Application;
 import javax.faces.application.Resource;
-import javax.faces.application.ResourceHandler;
 import javax.faces.application.ViewHandler;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -93,7 +92,7 @@ public class ViewLogsResource extends Resource {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Application application = facesContext.getApplication();
         ViewHandler viewHandler = application.getViewHandler();
-        String resourcePath = ResourceHandler.RESOURCE_IDENTIFIER + "/" + getResourceName() + ".xhtml?ln=" + getLibraryName();
+        String resourcePath = be.e_contract.ejsf.Runtime.getResourceHandlerResourceIdentifier() + "/" + getResourceName() + ".xhtml?ln=" + getLibraryName();
         return viewHandler.getResourceURL(facesContext, resourcePath);
     }
 

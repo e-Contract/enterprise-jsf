@@ -20,6 +20,8 @@ public class Runtime {
 
     private static String version;
 
+    private static String resourceHandlerResourceIdentifier;
+
     static {
         try {
             Class.forName("org.apache.commons.validator.routines.EmailValidator");
@@ -43,13 +45,20 @@ public class Runtime {
         }
 
         try {
-            try (InputStream inputStream = Runtime.class.getResourceAsStream("/META-INF/maven/be.e-contract.enterprise-jsf/ejsf-taglib/pom.properties")) {
+            try ( InputStream inputStream = Runtime.class.getResourceAsStream("/META-INF/maven/be.e-contract.enterprise-jsf/ejsf-taglib/pom.properties")) {
                 Properties buildProperties = new Properties();
                 buildProperties.load(inputStream);
                 version = buildProperties.getProperty("version");
             }
         } catch (IOException e) {
             version = "unknown";
+        }
+
+        try {
+            Class.forName("jakarta.faces.lifecycle.ClientWindowScoped");
+            resourceHandlerResourceIdentifier = "/jakarta.faces.resource";
+        } catch (ClassNotFoundException ex) {
+            resourceHandlerResourceIdentifier = "/javax.faces.resource";
         }
     }
 
@@ -67,5 +76,9 @@ public class Runtime {
 
     public static String getVersion() {
         return version;
+    }
+
+    public static String getResourceHandlerResourceIdentifier() {
+        return resourceHandlerResourceIdentifier;
     }
 }
