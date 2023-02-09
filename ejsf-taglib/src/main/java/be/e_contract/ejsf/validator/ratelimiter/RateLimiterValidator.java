@@ -9,7 +9,9 @@ package be.e_contract.ejsf.validator.ratelimiter;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
@@ -93,7 +95,10 @@ public class RateLimiterValidator implements Validator, StateHolder {
         }
         boolean reachedLimit = reachedLimit(facesContext, forValue);
         if (reachedLimit) {
-            FacesMessage facesMessage = new FacesMessage("Please try again later.");
+            Application application = facesContext.getApplication();
+            ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
+            String message = resourceBundle.getString("rateLimiter");
+            FacesMessage facesMessage = new FacesMessage(message);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
         }
