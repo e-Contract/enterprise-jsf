@@ -15,6 +15,11 @@
             <base-name>be.e_contract.ejsf.Messages</base-name>
             <var>ejsfMessages</var>
         </resource-bundle>
+        <system-event-listener>
+            <system-event-listener-class>be.e_contract.ejsf.PostConstructApplicationEventListener</system-event-listener-class>
+            <system-event-class>javax.faces.event.PostConstructApplicationEvent</system-event-class>
+            <source-class>javax.faces.application.Application</source-class>
+        </system-event-listener>
     </application>
 
 </faces-config>

@@ -6,6 +6,10 @@
  */
 package be.e_contract.ejsf;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class Runtime {
 
     private static boolean hasCommonsValidator;
@@ -13,6 +17,8 @@ public class Runtime {
     private static boolean hasOwaspHtmlSanitizer;
 
     private static boolean hasCaffeine;
+
+    private static String version;
 
     static {
         try {
@@ -35,6 +41,16 @@ public class Runtime {
         } catch (ClassNotFoundException ex) {
             hasCaffeine = false;
         }
+
+        try {
+            try (InputStream inputStream = Runtime.class.getResourceAsStream("/META-INF/maven/be.e-contract.enterprise-jsf/ejsf-taglib/pom.properties")) {
+                Properties buildProperties = new Properties();
+                buildProperties.load(inputStream);
+                version = buildProperties.getProperty("version");
+            }
+        } catch (IOException e) {
+            version = "unknown";
+        }
     }
 
     public static boolean hasCommonsValidator() {
@@ -47,5 +63,9 @@ public class Runtime {
 
     public static boolean hasCaffeine() {
         return hasCaffeine;
+    }
+
+    public static String getVersion() {
+        return version;
     }
 }
