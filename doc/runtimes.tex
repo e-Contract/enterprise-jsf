@@ -4,6 +4,9 @@
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{JSF runtimes}
+Within this chapter, we take a look at different runtime environments capable of hosting JSF based web applications.
+First we take a look at different JSF implementations.
+Next we investigate how to configure these JSF implementations within different runtime environments.
 
 \section{JSF implementations}
 
@@ -62,16 +65,21 @@ Besides the obvious advantages, which you can find all over the internet, there 
 	\item A classical application server has a stronger focus on production stability versus adding new features all the time to keep up the fight with Spring Boot \cite{spring}.
 \end{itemize}
 
-Maven project file:
+The Maven project file for our example Quarkus application looks as follows.
 \lstinputlisting[language=XML]{../quarkus/pom.xml}
-Notice here that we simplified our POM file compared to what Quarkus normally generates for you.
+We simplified our POM file compared to what Quarkus normally generates for you.
 This was done to more easily highlight to required configuration aspects.
+Basically all the heavy lifting to build the Quarkus based runtime is handled by the \texttt{quarkus-maven-plugin} Maven plugin.
+We use the \texttt{myfaces-quarkus} Quarkus extension to provide us with a JSF runtime based on MyFaces.
 
-Configuration file \texttt{src/main/resources/application.properties}:
+
+Via \texttt{src/main/resources/application.properties}  the Quarkus application configuration file we can configure different aspects of the runtime.
 \lstinputlisting{../quarkus/src/main/resources/application.properties}
 
 Web deployment descriptor \texttt{src/main/resources/META-INF/web.xml}:
 \lstinputlisting[language=XML]{../quarkus/src/main/resources/META-INF/web.xml}
+As you can see, we no longer have to configure the JSF servlet ourselves.
+This has been taken care of by the \texttt{myfaces-quarkus} extension.
 
 Index page \texttt{src/main/resources/META-INF/resources/index.xhtml}:
 \lstinputlisting[language=XML]{../quarkus/src/main/resources/META-INF/resources/index.xhtml}
@@ -80,7 +88,7 @@ Our \texttt{HelloController.java} CDI based controller:
 \lstinputlisting[language=Java]{../quarkus/src/main/java/be/e_contract/ejsf/quarkus/HelloController.java}
 
 \begin{TIP}{Java Runtime}
-	Please notice that Quarkus requires at least Java version 11 as runtime.
+	Quarkus requires at least Java version 11 as runtime.
 \end{TIP}
 
 Compile and run the application via:

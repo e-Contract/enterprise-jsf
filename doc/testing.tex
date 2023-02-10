@@ -1,6 +1,6 @@
 % Enterprise JSF project.
 %
-% Copyright 2022 e-Contract.be BV. All rights reserved.
+% Copyright 2022-2023 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Testing JSF Components}
@@ -21,11 +21,11 @@ Hence your JSF component really needs to be testing within an actual JSF enabled
 Using Selenium \cite{selenium} one can easily test web applications, and hence JSF components.
 Let us test out the functionality of the following JSF page.
 \lstinputlisting[language=XML]{../testing/war/src/main/webapp/input-output.xhtml}
-Notice that we gave every JSF component that we want to access from within our test an \texttt{id} attribute.
+We gave every JSF component that we want to access from within our test an \texttt{id} attribute.
 
 We represent this JSF page by the following test class.
 \lstinputlisting[language=Java]{../testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/InputOutputPage.java}
-Notice how we locate the web elements using \texttt{By.id}.
+We locate the web elements using \texttt{By.id}.
 
 Our basic integration test using Selenium looks as follows.
 \lstinputlisting[language=Java]{../testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/SeleniumTest.java}
@@ -48,7 +48,7 @@ Besides testing against a full-blown Java EE application server, we can also use
 Let us start easy here, and test out the following simple servlet.
 \lstinputlisting[language=Java]{../testing/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleServlet.java}
 
-We can now unit test the servlet via an embedded servlet container as shown in the following example.
+We can unit test the servlet via an embedded servlet container as shown in the following example.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleServletTest.java}
 Here we run Jetty \cite{jetty} as embedded servlet container.
 Via Apache HttpClient \cite{httpclient} we test out the behavior of our servlet.
@@ -60,15 +60,19 @@ Hence let us take small steps to evolve towards an embedded Jetty container that
 In this example, we simply enable CDI within the embedded Jetty container.
 Our example servlet for this looks as follows:
 \lstinputlisting[language=Java]{../testing/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleCDIServlet.java}
-Here we simply output whether the CDI \texttt{BeanManager} has been injected within our servlet.
+Here we output whether the CDI \texttt{BeanManager} has been injected within our servlet.
+If this is the case, we know that CDI has indeed been properly initialized.
 
-We can now unit test the servlet via an embedded servlet container as shown in the following example.
+We can unit test the servlet via an embedded servlet container as shown in the following example.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleCDIServletTest.java}
+We are using Weld here as CDI implementation.
+Just before starting the Jetty servlet container, we configure Weld so it can get properly activated.
 
 \subsection{JSF}
 
 Next step is to enable a JSF runtime within our embedded servlet container.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleJSFServletTest.java}
+We are using Mojarra here as JSF implementation.
 
 \section{Jetty and Selenium}
 Since we need to have the web browser for correct interpretation of possible Javascript, the final step is to combine our Jetty JSF runtime with Selenium.

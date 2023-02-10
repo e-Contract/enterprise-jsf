@@ -10,13 +10,13 @@ We also have similar renaming of the different namespaces.
 
 For example, our CDI controller now looks as follows:
 \lstinputlisting[language=Java]{../helloworld-ee10/war-ee10/src/main/java/be/e_contract/jsf/helloworld/InputOutputController.java}
-Notice the \texttt{jakarta} namespace prefix for the Java EE packages.
+The \texttt{jakarta} namespace prefix for the Java EE packages is the only change here.
 
 Similarly, we have some namespace changes within our XHTML files as well.
 \lstinputlisting[language=XML]{../helloworld-ee10/war-ee10/src/main/webapp/index.xhtml}
 Notice the \texttt{jakarta.faces} XML namespace prefix for the JSF namespaces.
 
-And the updated web descriptor looks as follows:
+The updated web descriptor looks as follows:
 \lstinputlisting[language=XML]{../helloworld-ee10/war-ee10/src/main/webapp/WEB-INF/web.xml}
 Again \texttt{jakarta.faces} prefixes here.
 

@@ -356,17 +356,22 @@ With the corresponding CDI controller given below.
 In this section we demonstrate how to construct dynamic components, i.e., components that change behavior at runtime.
 Imagine we have a list of objects, each object has its own type as shown in the following example controller.
 \lstinputlisting[language=Java]{../helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/DataController.java}
+Each \texttt{Item} has its own \texttt{type} and corresponding \texttt{value}.
 
 We now want to construct a component that is capable of inputting this dynamic typed value, as shown in the example below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/dynamic-input.xhtml}
-Depending on the actual type of the item, the \texttt{dynamicInput} component changes its rendering accordingly.
+Depending on the actual type of the item, the \texttt{dynamicInput} component should change its rendering accordingly.
 
 Our JSF component for this looks as follows.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/DynamicInputComponent.java}
+Via the \texttt{@ListenerFor} annotations we indicate that we want to receive \texttt{PostAddToViewEvent} events from the JSF runtime.
+These events are fired at the \texttt{processEvent} method.
 Via the \texttt{PostAddToViewEvent} event we add specific input components to the component tree within the \texttt{processEvent} method.
-Notice here that we add all possible input components here,  since at this point we don't know yet which exact type will be required at render/decode time.
+Notice that we add all possible input components here,  since at this point we don't know yet which exact type will be required at render/decode time.
+When programmatically adding JSF components to the JSF view root tree, it is important to always define a relative unique identifier for each component via the \texttt{setId} method.
 Via the \texttt{getRendersChildren} method we indicate that we take care of rendering/decoding our children.
 And this is exactly what we do within the \texttt{encodeChildren} and \texttt{decode} methods where we delegate towards the appropriate child component depending on the type.
+Hence we selectively render the child component that is capable of handling the item type.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
 \lstinputlisting[language=XML,linerange=dynamicInput]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
@@ -393,10 +398,10 @@ We register this custom component within our \texttt{.taglib.xml} tag library de
 
 \section{EL functions}
 In this section we demonstrate how to add custom EL functions.
-In the following example we use our custom \texttt{gcd} function to calculate the greatest common divisor of two given numbers.
+In the following example we use a custom \texttt{gcd} function to calculate the greatest common divisor of two given numbers.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/custom-function.xhtml}
 
-This EL (expression language) function is simply defined as a static Java function as shown below.
+This EL (expression language) function is defined as a public static Java function as shown below.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/GreatestCommonDivisor.java}
 
 We register this custom function within our \texttt{.taglib.xml} tag library descriptor as follows.
