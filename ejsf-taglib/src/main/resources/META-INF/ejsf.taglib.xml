@@ -501,6 +501,10 @@
             <name>background</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>icon</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

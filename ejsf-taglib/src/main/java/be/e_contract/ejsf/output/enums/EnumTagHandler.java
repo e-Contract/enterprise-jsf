@@ -35,13 +35,14 @@ public class EnumTagHandler extends TagHandler {
         String label = getOptionalAttributeValue("label", faceletContext);
         String color = getOptionalAttributeValue("color", faceletContext);
         String background = getOptionalAttributeValue("background", faceletContext);
+        String icon = getOptionalAttributeValue("icon", faceletContext);
         OutputEnumComponent outputEnumComponent = (OutputEnumComponent) parent;
         Map<String, OutputEnumComponent.EnumInfo> enums = outputEnumComponent.getEnums();
         if (null == enums) {
             enums = new HashMap<>();
             outputEnumComponent.setEnums(enums);
         }
-        enums.put(name, new OutputEnumComponent.EnumInfo(label, color, background));
+        enums.put(name, new OutputEnumComponent.EnumInfo(label, color, background, icon));
     }
 
     private String getOptionalAttributeValue(String attributeName, FaceletContext faceletContext) {

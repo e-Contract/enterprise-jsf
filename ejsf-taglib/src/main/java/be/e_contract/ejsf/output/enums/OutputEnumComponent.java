@@ -44,15 +44,17 @@ public class OutputEnumComponent extends UIOutput {
         private final String label;
         private final String color;
         private final String background;
+        private final String icon;
 
         public EnumInfo() {
-            this(null, null, null);
+            this(null, null, null, null);
         }
 
-        public EnumInfo(String label, String color, String background) {
+        public EnumInfo(String label, String color, String background, String icon) {
             this.label = label;
             this.color = color;
             this.background = background;
+            this.icon = icon;
         }
 
         public String getLabel() {
@@ -65,6 +67,10 @@ public class OutputEnumComponent extends UIOutput {
 
         public String getBackground() {
             return this.background;
+        }
+
+        public String getIcon() {
+            return this.icon;
         }
     }
 
@@ -82,11 +88,13 @@ public class OutputEnumComponent extends UIOutput {
         Map<String, EnumInfo> enums = getEnums();
         String label = null;
         String style = "";
+        String icon = null;
         if (null != value) {
             if (null != enums) {
                 EnumInfo enumInfo = enums.get(value.name());
                 if (null != enumInfo) {
                     label = enumInfo.getLabel();
+                    icon = enumInfo.getIcon();
                     String color = enumInfo.getColor();
                     if (null != color) {
                         style += "color: " + color + "; border-color: " + color + ";";
@@ -110,6 +118,12 @@ public class OutputEnumComponent extends UIOutput {
         responseWriter.writeAttribute("class", "output-enum", null);
         if (!style.isEmpty()) {
             responseWriter.writeAttribute("style", style, null);
+        }
+        if (null != icon) {
+            responseWriter.startElement("i", null);
+            responseWriter.writeAttribute("class", icon, "value");
+            responseWriter.endElement("i");
+            responseWriter.write(" ");
         }
         responseWriter.write(label);
         responseWriter.endElement("span");
