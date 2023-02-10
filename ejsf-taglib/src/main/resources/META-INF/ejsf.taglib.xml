@@ -545,4 +545,14 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Validator for strong passwords.
+        </description>
+        <tag-name>passwordValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.passwordValidator</validator-id>
+        </validator>
+    </tag>
+
 </facelet-taglib>

@@ -22,6 +22,8 @@ public class Runtime {
 
     private static String resourceHandlerResourceIdentifier;
 
+    private static boolean hasPassay;
+
     static {
         try {
             Class.forName("org.apache.commons.validator.routines.EmailValidator");
@@ -60,6 +62,13 @@ public class Runtime {
         } catch (ClassNotFoundException ex) {
             resourceHandlerResourceIdentifier = "/javax.faces.resource";
         }
+
+        try {
+            Class.forName("org.passay.PasswordValidator");
+            hasPassay = true;
+        } catch (ClassNotFoundException ex) {
+            hasPassay = false;
+        }
     }
 
     public static boolean hasCommonsValidator() {
@@ -80,5 +89,9 @@ public class Runtime {
 
     public static String getResourceHandlerResourceIdentifier() {
         return resourceHandlerResourceIdentifier;
+    }
+
+    public static boolean hasPassay() {
+        return hasPassay;
     }
 }

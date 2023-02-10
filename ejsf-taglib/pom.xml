@@ -176,5 +176,10 @@
             <artifactId>caffeine</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 </project>
