@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>Enterprise JSF Demo - Quarkus</title>
+    </h:head>
+    <h:body>
+        <h1>Enterprise JSF Demo - Quarkus</h1>
+        <p>
+            This web application demonstrates the Enterprise JSF component library.
+        </p>
+        <p:messages globalOnly="true" id="messages"/>
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="url" value="URL:"/>
+                <p:inputText id="url" value="#{helloController.value}">
+                    <ejsf:urlValidator/>
+                </p:inputText>
+                <p:message for="url"/>
+            </h:panelGrid>
+            <p>
+                Submitted URL is: #{helloController.value}
+            </p>
+            <p:commandButton value="Submit" update="@form"/>
+        </h:form>
+        <ejsf:outputBoolean value="#{true}"/>
+    </h:body>
+</html>

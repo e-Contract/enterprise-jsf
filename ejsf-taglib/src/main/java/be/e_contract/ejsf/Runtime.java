@@ -48,9 +48,14 @@ public class Runtime {
 
         try {
             try ( InputStream inputStream = Runtime.class.getResourceAsStream("/META-INF/maven/be.e-contract.enterprise-jsf/ejsf-taglib/pom.properties")) {
-                Properties buildProperties = new Properties();
-                buildProperties.load(inputStream);
-                version = buildProperties.getProperty("version");
+                if (null == inputStream) {
+                    // quarkus
+                    version = "unknown";
+                } else {
+                    Properties buildProperties = new Properties();
+                    buildProperties.load(inputStream);
+                    version = buildProperties.getProperty("version");
+                }
             }
         } catch (IOException e) {
             version = "unknown";
