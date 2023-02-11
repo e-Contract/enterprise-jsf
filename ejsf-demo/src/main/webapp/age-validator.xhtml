@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>Age Validator Demo</title>
+    </h:head>
+    <h:body>
+        <h1>Age Validator Demo</h1>
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="age" value="Date of birth:"/>
+                <p:datePicker id="age" value="#{ageController.dateOfBirth}" yearNavigator="true" yearRange="1920:2023">
+                    <ejsf:ageValidator minimumAge="18"/>
+                </p:datePicker>
+                <p:message for="age"/>
+            </h:panelGrid>
+            <p>
+                Submitted date of birth is:
+                <h:outputText value="#{ageController.dateOfBirth}">
+                    <f:convertDateTime type="date" dateStyle="medium" />
+                </h:outputText>
+            </p>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Submit" update="@form"/>
+            </h:panelGrid>
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="1">
+                <p:button outcome="index" value="Back"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>

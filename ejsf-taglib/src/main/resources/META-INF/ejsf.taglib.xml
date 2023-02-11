@@ -555,4 +555,23 @@
         </validator>
     </tag>
 
+    <tag>
+        <description>
+            Age validator.
+        </description>
+        <tag-name>ageValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.ageValidator</validator-id>
+        </validator>
+        <attribute>
+            <name>minimumAge</name>
+            <required>true</required>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
