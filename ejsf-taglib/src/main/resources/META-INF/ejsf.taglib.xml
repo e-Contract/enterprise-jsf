@@ -574,4 +574,29 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Component for D3.</description>
+        <tag-name>d3</tag-name>
+        <component>
+            <component-type>ejsf.d3Component</component-type>
+            <renderer-type>ejsf.d3Renderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The optional width of the chart. Defaults to 600.</description>
+            <name>width</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The optional height of the chart. Defaults to 400.</description>
+            <name>height</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
