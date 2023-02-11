@@ -99,6 +99,18 @@ mvn wildfly:deploy
 Try out the demo web application via:
 http://localhost:8080/ejsf-demo/
 
+You can also run the demo web application using an embedded Jetty servlet container.
+Run the demo web application with Mojarra as JSF implementation via:
+```
+cd ejsf-demo
+mvn clean jetty:run -Pmojarra
+```
+Run the demo web application with MyFaces as JSF implementation via:
+```
+cd ejsf-demo
+mvn clean jetty:run -Pmyfaces
+```
+
 Alternatively, the Java EE application can be compiled and deployed to a WildFly Docker container
 that is built on the fly (using the `Dockerfile`-files located in `docker/`) by entering the following command:
 ```shell

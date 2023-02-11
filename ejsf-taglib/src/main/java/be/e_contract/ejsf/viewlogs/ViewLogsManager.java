@@ -7,6 +7,7 @@
 package be.e_contract.ejsf.viewlogs;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +23,11 @@ import javax.management.ReflectionException;
 public class ViewLogsManager {
 
     private static String getLogPath() throws MalformedObjectNameException, MBeanException, AttributeNotFoundException, InstanceNotFoundException, ReflectionException {
-        MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
+        ArrayList<MBeanServer> mBeanServers = MBeanServerFactory.findMBeanServer(null);
+        if (mBeanServers.isEmpty()) {
+            return null;
+        }
+        MBeanServer mBeanServer = (MBeanServer) mBeanServers.get(0);
         ObjectName jbossServerLogDirObjectName = new ObjectName("jboss.as:path=jboss.server.log.dir");
         String logPath = (String) mBeanServer.getAttribute(jbossServerLogDirObjectName, "path");
         return logPath;
@@ -33,6 +38,9 @@ public class ViewLogsManager {
         try {
             logPath = getLogPath();
         } catch (MalformedObjectNameException | MBeanException | AttributeNotFoundException | InstanceNotFoundException | ReflectionException ex) {
+            return new LinkedList<>();
+        }
+        if (null == logPath) {
             return new LinkedList<>();
         }
         File logDirectory = new File(logPath);

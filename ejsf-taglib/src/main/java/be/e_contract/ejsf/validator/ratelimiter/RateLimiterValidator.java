@@ -225,6 +225,7 @@ public class RateLimiterValidator implements Validator, StateHolder {
             // trigger timeoutDuration
             cache.put(identifier, rateInfo);
         }
+        LOGGER.debug("cache size: {}", cache.estimatedSize());
         return reachedLimit;
     }
 }
