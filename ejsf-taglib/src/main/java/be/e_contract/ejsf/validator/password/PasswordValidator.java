@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.validator.password;
 
+import be.e_contract.ejsf.Environment;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -33,7 +34,7 @@ public class PasswordValidator implements Validator<String> {
         if (UIInput.isEmpty(value)) {
             return;
         }
-        if (!be.e_contract.ejsf.Runtime.hasPassay()) {
+        if (!Environment.hasPassay()) {
             String errorMessage = "Missing passay";
             LOGGER.error(errorMessage);
             FacesMessage facesMessage = new FacesMessage(errorMessage);

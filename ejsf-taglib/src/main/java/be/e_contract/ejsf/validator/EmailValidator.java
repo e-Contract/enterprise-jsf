@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.validator;
 
+import be.e_contract.ejsf.Environment;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import javax.faces.application.Application;
@@ -58,7 +59,7 @@ public class EmailValidator implements Validator, StateHolder {
         if (strValue.isEmpty()) {
             return;
         }
-        if (!be.e_contract.ejsf.Runtime.hasCommonsValidator()) {
+        if (!Environment.hasCommonsValidator()) {
             String errorMessage = "Missing commons-validator";
             LOGGER.error(errorMessage);
             FacesMessage facesMessage = new FacesMessage(errorMessage);

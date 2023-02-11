@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ejsf="urn:be:e-contract:ejsf">
-    <h:head>
-        <title>Close Dialog Demo</title>
-    </h:head>
-    <h:body>
-        <h1>Close Dialog Demo</h1>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Close Dialog Demo</ui:define>
+    <ui:define name="body">
         <h:form>
             <p:commandButton oncomplete="PF('demoDialog').show()" value="Show Dialog"/>
-            <h:panelGrid columns="1">
-                <p:button outcome="index" value="Back"/>
-            </h:panelGrid>
         </h:form>
 
         <p:dialog widgetVar="demoDialog" header="Demo Dialog">
@@ -25,5 +21,5 @@
                 </p:commandButton>
             </h:form>
         </p:dialog>
-    </h:body>
-</html>
+    </ui:define>
+</ui:composition>

@@ -1,21 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ejsf="urn:be:e-contract:ejsf"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:head>
-        <title>Output Day Of Week Demo</title>
-    </h:head>
-    <h:body>
-        <h1>Output Day Of Week Demo</h1>
-        <h:form>
-            <ui:repeat value="#{outputDayOfWeekController.dayOfWeekList}" var="dayOfWeek">
-                <ejsf:outputDayOfWeek value="#{dayOfWeek}"/><br/>
-            </ui:repeat>
-            <h:panelGrid columns="1">
-                <p:button outcome="index" value="Back"/>
-            </h:panelGrid>
-        </h:form>
-    </h:body>
-</html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Output Day Of Week Demo</ui:define>
+    <ui:define name="body">
+        <ui:repeat value="#{outputDayOfWeekController.dayOfWeekList}" var="dayOfWeek">
+            <ejsf:outputDayOfWeek value="#{dayOfWeek}"/><br/>
+        </ui:repeat>
+    </ui:define>
+</ui:composition>

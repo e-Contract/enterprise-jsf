@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.validator;
 
+import be.e_contract.ejsf.Environment;
 import java.util.ResourceBundle;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -53,7 +54,7 @@ public class UrlValidator implements Validator, StateHolder {
         } else {
             options = 0;
         }
-        if (!be.e_contract.ejsf.Runtime.hasCommonsValidator()) {
+        if (!Environment.hasCommonsValidator()) {
             String errorMessage = "Missing commons-validator";
             LOGGER.error(errorMessage);
             FacesMessage facesMessage = new FacesMessage(errorMessage);

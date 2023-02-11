@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.viewlogs;
 
+import be.e_contract.ejsf.Environment;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -92,7 +93,7 @@ public class ViewLogsResource extends Resource {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Application application = facesContext.getApplication();
         ViewHandler viewHandler = application.getViewHandler();
-        String resourcePath = be.e_contract.ejsf.Runtime.getResourceHandlerResourceIdentifier() + "/" + getResourceName() + ".xhtml?ln=" + getLibraryName();
+        String resourcePath = Environment.getResourceHandlerResourceIdentifier() + "/" + getResourceName() + ".xhtml?ln=" + getLibraryName();
         return viewHandler.getResourceURL(facesContext, resourcePath);
     }
 

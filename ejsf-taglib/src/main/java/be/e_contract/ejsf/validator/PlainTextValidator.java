@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.validator;
 
+import be.e_contract.ejsf.Environment;
 import java.util.ResourceBundle;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -49,7 +50,7 @@ public class PlainTextValidator implements Validator, StateHolder {
         if (UIInput.isEmpty(strValue)) {
             return;
         }
-        if (!be.e_contract.ejsf.Runtime.hasOwaspHtmlSanitizer()) {
+        if (!Environment.hasOwaspHtmlSanitizer()) {
             String errorMessage = "Missing owasp-java-html-sanitizer";
             LOGGER.error(errorMessage);
             FacesMessage facesMessage = new FacesMessage(errorMessage);

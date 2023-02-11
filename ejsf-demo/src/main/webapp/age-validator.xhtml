@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ejsf="urn:be:e-contract:ejsf">
-    <h:head>
-        <title>Age Validator Demo</title>
-    </h:head>
-    <h:body>
-        <h1>Age Validator Demo</h1>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Age Validator Demo</ui:define>
+    <ui:define name="body">
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="age" value="Date of birth:"/>
@@ -27,10 +26,5 @@
                 <p:commandButton value="Submit" update="@form"/>
             </h:panelGrid>
         </h:form>
-        <h:form>
-            <h:panelGrid columns="1">
-                <p:button outcome="index" value="Back"/>
-            </h:panelGrid>
-        </h:form>
-    </h:body>
-</html>
+    </ui:define>
+</ui:composition>

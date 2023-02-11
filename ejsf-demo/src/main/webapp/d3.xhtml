@@ -1,17 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ejsf="urn:be:e-contract:ejsf">
-    <h:head>
-        <title>D3 Demo</title>
-    </h:head>
-    <h:body>
-        <h1>D3 Demo</h1>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">D3 Demo</ui:define>
+    <ui:define name="body">
         <ejsf:d3 widgetVar="d3Widget"/>
         <h:outputScript library="demo" name="d3.js"/>
-        <h:form>
-            <p:button value="Back" outcome="index"/>
-        </h:form>
-    </h:body>
-</html>
+    </ui:define>
+</ui:composition>

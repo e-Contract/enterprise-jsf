@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ejsf="urn:be:e-contract:ejsf">
-    <h:head>
-        <title>Inline Translation Demo</title>
-    </h:head>
-    <h:body>
-        <h1>Inline Translation Demo</h1>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Inline Translation Demo</ui:define>
+    <ui:define name="body">
         <h:form>
             <ejsf:inlineTranslation>
                 <ejsf:translation language="en">
@@ -17,9 +15,6 @@
                     Kan ik snel vertalen op deze manier.
                 </ejsf:translation>
             </ejsf:inlineTranslation>
-            <h:panelGrid columns="1">
-                <p:button outcome="index" value="Back"/>
-            </h:panelGrid>
         </h:form>
-    </h:body>
-</html>
+    </ui:define>
+</ui:composition>

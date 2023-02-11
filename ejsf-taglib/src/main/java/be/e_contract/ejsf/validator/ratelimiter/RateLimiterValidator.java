@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.validator.ratelimiter;
 
+import be.e_contract.ejsf.Environment;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import java.util.Map;
@@ -127,7 +128,7 @@ public class RateLimiterValidator implements Validator, StateHolder {
             forValue = (String) forInput.getValue();
         }
         LOGGER.debug("for value: {}", forValue);
-        if (!be.e_contract.ejsf.Runtime.hasCaffeine()) {
+        if (!Environment.hasCaffeine()) {
             FacesMessage facesMessage = new FacesMessage("Missing caffeine.");
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);

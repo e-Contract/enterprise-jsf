@@ -18,7 +18,7 @@ public class PostConstructApplicationEventListener implements SystemEventListene
 
     @Override
     public void processEvent(SystemEvent event) throws AbortProcessingException {
-        String version = Runtime.getVersion();
+        String version = Environment.getVersion();
         LOGGER.info("Enterprise JSF version {}", version);
     }
 

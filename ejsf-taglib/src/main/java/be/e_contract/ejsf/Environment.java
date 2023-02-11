@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Runtime {
+public class Environment {
 
     private static boolean hasCommonsValidator;
 
@@ -47,7 +47,7 @@ public class Runtime {
         }
 
         try {
-            try ( InputStream inputStream = Runtime.class.getResourceAsStream("/META-INF/maven/be.e-contract.enterprise-jsf/ejsf-taglib/pom.properties")) {
+            try ( InputStream inputStream = Environment.class.getResourceAsStream("/META-INF/maven/be.e-contract.enterprise-jsf/ejsf-taglib/pom.properties")) {
                 if (null == inputStream) {
                     // quarkus
                     version = "unknown";

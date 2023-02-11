@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:outputStylesheet library="demo" name="style.css" />
+        <h:outputScript library="demo" name="menu.js"/>
+        <title>Enterprise JSF Demo</title>
+    </h:head>
+
+    <h:body>
+        <div id="header">
+            <h1>Enterprise JSF Demo</h1>
+        </div>
+
+        <div style="position: relative;">
+
+            <div id="content">
+                <h2>
+                    <ui:insert name="title">Default Title</ui:insert>
+                </h2>
+                <p:messages id="messages" globalOnly="true" />
+                <ui:insert name="body">
+                    <p>Default Body</p>
+                </ui:insert>
+            </div>
+
+            <div id="menu">
+                <div id="menuPanel">
+                    <h:form>
+                        <p:menu id="mainMenuList">
+                            <p:submenu label="Output Components">
+                                <p:menuitem value="View Logs"
+                                            action="view-logs?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('view-logs')}"/>
+                                <p:menuitem value="Currency"
+                                            action="output-currency?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-currency')}"/>
+                                <p:menuitem value="Boolean"
+                                            action="output-boolean?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-boolean')}"/>
+                                <p:menuitem value="Text Editor HTML"
+                                            action="output-text-editor-html?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-text-editor-html')}"/>
+                                <p:menuitem value="Bytes"
+                                            action="output-bytes?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-bytes')}"/>
+                                <p:menuitem value="Month"
+                                            action="output-month?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-month')}"/>
+                                <p:menuitem value="Day Of Week"
+                                            action="output-day-of-week?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-day-of-week')}"/>
+                                <p:menuitem value="Text"
+                                            action="output-text?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-text')}"/>
+                                <p:menuitem value="ECharts"
+                                            action="echarts?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('echarts')}"/>
+                                <p:menuitem value="Enum"
+                                            action="output-enum?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-enum')}"/>
+                                <p:menuitem value="D3"
+                                            action="d3?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('d3')}"/>
+                            </p:submenu>
+                            <p:separator/>
+                            <p:submenu label="Validators">
+                                <p:menuitem value="Email"
+                                            action="email-validator?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('email-validator')}"/>
+                                <p:menuitem value="URL"
+                                            action="url-validator?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('url-validator')}"/>
+                                <p:menuitem value="Phone Number"
+                                            action="phone-number-validator?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('phone-number-validator')}"/>
+                                <p:menuitem value="OTP"
+                                            action="otp-validator?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('otp-validator')}"/>
+                                <p:menuitem value="Plain Text"
+                                            action="plain-text-validator?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('plain-text-validator')}"/>
+                                <p:menuitem value="XML"
+                                            action="xml-validator?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('xml-validator')}"/>
+                                <p:menuitem value="Rate Limiter"
+                                            action="rate-limiter?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('rate-limiter')}"/>
+                                <p:menuitem value="Password"
+                                            action="password-validator?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('password-validator')}"/>
+                                <p:menuitem value="Age"
+                                            action="age-validator?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('age-validator')}"/>
+                            </p:submenu>
+                            <p:separator/>
+                            <p:submenu label="Miscellaneous">
+                                <p:menuitem value="Inline Translation"
+                                            action="inline-translation?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('inline-translation')}"/>
+                                <p:menuitem value="Close Dialog"
+                                            action="close-dialog?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('close-dialog')}"/>
+                                <p:menuitem value="Matomo Tracking"
+                                            action="matomo-tracking?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('matomo-tracking')}"/>
+                                <p:menuitem value="Dictionary"
+                                            action="dictionary?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('dictionary')}"/>
+                                <p:menuitem value="Clock Sync"
+                                            action="clock-sync?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('clock-sync')}"/>
+                                <p:menuitem value="Geolocation"
+                                            action="geolocation?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('geolocation')}"/>
+                            </p:submenu>
+                        </p:menu>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+    </h:body>
+</html>

@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-
-    <h:head>
-        <title>Enterprise JSF Demo</title>
-    </h:head>
-
-    <h:body>
-        <h1>Enterprise JSF Demo</h1>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Enterprise JSF Demo</ui:define>
+    <ui:define name="body">
         <p>
             This web application demonstrates the Enterprise JSF component library.
         </p>
@@ -104,6 +101,5 @@
                 </li>
             </ul>
         </h:form>
-    </h:body>
-
-</html>
+    </ui:define>
+</ui:composition>
