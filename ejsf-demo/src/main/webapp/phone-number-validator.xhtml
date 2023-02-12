@@ -10,7 +10,7 @@
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="mobileNumber" value="Mobile Number:"/>
-                <p:inputText id="mobileNumber" value="#{inputOutputController.value}">
+                <p:inputText id="mobileNumber" value="#{inputOutputController.value}" size="30">
                     <ejsf:phoneNumberValidator defaultRegion="BE"
                                                phoneNumberType="MOBILE"/>
                 </p:inputText>

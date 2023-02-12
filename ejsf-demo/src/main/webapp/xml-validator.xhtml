@@ -10,7 +10,7 @@
         <h:form>
             <h:panelGrid columns="1">
                 <p:message for="xml"/>
-                <p:inputTextarea id="xml" value="#{inputOutputController.value}">
+                <p:inputTextarea id="xml" value="#{inputOutputController.value}" cols="60" rows="20">
                     <ejsf:xmlValidator message="Invalid XML (line {0}, column {1})"/>
                 </p:inputTextarea>
             </h:panelGrid>

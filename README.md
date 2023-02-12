@@ -117,7 +117,7 @@ that is built on the fly (using the `Dockerfile`-files located in `docker/`) by 
 make
 ```
 
-Other usefull `make` targets are:
+Other useful `make` targets are:
 * `make run-ee10`: to deploy the JEE 10 version on a WildFly Docker 27.x container
 * `make docker-start-ee8`: to start the WildFly Docker 26.x container, with l/p: admin/e-contract.be
 * `make docker-start-ee10`: to start the WildFly Docker 27.x container, with l/p: admin/e-contract.be

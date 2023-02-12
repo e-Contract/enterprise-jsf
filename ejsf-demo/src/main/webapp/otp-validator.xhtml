@@ -10,7 +10,7 @@
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="otp" value="OTP:"/>
-                <p:inputText id="otp" value="#{inputOutputController.value}">
+                <p:inputText id="otp" value="#{inputOutputController.value}" size="6">
                     <ejsf:otpValidator/>
                 </p:inputText>
                 <p:message for="otp"/>

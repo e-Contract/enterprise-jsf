@@ -10,7 +10,7 @@
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="email" value="Email:"/>
-                <p:inputText id="email" value="#{inputOutputController.value}">
+                <p:inputText id="email" value="#{inputOutputController.value}" size="40">
                     <ejsf:emailValidator/>
                 </p:inputText>
                 <p:message for="email"/>

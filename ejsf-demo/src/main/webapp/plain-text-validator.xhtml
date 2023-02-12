@@ -10,7 +10,7 @@
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="plainText" value="Plain Text (no HTML):"/>
-                <p:inputText id="plainText" value="#{inputOutputController.value}">
+                <p:inputText id="plainText" value="#{inputOutputController.value}" size="60">
                     <ejsf:plainTextValidator/>
                 </p:inputText>
                 <p:message for="plainText"/>

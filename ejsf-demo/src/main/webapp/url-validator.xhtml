@@ -10,7 +10,7 @@
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="url" value="URL:"/>
-                <p:inputText id="url" value="#{inputOutputController.value}">
+                <p:inputText id="url" value="#{inputOutputController.value}" size="40">
                     <ejsf:urlValidator allowLocalhost="true"/>
                 </p:inputText>
                 <p:message for="url"/>
