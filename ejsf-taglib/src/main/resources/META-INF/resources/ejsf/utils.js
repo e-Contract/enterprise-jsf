@@ -21,4 +21,8 @@ var ejsf = ejsf || {};
         PF(dailogWidgetVar).hide();
     };
 
+    ejsf.closeDialog = function (dialogWidgetVar) {
+        PF(dialogWidgetVar).hide();
+    };
+
 })();
