@@ -4,6 +4,8 @@
                 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
                 version="2.0">
 
+    <description>Enterprise JSF tag library.</description>
+
     <namespace>urn:be:e-contract:ejsf</namespace>
 
     <tag>
@@ -24,6 +26,7 @@
             <renderer-type>ejsf.outputCurrencyRenderer</renderer-type>
         </component>
         <attribute>
+            <description>The currency value. We support Integer, Long, Float, and Double.</description>
             <name>value</name>
             <required>true</required>
             <type>java.lang.Object</type>
@@ -59,7 +62,7 @@
             <type>java.lang.Boolean</type>
         </attribute>
         <attribute>
-            <description>Reverses the color indication.</description>
+            <description>Reverses the color indication when set to true.</description>
             <name>reverse</name>
             <type>java.lang.Boolean</type>
         </attribute>
@@ -79,6 +82,7 @@
             <type>java.lang.Boolean</type>
         </attribute>
         <attribute>
+            <description>The optional validation error message.</description>
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
@@ -101,6 +105,11 @@
             <description>Also allow for HTTP next to HTTPS. Defaults to false.</description>
             <name>allowHttp</name>
             <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
         </attribute>
     </tag>
 
@@ -170,6 +179,7 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The optional validation error message.</description>
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
@@ -177,7 +187,7 @@
 
     <tag>
         <description>
-            Outputs month.
+            Outputs i18n month.
         </description>
         <tag-name>outputMonth</tag-name>
         <component>
@@ -199,6 +209,7 @@
             <validator-id>ejsf.otpValidator</validator-id>
         </validator>
         <attribute>
+            <description>The optional validation error message.</description>
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
@@ -247,6 +258,7 @@
             <validator-id>ejsf.plainTextValidator</validator-id>
         </validator>
         <attribute>
+            <description>The optional validation error message.</description>
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
@@ -339,11 +351,13 @@
         <tag-name>dictionaryEntry</tag-name>
         <handler-class>be.e_contract.ejsf.dictionary.DictionaryEntryTagHandler</handler-class>
         <attribute>
+            <description>The key of this dictionary entry.</description>
             <name>key</name>
             <required>true</required>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The value of this dictionary entry.</description>
             <name>value</name>
             <required>true</required>
             <type>java.lang.String</type>
@@ -400,6 +414,11 @@
         <validator>
             <validator-id>ejsf.xmlValidator</validator-id>
         </validator>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -415,16 +434,17 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>maximum age in milliseconds of a possible cached position </description>
+            <description>The maximum age in milliseconds of a possible cached position.</description>
             <name>maximumAge</name>
             <type>java.lang.Long</type>
         </attribute>
         <attribute>
-            <description>the maximum length of time (in milliseconds) the device is allowed to take in order to return a position</description>
+            <description>The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.</description>
             <name>timeout</name>
             <type>java.lang.Long</type>
         </attribute>
         <attribute>
+            <description>Set to true to enable high accuracy.</description>
             <name>enableHighAccuracy</name>
             <type>java.lang.Boolean</type>
         </attribute>
@@ -467,7 +487,7 @@
 
     <tag>
         <description>
-            Outputs an enum.
+            Outputs a styled enum via embedded enum tags.
         </description>
         <tag-name>outputEnum</tag-name>
         <component>
@@ -481,27 +501,32 @@
     </tag>
 
     <tag>
-        <description>An enum.</description>
+        <description>An enum style.</description>
         <tag-name>enum</tag-name>
         <handler-class>be.e_contract.ejsf.output.enums.EnumTagHandler</handler-class>
         <attribute>
+            <description>The name of the enum value.</description>
             <name>name</name>
             <required>true</required>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The optional human readable enum label.</description>
             <name>label</name>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The optional color for the enum.</description>
             <name>color</name>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The optional background color for the enum.</description>
             <name>background</name>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The optional PrimeFaces icon for the enum.</description>
             <name>icon</name>
             <type>java.lang.String</type>
         </attribute>
@@ -517,27 +542,33 @@
             <handler-class>be.e_contract.ejsf.validator.ratelimiter.RateLimiterValidatorTagHandler</handler-class>
         </validator>
         <attribute>
+            <description>Indicates the component of which the value is used as base to keep track of tries. Can also be a direct value expression.</description>
             <name>for</name>
             <required>true</required>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The optional timeout in seconds when the limit has been reached. Default is 30 seconds.</description>
             <name>timeoutDuration</name>
             <type>java.lang.Integer</type>
         </attribute>
         <attribute>
+            <description>The optional limit refresh period in seconds over which we keep track of tries. Default is 10 seconds.</description>
             <name>limitRefreshPeriod</name>
             <type>java.lang.Integer</type>
         </attribute>
         <attribute>
+            <description>The optional limit for the refresh period. Default is 5 tries.</description>
             <name>limitForPeriod</name>
             <type>java.lang.Integer</type>
         </attribute>
         <attribute>
+            <description>The optional validation error message.</description>
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>The optional method expression to be invoked when the limit has been reached. The parameter is the identifier used to keep track of the number of tries.</description>
             <name>onLimit</name>
             <method-signature>
                 java.lang.Object onLimit(java.lang.String)
@@ -564,11 +595,13 @@
             <validator-id>ejsf.ageValidator</validator-id>
         </validator>
         <attribute>
+            <description>The minimum age required to pass validation.</description>
             <name>minimumAge</name>
             <required>true</required>
             <type>java.lang.Integer</type>
         </attribute>
         <attribute>
+            <description>The optional validation error message.</description>
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>

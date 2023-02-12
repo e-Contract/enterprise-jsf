@@ -106,6 +106,9 @@ public class ViewLogsComponent extends UIComponentBase {
             responseWriter.endElement("tr");
         }
         responseWriter.endElement("table");
+        if (logFiles.isEmpty()) {
+            responseWriter.write("No log files available.");
+        }
 
         responseWriter.endElement("div");
     }
