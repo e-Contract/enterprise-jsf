@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import javax.faces.application.Application;
+import javax.faces.application.ProjectStage;
 import javax.faces.application.Resource;
 import javax.faces.application.ViewHandler;
 import javax.faces.context.ExternalContext;
@@ -48,8 +49,12 @@ public class ViewLogsResource extends Resource {
         String requiredRole = externalContext.getInitParameter(REQUIRED_ROLE_CONTEXT_PARAM);
         if (null == requiredRole) {
             LOGGER.warn("context-param " + REQUIRED_ROLE_CONTEXT_PARAM + " not defined!");
-            //String message = "RBAC error.";
-            //return new ByteArrayInputStream(message.getBytes());
+            if (!facesContext.isProjectStage(ProjectStage.Development)) {
+                String message = "RBAC error.";
+                return new ByteArrayInputStream(message.getBytes());
+            } else {
+                LOGGER.warn("configure " + REQUIRED_ROLE_CONTEXT_PARAM + " for production usage");
+            }
         } else {
             if (!externalContext.isSecure()) {
                 String message = "Not secure.";
