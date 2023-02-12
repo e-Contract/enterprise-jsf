@@ -9,16 +9,20 @@ package be.e_contract.demo;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Named("menuController")
 public class MenuController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MenuController.class);
 
     public String getMenuitemStyleClass(String page) {
         String viewId = getViewId();
         if (null == viewId) {
             return "";
         }
-        if (!viewId.startsWith(page)) {
+        if (!viewId.equals("/" + page + ".xhtml")) {
             return "";
         }
         return "ui-state-active";

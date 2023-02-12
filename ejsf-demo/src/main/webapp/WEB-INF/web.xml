@@ -56,4 +56,9 @@
         <mime-type>application/x-font-woff2</mime-type>
     </mime-mapping>
 
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/</location>
+    </error-page>
+
 </web-app>

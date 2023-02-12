@@ -31,6 +31,12 @@
                 <div id="menuPanel">
                     <h:form>
                         <p:menu id="mainMenuList">
+                            <p:menuitem value="Home"
+                                        icon="pi pi-home"
+                                        action="index?faces-redirect=true"
+                                        ajax="false"
+                                        onclick="selectMenuitemLink(this);"
+                                        styleClass="#{menuController.getMenuitemStyleClass('index')}"/>
                             <p:submenu label="Output Components">
                                 <p:menuitem value="View Logs"
                                             action="view-logs?faces-redirect=true"
