@@ -85,6 +85,12 @@
                                 <contextPath>/ejsf-demo</contextPath>
                                 <overrideDescriptor>src/test/resources/web-jetty-mojarra.xml</overrideDescriptor>
                             </webApp>
+                            <systemProperties>
+                                <systemProperty>
+                                    <name>log4j2.configurationFile</name>
+                                    <value>file:./src/test/resources/log4j2.xml</value>
+                                </systemProperty>
+                            </systemProperties>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -135,6 +141,10 @@
                     <artifactId>openwebbeans-el22</artifactId>
                     <version>2.0.27</version>
                 </dependency>
+                <dependency>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j-impl</artifactId>
+                </dependency>
             </dependencies>
         </profile>
         <profile>
@@ -149,6 +159,12 @@
                                 <contextPath>/ejsf-demo</contextPath>
                                 <overrideDescriptor>src/test/resources/web-jetty-myfaces.xml</overrideDescriptor>
                             </webApp>
+                            <systemProperties>
+                                <systemProperty>
+                                    <name>log4j2.configurationFile</name>
+                                    <value>file:./src/test/resources/log4j2.xml</value>
+                                </systemProperty>
+                            </systemProperties>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -203,6 +219,10 @@
                     <groupId>org.apache.openwebbeans</groupId>
                     <artifactId>openwebbeans-el22</artifactId>
                     <version>2.0.27</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j-impl</artifactId>
                 </dependency>
             </dependencies>
         </profile>

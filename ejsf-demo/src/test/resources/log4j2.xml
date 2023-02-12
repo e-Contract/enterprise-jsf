@@ -9,7 +9,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="test.unit" level="debug" additivity="false">
+        <Logger name="be.e_contract" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level="warn">

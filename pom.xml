@@ -189,6 +189,11 @@
                 <artifactId>passay</artifactId>
                 <version>1.6.2</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>2.19.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
