@@ -2,9 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ejsf="urn:be:e-contract:ejsf">
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Enterprise JSF Demo - Quarkus</title>
+        <h:outputScript library="ejsf" name="utils.js"/>
     </h:head>
     <h:body>
         <h1>Enterprise JSF Demo - Quarkus</h1>
@@ -26,5 +28,43 @@
             <p:commandButton value="Submit" update="@form"/>
         </h:form>
         <ejsf:outputBoolean value="#{true}"/>
+        <h:form id="helloForm">
+            <p:dataTable id="helloTable" value="#{helloController.helloList}" var="hello"
+                         paginator="true" paginatorPosition="bottom" rows="10">
+                <p:column headerText="Name">
+                    #{hello.name}
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton id="addButton"
+                                     icon="pi pi-plus"
+                                     oncomplete="PF('addDialog').show()"
+                                     action="#{helloController.initAdd}"
+                                     update=":addDialog,:messages">
+                        <p:resetInput target=":addDialogForm"/>
+                    </p:commandButton>
+                    <p:tooltip value="Add..." for="addButton"/>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="addDialog" header="Add" id="addDialog">
+            <h:form id="addDialogForm">
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="name" value="Name:"/>
+                    <p:inputText id="name"
+                                 value="#{helloController.newHello.name}"
+                                 required="true"/>
+                    <p:message for="name"/>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Add"
+                                     action="#{helloController.addHello()}"
+                                     oncomplete="ejsf.handleDialogResponse(args, 'addDialog', 'helloAdded')"
+                                     update=":helloForm:helloTable,@form,:messages"/>
+                    <p:commandButton value="Cancel">
+                        <ejsf:closeDialog/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>

@@ -17,21 +17,22 @@ import org.primefaces.component.dialog.Dialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@FacesBehavior("ejsf.closeDialog")
+@FacesBehavior(CloseDialogClientBehavior.BEHAVIOR_ID)
 public class CloseDialogClientBehavior extends ClientBehaviorBase {
+
+    public static final String BEHAVIOR_ID = "ejsf.closeDialog";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CloseDialogClientBehavior.class);
 
     @Override
     public String getScript(ClientBehaviorContext behaviorContext) {
-        LOGGER.trace("getScript(..)");
         UIComponent component = behaviorContext.getComponent();
         String dialogWidgetVar;
         Optional<Dialog> dialogOptional = findClosestParent(component, Dialog.class);
         if (!dialogOptional.isPresent()) {
             Optional<ConfirmDialog> confirmDialogOptional = findClosestParent(component, ConfirmDialog.class);
             if (!confirmDialogOptional.isPresent()) {
-                LOGGER.warn("no parent p:dialog nor p:confirmDialogfound - unable to return script to hide() the dialog");
+                LOGGER.warn("no parent p:dialog nor p:confirmDialog found - unable to return script to hide() the dialog");
                 return null;
             }
             ConfirmDialog confirmDialog = confirmDialogOptional.get();
