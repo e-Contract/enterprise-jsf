@@ -14,6 +14,16 @@ public class CloseDialogClientBehavior extends ClientBehaviorBase {
 
     public static final String BEHAVIOR_ID = "ejsf.closeDialog";
 
+    private String whenCallbackParam;
+
+    public String getWhenCallbackParam() {
+        return this.whenCallbackParam;
+    }
+
+    public void setWhenCallbackParam(String whenCallbackParam) {
+        this.whenCallbackParam = whenCallbackParam;
+    }
+
     @Override
     public String getRendererType() {
         return CloseDialogClientBehaviorRenderer.RENDERER_TYPE;

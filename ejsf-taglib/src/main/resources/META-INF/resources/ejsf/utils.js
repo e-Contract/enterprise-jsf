@@ -25,4 +25,19 @@ var ejsf = ejsf || {};
         PF(dialogWidgetVar).hide();
     };
 
+    ejsf.storeDialog = function (event, dialogWidgetVar) {
+        event.target.setAttribute('data-dialog', dialogWidgetVar);
+    };
+
+    ejsf.handleDialogOnComplete = function (event, status, args, whenCallbackParam) {
+        if (status !== "success") {
+            return;
+        }
+        if (!args[whenCallbackParam]) {
+            return;
+        }
+        let dialogWidgetVar = event.target.dataset.dialog;
+        PF(dialogWidgetVar).hide();
+    };
+
 })();

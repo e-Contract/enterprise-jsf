@@ -4,7 +4,8 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">Close Dialog Demo</ui:define>
     <ui:define name="body">
         <h:form>
@@ -16,9 +17,18 @@
                 <p>
                     This is a demo dialog.
                 </p>
-                <p:commandButton value="Close">
-                    <ejsf:closeDialog/>
-                </p:commandButton>
+                <h:panelGrid columns="1">
+                    <p:commandButton value="Close without condition">
+                        <ejsf:closeDialog/>
+                    </p:commandButton>
+                    <p:commandButton value="Close with unmet condition">
+                        <ejsf:closeDialog whenCallbackParam="unmetCondition"/>
+                    </p:commandButton>
+                    <p:commandButton value="Close with met condition"
+                                     action="#{closeDialogController.actionWithCallbackParameter('whatever','some value')}">
+                        <ejsf:closeDialog whenCallbackParam="whatever"/>
+                    </p:commandButton>
+                </h:panelGrid>
             </h:form>
         </p:dialog>
     </ui:define>

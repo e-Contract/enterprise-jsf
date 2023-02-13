@@ -33,7 +33,21 @@ public class CloseDialogClientBehaviorRenderer extends ClientBehaviorRenderer {
     @Override
     public String getScript(ClientBehaviorContext behaviorContext, ClientBehavior clientBehavior) {
         UIComponent component = behaviorContext.getComponent();
-        String dialogWidgetVar;
+        String dialogWidgetVar = getDialogWidgetVar(component);
+        if (UIInput.isEmpty(dialogWidgetVar)) {
+            LOGGER.warn("dialog has no widgetVar - unable to return script to hide() the dialog");
+            return null;
+        }
+        CloseDialogClientBehavior closeDialogClientBehavior = (CloseDialogClientBehavior) clientBehavior;
+        String whenCallbackParam = closeDialogClientBehavior.getWhenCallbackParam();
+        if (null == whenCallbackParam) {
+            return "ejsf.closeDialog('" + dialogWidgetVar + "')";
+        } else {
+            return "ejsf.storeDialog(event,'" + dialogWidgetVar + "')";
+        }
+    }
+
+    private String getDialogWidgetVar(UIComponent component) {
         Optional<Dialog> dialogOptional = findClosestParent(component, Dialog.class);
         if (!dialogOptional.isPresent()) {
             Optional<ConfirmDialog> confirmDialogOptional = findClosestParent(component, ConfirmDialog.class);
@@ -42,16 +56,11 @@ public class CloseDialogClientBehaviorRenderer extends ClientBehaviorRenderer {
                 return null;
             }
             ConfirmDialog confirmDialog = confirmDialogOptional.get();
-            dialogWidgetVar = confirmDialog.getWidgetVar();
+            return confirmDialog.getWidgetVar();
         } else {
             Dialog dialog = dialogOptional.get();
-            dialogWidgetVar = dialog.getWidgetVar();
+            return dialog.getWidgetVar();
         }
-        if (UIInput.isEmpty(dialogWidgetVar)) {
-            LOGGER.warn("dialog has no widgetVar - unable to return script to hide() the dialog");
-            return null;
-        }
-        return "ejsf.closeDialog('" + dialogWidgetVar + "')";
     }
 
     private <T extends UIComponent> Optional<T> findClosestParent(UIComponent component, Class<T> parentType) {
