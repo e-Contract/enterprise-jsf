@@ -58,8 +58,9 @@
                 <h:panelGrid columns="2">
                     <p:commandButton value="Add"
                                      action="#{helloController.addHello()}"
-                                     oncomplete="ejsf.handleDialogResponse(args, 'addDialog', 'helloAdded')"
-                                     update=":helloForm:helloTable,@form,:messages"/>
+                                     update=":helloForm:helloTable,@form,:messages">
+                        <ejsf:closeDialog whenCallbackParam="helloAdded"/>
+                    </p:commandButton>
                     <p:commandButton value="Cancel">
                         <ejsf:closeDialog/>
                     </p:commandButton>
