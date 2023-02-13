@@ -17,16 +17,25 @@
                 <p>
                     This is a demo dialog.
                 </p>
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="value" value="Value:"/>
+                    <p:inputText id="value" required="true"/>
+                    <p:message for="value"/>
+                </h:panelGrid>
                 <h:panelGrid columns="1">
-                    <p:commandButton value="Close without condition">
+                    <p:commandButton value="Close without condition" update="@form">
                         <ejsf:closeDialog/>
                     </p:commandButton>
-                    <p:commandButton value="Close with unmet condition">
+                    <p:commandButton value="Close with unmet condition" update="@form">
                         <ejsf:closeDialog whenCallbackParam="unmetCondition"/>
                     </p:commandButton>
                     <p:commandButton value="Close with met condition"
-                                     action="#{closeDialogController.actionWithCallbackParameter('whatever','some value')}">
+                                     action="#{closeDialogController.actionWithCallbackParameter('whatever','some value')}"
+                                     update="@form">
                         <ejsf:closeDialog whenCallbackParam="whatever"/>
+                    </p:commandButton>
+                    <p:commandButton value="Close when valid" update="@form">
+                        <ejsf:closeDialog whenValid="true"/>
                     </p:commandButton>
                 </h:panelGrid>
             </h:form>

@@ -37,10 +37,20 @@ public class CloseDialogTagHandler extends TagHandler {
         TagAttribute whenCallbackParamTagAttribute = getAttribute("whenCallbackParam");
         if (null != whenCallbackParamTagAttribute) {
             whenCallbackParam = whenCallbackParamTagAttribute.getValue();
-            CommandButton commandButton = (CommandButton) parent;
-            commandButton.setOncomplete("ejsf.handleDialogOnComplete(event, status, xhr.pfArgs, '" + whenCallbackParam + "')");
         } else {
             whenCallbackParam = null;
+        }
+        Boolean whenValid;
+        TagAttribute whenValidTagAttribute = getAttribute("whenValid");
+        if (null != whenValidTagAttribute) {
+            whenValid = Boolean.valueOf(whenValidTagAttribute.getValue());
+        } else {
+            whenValid = null;
+        }
+        if (null != whenCallbackParam || null != whenValid) {
+            CommandButton commandButton = (CommandButton) parent;
+            commandButton.setOncomplete("ejsf.handleDialogOnComplete(event, status, xhr.pfArgs, '"
+                    + whenCallbackParam + "','" + whenValid + "')");
         }
         ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) parent;
         FacesContext facesContext = faceletContext.getFacesContext();
@@ -48,6 +58,7 @@ public class CloseDialogTagHandler extends TagHandler {
         CloseDialogClientBehavior closeDialogClientBehavior
                 = (CloseDialogClientBehavior) application.createBehavior(CloseDialogClientBehavior.BEHAVIOR_ID);
         closeDialogClientBehavior.setWhenCallbackParam(whenCallbackParam);
+        closeDialogClientBehavior.setWhenValid(whenValid);
         clientBehaviorHolder.addClientBehavior("click", closeDialogClientBehavior);
     }
 }

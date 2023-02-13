@@ -15,6 +15,7 @@ public class CloseDialogClientBehavior extends ClientBehaviorBase {
     public static final String BEHAVIOR_ID = "ejsf.closeDialog";
 
     private String whenCallbackParam;
+    private Boolean whenValid;
 
     public String getWhenCallbackParam() {
         return this.whenCallbackParam;
@@ -22,6 +23,14 @@ public class CloseDialogClientBehavior extends ClientBehaviorBase {
 
     public void setWhenCallbackParam(String whenCallbackParam) {
         this.whenCallbackParam = whenCallbackParam;
+    }
+
+    public Boolean getWhenValid() {
+        return this.whenValid;
+    }
+
+    public void setWhenValid(Boolean whenValid) {
+        this.whenValid = whenValid;
     }
 
     @Override

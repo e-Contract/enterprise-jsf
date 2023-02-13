@@ -253,6 +253,11 @@
             <name>whenCallbackParam</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Optional condition on the input validation.</description>
+            <name>whenValid</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
     <tag>
