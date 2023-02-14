@@ -115,7 +115,7 @@ public class OutputEnumComponent extends UIOutput {
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
-        responseWriter.writeAttribute("class", "output-enum", null);
+        responseWriter.writeAttribute("class", "ejsf-output-enum", null);
         if (!style.isEmpty()) {
             responseWriter.writeAttribute("style", style, null);
         }

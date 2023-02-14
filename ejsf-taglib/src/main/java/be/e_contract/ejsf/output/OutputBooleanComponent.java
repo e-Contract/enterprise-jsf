@@ -57,7 +57,7 @@ public class OutputBooleanComponent extends UIOutput {
         ResourceBundle resourceBundle = application.getResourceBundle(context, "ejsfMessages");
         boolean reverse = isReverse();
         String output;
-        String classValue = "output-boolean output-boolean-" + Boolean.toString(value ^ reverse);
+        String classValue = "ejsf-output-boolean ejsf-output-boolean-" + Boolean.toString(value ^ reverse);
         if (value) {
             output = resourceBundle.getString("yes");
         } else {

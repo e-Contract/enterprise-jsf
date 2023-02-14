@@ -70,7 +70,7 @@ public class ViewLogsComponent extends UIComponentBase {
         ResourceHandler resourceHandler = application.getResourceHandler();
 
         responseWriter.startElement("table", this);
-        responseWriter.writeAttribute("class", "view-logs", null);
+        responseWriter.writeAttribute("class", "ejsf-view-logs", null);
         responseWriter.startElement("tr", this);
 
         responseWriter.startElement("th", this);
