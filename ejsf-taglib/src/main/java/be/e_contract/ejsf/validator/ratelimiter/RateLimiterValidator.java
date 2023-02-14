@@ -104,8 +104,6 @@ public class RateLimiterValidator implements Validator, StateHolder {
 
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
-        LOGGER.debug("validate");
-        LOGGER.debug("for: {}", this._for);
         String forValue;
         if (null != this.forValueExpression) {
             ELContext elContext = facesContext.getELContext();
@@ -113,6 +111,7 @@ public class RateLimiterValidator implements Validator, StateHolder {
         } else {
             UIInput forInput = (UIInput) component.findComponent(this._for);
             if (null == forInput) {
+                LOGGER.error("component not found: {}", this._for);
                 FacesMessage facesMessage = new FacesMessage("Config error.");
                 facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
                 throw new ValidatorException(facesMessage);

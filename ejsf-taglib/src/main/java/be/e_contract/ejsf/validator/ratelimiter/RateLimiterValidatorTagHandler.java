@@ -38,7 +38,7 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
         TagAttribute forTagAttribute = getRequiredAttribute("for");
         String forValue = forTagAttribute.getValue();
         ValueExpression forValueExpression;
-        if (forValue.startsWith("#{") && forValue.endsWith("}")) {
+        if (forValue.contains("#{")) {
             forValueExpression = forTagAttribute.getValueExpression(context, String.class);
         } else {
             forValueExpression = null;

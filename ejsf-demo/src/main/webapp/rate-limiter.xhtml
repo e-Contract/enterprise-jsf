@@ -7,6 +7,7 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Rate Limiter Demo</ui:define>
     <ui:define name="body">
+        <h3>Field based rate limiting</h3>
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="username" value="Username:"/>
@@ -20,6 +21,21 @@
                                       onLimit="#{rateLimiterController.onLimit}"/>
                 </p:password>
                 <p:message for="password"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Submit"
+                                 action="#{rateLimiterController.login()}"
+                                 update="@form,:messages"/>
+            </h:panelGrid>
+        </h:form>
+        <h3>Session based rate limiting</h3>
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="username" value="Value:"/>
+                <p:inputText id="username" value="#{rateLimiterController.username}" required="true">
+                    <ejsf:rateLimiter for="#{session.id}"/>
+                </p:inputText>
+                <p:message for="username"/>
             </h:panelGrid>
             <h:panelGrid columns="1">
                 <p:commandButton value="Submit"
