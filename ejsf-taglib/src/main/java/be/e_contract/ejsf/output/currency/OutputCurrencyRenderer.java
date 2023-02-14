@@ -65,6 +65,14 @@ public class OutputCurrencyRenderer extends CoreRenderer {
         ResponseWriter responseWriter = facesContext.getResponseWriter();
         responseWriter.startElement("span", component);
         responseWriter.writeAttribute("id", clientId, "id");
+        String style = outputCurrencyComponent.getStyle();
+        if (null != style) {
+            responseWriter.writeAttribute("style", style, "style");
+        }
+        String styleClass = outputCurrencyComponent.getStyleClass();
+        if (null != styleClass) {
+            responseWriter.writeAttribute("class", styleClass, "styleClass");
+        }
 
         responseWriter.startElement("span", component);
         responseWriter.writeAttribute("id", clientId + ":value", "value");

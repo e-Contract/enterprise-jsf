@@ -29,6 +29,27 @@ public class OutputBytesComponent extends UIOutput {
         return COMPONENT_FAMILY;
     }
 
+    public enum PropertyKeys {
+        style,
+        styleClass
+    }
+
+    public String getStyle() {
+        return (String) getStateHelper().eval(PropertyKeys.style, null);
+    }
+
+    public void setStyle(String style) {
+        getStateHelper().put(PropertyKeys.style, style);
+    }
+
+    public String getStyleClass() {
+        return (String) getStateHelper().eval(PropertyKeys.styleClass, null);
+    }
+
+    public void setStyleClass(String styleClass) {
+        getStateHelper().put(PropertyKeys.styleClass, styleClass);
+    }
+
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         Long value = (Long) getValue();
@@ -40,6 +61,16 @@ public class OutputBytesComponent extends UIOutput {
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
+
+        String style = getStyle();
+        if (null != style) {
+            responseWriter.writeAttribute("style", style, "style");
+        }
+        String styleClass = getStyleClass();
+        if (null != styleClass) {
+            responseWriter.writeAttribute("class", styleClass, "styleClass");
+        }
+
         responseWriter.write(formattedBytes);
         responseWriter.endElement("span");
     }

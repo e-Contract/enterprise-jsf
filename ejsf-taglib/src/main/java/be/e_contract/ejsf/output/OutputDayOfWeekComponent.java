@@ -30,7 +30,8 @@ public class OutputDayOfWeekComponent extends UIOutput {
     }
 
     enum PropertyKeys {
-        styleClass
+        styleClass,
+        style
     }
 
     @Override
@@ -44,6 +45,14 @@ public class OutputDayOfWeekComponent extends UIOutput {
 
     public String getStyleClass() {
         return (String) getStateHelper().eval(PropertyKeys.styleClass);
+    }
+
+    public String getStyle() {
+        return (String) getStateHelper().eval(PropertyKeys.style, null);
+    }
+
+    public void setStyle(String style) {
+        getStateHelper().put(PropertyKeys.style, style);
     }
 
     @Override
@@ -60,6 +69,10 @@ public class OutputDayOfWeekComponent extends UIOutput {
         responseWriter.writeAttribute("id", clientId, "id");
         if (!UIInput.isEmpty(styleClass)) {
             responseWriter.writeAttribute("class", styleClass, "styleClass");
+        }
+        String style = getStyle();
+        if (null != style) {
+            responseWriter.writeAttribute("style", style, "style");
         }
         responseWriter.write(localizedDayOfWeek);
         responseWriter.endElement("span");

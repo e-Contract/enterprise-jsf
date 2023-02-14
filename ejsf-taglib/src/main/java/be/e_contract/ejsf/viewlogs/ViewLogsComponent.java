@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.viewlogs;
 
+import be.e_contract.ejsf.output.currency.OutputCurrencyComponent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -44,12 +45,26 @@ public class ViewLogsComponent extends UIComponentBase {
         return COMPONENT_FAMILY;
     }
 
+    public enum PropertyKeys {
+        style,
+        styleClass
+    }
+
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);
         responseWriter.startElement("div", this);
         responseWriter.writeAttribute("id", clientId, "id");
+
+        String style = getStyle();
+        if (null != style) {
+            responseWriter.writeAttribute("style", style, "style");
+        }
+        String styleClass = getStyleClass();
+        if (null != styleClass) {
+            responseWriter.writeAttribute("class", styleClass, "styleClass");
+        }
 
         Application application = context.getApplication();
         ResourceHandler resourceHandler = application.getResourceHandler();
@@ -111,5 +126,21 @@ public class ViewLogsComponent extends UIComponentBase {
         }
 
         responseWriter.endElement("div");
+    }
+
+    public String getStyle() {
+        return (String) getStateHelper().eval(OutputCurrencyComponent.PropertyKeys.style, null);
+    }
+
+    public void setStyle(String style) {
+        getStateHelper().put(OutputCurrencyComponent.PropertyKeys.style, style);
+    }
+
+    public String getStyleClass() {
+        return (String) getStateHelper().eval(OutputCurrencyComponent.PropertyKeys.styleClass, null);
+    }
+
+    public void setStyleClass(String styleClass) {
+        getStateHelper().put(OutputCurrencyComponent.PropertyKeys.styleClass, styleClass);
     }
 }

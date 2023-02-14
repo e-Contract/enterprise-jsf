@@ -29,6 +29,14 @@ public class OutputTextRenderer extends CoreRenderer {
 
         responseWriter.startElement("span", component);
         responseWriter.writeAttribute("id", clientId, "id");
+        String style = outputTextComponent.getStyle();
+        if (null != style) {
+            responseWriter.writeAttribute("style", style, "style");
+        }
+        String styleClass = outputTextComponent.getStyleClass();
+        if (null != styleClass) {
+            responseWriter.writeAttribute("class", styleClass, "styleClass");
+        }
         if (null != value) {
             responseWriter.write(value);
         }

@@ -29,6 +29,8 @@ public class OutputCurrencyComponent extends UIOutput implements Widget {
         widgetVar,
         currency,
         locale,
+        style,
+        styleClass
     }
 
     @Override
@@ -58,5 +60,21 @@ public class OutputCurrencyComponent extends UIOutput implements Widget {
 
     public void setLocale(Object locale) {
         getStateHelper().put(PropertyKeys.locale, locale);
+    }
+
+    public String getStyle() {
+        return (String) getStateHelper().eval(PropertyKeys.style, null);
+    }
+
+    public void setStyle(String style) {
+        getStateHelper().put(PropertyKeys.style, style);
+    }
+
+    public String getStyleClass() {
+        return (String) getStateHelper().eval(PropertyKeys.styleClass, null);
+    }
+
+    public void setStyleClass(String styleClass) {
+        getStateHelper().put(PropertyKeys.styleClass, styleClass);
     }
 }
