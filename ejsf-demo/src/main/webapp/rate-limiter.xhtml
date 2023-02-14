@@ -10,11 +10,11 @@
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="username" value="Username:"/>
-                <p:inputText id="username" value="#{rateLimiterController.username}"/>
+                <p:inputText id="username" value="#{rateLimiterController.username}" required="true"/>
                 <p:message for="username"/>
 
                 <p:outputLabel for="password" value="Password:"/>
-                <p:password id="password" value="#{rateLimiterController.password}">
+                <p:password id="password" value="#{rateLimiterController.password}" required="true">
                     <ejsf:rateLimiter for="username"
                                       message="#{ejsfMessages.rateLimiter} Woopsy!"
                                       onLimit="#{rateLimiterController.onLimit}"/>

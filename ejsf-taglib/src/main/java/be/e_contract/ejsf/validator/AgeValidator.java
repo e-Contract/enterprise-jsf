@@ -72,6 +72,7 @@ public class AgeValidator implements Validator, StateHolder {
             age = Period.between(dateOfBirth, now).getYears();
         } else {
             String errorMessage = "unsupported type: " + value.getClass().getName();
+            LOGGER.error(errorMessage);
             FacesMessage facesMessage = new FacesMessage(errorMessage);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);

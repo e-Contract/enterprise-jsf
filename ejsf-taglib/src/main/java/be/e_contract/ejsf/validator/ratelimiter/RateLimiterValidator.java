@@ -7,11 +7,7 @@
 package be.e_contract.ejsf.validator.ratelimiter;
 
 import be.e_contract.ejsf.Environment;
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.el.ELContext;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
@@ -20,12 +16,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import javax.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,8 +27,6 @@ import org.slf4j.LoggerFactory;
 public class RateLimiterValidator implements Validator, StateHolder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateLimiterValidator.class);
-
-    private static final String CACHES_ATTRIBUTE = RateLimiterValidator.class.getName() + ".caches";
 
     public static final String VALIDATOR_ID = "ejsf.rateLimiterValidator";
 
@@ -129,11 +121,14 @@ public class RateLimiterValidator implements Validator, StateHolder {
         }
         LOGGER.debug("for value: {}", forValue);
         if (!Environment.hasCaffeine()) {
-            FacesMessage facesMessage = new FacesMessage("Missing caffeine.");
+            String errorMessage = "Missing caffeine.";
+            LOGGER.error(errorMessage);
+            FacesMessage facesMessage = new FacesMessage(errorMessage);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
         }
-        boolean reachedLimit = reachedLimit(facesContext, forValue);
+        RateLimiter rateLimiter = new RateLimiter(this.limitRefreshPeriod, this.limitForPeriod, this.timeoutDuration);
+        boolean reachedLimit = rateLimiter.reachedLimit(facesContext, forValue);
         if (reachedLimit) {
             if (null != this.onLimitMethodExpression) {
                 ELContext elContext = facesContext.getELContext();
@@ -199,34 +194,5 @@ public class RateLimiterValidator implements Validator, StateHolder {
     @Override
     public void setTransient(boolean newTransientValue) {
         this._transient = newTransientValue;
-    }
-
-    private boolean reachedLimit(FacesContext facesContext, String identifier) {
-        ExternalContext externalContext = facesContext.getExternalContext();
-        ServletContext servletContext = (ServletContext) externalContext.getContext();
-        Map<RateExpiry, Cache<String, RateInfo>> caches
-                = (Map<RateExpiry, Cache<String, RateInfo>>) servletContext.getAttribute(CACHES_ATTRIBUTE);
-        if (null == caches) {
-            caches = new ConcurrentHashMap<>();
-            servletContext.setAttribute(CACHES_ATTRIBUTE, caches);
-        }
-
-        RateExpiry rateExpiry = new RateExpiry(this.limitRefreshPeriod, this.timeoutDuration);
-        Cache<String, RateInfo> cache = caches.get(rateExpiry);
-        if (null == cache) {
-            LOGGER.debug("creating new cache: {}", rateExpiry);
-            cache = Caffeine.newBuilder()
-                    .expireAfter(rateExpiry)
-                    .build();
-            caches.put(rateExpiry, cache);
-        }
-        RateInfo rateInfo = cache.get(identifier, key -> new RateInfo(this.limitForPeriod));
-        boolean reachedLimit = rateInfo.reachedLimit();
-        if (reachedLimit) {
-            // trigger timeoutDuration
-            cache.put(identifier, rateInfo);
-        }
-        LOGGER.debug("cache size: {}", cache.estimatedSize());
-        return reachedLimit;
     }
 }
