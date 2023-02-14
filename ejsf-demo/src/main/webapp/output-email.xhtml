@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Output Email Demo</ui:define>
+    <ui:define name="body">
+        <p>
+            You can contact us at <ejsf:outputEmail value="info@e-contract.be"/>.
+        </p>
+        <p>
+            You can also contact us with a subject "Hello World" via:
+            <ejsf:outputEmail value="info@e-contract.be"
+                              subject="Hello World"
+                              cc="info@e-contract.be"
+                              bcc="info@e-contract.be"
+                              body="Some email body here."/>.
+        </p>
+    </ui:define>
+</ui:composition>

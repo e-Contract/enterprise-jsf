@@ -643,4 +643,40 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Output clickable email.
+        </description>
+        <tag-name>outputEmail</tag-name>
+        <component>
+            <component-type>ejsf.outputEmail</component-type>
+        </component>
+        <attribute>
+            <description>The email address.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional email subject.</description>
+            <name>subject</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional email cc</description>
+            <name>cc</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional email bcc</description>
+            <name>bcc</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional email body</description>
+            <name>body</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

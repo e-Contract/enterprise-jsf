@@ -130,9 +130,9 @@ public class GeolocationComponent extends UIComponentBase implements Widget, Cli
         if (isSelfRequest(facesContext) && facesEvent instanceof AjaxBehaviorEvent) {
             ExternalContext externalContext = facesContext.getExternalContext();
             Map<String, String> requestParameterMap = externalContext.getRequestParameterMap();
-            final String eventName = requestParameterMap.get(Constants.RequestParams.PARTIAL_BEHAVIOR_EVENT_PARAM);
-            final String clientId = getClientId(facesContext);
-            final AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) facesEvent;
+            String eventName = requestParameterMap.get(Constants.RequestParams.PARTIAL_BEHAVIOR_EVENT_PARAM);
+            String clientId = getClientId(facesContext);
+            AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) facesEvent;
             if (GeolocationPositionEvent.NAME.equals(eventName)) {
                 String latitudeParam = requestParameterMap.get(clientId + "_latitude");
                 if (UIInput.isEmpty(latitudeParam)) {

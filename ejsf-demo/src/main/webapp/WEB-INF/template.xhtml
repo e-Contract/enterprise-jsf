@@ -93,6 +93,11 @@
                                             ajax="false"
                                             onclick="selectMenuitemLink(this);"
                                             styleClass="#{menuController.getMenuitemStyleClass('d3')}"/>
+                                <p:menuitem value="Email"
+                                            action="output-email?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-email')}"/>
                             </p:submenu>
                             <p:separator/>
                             <p:submenu label="Validators">

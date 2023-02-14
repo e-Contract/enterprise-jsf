@@ -43,7 +43,7 @@ public class OutputDayOfWeekComponent extends UIOutput {
     }
 
     public String getStyleClass() {
-        return (String) getStateHelper().get(PropertyKeys.styleClass);
+        return (String) getStateHelper().eval(PropertyKeys.styleClass);
     }
 
     @Override

@@ -164,9 +164,9 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
         if (isSelfRequest(facesContext) && facesEvent instanceof AjaxBehaviorEvent) {
             ExternalContext externalContext = facesContext.getExternalContext();
             Map<String, String> requestParameterMap = externalContext.getRequestParameterMap();
-            final String eventName = requestParameterMap.get(Constants.RequestParams.PARTIAL_BEHAVIOR_EVENT_PARAM);
-            final String clientId = getClientId(facesContext);
-            final AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) facesEvent;
+            String eventName = requestParameterMap.get(Constants.RequestParams.PARTIAL_BEHAVIOR_EVENT_PARAM);
+            String clientId = getClientId(facesContext);
+            AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) facesEvent;
             if (ClockSyncEvent.NAME.equals(eventName)) {
                 String bestRoundTripDelayParam = requestParameterMap.get(clientId + "_bestRoundTripDelay");
                 if (UIInput.isEmpty(bestRoundTripDelayParam)) {
