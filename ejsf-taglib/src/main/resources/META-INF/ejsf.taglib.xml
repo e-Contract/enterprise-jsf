@@ -740,4 +740,25 @@
         <function-signature>java.lang.String getRateLimiterSessionIdentifier(java.lang.String)</function-signature>
     </function>
 
+    <tag>
+        <description>
+            User RBAC validator.
+        </description>
+        <tag-name>requiresRole</tag-name>
+        <validator>
+            <validator-id>ejsf.requiresRoleValidator</validator-id>
+        </validator>
+        <attribute>
+            <description>The required RBAC role.</description>
+            <name>role</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
