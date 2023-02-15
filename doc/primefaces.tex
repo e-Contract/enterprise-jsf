@@ -17,7 +17,7 @@ Some of its major features are:
 	\item Configurable style.
 	\item Responsiveness.
 \end{itemize}
-I want to highlight the importance here of JSP component libraries like PrimeFaces.
+We want to highlight the importance here of JSF component libraries like PrimeFaces.
 Constructing a web application using vanilla JSF is just completely nuts.
 The basic JSF runtime is just that, very basic.
 You don't want to reinvent common components like lazy loaded paginated tables yourself.
@@ -25,7 +25,7 @@ This has already been done by people (at PrimeTek, the company behind PrimeFaces
 Instead, focus on solving the business problems of your customers.
 
 Same remarks apply to other frond-end frameworks as well, like Angular, React, or Vue, just to name a few.
-Nomatter which framework you are using: development of high quality custom components takes a lot of effort.
+Nomatter which framework you are using: \textbf{development of high quality custom components takes a lot of effort}.
 Hence if you do so, isolate these components within dedicated libraries so multiple projects within your organization can benefit, making worth the investment.
 
 
@@ -33,8 +33,12 @@ Hence if you do so, isolate these components within dedicated libraries so multi
 Converting our \nameref{sec:basic-input-output} example from Section \ref{sec:basic-input-output}  on page \pageref{sec:basic-input-output} to PrimeFaces gives us the following result.
 \lstinputlisting[language=XML]{../helloworld-primefaces/war/src/main/webapp/hello-world.xhtml}
 Most visible change here is that they renamed the \texttt{render} attribute to the more intuitive \texttt{update} attribute.
+Where with vanilla JSF you have to explicitly indicate that you want to perform an AJAX call, with PrimeFaces this is the default.
+Hence \texttt{p:commandButton} will perform an AJAX call per default, voiding the need for an explicit \texttt{p:ajax} tag.
+You can disable this behavior by means of setting \texttt{ajax="false"}.
 
 \section{CRUD with Dialogs}
+PrimeFaces allows you to construct dialogs in a very intuitive manner.
 Within this section, we demonstrate the dialog framework provided by PrimeFaces.
 Our JSF example page looks as follows:
 \lstinputlisting[language=XML]{../helloworld-primefaces/war/src/main/webapp/crud-dialogs.xhtml}
@@ -42,7 +46,7 @@ Notice how to invoke the client-side API of certain widgets via the \texttt{widg
 
 The Javascript resource \texttt{crud-dialogs.js} contains the following:
 \lstinputlisting[language=Javascript]{../helloworld-primefaces/war/src/main/webapp/resources/js/crud-dialogs.js}
-Notice here the \texttt{itemAdded} AJAX callback argument that we set within the CDI controller below.
+The \texttt{itemAdded} AJAX callback argument, available via \texttt{args}, is set within the CDI controller below.
 
 \lstinputlisting[language=Java]{../helloworld-primefaces/war/src/main/java/be/e_contract/jsf/helloworld/CRUDController.java}
 Via \texttt{addCallbackParam} we can add parameters to the Ajax response that can be picked up by the client-side Javascript widget.
@@ -98,7 +102,7 @@ The source code for the component is given below.
 
 The source code for the corresponding renderer is given below.
 \lstinputlisting[language=Java]{../helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/EChartsRenderer.java}
-Notice that the value is not passed along during \texttt{encodeBegin}.
+The value is not directly passed during \texttt{encodeBegin}.
 Instead we let the widget fetch the value via an AJAX call.
 Within the decode method we pass the component value towards the client-side via \texttt{addCallbackParam}.
 

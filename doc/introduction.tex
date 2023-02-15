@@ -53,10 +53,10 @@ This JSF page simply shows some text.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/web.xml}
-Notice here that the JSF runtime actually lives within its own servlet, just like every other front-end technology within Java EE (JAX-WS, JAX-RS).
+The JSF runtime actually lives within its own servlet, just like every other front-end technology within Java EE (JAX-WS, JAX-RS).
 As indicated by the \texttt{version} attribute, we are targeting servlet containers version 4.0, which is part of Java EE 8.
 \begin{TIP}{javax.faces.PROJECT\_STAGE}
-Please notice here that an explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
+An explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
 For proper development, the web browser caching has to be disabled.
 \end{TIP}
 
@@ -93,7 +93,7 @@ Start a WildFly \cite{WildFly} application server via:
 cd wildfly-26.1.3.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
 \end{lstlisting}
-Notice that we are using the full Java EE profile here.
+We are using the full Java EE profile here.
 While you could start off with a lighter profile, this is most of the time pointless for large enterprise applications, where in the end you almost always need like everything available within the box.
 \begin{ClownComputing}{Monoliths versus microservices}
 	Where to start this one?
@@ -144,7 +144,7 @@ Notice the usage of the \texttt{@PostConstruct} annotation to initialize our CDI
 
 We use this CDI bean within a JSF page as follows:
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/helloworld.xhtml}
-Notice how we access the \texttt{value} property of our CDI bean via the \texttt{\#\{...\}} expression.
+We access the \texttt{value} property of our CDI bean via the \texttt{\#\{...\}} EL (expression language) expression.
 
 \begin{TIP}{Model-View-Controller naming}
 	Although strictly speaking the controller within the classical MVC naming is the \texttt{FacesServlet}, and our CDI beans should be regarded as model,
@@ -215,7 +215,7 @@ Using a \texttt{@PostConstruct} method we initialize our list with some example 
 
 The JSF page uses a \texttt{h:dataTable} to visualize the list within a table as displayed below.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/datatable.xhtml}
-Notice here the variable \texttt{item} used to iterate over the different items within our list of items.
+The variable \texttt{item} is used to iterate over the different items within our list of items.
 Via the \texttt{f:facet} elements we can define various facets of JSF components.
 Here the \texttt{h:column} component will interpret the facet named "\texttt{header}" as column header within the rendered data table.
 
@@ -351,7 +351,7 @@ gives us a common header structure that also shows us global JSF messages right 
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/template.xhtml}
 Via the \texttt{ui:insert} tags we define insertion points to be used by our actual JSF pages like shown in the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/facelets.xhtml}
-Notice how to refer to our template via the \texttt{ui:composition} \texttt{template} attribute.
+We refer to our template via the \texttt{ui:composition} \texttt{template} attribute.
 Via the \texttt{ui:define} tags, we materialize our template with the actual content.
 
 The corresponding CDI backing controller is given below.

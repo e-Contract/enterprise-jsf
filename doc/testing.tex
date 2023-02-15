@@ -34,7 +34,7 @@ Within the actual test we simply set some input value, perform a submit, and ver
 
 Since this Selenium based integration test assumes that the application has been deployed on a local running application server, we need some special constructs within our Maven POM file.
 \lstinputlisting[language=XML]{../testing/tests/pom.xml}
-Notice that, per default, we disable the executing of the tests.
+Per default, we disable the executing of the tests by setting \texttt{skipTests} to \texttt{true}.
 Only upon explicit activation of our \texttt{integration-tests} Maven profile,
 the Selenium integration tests will run as part of a Maven build.
 

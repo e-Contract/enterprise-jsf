@@ -17,9 +17,7 @@
                 <f:validateLength minimum="4"/>
             </p:inputText>
             <p:message for="input"/>
-            <p:commandButton value="click me">
-                <p:ajax update="@form" process="@form"/>
-            </p:commandButton>
+            <p:commandButton value="click me" update="@form"/>
         </h:form>
         <h:form>
             <p:button value="Back" outcome="index"/>

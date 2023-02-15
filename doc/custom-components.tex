@@ -27,7 +27,7 @@ Some reasons to do so:
 \end{itemize}
 The Maven parent POM of our project looks as follows.
 \lstinputlisting[language=XML]{../helloworld-ear/pom.xml}
-Notice here that we defined the Java EE API as global dependency for all our modules.
+We defined the Java EE API \texttt{javaee-api} as global dependency for all our modules.
 
 The Maven POM of our tag library JAR module looks as follows.
 \lstinputlisting[language=XML]{../helloworld-ear/taglib/pom.xml}
@@ -35,8 +35,7 @@ The Maven POM of our tag library JAR module looks as follows.
 The Maven POM of our WAR module looks as follows.
 \lstinputlisting[language=XML]{../helloworld-ear/war/pom.xml}
 \begin{TIP}{Maven module naming}
-	As you can notice, we use as \texttt{groupId} of project modules the concatenation
-	of the \texttt{parent} \texttt{groupId} and \texttt{artifactId}.
+	We use as \texttt{groupId} of project modules the concatenation	of the \texttt{parent} \texttt{groupId} and \texttt{artifactId}.
 	This has the advantage of yielding a clean directory structure when pushing the project towards a Maven repository.
 	Hence every artifact produced by this project, can be found under the same directory structure within the Maven repository.
 \end{TIP}
@@ -134,6 +133,8 @@ The corresponding
 
 \texttt{src/main/resources/META-INF/resources/ejsf/example-styled-output.css} CSS resource file looks as follows:
 \lstinputlisting[language=CSS]{../helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-styled-output.css}
+When creating CSS styles as part of a JSF component library, it is important to properly prefix your CSS classes to prevent clashes with other styles within your web applications.
+In our example, we prefixed every defined CSS class with \texttt{example-}.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor.
 \lstinputlisting[language=XML,linerange=exampleStyledOutput]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
@@ -149,7 +150,7 @@ With the corresponding CDI controller,
 In this section, we construct our first custom JSF input component.
 Source code of our custom input JSF component is given below:
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleInput.java}
-Notice again that we put an explicit \texttt{id} attribute containing the client id on our HTML output element so JSF AJAX updates can locate our component.
+We put an explicit \texttt{id} attribute containing the client id on our \texttt{span} HTML container element so JSF AJAX updates can locate our component.
 
 Our \texttt{input} element has a \texttt{name} attribute used to locate the request parameter during the \texttt{decode} phase.
 Obviously the attribute value has to contain the client id.
@@ -246,10 +247,14 @@ We register this custom component within our \texttt{.taglib.xml} tag library de
 
 Example usage of our custom JSF component is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/widget.xhtml}
+Please keep in mind that the above construct is just an example.
+JSF libraries like PrimeFaces offer similar functionality out-of-the-box that goes way beyond what we demonstrated here.
 
 \section{Client Behavior}
-Example client behavior where we change the color of the button when we move over the mouse.
-Example usage of this custom client behavior is given below.
+JSF also allows you to define components that only perform on the client-side.
+These are called client behaviors.
+In this section we demonstrate an example client behavior where we change the color of the button when we move over the mouse.
+Usage of this custom client behavior is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/client-behavior.xhtml}
 
 The custom client behavior source code,
@@ -314,7 +319,7 @@ With the corresponding CDI controller given by,
 In the following composite component we demonstrate the usage of children and facets.
 The source code of our \texttt{panel.xhtml} composite component is given below.
 \lstinputlisting[language=XML]{../helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/panel.xhtml}
-Notice that we have to declare our custom facet, named \texttt{footer},
+We declare our custom facet, named \texttt{footer},
 via the \texttt{cc:facet} element within the \texttt{cc:interface} section of our composite component.
 The panel footer is only rendered when the \texttt{footer} facet has been set.
 Via \texttt{cc:insertChildren} we obviously insert our children within our composite component rendering lifecycle.
@@ -382,6 +387,8 @@ We register this custom component within our \texttt{.taglib.xml} tag library de
 \end{TODO}
 
 \section{UIData}
+Visualization of data tables is a commonly recurring aspect when constructing business oriented web applications.
+Within this section we demonstrate how to devise a custom table visualization.
 The source code of our custom \texttt{UIData} component is given below.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/datalist/DataList.java}
 
@@ -397,6 +404,7 @@ We register this custom component within our \texttt{.taglib.xml} tag library de
 
 
 \section{EL functions}
+The EL can be seen as the glue between JSF and the CDI controllers.
 In this section we demonstrate how to add custom EL functions.
 In the following example we use a custom \texttt{gcd} function to calculate the greatest common divisor of two given numbers.
 \lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/custom-function.xhtml}
