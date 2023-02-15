@@ -734,4 +734,10 @@
         </attribute>
     </tag>
 
+    <function>
+        <function-name>getRateLimiterSessionIdentifier</function-name>
+        <function-class>be.e_contract.ejsf.validator.ratelimiter.RateLimiterFunctions</function-class>
+        <function-signature>java.lang.String getRateLimiterSessionIdentifier(java.lang.String)</function-signature>
+    </function>
+
 </facelet-taglib>

@@ -33,7 +33,7 @@
             <h:panelGrid columns="3">
                 <p:outputLabel for="username" value="Value:"/>
                 <p:inputText id="username" value="#{rateLimiterController.username}" required="true">
-                    <ejsf:rateLimiter for="#{session.id}"/>
+                    <ejsf:rateLimiter for="#{ejsf:getRateLimiterSessionIdentifier('default')}"/>
                 </p:inputText>
                 <p:message for="username"/>
             </h:panelGrid>
