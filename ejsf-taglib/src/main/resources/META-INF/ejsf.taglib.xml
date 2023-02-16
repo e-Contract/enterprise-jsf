@@ -732,6 +732,11 @@
             <name>styleClass</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The optional label.</description>
+            <name>label</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <function>

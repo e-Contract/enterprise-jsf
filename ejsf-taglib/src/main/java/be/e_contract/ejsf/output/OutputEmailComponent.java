@@ -34,7 +34,8 @@ public class OutputEmailComponent extends UIOutput {
         bcc,
         body,
         style,
-        styleClass
+        styleClass,
+        label
     }
 
     public void setSubject(String subject) {
@@ -85,6 +86,14 @@ public class OutputEmailComponent extends UIOutput {
         getStateHelper().put(PropertyKeys.styleClass, styleClass);
     }
 
+    public String getLabel() {
+        return (String) getStateHelper().eval(PropertyKeys.label, null);
+    }
+
+    public void setLabel(String label) {
+        getStateHelper().put(PropertyKeys.label, label);
+    }
+
     @Override
     public void encodeEnd(FacesContext context) throws IOException {
         String email = (String) getValue();
@@ -121,7 +130,11 @@ public class OutputEmailComponent extends UIOutput {
         }
 
         responseWriter.writeAttribute("href", url, "value");
-        responseWriter.write(email);
+        String label = getLabel();
+        if (null == label) {
+            label = email;
+        }
+        responseWriter.write(label);
         responseWriter.endElement("a");
     }
 
