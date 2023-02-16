@@ -7,13 +7,20 @@
 package be.e_contract.ejsf.output;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIOutput;
+import javax.faces.component.behavior.ClientBehavior;
+import javax.faces.component.behavior.ClientBehaviorContext;
+import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 @FacesComponent(OutputEmailComponent.COMPONENT_TYPE)
-public class OutputEmailComponent extends UIOutput {
+public class OutputEmailComponent extends UIOutput implements ClientBehaviorHolder {
 
     public static final String COMPONENT_TYPE = "ejsf.outputEmail";
 
@@ -26,6 +33,16 @@ public class OutputEmailComponent extends UIOutput {
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;
+    }
+
+    @Override
+    public Collection<String> getEventNames() {
+        return Arrays.asList("click");
+    }
+
+    @Override
+    public String getDefaultEventName() {
+        return "click";
     }
 
     enum PropertyKeys {
@@ -119,6 +136,13 @@ public class OutputEmailComponent extends UIOutput {
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.startElement("a", this);
         responseWriter.writeAttribute("id", clientId, "id");
+
+        Map<String, List<ClientBehavior>> behaviors = getClientBehaviors();
+        if (behaviors.containsKey("click")) {
+            ClientBehaviorContext behaviorContext = ClientBehaviorContext.createClientBehaviorContext(context, this, "click", clientId, null);
+            String click = behaviors.get("click").get(0).getScript(behaviorContext);
+            responseWriter.writeAttribute("onclick", click, null);
+        }
 
         String style = getStyle();
         if (null != style) {
