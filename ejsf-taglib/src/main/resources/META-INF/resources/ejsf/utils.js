@@ -52,4 +52,8 @@ var ejsf = ejsf || {};
         PF(dialogWidgetVar).hide();
     };
 
+    ejsf.copyToClipboard = function (value) {
+        navigator.clipboard.writeText(value);
+    };
+
 })();

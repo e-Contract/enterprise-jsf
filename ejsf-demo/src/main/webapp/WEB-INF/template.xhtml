@@ -153,17 +153,25 @@
                                             styleClass="#{menuController.getMenuitemStyleClass('role-validator')}"/>
                             </p:submenu>
                             <p:separator/>
+                            <p:submenu label="Client Behavior">
+                                <p:menuitem value="Close Dialog"
+                                            action="close-dialog?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('close-dialog')}"/>
+                                <p:menuitem value="Copy to Clipboard"
+                                            action="clipboard?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('clipboard')}"/>
+                            </p:submenu>
+                            <p:separator/>
                             <p:submenu label="Miscellaneous">
                                 <p:menuitem value="Inline Translation"
                                             action="inline-translation?faces-redirect=true"
                                             ajax="false"
                                             onclick="selectMenuitemLink(this);"
                                             styleClass="#{menuController.getMenuitemStyleClass('inline-translation')}"/>
-                                <p:menuitem value="Close Dialog"
-                                            action="close-dialog?faces-redirect=true"
-                                            ajax="false"
-                                            onclick="selectMenuitemLink(this);"
-                                            styleClass="#{menuController.getMenuitemStyleClass('close-dialog')}"/>
                                 <p:menuitem value="Matomo Tracking"
                                             action="matomo-tracking?faces-redirect=true"
                                             ajax="false"

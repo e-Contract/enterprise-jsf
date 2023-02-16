@@ -766,4 +766,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Client behavior to copy a value to the clipboard.</description>
+        <tag-name>copyToClipboard</tag-name>
+        <behavior>
+            <behavior-id>ejsf.copyToClipboardClientBehavior</behavior-id>
+            <handler-class>be.e_contract.ejsf.behavior.clipboard.CopyToClipboardTagHandler</handler-class>
+        </behavior>
+        <attribute>
+            <description>The value to be copied to the clipboard.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

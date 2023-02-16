@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Copy to Clipboard Demo</ui:define>
+    <ui:define name="body">
+        <h:form>
+            <ui:repeat value="#{outputEnumController.enums}" var="item">
+                <p>
+                    <p:commandButton value="Copy 'hello world #{item}' to clipboard">
+                        <ejsf:copyToClipboard value="hello world #{item}"/>
+                    </p:commandButton>
+                </p>
+            </ui:repeat>
+        </h:form>
+    </ui:define>
+</ui:composition>
