@@ -286,7 +286,7 @@
         <tag-name>closeDialog</tag-name>
         <behavior>
             <behavior-id>ejsf.closeDialog</behavior-id>
-            <handler-class>be.e_contract.ejsf.behavior.CloseDialogTagHandler</handler-class>
+            <handler-class>be.e_contract.ejsf.behavior.closedialog.CloseDialogTagHandler</handler-class>
         </behavior>
         <attribute>
             <description>Optional condition where a certain callback parameter has to be present.</description>

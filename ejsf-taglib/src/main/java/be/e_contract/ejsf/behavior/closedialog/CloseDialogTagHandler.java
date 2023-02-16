@@ -4,7 +4,7 @@
  * Copyright 2023 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
-package be.e_contract.ejsf.behavior;
+package be.e_contract.ejsf.behavior.closedialog;
 
 import java.io.IOException;
 import javax.faces.application.Application;
