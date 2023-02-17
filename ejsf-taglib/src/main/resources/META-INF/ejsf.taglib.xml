@@ -781,4 +781,40 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Output clickable url.
+        </description>
+        <tag-name>outputUrl</tag-name>
+        <component>
+            <component-type>ejsf.outputUrl</component-type>
+        </component>
+        <attribute>
+            <description>The url address.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional inline style.</description>
+            <name>style</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional style class.</description>
+            <name>styleClass</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional label.</description>
+            <name>label</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Indicates that the URL should be opened in a new tab.</description>
+            <name>newTab</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
