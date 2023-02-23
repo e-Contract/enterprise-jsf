@@ -32,24 +32,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>prepare-package-copy-resources-echarts</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/classes/META-INF/resources/echarts</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/target/node_modules/echarts/dist</directory>
-                                    <includes>
-                                        <include>echarts.min.js</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>prepare-package-copy-resources-d3</id>
                         <phase>prepare-package</phase>
                         <goals>
