@@ -18,6 +18,7 @@ import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagException;
 import javax.faces.view.facelets.TagHandler;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.commandlink.CommandLink;
 
 public class CloseDialogTagHandler extends TagHandler {
 
@@ -48,9 +49,17 @@ public class CloseDialogTagHandler extends TagHandler {
             whenValid = null;
         }
         if (null != whenCallbackParam || null != whenValid) {
-            CommandButton commandButton = (CommandButton) parent;
-            commandButton.setOncomplete("ejsf.handleDialogOnComplete(event, status, xhr.pfArgs, '"
-                    + whenCallbackParam + "','" + whenValid + "')");
+            String onCompleteScript = "ejsf.handleDialogOnComplete(event, status, xhr.pfArgs, '"
+                    + whenCallbackParam + "','" + whenValid + "')";
+            if (parent instanceof CommandButton) {
+                CommandButton commandButton = (CommandButton) parent;
+                commandButton.setOncomplete(onCompleteScript);
+            } else if (parent instanceof CommandLink) {
+                CommandLink commandLink = (CommandLink) parent;
+                commandLink.setOncomplete(onCompleteScript);
+            } else {
+                throw new TagException(this.tag, "unsupported parent: " + parent.getClass().getName());
+            }
         }
         ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) parent;
         FacesContext facesContext = faceletContext.getFacesContext();
