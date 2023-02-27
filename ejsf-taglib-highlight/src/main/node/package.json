@@ -1,0 +1,11 @@
+{
+    "name": "taglib",
+    "dependencies": {
+        "highlight.js": "11.7.0",
+        "browserify": "17.0.0",
+        "tinyify": "4.0.0"
+    },
+    "scripts": {
+        "build": "browserify index.js --standalone hljs --plugin tinyify --outfile highlight.min.js"
+    }
+}

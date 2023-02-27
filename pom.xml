@@ -208,5 +208,6 @@
         <module>ejsf-demo-ee10</module>
         <module>ejsf-demo-quarkus</module>
         <module>ejsf-taglib-d3</module>
+        <module>ejsf-taglib-highlight</module>
     </modules>
 </project>
