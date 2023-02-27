@@ -8,7 +8,7 @@ The Enterprise JSF project delivers:
 
 The latest version of the Enterprise JSF document is available at:
 
-https://github.com/e-Contract/enterprise-jsf/releases/download/enterprise-jsf-0.5.0/enterprise-jsf.pdf
+https://github.com/e-Contract/enterprise-jsf/releases/download/enterprise-jsf-0.6.0/enterprise-jsf.pdf
 
 The following dependencies are required for building the PDF document:
 * make
@@ -46,7 +46,7 @@ Add the JSF component library to your web application WAR project via:
 <dependency>
     <groupId>be.e-contract.enterprise-jsf</groupId>
     <artifactId>ejsf-taglib</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
 </dependency>
 ```
 Within you JSF pages, use the following JSF namespace declaration:
@@ -62,7 +62,7 @@ For Jakarta EE 10 runtimes, use the following dependency:
 <dependency>
     <groupId>be.e-contract.enterprise-jsf</groupId>
     <artifactId>ejsf-taglib</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
     <classifier>jakarta</classifier>
 </dependency>
 ```
