@@ -7,10 +7,11 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Text Demo</ui:define>
     <ui:define name="body">
-        <ejsf:outputText value="hello world" widgetVar="outputText"/>
+        <ejsf:outputText value="hello world" widgetVar="outputText" id="example"/>
         <h:form>
             <p:commandButton oncomplete="PF('outputText').setValue('client-side value')"
                              value="Client-side API call"/>
         </h:form>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

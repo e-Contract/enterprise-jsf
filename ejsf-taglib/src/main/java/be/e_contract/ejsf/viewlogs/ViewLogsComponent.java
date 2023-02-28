@@ -98,7 +98,7 @@ public class ViewLogsComponent extends UIComponentBase {
             }
             String resourceRequestPath = resource.getRequestPath();
             responseWriter.writeAttribute("href", resourceRequestPath, null);
-            responseWriter.write(logFile.getName());
+            responseWriter.writeText(logFile.getName(), null);
             responseWriter.endElement("a");
             responseWriter.write(" ");
             responseWriter.startElement("a", this);

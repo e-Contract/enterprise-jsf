@@ -7,7 +7,7 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Clock Sync Demo</ui:define>
     <ui:define name="body">
-        <h:form>
+        <h:form id="example">
             <ejsf:clockSync clockLocation="clock">
                 <p:ajax listener="#{clockSyncController.clockSynchronized}"
                         update=":messages,:results"/>
@@ -20,5 +20,6 @@
             <h:outputText value="Delta T:"/>
             <h:outputText value="#{clockSyncController.deltaT}"/>
         </h:panelGrid>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

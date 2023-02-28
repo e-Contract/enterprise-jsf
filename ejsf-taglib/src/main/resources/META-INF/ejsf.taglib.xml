@@ -817,4 +817,30 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Highlights source code.
+        </description>
+        <tag-name>highlight</tag-name>
+        <component>
+            <component-type>ejsf.highlightComponent</component-type>
+            <renderer-type>ejsf.highlightRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The optional source code as value.</description>
+            <name>value</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional element identifier within the XHTML file.</description>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional source code language.</description>
+            <name>language</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

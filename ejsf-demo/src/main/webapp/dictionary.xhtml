@@ -7,7 +7,7 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Dictionary Demo</ui:define>
     <ui:define name="body">
-        <ejsf:dictionary widgetVar="dictionary">
+        <ejsf:dictionary widgetVar="dictionary" id="example">
             <ejsf:dictionaryEntry key="label1" value="Some message {0}."/>
         </ejsf:dictionary>
         <ejsf:outputText widgetVar="outputText"/>
@@ -15,5 +15,6 @@
             <p:commandButton oncomplete="PF('outputText').setValue(PF('dictionary').getFormattedMessage('label1', 'hello world'))"
                              value="Client-side API call"/>
         </h:form>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

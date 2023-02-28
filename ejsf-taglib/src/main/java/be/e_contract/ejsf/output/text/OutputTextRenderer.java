@@ -38,7 +38,7 @@ public class OutputTextRenderer extends CoreRenderer {
             responseWriter.writeAttribute("class", styleClass, "styleClass");
         }
         if (null != value) {
-            responseWriter.write(value);
+            responseWriter.writeText(value, "value");
         }
         responseWriter.endElement("span");
 

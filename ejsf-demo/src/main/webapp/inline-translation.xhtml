@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Inline Translation Demo</ui:define>
     <ui:define name="body">
-        <h:form>
-            <ejsf:inlineTranslation>
-                <ejsf:translation language="en">
-                    My inline translation comes here.
-                </ejsf:translation>
-                <ejsf:translation language="nl">
-                    Kan ik snel vertalen op deze manier.
-                </ejsf:translation>
-            </ejsf:inlineTranslation>
-        </h:form>
+        <ejsf:inlineTranslation id="example">
+            <ejsf:translation language="en">
+                My inline translation comes here.
+            </ejsf:translation>
+            <ejsf:translation language="nl">
+                Kan ik snel vertalen op deze manier.
+            </ejsf:translation>
+        </ejsf:inlineTranslation>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

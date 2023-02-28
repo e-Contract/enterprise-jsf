@@ -7,11 +7,12 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Apache ECharts Demo</ui:define>
     <ui:define name="body">
-        <h:form>
+        <h:form  id="example">
             <ejsf:echarts value="#{echartsController.value}">
                 <p:ajax listener="#{echartsController.handleClick}"
                         update=":messages"/>
             </ejsf:echarts>
         </h:form>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

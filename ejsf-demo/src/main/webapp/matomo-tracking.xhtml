@@ -10,7 +10,8 @@
         <h:form>
             <ejsf:matomoTracking enableTracking="#{matomoTrackingController.enableTracking}"
                                  matomoUrl="#{matomoTrackingController.matomoUrl}"
-                                 siteId="#{matomoTrackingController.siteId}"/>
+                                 siteId="#{matomoTrackingController.siteId}"
+                                 id="example"/>
             <h:panelGrid columns="2">
                 <p:outputLabel for="enableTracking" value="Enable Tracking:"/>
                 <p:selectBooleanCheckbox id="enableTracking" value="#{matomoTrackingController.enableTracking}"/>
@@ -23,5 +24,6 @@
             </h:panelGrid>
             <p:commandButton value="Update" update="@form"/>
         </h:form>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

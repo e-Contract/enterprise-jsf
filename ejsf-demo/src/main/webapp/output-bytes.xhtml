@@ -6,13 +6,12 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Bytes Demo</ui:define>
     <ui:define name="body">
-        <h:form>
-            <h:panelGrid columns="1">
-                <ejsf:outputBytes value="#{1}"/>
-                <ejsf:outputBytes value="#{2 * 1024}"/>
-                <ejsf:outputBytes value="#{3 * 1024 * 1024}"/>
-                <ejsf:outputBytes value="#{4 * 1024 * 1024 * 1024}"/>
-            </h:panelGrid>
-        </h:form>
+        <h:panelGrid columns="1">
+            <ejsf:outputBytes value="#{1}"/>
+            <ejsf:outputBytes value="#{2 * 1024}"/>
+            <ejsf:outputBytes value="#{3 * 1024 * 1024}"/>
+            <ejsf:outputBytes value="#{4 * 1024 * 1024 * 1024}" id="example"/>
+        </h:panelGrid>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

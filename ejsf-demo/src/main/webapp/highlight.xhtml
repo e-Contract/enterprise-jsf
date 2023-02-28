@@ -4,10 +4,10 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
-    <ui:define name="title">D3 Demo</ui:define>
+    <ui:define name="title">Highlight Demo</ui:define>
     <ui:define name="body">
-        <ejsf:d3 widgetVar="d3Widget" id="example"/>
-        <h:outputScript library="demo" name="d3.js"/>
+        <h:outputText id="example" value="hello world"/>
+        <ejsf:highlight value="function test() { return true; }"/>
         <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

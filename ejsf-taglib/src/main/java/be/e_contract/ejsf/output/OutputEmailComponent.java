@@ -158,7 +158,7 @@ public class OutputEmailComponent extends UIOutput implements ClientBehaviorHold
         if (null == label) {
             label = email;
         }
-        responseWriter.write(label);
+        responseWriter.writeText(label, null);
         responseWriter.endElement("a");
     }
 

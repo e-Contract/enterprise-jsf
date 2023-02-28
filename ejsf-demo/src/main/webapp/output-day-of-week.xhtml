@@ -7,8 +7,9 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Day Of Week Demo</ui:define>
     <ui:define name="body">
-        <ui:repeat value="#{outputDayOfWeekController.dayOfWeekList}" var="dayOfWeek">
+        <ui:repeat id="example" value="#{outputDayOfWeekController.dayOfWeekList}" var="dayOfWeek">
             <ejsf:outputDayOfWeek value="#{dayOfWeek}"/><br/>
         </ui:repeat>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

@@ -15,10 +15,12 @@
                               subject="Hello World"
                               cc="info@e-contract.be"
                               bcc="info@e-contract.be"
-                              body="Some email body here."/>.
+                              body="Some email body here."
+                              id="example"/>.
         </p>
         <p>
             Click <ejsf:outputEmail value="info@e-contract.be" label="here"/> to email us.
         </p>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

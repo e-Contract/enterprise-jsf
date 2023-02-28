@@ -119,7 +119,7 @@ public class OutputUrlComponent extends UIOutput implements ClientBehaviorHolder
         if (null == label) {
             label = url;
         }
-        responseWriter.write(label);
+        responseWriter.writeText(label, null);
         responseWriter.endElement("a");
     }
 }

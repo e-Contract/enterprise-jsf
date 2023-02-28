@@ -18,10 +18,11 @@
         </h:form>
         <p>
             Click
-            <ejsf:outputEmail value="info@e-contract.be" label="here">
+            <ejsf:outputEmail value="info@e-contract.be" label="here" id="example">
                 <ejsf:copyToClipboard value="info@e-contract.be"/>
             </ejsf:outputEmail>
             to email us.
         </p>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

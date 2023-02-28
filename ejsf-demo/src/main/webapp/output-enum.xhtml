@@ -7,7 +7,7 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Enum Demo</ui:define>
     <ui:define name="body">
-        <ui:repeat value="#{outputEnumController.enums}" var="item">
+        <ui:repeat value="#{outputEnumController.enums}" var="item" id="example">
             <p>
                 #{item} becomes
                 <ejsf:outputEnum value="#{item}">
@@ -17,5 +17,6 @@
                 </ejsf:outputEnum>
             </p>
         </ui:repeat>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

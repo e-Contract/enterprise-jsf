@@ -125,7 +125,7 @@ public class OutputEnumComponent extends UIOutput {
             responseWriter.endElement("i");
             responseWriter.write(" ");
         }
-        responseWriter.write(label);
+        responseWriter.writeText(label, null);
         responseWriter.endElement("span");
     }
 }

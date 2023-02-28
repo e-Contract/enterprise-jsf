@@ -7,9 +7,10 @@
     <ui:define name="title">Output Language Demo</ui:define>
     <ui:define name="body">
         <h:panelGrid columns="1">
-            <ejsf:outputLanguage value="nl"/>
+            <ejsf:outputLanguage value="nl" id="example"/>
             <ejsf:outputLanguage value="en"/>
             <ejsf:outputLanguage value="fr"/>
         </h:panelGrid>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

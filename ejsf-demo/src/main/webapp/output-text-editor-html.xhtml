@@ -5,6 +5,8 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Text Editor HTML Demo</ui:define>
     <ui:define name="body">
-        <ejsf:outputTextEditorHtml value="#{outputTextEditorHtmlController.value}"/>
+        <ejsf:outputTextEditorHtml value="#{outputTextEditorHtmlController.value}"
+                                   id="example"/>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

@@ -11,7 +11,7 @@
             null: <ejsf:outputBoolean value="#{null}"/>
         </p>
         <p>
-            true: <ejsf:outputBoolean value="#{true}"/>
+            true: <ejsf:outputBoolean value="#{true}" id="example"/>
         </p>
         <p>
             false: <ejsf:outputBoolean value="#{false}"/>
@@ -22,5 +22,6 @@
         <p>
             false reverse: <ejsf:outputBoolean value="#{false}" reverse="true"/>
         </p>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

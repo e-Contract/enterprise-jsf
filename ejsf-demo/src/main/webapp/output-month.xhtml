@@ -8,10 +8,11 @@
     <ui:define name="body">
         <h:panelGrid columns="1">
             <ejsf:outputMonth value="#{0}"/>
-            <ejsf:outputMonth value="#{1}"/>
+            <ejsf:outputMonth value="#{1}" id="example"/>
             <ejsf:outputMonth value="#{11}"/>
             <ejsf:outputMonth value="#{12}"/>
             <ejsf:outputMonth value="#{13}"/>
         </h:panelGrid>
+        <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>
