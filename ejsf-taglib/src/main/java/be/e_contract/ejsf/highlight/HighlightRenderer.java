@@ -29,6 +29,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.apache.commons.io.IOUtils;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 import org.slf4j.Logger;
@@ -53,33 +54,48 @@ public class HighlightRenderer extends CoreRenderer {
         String value = (String) highlightComponent.getValue();
         if (null == value) {
             String _for = highlightComponent.getFor();
-            Document document;
-            try {
-                document = getDocument(facesContext);
-            } catch (ParserConfigurationException | SAXException ex) {
-                LOGGER.warn("XML parser error: {}", ex.getMessage());
-                return;
+            if (null != _for) {
+                Document document;
+                try {
+                    document = getDocument(facesContext);
+                } catch (ParserConfigurationException | SAXException ex) {
+                    LOGGER.warn("XML parser error: {}", ex.getMessage());
+                    return;
+                }
+                XPath xPath = XPathFactory.newInstance().newXPath();
+                NodeList nodeList;
+                try {
+                    nodeList = (NodeList) xPath.evaluate("//*[@id=\"" + _for + "\"]", document.getDocumentElement(), XPathConstants.NODESET);
+                } catch (XPathExpressionException ex) {
+                    LOGGER.warn("XPath error: {}", ex.getMessage());
+                    return;
+                }
+                if (nodeList.getLength() == 0) {
+                    LOGGER.warn("element not found: {}", _for);
+                    return;
+                }
+                Element element = (Element) nodeList.item(0);
+                try {
+                    value = toString(element);
+                } catch (TransformerException ex) {
+                    LOGGER.warn("XML parser error: {}", ex.getMessage());
+                    return;
+                }
+                language = "html";
             }
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            NodeList nodeList;
-            try {
-                nodeList = (NodeList) xPath.evaluate("//*[@id=\"" + _for + "\"]", document.getDocumentElement(), XPathConstants.NODESET);
-            } catch (XPathExpressionException ex) {
-                LOGGER.warn("XPath error: {}", ex.getMessage());
-                return;
+            String resource = highlightComponent.getResource();
+            if (null != resource) {
+                ExternalContext externalContext = facesContext.getExternalContext();
+                InputStream resourceInputStream = externalContext.getResourceAsStream(resource);
+                if (null == resourceInputStream) {
+                    resourceInputStream = HighlightRenderer.class.getResourceAsStream(resource);
+                }
+                if (null == resourceInputStream) {
+                    LOGGER.warn("resource not found:{}", resource);
+                    return;
+                }
+                value = IOUtils.toString(resourceInputStream, "UTF-8");
             }
-            if (nodeList.getLength() == 0) {
-                LOGGER.warn("element not found: {}", _for);
-                return;
-            }
-            Element element = (Element) nodeList.item(0);
-            try {
-                value = toString(element);
-            } catch (TransformerException ex) {
-                LOGGER.warn("XML parser error: {}", ex.getMessage());
-                return;
-            }
-            language = "html";
         }
 
         String clientId = highlightComponent.getClientId();

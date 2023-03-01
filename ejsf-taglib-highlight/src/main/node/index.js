@@ -8,4 +8,6 @@
 const hljs = require("highlight.js/lib/core");
 hljs.registerLanguage("javascript", require("highlight.js/lib/languages/javascript"));
 hljs.registerLanguage("xml", require("highlight.js/lib/languages/xml"));
+hljs.registerLanguage("json", require("highlight.js/lib/languages/json"));
+hljs.registerLanguage("java", require("highlight.js/lib/languages/java"));
 module.exports = hljs;

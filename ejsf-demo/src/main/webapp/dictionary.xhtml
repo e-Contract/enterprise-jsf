@@ -6,8 +6,8 @@
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Dictionary Demo</ui:define>
-    <ui:define name="body">
-        <ejsf:dictionary widgetVar="dictionary" id="example">
+    <ui:define name="body" id="example">
+        <ejsf:dictionary widgetVar="dictionary">
             <ejsf:dictionaryEntry key="label1" value="Some message {0}."/>
         </ejsf:dictionary>
         <ejsf:outputText widgetVar="outputText"/>

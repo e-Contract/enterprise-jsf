@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Highlight Demo</ui:define>
     <ui:define name="body">
-        <h:outputText id="example" value="hello world"/>
-        <ejsf:highlight value="function test() { return true; }"/>
+        <ejsf:highlight id="example" value="function test() { return true; }"/>
         <ejsf:highlight for="example"/>
     </ui:define>
 </ui:composition>

@@ -8,7 +8,7 @@
     <ui:define name="title">Rate Limiter Demo</ui:define>
     <ui:define name="body">
         <h3>Field based rate limiting</h3>
-        <h:form>
+        <h:form id="example">
             <h:panelGrid columns="3">
                 <p:outputLabel for="username" value="Username:"/>
                 <p:inputText id="username" value="#{rateLimiterController.username}" required="true"/>
@@ -43,6 +43,7 @@
                                  update="@form,:messages"/>
             </h:panelGrid>
         </h:form>
-        <ejsf:highlight for="password"/>
+        <ejsf:highlight for="example"/>
+        <ejsf:highlight resource="/be/e_contract/demo/RateLimiterController.java"/>
     </ui:define>
 </ui:composition>

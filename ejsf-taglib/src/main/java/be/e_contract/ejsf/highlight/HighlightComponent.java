@@ -35,7 +35,8 @@ public class HighlightComponent extends UIOutput implements Widget {
 
     enum PropertyKeys {
         language,
-        _for
+        _for,
+        resource
     }
 
     public String getLanguage() {
@@ -52,5 +53,13 @@ public class HighlightComponent extends UIOutput implements Widget {
 
     public void setFor(String _for) {
         getStateHelper().put(PropertyKeys._for, _for);
+    }
+
+    public String getResource() {
+        return (String) getStateHelper().eval(PropertyKeys.resource);
+    }
+
+    public void setResource(String resource) {
+        getStateHelper().put(PropertyKeys.resource, resource);
     }
 }
