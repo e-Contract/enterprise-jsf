@@ -4,6 +4,10 @@ The Enterprise JSF project delivers:
 * a PDF document about writing custom JSF components.
 * a JSF component library (requires PrimeFaces).
 
+The demo web application is available at:
+https://demo.e-contract.be/ejsf-demo/
+
+
 ## The document
 
 The latest version of the Enterprise JSF document is available at:
