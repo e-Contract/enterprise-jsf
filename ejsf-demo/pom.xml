@@ -18,6 +18,13 @@
                 <configuration>
                     <webResources>
                         <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>index.xhtml</include>
+                            </includes>
+                        </resource>
+                        <resource>
                             <directory>src/main/java</directory>
                         </resource>
                     </webResources>

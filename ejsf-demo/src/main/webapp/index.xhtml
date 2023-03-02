@@ -2,11 +2,24 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Welcome</ui:define>
     <ui:define name="body">
         <p>
-            This web application demonstrates the Enterprise JSF component library.
+            This web application demonstrates the Enterprise JSF component library version ${project.version}.
+        </p>
+        <p>
+            The source code of this project is available at
+            <ejsf:outputUrl value="https://github.com/e-Contract/enterprise-jsf"
+                            label="Github"
+                            newTab="true"/>.
+        </p>
+        <p>
+            Issues can be reported at the
+            <ejsf:outputUrl value="https://github.com/e-Contract/enterprise-jsf/issues"
+                            label="Github issue tracker"
+                            newTab="true"/>.
         </p>
     </ui:define>
 </ui:composition>
