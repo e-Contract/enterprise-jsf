@@ -3,12 +3,17 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
     <ui:define name="title">View Logs Demo</ui:define>
     <ui:define name="body">
         <h:form>
             <ejsf:viewLogs id="example"/>
         </h:form>
-        <ejsf:highlight for="example"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

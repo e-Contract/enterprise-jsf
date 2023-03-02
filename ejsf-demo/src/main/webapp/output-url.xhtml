@@ -2,6 +2,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output URL Demo</ui:define>
@@ -12,6 +13,10 @@
         <p>
             You can visit our web site by clicking <ejsf:outputUrl value="https://www.e-contract.be" label="here" newTab="true" id="example"/>.
         </p>
-        <ejsf:highlight for="example"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

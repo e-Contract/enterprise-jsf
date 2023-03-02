@@ -15,6 +15,10 @@
             <p:commandButton oncomplete="PF('outputText').setValue(PF('dictionary').getFormattedMessage('label1', 'hello world'))"
                              value="Client-side API call"/>
         </h:form>
-        <ejsf:highlight for="example"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

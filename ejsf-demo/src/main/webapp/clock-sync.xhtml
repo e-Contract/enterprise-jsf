@@ -20,7 +20,13 @@
             <h:outputText value="Delta T:"/>
             <h:outputText value="#{clockSyncController.deltaT}"/>
         </h:panelGrid>
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/be/e_contract/demo/ClockSyncController.java"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="ClockSyncController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/ClockSyncController.java"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

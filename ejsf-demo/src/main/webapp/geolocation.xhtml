@@ -28,7 +28,13 @@
                 <p:commandButton oncomplete="PF('geolocation').currentPosition()" value="Get Current Position"/>
             </h:panelGrid>
         </h:form>
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/be/e_contract/demo/GeolocationController.java"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="GeolocationController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/GeolocationController.java"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

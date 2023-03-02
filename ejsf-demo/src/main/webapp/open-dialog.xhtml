@@ -23,9 +23,15 @@
             </h:panelGrid>
         </h:form>
 
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight for="demoDialog"/>
-        <ejsf:highlight resource="/be/e_contract/demo/OpenDialogController.java"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+                <ejsf:highlight for="demoDialog"/>
+            </p:tab>
+            <p:tab title="OpenDialogController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/OpenDialogController.java"/>
+            </p:tab>
+        </p:tabView>
 
         <p:dialog widgetVar="demoDialog" header="Demo Dialog" id="demoDialog">
             <h:form>

@@ -3,12 +3,21 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">D3 Demo</ui:define>
     <ui:define name="body">
-        <ejsf:d3 widgetVar="d3Widget" id="example"/>
-        <h:outputScript library="demo" name="d3.js"/>
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/resources/demo/d3.js"/>
+        <h:panelGroup id="example">
+            <ejsf:d3 widgetVar="d3Widget"/>
+            <h:outputScript library="demo" name="d3.js"/>
+        </h:panelGroup>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="d3.js">
+                <ejsf:highlight resource="/resources/demo/d3.js"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

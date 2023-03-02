@@ -12,8 +12,14 @@
             <p:commandButton oncomplete="PF('demoDialog').show()" value="Open Dialog"/>
         </h:form>
 
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/be/e_contract/demo/CloseDialogController.java"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="CloseDialogController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/CloseDialogController.java"/>
+            </p:tab>
+        </p:tabView>
 
         <p:dialog widgetVar="demoDialog" header="Demo Dialog" id="example">
             <h:form>

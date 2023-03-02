@@ -17,7 +17,13 @@
                 </ejsf:outputEnum>
             </p>
         </ui:repeat>
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/be/e_contract/demo/OutputEnumController.java"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="OutputEnumController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/OutputEnumController.java"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

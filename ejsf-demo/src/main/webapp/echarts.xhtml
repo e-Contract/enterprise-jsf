@@ -13,8 +13,16 @@
                         update=":messages"/>
             </ejsf:echarts>
         </h:form>
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/be/e_contract/demo/EChartsController.java"/>
-        <ejsf:highlight resource="/echarts.json"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="EChartsController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/EChartsController.java"/>
+            </p:tab>
+            <p:tab title="echarts.json">
+                <ejsf:highlight resource="/echarts.json"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

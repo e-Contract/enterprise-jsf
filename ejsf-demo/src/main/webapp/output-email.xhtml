@@ -2,6 +2,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Email Demo</ui:define>
@@ -21,6 +22,10 @@
         <p>
             Click <ejsf:outputEmail value="info@e-contract.be" label="here"/> to email us.
         </p>
-        <ejsf:highlight for="example"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

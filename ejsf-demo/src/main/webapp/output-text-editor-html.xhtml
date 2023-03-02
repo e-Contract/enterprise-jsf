@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Text Editor HTML Demo</ui:define>
     <ui:define name="body">
         <ejsf:outputTextEditorHtml value="#{outputTextEditorHtmlController.value}"
                                    id="example"/>
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/be/e_contract/demo/OutputTextEditorHtmlController.java"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="OutputTextEditorHtmlController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/OutputTextEditorHtmlController.java"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

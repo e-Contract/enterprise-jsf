@@ -10,7 +10,13 @@
         <ui:repeat id="example" value="#{outputDayOfWeekController.dayOfWeekList}" var="dayOfWeek">
             <ejsf:outputDayOfWeek value="#{dayOfWeek}"/><br/>
         </ui:repeat>
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/be/e_contract/demo/OutputDayOfWeekController.java"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="OutputDayOfWeekController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/OutputDayOfWeekController.java"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

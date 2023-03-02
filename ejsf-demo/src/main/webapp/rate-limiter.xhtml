@@ -43,7 +43,13 @@
                                  update="@form,:messages"/>
             </h:panelGrid>
         </h:form>
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/be/e_contract/demo/RateLimiterController.java"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="RateLimiterController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/RateLimiterController.java"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

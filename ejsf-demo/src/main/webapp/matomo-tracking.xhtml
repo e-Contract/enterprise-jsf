@@ -24,7 +24,13 @@
             </h:panelGrid>
             <p:commandButton value="Update" update="@form"/>
         </h:form>
-        <ejsf:highlight for="example"/>
-        <ejsf:highlight resource="/be/e_contract/demo/MatomoTrackingController.java"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="MatomoTrackingController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/MatomoTrackingController.java"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>
