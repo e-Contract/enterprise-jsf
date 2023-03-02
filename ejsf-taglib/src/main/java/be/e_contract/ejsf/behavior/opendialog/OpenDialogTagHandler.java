@@ -46,23 +46,24 @@ public class OpenDialogTagHandler extends TagHandler {
             oncompleteScript = "ejsf.openDialog('" + dialog + "',status,xhr.pfArgs)";
         }
 
+        boolean configured = false;
         if (parent instanceof CommandButton) {
             CommandButton commandButton = (CommandButton) parent;
             commandButton.setOncomplete(oncompleteScript);
-            return;
+            configured = true;
         }
 
         if (parent instanceof CommandLink) {
             CommandLink commandLink = (CommandLink) parent;
             commandLink.setOncomplete(oncompleteScript);
-            return;
+            configured = true;
         }
 
         if (!(parent instanceof ClientBehaviorHolder)) {
             throw new TagException(this.tag, "parent must be ClientBehaviorHolder.");
         }
 
-        if (whenCallbackParam != null) {
+        if (whenCallbackParam != null && !configured) {
             throw new TagException(this.tag, "cannot provide whenCallbackParam on a plain ClientBehaviorHolder.");
         }
 
@@ -71,7 +72,10 @@ public class OpenDialogTagHandler extends TagHandler {
         Application application = facesContext.getApplication();
         OpenDialogClientBehavior openDialogClientBehavior
                 = (OpenDialogClientBehavior) application.createBehavior(OpenDialogClientBehavior.BEHAVIOR_ID);
-        openDialogClientBehavior.setDialog(dialog);
+        if (!configured) {
+            openDialogClientBehavior.setDialog(dialog);
+        }
+        // we render client behavior anyway, to have our utils.js resource available
         clientBehaviorHolder.addClientBehavior("click", openDialogClientBehavior);
     }
 }

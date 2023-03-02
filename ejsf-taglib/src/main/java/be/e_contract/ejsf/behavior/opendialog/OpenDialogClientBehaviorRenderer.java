@@ -25,6 +25,9 @@ public class OpenDialogClientBehaviorRenderer extends ClientBehaviorRenderer {
     public String getScript(ClientBehaviorContext behaviorContext, ClientBehavior clientBehavior) {
         OpenDialogClientBehavior openDialogClientBehavior = (OpenDialogClientBehavior) clientBehavior;
         String dialog = openDialogClientBehavior.getDialog();
+        if (null == dialog) {
+            return null;
+        }
         return "ejsf.openDialog('" + dialog + "')";
     }
 }
