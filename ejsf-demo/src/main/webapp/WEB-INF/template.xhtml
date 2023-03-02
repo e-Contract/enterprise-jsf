@@ -159,6 +159,11 @@
                             </p:submenu>
                             <p:separator/>
                             <p:submenu label="Client Behavior">
+                                <p:menuitem value="Open Dialog"
+                                            action="open-dialog?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('open-dialog')}"/>
                                 <p:menuitem value="Close Dialog"
                                             action="close-dialog?faces-redirect=true"
                                             ajax="false"

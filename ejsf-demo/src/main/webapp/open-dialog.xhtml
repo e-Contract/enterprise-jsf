@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">Open Dialog Demo</ui:define>
+    <ui:define name="body">
+        <h:form id="example">
+            <h:panelGrid columns="1">
+                <p:commandButton value="Open Dialog">
+                    <ejsf:openDialog dialog="demoDialog"/>
+                </p:commandButton>
+                <p:commandButton value="Open Dialog with unmet condition">
+                    <ejsf:openDialog dialog="demoDialog" whenCallbackParam="foobar"/>
+                </p:commandButton>
+                <p:commandButton value="Open Dialog with met condition"
+                                 action="#{openDialogController.actionWithCallbackParameter('whatever','some value')}">
+                    <ejsf:openDialog dialog="demoDialog" whenCallbackParam="whatever"/>
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
+
+        <ejsf:highlight for="example"/>
+        <ejsf:highlight for="demoDialog"/>
+        <ejsf:highlight resource="/be/e_contract/demo/OpenDialogController.java"/>
+
+        <p:dialog widgetVar="demoDialog" header="Demo Dialog" id="demoDialog">
+            <h:form>
+                <p>
+                    This is a demo dialog.
+                </p>
+                <h:panelGrid columns="1">
+                    <p:commandButton value="Close">
+                        <ejsf:closeDialog/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

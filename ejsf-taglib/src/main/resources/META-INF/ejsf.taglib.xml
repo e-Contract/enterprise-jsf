@@ -848,4 +848,24 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Client-side behavior to open PrimeFaces dialogs.</description>
+        <tag-name>openDialog</tag-name>
+        <behavior>
+            <behavior-id>ejsf.openDialog</behavior-id>
+            <handler-class>be.e_contract.ejsf.behavior.opendialog.OpenDialogTagHandler</handler-class>
+        </behavior>
+        <attribute>
+            <description>The dialog widget var.</description>
+            <name>dialog</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional condition where a certain callback parameter has to be present.</description>
+            <name>whenCallbackParam</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
