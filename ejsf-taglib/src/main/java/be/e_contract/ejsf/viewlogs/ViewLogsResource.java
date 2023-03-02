@@ -19,6 +19,7 @@ import javax.faces.application.Application;
 import javax.faces.application.ProjectStage;
 import javax.faces.application.Resource;
 import javax.faces.application.ViewHandler;
+import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.slf4j.Logger;
@@ -47,21 +48,25 @@ public class ViewLogsResource extends Resource {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         String requiredRole = externalContext.getInitParameter(REQUIRED_ROLE_CONTEXT_PARAM);
-        if (null == requiredRole) {
+        if (UIInput.isEmpty(requiredRole)) {
             LOGGER.warn("context-param " + REQUIRED_ROLE_CONTEXT_PARAM + " not defined!");
             if (!facesContext.isProjectStage(ProjectStage.Development)) {
                 String message = "RBAC error.";
+                LOGGER.warn(message);
                 return new ByteArrayInputStream(message.getBytes());
             } else {
                 LOGGER.warn("configure " + REQUIRED_ROLE_CONTEXT_PARAM + " for production usage");
             }
         } else {
+            LOGGER.debug("required role: {}", requiredRole);
             if (!externalContext.isSecure()) {
                 String message = "Not secure.";
+                LOGGER.warn(message);
                 return new ByteArrayInputStream(message.getBytes());
             }
             if (!externalContext.isUserInRole(requiredRole)) {
                 String message = "RBAC error.";
+                LOGGER.warn(message);
                 return new ByteArrayInputStream(message.getBytes());
             }
         }

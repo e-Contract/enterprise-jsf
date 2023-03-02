@@ -16,6 +16,11 @@
         <param-value>true</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>ejsf.viewLogs.REQUIRED_ROLE</param-name>
+        <param-value>${ejsf.viewLogs.REQUIRED_ROLE}</param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

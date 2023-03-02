@@ -16,6 +16,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
                     <webResources>
                         <resource>
                             <directory>src/main/webapp</directory>
@@ -109,7 +110,16 @@
             <artifactId>commons-codec</artifactId>
         </dependency>
     </dependencies>
+    <properties>
+        <ejsf.viewLogs.REQUIRED_ROLE></ejsf.viewLogs.REQUIRED_ROLE>
+    </properties>
     <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <ejsf.viewLogs.REQUIRED_ROLE>admin</ejsf.viewLogs.REQUIRED_ROLE>
+            </properties>
+        </profile>
         <profile>
             <id>mojarra</id>
             <build>

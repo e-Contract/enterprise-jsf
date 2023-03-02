@@ -7,6 +7,10 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="title">View Logs Demo</ui:define>
     <ui:define name="body">
+        <p:staticMessage severity="warn"
+                         summary="Demo Mode"
+                         detail="Of course in production, exposing the server-side logs should be protected properly. For example, behind an administrator portal or such."
+                         style="width: 100%"/>
         <h:form>
             <ejsf:viewLogs id="example"/>
         </h:form>
