@@ -43,6 +43,21 @@
                                  update="@form,:messages"/>
             </h:panelGrid>
         </h:form>
+        <h3>Empty for value passes</h3>
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="username" value="Value:"/>
+                <p:inputText id="username" value="#{rateLimiterController.username}" required="true">
+                    <ejsf:rateLimiter for="#{null}"/>
+                </p:inputText>
+                <p:message for="username"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Submit"
+                                 action="#{rateLimiterController.login()}"
+                                 update="@form,:messages"/>
+            </h:panelGrid>
+        </h:form>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

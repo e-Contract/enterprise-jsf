@@ -108,9 +108,6 @@ public class RateLimiterValidator implements Validator, StateHolder {
         if (null != this.forValueExpression) {
             ELContext elContext = facesContext.getELContext();
             forValue = (String) this.forValueExpression.getValue(elContext);
-            if (UIInput.isEmpty(forValue)) {
-                LOGGER.warn("for value is empty");
-            }
         } else {
             UIInput forInput = (UIInput) component.findComponent(this._for);
             if (null == forInput) {
@@ -120,6 +117,10 @@ public class RateLimiterValidator implements Validator, StateHolder {
                 throw new ValidatorException(facesMessage);
             }
             forValue = (String) forInput.getValue();
+        }
+        if (UIInput.isEmpty(forValue)) {
+            LOGGER.warn("for value is empty");
+            return;
         }
         LOGGER.debug("for value: {}", forValue);
         if (!Environment.hasCaffeine()) {
