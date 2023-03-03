@@ -3,7 +3,7 @@
     <parent>
         <groupId>be.e-contract</groupId>
         <artifactId>enterprise-jsf</artifactId>
-        <version>0.7.1</version>
+        <version>0.7.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>be.e-contract.enterprise-jsf</groupId>
@@ -52,22 +52,22 @@
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib</artifactId>
-            <version>0.7.1</version>
+            <version>0.7.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-echarts</artifactId>
-            <version>0.7.1</version>
+            <version>0.7.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-d3</artifactId>
-            <version>0.7.1</version>
+            <version>0.7.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-highlight</artifactId>
-            <version>0.7.1</version>
+            <version>0.7.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
