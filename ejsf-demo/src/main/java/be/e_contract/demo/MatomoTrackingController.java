@@ -21,6 +21,8 @@ public class MatomoTrackingController {
 
     private String userId;
 
+    private String documentTitle;
+
     public boolean isEnableTracking() {
         return this.enableTracking;
     }
@@ -51,5 +53,13 @@ public class MatomoTrackingController {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getDocumentTitle() {
+        return this.documentTitle;
+    }
+
+    public void setDocumentTitle(String documentTitle) {
+        this.documentTitle = documentTitle;
     }
 }

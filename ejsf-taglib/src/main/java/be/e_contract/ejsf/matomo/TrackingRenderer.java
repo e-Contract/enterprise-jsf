@@ -43,6 +43,7 @@ public class TrackingRenderer extends CoreRenderer {
         }
 
         String userId = trackingComponent.getUserId();
+        String documentTitle = trackingComponent.getDocumentTitle();
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(context);
         widgetBuilder.init("EJSFMatomoTracking", trackingComponent);
@@ -50,6 +51,9 @@ public class TrackingRenderer extends CoreRenderer {
         widgetBuilder.attr("SITE_ID", matomoSiteId);
         if (!UIInput.isEmpty(userId)) {
             widgetBuilder.attr("USER_ID", userId);
+        }
+        if (!UIInput.isEmpty(documentTitle)) {
+            widgetBuilder.attr("DOCUMENT_TITLE", documentTitle);
         }
         widgetBuilder.finish();
     }

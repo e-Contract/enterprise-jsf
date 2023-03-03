@@ -375,6 +375,11 @@
             <name>userId</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The optional document title.</description>
+            <name>documentTitle</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

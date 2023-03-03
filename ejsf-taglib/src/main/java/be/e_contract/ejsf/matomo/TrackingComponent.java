@@ -34,7 +34,8 @@ public class TrackingComponent extends UIComponentBase implements Widget {
         enableTracking,
         matomoUrl,
         siteId,
-        userId
+        userId,
+        documentTitle,
     }
 
     public boolean isEnableTracking() {
@@ -67,5 +68,13 @@ public class TrackingComponent extends UIComponentBase implements Widget {
 
     public void setUserId(String userId) {
         getStateHelper().put(PropertyKeys.userId, userId);
+    }
+
+    public String getDocumentTitle() {
+        return (String) getStateHelper().eval(PropertyKeys.documentTitle);
+    }
+
+    public void setDocumentTitle(String documentTitle) {
+        getStateHelper().put(PropertyKeys.documentTitle, documentTitle);
     }
 }

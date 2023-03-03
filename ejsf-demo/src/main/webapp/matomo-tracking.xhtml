@@ -12,6 +12,7 @@
                                  matomoUrl="#{matomoTrackingController.matomoUrl}"
                                  siteId="#{matomoTrackingController.siteId}"
                                  userId="#{matomoTrackingController.userId}"
+                                 documentTitle="#{matomoTrackingController.documentTitle}"
                                  id="example"/>
             <h:panelGrid columns="3">
                 <p:outputLabel for="enableTracking" value="Enable Tracking:"/>
@@ -31,6 +32,10 @@
                 <p:outputLabel for="userId" value="User ID:"/>
                 <p:inputText id="userId" value="#{matomoTrackingController.userId}"/>
                 <p:message for="userId"/>
+
+                <p:outputLabel for="documentTitle" value="Document Title:"/>
+                <p:inputText id="documentTitle" value="#{matomoTrackingController.documentTitle}"/>
+                <p:message for="documentTitle"/>
             </h:panelGrid>
             <p:commandButton value="Update" update="@form"/>
         </h:form>

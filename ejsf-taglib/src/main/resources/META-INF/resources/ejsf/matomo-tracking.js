@@ -19,6 +19,9 @@ PrimeFaces.widget.EJSFMatomoTracking = PrimeFaces.widget.BaseWidget.extend({
             if (typeof _cfg.USER_ID !== "undefined") {
                 _paq.push(["setUserId", _cfg.USER_ID]);
             }
+            if (typeof _cfg.DOCUMENT_TITLE !== "undefined") {
+                _paq.push(["setDocumentTitle", _cfg.DOCUMENT_TITLE]);
+            }
             let matomoScript = document.createElement("script");
             matomoScript.type = "text/javascript";
             matomoScript.async = true;
