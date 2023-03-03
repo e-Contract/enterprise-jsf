@@ -47,7 +47,8 @@ public class ViewLogsComponent extends UIComponentBase {
 
     public enum PropertyKeys {
         style,
-        styleClass
+        styleClass,
+        newTab
     }
 
     @Override
@@ -92,6 +93,10 @@ public class ViewLogsComponent extends UIComponentBase {
 
             responseWriter.startElement("td", this);
             responseWriter.startElement("a", this);
+            boolean newTab = isNewTab();
+            if (newTab) {
+                responseWriter.writeAttribute("target", "_blank", "newTab");
+            }
             Resource resource = resourceHandler.createResource(logFile.getName(), ViewLogsResourceHandler.LIBRARY_NAME);
             if (null == resource) {
                 LOGGER.warn("missing ViewLogsResourceHandler configuration");
@@ -142,5 +147,13 @@ public class ViewLogsComponent extends UIComponentBase {
 
     public void setStyleClass(String styleClass) {
         getStateHelper().put(OutputCurrencyComponent.PropertyKeys.styleClass, styleClass);
+    }
+
+    public boolean isNewTab() {
+        return (Boolean) getStateHelper().eval(PropertyKeys.newTab, false);
+    }
+
+    public void setNewTab(boolean newTab) {
+        getStateHelper().put(PropertyKeys.newTab, newTab);
     }
 }
