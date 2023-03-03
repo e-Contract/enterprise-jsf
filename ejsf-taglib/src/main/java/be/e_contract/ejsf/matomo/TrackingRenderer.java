@@ -42,10 +42,15 @@ public class TrackingRenderer extends CoreRenderer {
             return;
         }
 
+        String userId = trackingComponent.getUserId();
+
         WidgetBuilder widgetBuilder = getWidgetBuilder(context);
         widgetBuilder.init("EJSFMatomoTracking", trackingComponent);
         widgetBuilder.attr("MATOMO_URL", matomoUrl);
         widgetBuilder.attr("SITE_ID", matomoSiteId);
+        if (!UIInput.isEmpty(userId)) {
+            widgetBuilder.attr("USER_ID", userId);
+        }
         widgetBuilder.finish();
     }
 }

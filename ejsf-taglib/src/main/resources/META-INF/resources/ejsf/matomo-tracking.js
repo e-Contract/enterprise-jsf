@@ -9,18 +9,22 @@ PrimeFaces.widget.EJSFMatomoTracking = PrimeFaces.widget.BaseWidget.extend({
     init: function (cfg) {
         this._super(cfg);
         let _cfg = this.cfg;
-        var _paq = window._paq = window._paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
+        let _paq = window._paq = window._paq || [];
+        _paq.push(["trackPageView"]);
+        _paq.push(["enableLinkTracking"]);
         (function () {
-            var u = _cfg.MATOMO_URL + "/";
-            _paq.push(['setTrackerUrl', u + 'matomo.php']);
-            _paq.push(['setSiteId', _cfg.SITE_ID]);
-            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-            g.type = 'text/javascript';
-            g.async = true;
-            g.src = u + 'matomo.js';
-            s.parentNode.insertBefore(g, s);
+            let url = _cfg.MATOMO_URL + "/";
+            _paq.push(["setTrackerUrl", url + "matomo.php"]);
+            _paq.push(["setSiteId", _cfg.SITE_ID]);
+            if (typeof _cfg.USER_ID !== "undefined") {
+                _paq.push(["setUserId", _cfg.USER_ID]);
+            }
+            let matomoScript = document.createElement("script");
+            matomoScript.type = "text/javascript";
+            matomoScript.async = true;
+            matomoScript.src = url + "matomo.js";
+            let firstScript = document.getElementsByTagName("script")[0];
+            firstScript.parentNode.insertBefore(matomoScript, firstScript);
         })();
     }
 });

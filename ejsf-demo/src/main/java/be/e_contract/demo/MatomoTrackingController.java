@@ -19,6 +19,8 @@ public class MatomoTrackingController {
 
     private String siteId;
 
+    private String userId;
+
     public boolean isEnableTracking() {
         return this.enableTracking;
     }
@@ -41,5 +43,13 @@ public class MatomoTrackingController {
 
     public void setSiteId(String siteId) {
         this.siteId = siteId;
+    }
+
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

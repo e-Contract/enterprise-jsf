@@ -11,16 +11,26 @@
             <ejsf:matomoTracking enableTracking="#{matomoTrackingController.enableTracking}"
                                  matomoUrl="#{matomoTrackingController.matomoUrl}"
                                  siteId="#{matomoTrackingController.siteId}"
+                                 userId="#{matomoTrackingController.userId}"
                                  id="example"/>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3">
                 <p:outputLabel for="enableTracking" value="Enable Tracking:"/>
                 <p:selectBooleanCheckbox id="enableTracking" value="#{matomoTrackingController.enableTracking}"/>
+                <p:message for="enableTracking"/>
 
                 <p:outputLabel for="matomoUrl" value="Matomo URL:"/>
-                <p:inputText id="matomoUrl" value="#{matomoTrackingController.matomoUrl}"/>
+                <p:inputText id="matomoUrl" value="#{matomoTrackingController.matomoUrl}" required="true" size="60">
+                    <ejsf:urlValidator allowHttp="true" allowLocalhost="true"/>
+                </p:inputText>
+                <p:message for="matomoUrl"/>
 
                 <p:outputLabel for="siteId" value="Site ID:"/>
-                <p:inputText id="siteId" value="#{matomoTrackingController.siteId}"/>
+                <p:inputText id="siteId" value="#{matomoTrackingController.siteId}" required="true"/>
+                <p:message for="siteId"/>
+
+                <p:outputLabel for="userId" value="User ID:"/>
+                <p:inputText id="userId" value="#{matomoTrackingController.userId}"/>
+                <p:message for="userId"/>
             </h:panelGrid>
             <p:commandButton value="Update" update="@form"/>
         </h:form>

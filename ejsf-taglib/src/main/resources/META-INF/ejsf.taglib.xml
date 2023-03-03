@@ -365,9 +365,14 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>The Matomo site id.</description>
+            <description>The Matomo site identifier.</description>
             <name>siteId</name>
             <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional user identifier.</description>
+            <name>userId</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
