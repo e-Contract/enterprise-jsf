@@ -25,13 +25,17 @@ var ejsf = ejsf || {};
         PF(dialogWidgetVar).hide();
     };
 
-    ejsf.openDialog = function (dialogWidgetVar, status, args, whenCallbackParam) {
+    ejsf.openDialog = function (dialogWidgetVar, status, args, whenCallbackParam, whenCallbackParamValue) {
         if (status !== "success") {
             return;
         }
         if (typeof whenCallbackParam !== "undefined") {
             if (whenCallbackParam !== "null") {
-                if (!args[whenCallbackParam]) {
+                if (typeof whenCallbackParamValue !== "undefined" && whenCallbackParamValue !== "null") {
+                    if (args[whenCallbackParam] !== whenCallbackParamValue) {
+                        return;
+                    }
+                } else if (!args[whenCallbackParam]) {
                     return;
                 }
             }

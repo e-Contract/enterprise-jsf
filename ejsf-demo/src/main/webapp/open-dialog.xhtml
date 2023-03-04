@@ -20,6 +20,18 @@
                                  action="#{openDialogController.actionWithCallbackParameter('whatever','some value')}">
                     <ejsf:openDialog dialog="demoDialog" whenCallbackParam="whatever"/>
                 </p:commandButton>
+                <p:commandButton value="Open Dialog with unmet value"
+                                 action="#{openDialogController.actionWithCallbackParameter('whatever','some value')}">
+                    <ejsf:openDialog dialog="demoDialog"
+                                     whenCallbackParam="whatever"
+                                     whenCallbackParamValue="foobar"/>
+                </p:commandButton>
+                <p:commandButton value="Open Dialog with met value"
+                                 action="#{openDialogController.actionWithCallbackParameter('whatever','some value')}">
+                    <ejsf:openDialog dialog="demoDialog"
+                                     whenCallbackParam="whatever"
+                                     whenCallbackParamValue="some value"/>
+                </p:commandButton>
             </h:panelGrid>
         </h:form>
 

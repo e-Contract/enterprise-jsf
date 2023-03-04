@@ -40,7 +40,14 @@ public class OpenDialogTagHandler extends TagHandler {
         TagAttribute whenCallbackParamTagAttribute = getAttribute("whenCallbackParam");
         if (null != whenCallbackParamTagAttribute) {
             whenCallbackParam = whenCallbackParamTagAttribute.getValue();
-            oncompleteScript = "ejsf.openDialog('" + dialog + "',status,xhr.pfArgs,'" + whenCallbackParam + "')";
+            String whenCallbackParamValue;
+            TagAttribute whenCallbackParamValueTagAttribute = getAttribute("whenCallbackParamValue");
+            if (null != whenCallbackParamValueTagAttribute) {
+                whenCallbackParamValue = whenCallbackParamValueTagAttribute.getValue();
+            } else {
+                whenCallbackParamValue = null;
+            }
+            oncompleteScript = "ejsf.openDialog('" + dialog + "',status,xhr.pfArgs,'" + whenCallbackParam + "','" + whenCallbackParamValue + "')";
         } else {
             whenCallbackParam = null;
             oncompleteScript = "ejsf.openDialog('" + dialog + "',status,xhr.pfArgs)";
