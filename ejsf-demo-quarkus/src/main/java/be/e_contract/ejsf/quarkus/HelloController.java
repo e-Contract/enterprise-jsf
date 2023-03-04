@@ -78,4 +78,15 @@ public class HelloController implements Serializable {
                 "entity added: " + this.newHello.getName(), null));
         this.newHello = null;
     }
+
+    @Transactional
+    public void removeItem(HelloEntity hello) {
+        HelloEntity helloEntity = this.entityManager.find(HelloEntity.class, hello.getName());
+        this.entityManager.remove(helloEntity);
+        Query query = this.entityManager.createQuery("SELECT he FROM HelloEntity AS he");
+        this.helloList = query.getResultList();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "entity removed: " + hello.getName(), null));
+    }
 }
