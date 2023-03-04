@@ -103,6 +103,16 @@
                                             ajax="false"
                                             onclick="selectMenuitemLink(this);"
                                             styleClass="#{menuController.getMenuitemStyleClass('output-url')}"/>
+                                <p:menuitem value="Fingerprint"
+                                            action="output-fingerprint?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-fingerprint')}"/>
+                                <p:menuitem value="Certificate"
+                                            action="output-certificate?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('output-certificate')}"/>
                             </p:submenu>
                             <p:separator/>
                             <p:submenu label="Validators">

@@ -8,6 +8,8 @@
 
     <namespace>urn:be:e-contract:ejsf</namespace>
 
+    <composite-library-name>ejsf-composites</composite-library-name>
+
     <tag>
         <description>Component to view the JBoss EAP log files. This requires proper configuration of ViewLogsResourceHandler and ejsf.viewLogs.REQUIRED_ROLE context-param.</description>
         <tag-name>viewLogs</tag-name>
@@ -889,6 +891,27 @@
         <attribute>
             <description>Optional condition where a certain callback parameter has to have a certain value.</description>
             <name>whenCallbackParamValue</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Outputs the fingerprint of binary data.
+        </description>
+        <tag-name>outputFingerprint</tag-name>
+        <component>
+            <component-type>ejsf.outputFingerprint</component-type>
+        </component>
+        <attribute>
+            <description>The data as byte array.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <description>The optional digest algorithm. Defaults to SHA-1.</description>
+            <name>algo</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>

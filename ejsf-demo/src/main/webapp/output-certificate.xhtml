@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Output Certificate Demo</ui:define>
+    <ui:define name="body">
+        <ejsf:outputCertificate id="example"
+                                value="#{outputCertificateController.certificate}"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="OutputCertificateController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/OutputCertificateController.java"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

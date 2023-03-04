@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface shortDescription="Outputs an X509 certificate."
+                             componentType="ejsf.outputCertificate">
+            <composite:attribute name="value"
+                                 required="true"
+                                 shortDescription="The X509 certificate."
+                                 type="java.security.cert.X509Certificate"/>
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Subject:"/>
+                    <h:outputText value="#{cc.attrs.value.subjectDN}"/>
+
+                    <h:outputText value="Issuer:"/>
+                    <h:outputText value="#{cc.attrs.value.issuerDN}"/>
+
+                    <h:outputText value="Not before:"/>
+                    <h:outputText value="#{cc.attrs.value.notBefore}"/>
+
+                    <h:outputText value="Not after:"/>
+                    <h:outputText value="#{cc.attrs.value.notAfter}"/>
+
+                    <h:outputText value="Fingerprint (SHA-1):"/>
+                    <ejsf:outputFingerprint value="#{cc.certificateData}"/>
+
+                    <h:outputText value="Fingerprint (SHA-256):"/>
+                    <ejsf:outputFingerprint value="#{cc.certificateData}" algo="SHA-256"/>
+                </h:panelGrid>
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>
