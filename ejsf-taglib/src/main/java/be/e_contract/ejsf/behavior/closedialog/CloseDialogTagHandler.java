@@ -41,6 +41,16 @@ public class CloseDialogTagHandler extends TagHandler {
         } else {
             whenCallbackParam = null;
         }
+        String whenCallbackParamValue;
+        TagAttribute whenCallbackParamValueTagAttribute = getAttribute("whenCallbackParamValue");
+        if (null != whenCallbackParamValueTagAttribute) {
+            whenCallbackParamValue = whenCallbackParamValueTagAttribute.getValue();
+        } else {
+            whenCallbackParamValue = null;
+        }
+        if (null != whenCallbackParamValue && whenCallbackParam == null) {
+            throw new TagException(this.tag, "missing whenCallbackParam");
+        }
         Boolean whenValid;
         TagAttribute whenValidTagAttribute = getAttribute("whenValid");
         if (null != whenValidTagAttribute) {
@@ -50,7 +60,7 @@ public class CloseDialogTagHandler extends TagHandler {
         }
         if (null != whenCallbackParam || null != whenValid) {
             String onCompleteScript = "ejsf.handleDialogOnComplete(event, status, xhr.pfArgs, '"
-                    + whenCallbackParam + "','" + whenValid + "')";
+                    + whenCallbackParam + "','" + whenCallbackParamValue + "','" + whenValid + "')";
             if (parent instanceof CommandButton) {
                 CommandButton commandButton = (CommandButton) parent;
                 commandButton.setOncomplete(onCompleteScript);

@@ -43,6 +43,16 @@
                                      update="@form">
                         <ejsf:closeDialog whenCallbackParam="whatever"/>
                     </p:commandButton>
+                    <p:commandButton value="Close with unmet value"
+                                     action="#{closeDialogController.actionWithCallbackParameter('whatever','some value')}"
+                                     update="@form">
+                        <ejsf:closeDialog whenCallbackParam="whatever" whenCallbackParamValue="foobar"/>
+                    </p:commandButton>
+                    <p:commandButton value="Close with met value"
+                                     action="#{closeDialogController.actionWithCallbackParameter('whatever','some value')}"
+                                     update="@form">
+                        <ejsf:closeDialog whenCallbackParam="whatever" whenCallbackParamValue="some value"/>
+                    </p:commandButton>
                     <p:commandButton value="Close when valid" update="@form">
                         <ejsf:closeDialog whenValid="true"/>
                     </p:commandButton>

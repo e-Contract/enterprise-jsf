@@ -299,6 +299,11 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>Optional condition where a certain callback parameter has to have a certain value.</description>
+            <name>whenCallbackParamValue</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
             <description>Optional condition on the input validation.</description>
             <name>whenValid</name>
             <type>java.lang.Boolean</type>

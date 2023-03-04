@@ -43,7 +43,7 @@ var ejsf = ejsf || {};
         event.target.setAttribute('data-dialog', dialogWidgetVar);
     };
 
-    ejsf.handleDialogOnComplete = function (event, status, args, whenCallbackParam, whenValid) {
+    ejsf.handleDialogOnComplete = function (event, status, args, whenCallbackParam, whenCallbackParamValue, whenValid) {
         if (status !== "success") {
             return;
         }
@@ -57,7 +57,11 @@ var ejsf = ejsf || {};
         }
         if (typeof whenCallbackParam !== "undefined") {
             if (whenCallbackParam !== "null") {
-                if (!args[whenCallbackParam]) {
+                if (typeof whenCallbackParamValue !== "undefined" && whenCallbackParamValue !== "null") {
+                    if (args[whenCallbackParam] !== whenCallbackParamValue) {
+                        return;
+                    }
+                } else if (!args[whenCallbackParam]) {
                     return;
                 }
             }
