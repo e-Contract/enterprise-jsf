@@ -10,6 +10,7 @@
         <ui:repeat id="example" value="#{outputDayOfWeekController.dayOfWeekList}" var="dayOfWeek">
             <ejsf:outputDayOfWeek value="#{dayOfWeek}"/><br/>
         </ui:repeat>
+        <ejsf:outputDayOfWeek value="#{outputDayOfWeekController.dayOfWeekList.get(0)}" rendered="false"/>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

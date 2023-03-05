@@ -7,6 +7,7 @@
     <ui:define name="title">Highlight Demo</ui:define>
     <ui:define name="body">
         <ejsf:highlight id="example" value="function test() { return true; }"/>
+        <ejsf:highlight value="function test() { return true; }" rendered="false"/>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

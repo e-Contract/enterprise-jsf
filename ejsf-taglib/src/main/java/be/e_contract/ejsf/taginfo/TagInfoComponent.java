@@ -8,8 +8,19 @@ package be.e_contract.ejsf.taginfo;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.faces.application.Application;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
@@ -21,6 +32,7 @@ import javax.faces.context.FacesContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.jboss.vfs.VirtualFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -53,13 +65,10 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
     public List<TagInfo> getTags() {
         List<TagInfo> tags = new LinkedList<>();
         String library = (String) getAttributes().get("library");
-        Document taglibDocument;
-        try {
-            taglibDocument = getTaglibDocument(library);
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            LOGGER.error("error loading taglib document: " + ex.getMessage(), ex);
+        if (null == library) {
             return tags;
         }
+        Document taglibDocument = getTaglibDocument(library);
         if (null == taglibDocument) {
             return tags;
         }
@@ -82,7 +91,7 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
                     break;
                 }
             }
-            TagInfo tagInfo = new TagInfo(tagName, tagDescription);
+            TagInfo tagInfo = new TagInfo(thisTagName, tagDescription);
             tags.add(tagInfo);
             NodeList componentTypeNodeList = tagElement.getElementsByTagNameNS("*", "component-type");
             if (componentTypeNodeList.getLength() > 0) {
@@ -135,29 +144,85 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
                 tagAttributes.add(tagAttribute);
             }
         }
-        if (!tags.isEmpty()) {
+        if (!tags.isEmpty() && null != tagName) {
             return tags;
         }
-        if (null == tagName) {
-            return tags;
-        }
+        tags.sort((tag1, tag2) -> tag1.getTagName().compareTo(tag2.getTagName()));
         NodeList compositeLibraryNameNodeList = taglibDocument.getElementsByTagNameNS("*", "composite-library-name");
         if (compositeLibraryNameNodeList.getLength() == 0) {
             return tags;
         }
         String compositeLibraryName = compositeLibraryNameNodeList.item(0).getTextContent();
+        if (null != tagName) {
+            TagInfo tag = getCompositeTagInfo(compositeLibraryName, tagName);
+            if (null != tag) {
+                tags.add(tag);
+            }
+            return tags;
+        }
+        URL compositeURL = TagInfoComponent.class.getResource("/META-INF/resources/" + compositeLibraryName + "/");
+        LOGGER.debug("composite URL: {}", compositeURL);
+        if (null == compositeURL) {
+            return tags;
+        }
+        List<String> compositeTags;
+        try {
+            URI uri = compositeURL.toURI();
+            if (uri.getScheme().equals("jar")) {
+                try ( FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap())) {
+                    Path compositePath = fileSystem.getPath("/META-INF/resources/" + compositeLibraryName + "/");
+                    compositeTags = Files.list(compositePath)
+                            .filter(path -> path.getFileName().toString().endsWith(".xhtml"))
+                            .map(path -> path.getFileName().toString())
+                            .collect(Collectors.toList());
+                }
+            } else if (uri.getScheme().equals("vfs")) {
+                // WildFly/JBoss specific
+                URLConnection urlConnection = compositeURL.openConnection();
+                VirtualFile virtualFile = (VirtualFile) urlConnection.getContent();
+                compositeTags = new LinkedList<>();
+                for (VirtualFile childVirtualFile : virtualFile.getChildren()) {
+                    String childName = childVirtualFile.getName();
+                    LOGGER.debug("child virtual file: {}", childName);
+                    if (childName.endsWith(".xhtml")) {
+                        compositeTags.add(childName);
+                    }
+                }
+            } else {
+                Path compositePath = Paths.get(uri);
+                compositeTags = Files.list(compositePath)
+                        .filter(path -> path.getFileName().toString().endsWith(".xhtml"))
+                        .map(path -> path.getFileName().toString())
+                        .collect(Collectors.toList());
+            }
+        } catch (URISyntaxException | IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return tags;
+        }
+        LOGGER.debug("composite tags: {}", compositeTags);
+        for (String compositeTag : compositeTags) {
+            String compositeTagName = compositeTag.substring(0, compositeTag.indexOf(".xhtml"));
+            TagInfo tag = getCompositeTagInfo(compositeLibraryName, compositeTagName);
+            if (null != tag) {
+                tags.add(tag);
+            }
+        }
+        tags.sort((tag1, tag2) -> tag1.getTagName().compareTo(tag2.getTagName()));
+        return tags;
+    }
+
+    private TagInfo getCompositeTagInfo(String compositeLibraryName, String tagName) {
         Document compositeDocument = getCompositeTagDocument(compositeLibraryName, tagName);
         if (null == compositeDocument) {
-            return tags;
+            return null;
         }
         Element interfaceElement = (Element) compositeDocument.getElementsByTagNameNS("*", "interface").item(0);
         if (null == interfaceElement) {
             LOGGER.warn("missing interface element");
-            return tags;
+            return null;
         }
         String tagDescription = interfaceElement.getAttribute("shortDescription");
         TagInfo tagInfo = new TagInfo(tagName, tagDescription);
-        tags.add(tagInfo);
         NodeList attributeNodeList = interfaceElement.getElementsByTagNameNS("*", "attribute");
         for (int attributeIdx = 0; attributeIdx < attributeNodeList.getLength(); attributeIdx++) {
             Element attributeElement = (Element) attributeNodeList.item(attributeIdx);
@@ -179,7 +244,7 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
             }
             tagAttributes.add(tagAttribute);
         }
-        return tags;
+        return tagInfo;
     }
 
     private Document getCompositeTagDocument(String compositeLibraryName, String tagName) {
@@ -191,18 +256,23 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         try {
             return loadDocument(inputStream);
         } catch (ParserConfigurationException | SAXException | IOException ex) {
-            LOGGER.error("error loading document: " + ex.getMessage(), ex);
+            LOGGER.error("error loading composite document: " + ex.getMessage(), ex);
             return null;
         }
     }
 
-    private Document getTaglibDocument(String library) throws ParserConfigurationException, SAXException, IOException {
+    private Document getTaglibDocument(String library) {
         InputStream taglibInputStream = TagInfoComponent.class.getResourceAsStream("/META-INF/" + library + ".taglib.xml");
         if (null == taglibInputStream) {
             LOGGER.warn("taglib not found: {}", library);
             return null;
         }
-        return loadDocument(taglibInputStream);
+        try {
+            return loadDocument(taglibInputStream);
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            LOGGER.error("error loading taglib document: " + ex.getMessage(), ex);
+            return null;
+        }
     }
 
     private Document loadDocument(InputStream inputStream) throws ParserConfigurationException, SAXException, IOException {

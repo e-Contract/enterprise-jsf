@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">API</ui:define>
+    <ui:define name="body">
+        <p>
+            This page gives an overview of all available tags.
+        </p>
+        <ejsf:tagInfo library="ejsf"/>
+    </ui:define>
+</ui:composition>

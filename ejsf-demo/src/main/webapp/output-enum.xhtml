@@ -17,6 +17,7 @@
                 </ejsf:outputEnum>
             </p>
         </ui:repeat>
+        <ejsf:outputEnum value="#{outputEnumController.enums.stream().findFirst().get()}" rendered="false"/>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

@@ -115,5 +115,10 @@
             <artifactId>commons-codec</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-vfs</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 </project>

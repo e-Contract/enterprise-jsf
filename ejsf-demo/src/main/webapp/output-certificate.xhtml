@@ -9,6 +9,8 @@
         <ejsf:outputCertificate id="example"
                                 value="#{outputCertificateController.certificate}"/>
         <ejsf:outputCertificate value="#{null}"/>
+        <ejsf:outputCertificate rendered="false"
+                                value="#{outputCertificateController.certificate}"/>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>
