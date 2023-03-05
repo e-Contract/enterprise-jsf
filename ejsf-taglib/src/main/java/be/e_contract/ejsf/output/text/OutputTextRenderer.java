@@ -22,7 +22,13 @@ public class OutputTextRenderer extends CoreRenderer {
     @Override
     public void encodeBegin(FacesContext facesContext, UIComponent component) throws IOException {
         OutputTextComponent outputTextComponent = (OutputTextComponent) component;
-        String value = (String) outputTextComponent.getValue();
+        Object objValue = outputTextComponent.getValue();
+        String value;
+        if (null != objValue) {
+            value = objValue.toString();
+        } else {
+            value = null;
+        }
 
         String clientId = component.getClientId();
         ResponseWriter responseWriter = facesContext.getResponseWriter();
@@ -37,14 +43,19 @@ public class OutputTextRenderer extends CoreRenderer {
         if (null != styleClass) {
             responseWriter.writeAttribute("class", styleClass, "styleClass");
         }
+        String unit = outputTextComponent.getUnit();
         if (null != value) {
             responseWriter.writeText(value, "value");
+            if (null != unit) {
+                responseWriter.writeText(" " + unit, "unit");
+            }
         }
         responseWriter.endElement("span");
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
         widgetBuilder.init("EJSFOutputText", outputTextComponent);
         widgetBuilder.attr("initialValue", value);
+        widgetBuilder.attr("unit", unit);
         widgetBuilder.finish();
     }
 }

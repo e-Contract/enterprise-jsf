@@ -18,7 +18,11 @@ PrimeFaces.widget.EJSFOutputText = PrimeFaces.widget.BaseWidget.extend({
     setValue: function (value) {
         this.value = value;
         if (null !== value) {
-            $(this.jqId).text(value);
+            if (typeof this.cfg.unit !== "undefined") {
+                $(this.jqId).text(value + " " + this.cfg.unit);
+            } else {
+                $(this.jqId).text(value);
+            }
         } else {
             $(this.jqId).text("");
         }

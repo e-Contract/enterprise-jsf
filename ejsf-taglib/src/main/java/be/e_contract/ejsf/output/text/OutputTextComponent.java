@@ -28,7 +28,8 @@ public class OutputTextComponent extends UIOutput implements Widget {
     public enum PropertyKeys {
         widgetVar,
         style,
-        styleClass
+        styleClass,
+        unit
     }
 
     @Override
@@ -58,5 +59,13 @@ public class OutputTextComponent extends UIOutput implements Widget {
 
     public void setStyleClass(String styleClass) {
         getStateHelper().put(PropertyKeys.styleClass, styleClass);
+    }
+
+    public String getUnit() {
+        return (String) getStateHelper().eval(PropertyKeys.unit, null);
+    }
+
+    public void setUnit(String unit) {
+        getStateHelper().put(PropertyKeys.unit, unit);
     }
 }

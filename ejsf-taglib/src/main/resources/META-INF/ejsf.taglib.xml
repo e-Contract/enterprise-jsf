@@ -407,6 +407,11 @@
             <name>widgetVar</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The optional unit.</description>
+            <name>unit</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

@@ -15,10 +15,12 @@
         </h:form>
         <h:panelGrid columns="2" id="results">
             <h:outputText value="Best round trip delay:"/>
-            <h:outputText value="#{clockSyncController.bestRoundTripDelay}"/>
+            <ejsf:outputText value="#{clockSyncController.bestRoundTripDelay}"
+                             unit="ms"/>
 
             <h:outputText value="Delta T:"/>
-            <h:outputText value="#{clockSyncController.deltaT}"/>
+            <ejsf:outputText value="#{clockSyncController.deltaT}"
+                             unit="ms"/>
         </h:panelGrid>
         <p:tabView>
             <p:tab title="XHTML">

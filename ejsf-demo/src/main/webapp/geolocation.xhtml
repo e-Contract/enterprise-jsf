@@ -21,7 +21,8 @@
             <h:outputText value="#{geolocationController.longitude}"/>
 
             <h:outputText value="Accuracy:"/>
-            <h:outputText value="#{geolocationController.accuracy}"/>
+            <ejsf:outputText value="#{geolocationController.accuracy}"
+                             unit="m"/>
         </h:panelGrid>
         <h:form>
             <h:panelGrid columns="1">
