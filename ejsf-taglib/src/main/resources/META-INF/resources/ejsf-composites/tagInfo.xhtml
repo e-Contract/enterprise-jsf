@@ -62,6 +62,22 @@
                                 #{attribute.description}
                             </p:column>
                         </p:dataTable>
+
+                        <p:spacer height="10px"/>
+
+                        <p:dataTable value="#{tag.clientBehaviorEventNames}" var="eventName"
+                                     rendered="#{not empty tag.clientBehaviorEventNames}">
+                            <f:facet  name="header">
+                                Client behavior events
+                            </f:facet>
+                            <p:column headerText="Name">
+                                #{eventName}
+                            </p:column>
+                            <f:facet name="footer">
+                                Default event name: #{tag.clientBehaviorDefaultEventName}
+                            </f:facet>
+                        </p:dataTable>
+
                     </p:panel>
                     <p:spacer height="10px"/>
                 </ui:repeat>

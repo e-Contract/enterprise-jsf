@@ -17,11 +17,15 @@ public class TagInfo {
     private final List<TagAttribute> requiredAttributes;
     private final List<TagAttribute> optionalAttributes;
 
+    private final List<String> clientBehaviorEventNames;
+    private String clientBehaviorDefaultEventName;
+
     public TagInfo(String tagName, String description) {
         this.tagName = tagName;
         this.description = description;
         this.requiredAttributes = new LinkedList<>();
         this.optionalAttributes = new LinkedList<>();
+        this.clientBehaviorEventNames = new LinkedList<>();
     }
 
     public String getTagName() {
@@ -38,5 +42,17 @@ public class TagInfo {
 
     public List<TagAttribute> getOptionalAttributes() {
         return this.optionalAttributes;
+    }
+
+    public List<String> getClientBehaviorEventNames() {
+        return this.clientBehaviorEventNames;
+    }
+
+    public String getClientBehaviorDefaultEventName() {
+        return this.clientBehaviorDefaultEventName;
+    }
+
+    public void setClientBehaviorDefaultEventName(String clientBehaviorDefaultEventName) {
+        this.clientBehaviorDefaultEventName = clientBehaviorDefaultEventName;
     }
 }

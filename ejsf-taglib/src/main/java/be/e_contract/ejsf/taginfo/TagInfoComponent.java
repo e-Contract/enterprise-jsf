@@ -10,10 +10,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import javax.faces.application.Application;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UINamingContainer;
+import javax.faces.component.behavior.ClientBehaviorHolder;
+import javax.faces.context.FacesContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -80,6 +84,19 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
             }
             TagInfo tagInfo = new TagInfo(tagName, tagDescription);
             tags.add(tagInfo);
+            NodeList componentTypeNodeList = tagElement.getElementsByTagName("component-type");
+            if (componentTypeNodeList.getLength() > 0) {
+                String componentType = componentTypeNodeList.item(0).getTextContent();
+                FacesContext facesContext = getFacesContext();
+                Application application = facesContext.getApplication();
+                UIComponent component = application.createComponent(componentType);
+                if (component instanceof ClientBehaviorHolder) {
+                    ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) component;
+                    String defaultEventName = clientBehaviorHolder.getDefaultEventName();
+                    tagInfo.setClientBehaviorDefaultEventName(defaultEventName);
+                    tagInfo.getClientBehaviorEventNames().addAll(clientBehaviorHolder.getEventNames());
+                }
+            }
             NodeList attributeNodeList = tagElement.getElementsByTagName("attribute");
             for (int attributeIdx = 0; attributeIdx < attributeNodeList.getLength(); attributeIdx++) {
                 Element attributeElement = (Element) attributeNodeList.item(attributeIdx);
