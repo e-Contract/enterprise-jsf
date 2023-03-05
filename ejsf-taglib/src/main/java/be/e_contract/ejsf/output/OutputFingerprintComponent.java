@@ -37,6 +37,15 @@ public class OutputFingerprintComponent extends UIOutput {
 
     enum PropertyKeys {
         algo,
+        space
+    }
+
+    public boolean isSpace() {
+        return (Boolean) getStateHelper().eval(PropertyKeys.space, false);
+    }
+
+    public void setSpace(boolean space) {
+        getStateHelper().put(PropertyKeys.space, space);
     }
 
     public void setAlgo(String algo) {
@@ -70,10 +79,15 @@ public class OutputFingerprintComponent extends UIOutput {
             }
             byte[] digestValue = messageDigest.digest(data);
             String fingerprint = Hex.encodeHexString(digestValue).toUpperCase();
-            for (int idx = 0; idx < fingerprint.length(); idx += 2) {
-                responseWriter.write(fingerprint.charAt(idx));
-                responseWriter.write(fingerprint.charAt(idx + 1));
-                responseWriter.write(" ");
+            boolean space = isSpace();
+            if (space) {
+                for (int idx = 0; idx < fingerprint.length(); idx += 2) {
+                    responseWriter.write(fingerprint.charAt(idx));
+                    responseWriter.write(fingerprint.charAt(idx + 1));
+                    responseWriter.write(" ");
+                }
+            } else {
+                responseWriter.write(fingerprint);
             }
         }
 

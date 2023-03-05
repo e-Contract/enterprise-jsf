@@ -8,6 +8,7 @@ package be.e_contract.ejsf.output;
 
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
+import java.util.Date;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UINamingContainer;
@@ -28,13 +29,41 @@ public class OutputCertificateComponent extends UIOutput implements NamingContai
     }
 
     public byte[] getCertificateData() {
-        X509Certificate value = (X509Certificate) getValue();
-        if (null == value) {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
             return null;
         }
         try {
-            return value.getEncoded();
+            return certificate.getEncoded();
         } catch (CertificateEncodingException ex) {
+            return null;
+        }
+    }
+
+    public String getNotBeforeStyle() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return null;
+        }
+        Date notBefore = certificate.getNotBefore();
+        Date now = new Date();
+        if (now.before(notBefore)) {
+            return "color: red;";
+        } else {
+            return null;
+        }
+    }
+
+    public String getNotAfterStyle() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return null;
+        }
+        Date notAfter = certificate.getNotAfter();
+        Date now = new Date();
+        if (now.after(notAfter)) {
+            return "color: red;";
+        } else {
             return null;
         }
     }

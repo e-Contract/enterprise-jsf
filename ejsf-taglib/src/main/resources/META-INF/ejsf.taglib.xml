@@ -914,6 +914,11 @@
             <name>algo</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The optional space between each byte hex value.</description>
+            <name>space</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>

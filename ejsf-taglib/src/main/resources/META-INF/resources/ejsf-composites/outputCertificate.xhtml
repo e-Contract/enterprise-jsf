@@ -16,7 +16,7 @@
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" rendered="#{not empty cc.attrs.value}">
                     <h:outputText value="Subject:"/>
                     <h:outputText value="#{cc.attrs.value.subjectDN}"/>
 
@@ -24,10 +24,12 @@
                     <h:outputText value="#{cc.attrs.value.issuerDN}"/>
 
                     <h:outputText value="Not before:"/>
-                    <h:outputText value="#{cc.attrs.value.notBefore}"/>
+                    <h:outputText value="#{cc.attrs.value.notBefore}"
+                                  style="#{cc.notBeforeStyle}"/>
 
                     <h:outputText value="Not after:"/>
-                    <h:outputText value="#{cc.attrs.value.notAfter}"/>
+                    <h:outputText value="#{cc.attrs.value.notAfter}"
+                                  style="#{cc.notAfterStyle}"/>
 
                     <h:outputText value="Fingerprint (SHA-1):"/>
                     <ejsf:outputFingerprint value="#{cc.certificateData}"/>

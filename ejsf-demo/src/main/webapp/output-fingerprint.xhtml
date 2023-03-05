@@ -10,9 +10,10 @@
         <h:panelGrid columns="1">
             <ejsf:outputFingerprint id="example"
                                     value="#{outputFingerprintController.data}"
-                                    algo="SHA-1"/>
+                                    algo="SHA-1" space="true"/>
             <ejsf:outputFingerprint value="#{outputFingerprintController.data}"
                                     algo="SHA-256"/>
+            <ejsf:outputFingerprint value="#{null}"/>
         </h:panelGrid>
         <p:tabView>
             <p:tab title="XHTML">

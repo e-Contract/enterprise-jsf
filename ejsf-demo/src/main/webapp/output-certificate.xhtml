@@ -8,6 +8,7 @@
     <ui:define name="body">
         <ejsf:outputCertificate id="example"
                                 value="#{outputCertificateController.certificate}"/>
+        <ejsf:outputCertificate value="#{null}"/>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>
