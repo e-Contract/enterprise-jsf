@@ -63,18 +63,18 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         if (null == taglibDocument) {
             return tags;
         }
-        this.namespace = taglibDocument.getElementsByTagName("namespace").item(0).getTextContent();
+        this.namespace = taglibDocument.getElementsByTagNameNS("*", "namespace").item(0).getTextContent();
         String tagName = (String) getAttributes().get("tag");
-        NodeList tagNodeList = taglibDocument.getElementsByTagName("tag");
+        NodeList tagNodeList = taglibDocument.getElementsByTagNameNS("*", "tag");
         LOGGER.debug("number of tags: {}", tagNodeList.getLength());
         for (int tagIdx = 0; tagIdx < tagNodeList.getLength(); tagIdx++) {
             Element tagElement = (Element) tagNodeList.item(tagIdx);
-            String thisTagName = tagElement.getElementsByTagName("tag-name").item(0).getTextContent();
+            String thisTagName = tagElement.getElementsByTagNameNS("*", "tag-name").item(0).getTextContent();
             if (null != tagName && !tagName.equals(thisTagName)) {
                 continue;
             }
             String tagDescription = null;
-            NodeList tagDescriptionNodeList = tagElement.getElementsByTagName("description");
+            NodeList tagDescriptionNodeList = tagElement.getElementsByTagNameNS("*", "description");
             for (int tagDescriptionIdx = 0; tagDescriptionIdx < tagDescriptionNodeList.getLength(); tagDescriptionIdx++) {
                 Element tagDescriptionElement = (Element) tagDescriptionNodeList.item(tagDescriptionIdx);
                 if (tagDescriptionElement.getParentNode().equals(tagElement)) {
@@ -84,7 +84,7 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
             }
             TagInfo tagInfo = new TagInfo(tagName, tagDescription);
             tags.add(tagInfo);
-            NodeList componentTypeNodeList = tagElement.getElementsByTagName("component-type");
+            NodeList componentTypeNodeList = tagElement.getElementsByTagNameNS("*", "component-type");
             if (componentTypeNodeList.getLength() > 0) {
                 String componentType = componentTypeNodeList.item(0).getTextContent();
                 FacesContext facesContext = getFacesContext();
@@ -97,29 +97,29 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
                     tagInfo.getClientBehaviorEventNames().addAll(clientBehaviorHolder.getEventNames());
                 }
             }
-            NodeList attributeNodeList = tagElement.getElementsByTagName("attribute");
+            NodeList attributeNodeList = tagElement.getElementsByTagNameNS("*", "attribute");
             for (int attributeIdx = 0; attributeIdx < attributeNodeList.getLength(); attributeIdx++) {
                 Element attributeElement = (Element) attributeNodeList.item(attributeIdx);
-                String attributeName = attributeElement.getElementsByTagName("name").item(0).getTextContent();
+                String attributeName = attributeElement.getElementsByTagNameNS("*", "name").item(0).getTextContent();
                 String attributeType = null;
-                NodeList typeNodeList = attributeElement.getElementsByTagName("type");
+                NodeList typeNodeList = attributeElement.getElementsByTagNameNS("*", "type");
                 if (typeNodeList.getLength() > 0) {
                     attributeType = typeNodeList.item(0).getTextContent();
                 } else {
-                    NodeList methodSignatureNodeList = attributeElement.getElementsByTagName("method-signature");
+                    NodeList methodSignatureNodeList = attributeElement.getElementsByTagNameNS("*", "method-signature");
                     if (methodSignatureNodeList.getLength() > 0) {
                         attributeType = methodSignatureNodeList.item(0).getTextContent();
                     }
                 }
                 String attributeDescription;
-                NodeList attributeDescriptionNodeList = attributeElement.getElementsByTagName("description");
+                NodeList attributeDescriptionNodeList = attributeElement.getElementsByTagNameNS("*", "description");
                 if (attributeDescriptionNodeList.getLength() > 0) {
                     attributeDescription = attributeDescriptionNodeList.item(0).getTextContent();
                 } else {
                     attributeDescription = null;
                 }
                 boolean attributeRequired;
-                NodeList requiredNodeList = attributeElement.getElementsByTagName("required");
+                NodeList requiredNodeList = attributeElement.getElementsByTagNameNS("*", "required");
                 if (requiredNodeList.getLength() > 0) {
                     attributeRequired = Boolean.parseBoolean(requiredNodeList.item(0).getTextContent());
                 } else {
@@ -135,7 +135,65 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
                 tagAttributes.add(tagAttribute);
             }
         }
+        if (!tags.isEmpty()) {
+            return tags;
+        }
+        if (null == tagName) {
+            return tags;
+        }
+        NodeList compositeLibraryNameNodeList = taglibDocument.getElementsByTagNameNS("*", "composite-library-name");
+        if (compositeLibraryNameNodeList.getLength() == 0) {
+            return tags;
+        }
+        String compositeLibraryName = compositeLibraryNameNodeList.item(0).getTextContent();
+        Document compositeDocument = getCompositeTagDocument(compositeLibraryName, tagName);
+        if (null == compositeDocument) {
+            return tags;
+        }
+        Element interfaceElement = (Element) compositeDocument.getElementsByTagNameNS("*", "interface").item(0);
+        if (null == interfaceElement) {
+            LOGGER.warn("missing interface element");
+            return tags;
+        }
+        String tagDescription = interfaceElement.getAttribute("shortDescription");
+        TagInfo tagInfo = new TagInfo(tagName, tagDescription);
+        tags.add(tagInfo);
+        NodeList attributeNodeList = interfaceElement.getElementsByTagNameNS("*", "attribute");
+        for (int attributeIdx = 0; attributeIdx < attributeNodeList.getLength(); attributeIdx++) {
+            Element attributeElement = (Element) attributeNodeList.item(attributeIdx);
+            String attributeName = attributeElement.getAttribute("name");
+            String attributeType = attributeElement.getAttribute("type");
+            String attributeDescription = attributeElement.getAttribute("shortDescription");
+            boolean attributeRequired;
+            if (null != attributeElement.getAttribute("required")) {
+                attributeRequired = Boolean.parseBoolean(attributeElement.getAttribute("required"));
+            } else {
+                attributeRequired = false;
+            }
+            TagAttribute tagAttribute = new TagAttribute(attributeName, attributeType, attributeDescription);
+            List<TagAttribute> tagAttributes;
+            if (attributeRequired) {
+                tagAttributes = tagInfo.getRequiredAttributes();
+            } else {
+                tagAttributes = tagInfo.getOptionalAttributes();
+            }
+            tagAttributes.add(tagAttribute);
+        }
         return tags;
+    }
+
+    private Document getCompositeTagDocument(String compositeLibraryName, String tagName) {
+        InputStream inputStream = TagInfoComponent.class.getResourceAsStream("/META-INF/resources/" + compositeLibraryName + "/" + tagName + ".xhtml");
+        if (null == inputStream) {
+            LOGGER.warn("composite not found: {}", tagName);
+            return null;
+        }
+        try {
+            return loadDocument(inputStream);
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            LOGGER.error("error loading document: " + ex.getMessage(), ex);
+            return null;
+        }
     }
 
     private Document getTaglibDocument(String library) throws ParserConfigurationException, SAXException, IOException {
@@ -144,9 +202,14 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
             LOGGER.warn("taglib not found: {}", library);
             return null;
         }
+        return loadDocument(taglibInputStream);
+    }
+
+    private Document loadDocument(InputStream inputStream) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        documentBuilderFactory.setNamespaceAware(true);
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.parse(taglibInputStream);
+        Document document = documentBuilder.parse(inputStream);
         return document;
     }
 }
