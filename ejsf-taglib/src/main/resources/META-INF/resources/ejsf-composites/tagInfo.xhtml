@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface shortDescription="Displays the API description of a JSF tag."
+                             componentType="ejsf.tagInfo">
+            <composite:attribute name="library"
+                                 required="true"
+                                 shortDescription="The JSF library."
+                                 type="java.lang.String"/>
+            <composite:attribute name="tag"
+                                 shortDescription="The optional JSF tag. If not provided, we display everything."
+                                 type="java.lang.String"/>
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                <ui:repeat value="#{cc.tags}" var="tag">
+                    <p:panel header="#{tag.tagName}">
+                        <p>
+                            #{tag.description}
+                        </p>
+                        <p>
+                            Namespace: #{cc.namespace}
+                        </p>
+                        <p:dataTable value="#{tag.requiredAttributes}" var="attribute"
+                                     rendered="#{not empty tag.requiredAttributes}">
+                            <f:facet  name="header">
+                                Required Attributes
+                            </f:facet>
+                            <p:column headerText="Name">
+                                #{attribute.name}
+                            </p:column>
+                            <p:column headerText="Type">
+                                #{attribute.type}
+                            </p:column>
+                            <p:column headerText="Description">
+                                #{attribute.description}
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:spacer height="10px"/>
+
+                        <p:dataTable value="#{tag.optionalAttributes}" var="attribute"
+                                     rendered="#{not empty tag.optionalAttributes}">
+                            <f:facet  name="header">
+                                Optional Attributes
+                            </f:facet>
+                            <p:column headerText="Name">
+                                #{attribute.name}
+                            </p:column>
+                            <p:column headerText="Type">
+                                #{attribute.type}
+                            </p:column>
+                            <p:column headerText="Description">
+                                #{attribute.description}
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    <p:spacer height="10px"/>
+                </ui:repeat>
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>
