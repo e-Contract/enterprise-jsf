@@ -21,8 +21,22 @@
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
+                <p:panel rendered="#{cc.tags.size() > 1}"
+                         header="#{cc.namespace} JSF tag library"
+                         style="margin-bottom: 30px;">
+                    <p>
+                        #{cc.description}
+                    </p>
+                    <p>
+                        This JSF tag library defines #{cc.tags.size()} tags and is JSF version #{cc.version} compatible.
+                    </p>
+                    <p>
+                        Namespace: #{cc.namespace}
+                    </p>
+                </p:panel>
                 <ui:repeat value="#{cc.tags}" var="tag">
-                    <p:panel header="#{tag.tagName}">
+                    <p:panel header="#{tag.tagName}"
+                             style="margin-bottom: 10px;">
                         <p>
                             #{tag.description}
                         </p>
@@ -30,7 +44,8 @@
                             Namespace: #{cc.namespace}
                         </p>
                         <p:dataTable value="#{tag.requiredAttributes}" var="attribute"
-                                     rendered="#{not empty tag.requiredAttributes}">
+                                     rendered="#{not empty tag.requiredAttributes}"
+                                     style="margin-bottom: 10px;">
                             <f:facet  name="header">
                                 Required Attributes
                             </f:facet>
@@ -45,10 +60,9 @@
                             </p:column>
                         </p:dataTable>
 
-                        <p:spacer height="10px"/>
-
                         <p:dataTable value="#{tag.optionalAttributes}" var="attribute"
-                                     rendered="#{not empty tag.optionalAttributes}">
+                                     rendered="#{not empty tag.optionalAttributes}"
+                                     style="margin-bottom: 10px;">
                             <f:facet  name="header">
                                 Optional Attributes
                             </f:facet>
@@ -63,8 +77,6 @@
                             </p:column>
                         </p:dataTable>
 
-                        <p:spacer height="10px"/>
-
                         <p:dataTable value="#{tag.clientBehaviorEventNames}" var="eventName"
                                      rendered="#{not empty tag.clientBehaviorEventNames}">
                             <f:facet  name="header">
@@ -77,9 +89,7 @@
                                 Default event name: #{tag.clientBehaviorDefaultEventName}
                             </f:facet>
                         </p:dataTable>
-
                     </p:panel>
-                    <p:spacer height="10px"/>
                 </ui:repeat>
             </div>
         </composite:implementation>

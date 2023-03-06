@@ -7,6 +7,13 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">D3 Demo</ui:define>
     <ui:define name="body">
+        <p>
+            This page demonstrates the
+            <ejsf:outputUrl value="https://d3js.org"
+                            label="Data-Driven Documents (D3)"
+                            newTab="true"/>
+            component.
+        </p>
         <h:panelGroup id="example">
             <ejsf:d3 widgetVar="d3Widget"/>
             <h:outputScript library="demo" name="d3.js"/>

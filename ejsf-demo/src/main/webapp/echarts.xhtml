@@ -7,6 +7,13 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Apache ECharts Demo</ui:define>
     <ui:define name="body">
+        <p>
+            This page demonstrates the
+            <ejsf:outputUrl value="https://echarts.apache.org/en/index.html"
+                            label="Apache ECharts"
+                            newTab="true"/>
+            component.
+        </p>
         <h:form  id="example">
             <ejsf:echarts value="#{echartsController.value}">
                 <p:ajax listener="#{echartsController.handleClick}"

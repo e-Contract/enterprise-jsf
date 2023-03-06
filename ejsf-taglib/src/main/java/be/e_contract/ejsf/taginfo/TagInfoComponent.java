@@ -57,9 +57,19 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
     }
 
     private String namespace;
+    private String description;
+    private String version;
 
     public String getNamespace() {
         return this.namespace;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public String getVersion() {
+        return this.version;
     }
 
     public List<TagInfo> getTags() {
@@ -71,6 +81,18 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         Document taglibDocument = getTaglibDocument(library);
         if (null == taglibDocument) {
             return tags;
+        }
+        this.version = taglibDocument.getDocumentElement().getAttribute("version");
+        if ("2.0".equals(this.version)) {
+            this.version = "2.1";
+        }
+        NodeList descriptionNodeList = taglibDocument.getElementsByTagNameNS("*", "description");
+        for (int descriptionIdx = 0; descriptionIdx < descriptionNodeList.getLength(); descriptionIdx++) {
+            Element descriptionElement = (Element) descriptionNodeList.item(descriptionIdx);
+            if (descriptionElement.getParentNode().equals(taglibDocument.getDocumentElement())) {
+                this.description = descriptionElement.getTextContent();
+                break;
+            }
         }
         this.namespace = taglibDocument.getElementsByTagNameNS("*", "namespace").item(0).getTextContent();
         String tagName = (String) getAttributes().get("tag");
@@ -169,7 +191,7 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         try {
             URI uri = compositeURL.toURI();
             if (uri.getScheme().equals("jar")) {
-                try ( FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap())) {
+                try (FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap())) {
                     Path compositePath = fileSystem.getPath("/META-INF/resources/" + compositeLibraryName + "/");
                     compositeTags = Files.list(compositePath)
                             .filter(path -> path.getFileName().toString().endsWith(".xhtml"))
