@@ -58,6 +58,26 @@
                                  update="@form,:messages"/>
             </h:panelGrid>
         </h:form>
+        <h3>Rate limiting on action source</h3>
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="username" value="Username:"/>
+                <p:inputText id="username" value="#{rateLimiterController.username}" required="true"/>
+                <p:message for="username"/>
+
+                <p:outputLabel for="password" value="Password:"/>
+                <p:password id="password" value="#{rateLimiterController.password}" required="true"/>
+                <p:message for="password"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Submit"
+                                 action="#{rateLimiterController.login()}"
+                                 update="@form,:messages">
+                    <ejsf:rateLimiter for="username"
+                                      onLimit="#{rateLimiterController.onLimit}"/>
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

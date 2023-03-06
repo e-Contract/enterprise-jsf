@@ -10,10 +10,14 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Named("rateLimiterController")
 @RequestScoped
 public class RateLimiterController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RateLimiterController.class);
 
     private String username;
 
@@ -36,12 +40,14 @@ public class RateLimiterController {
     }
 
     public void login() {
+        LOGGER.debug("login: {}", this.username);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "username: " + this.username, null));
     }
 
     public void onLimit(String username) {
+        LOGGER.debug("onLimit: {}", username);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Trying to hack into " + username + "?", null));

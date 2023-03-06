@@ -10,19 +10,26 @@ import java.io.IOException;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.component.ActionSource2;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.ComponentHandler;
 import javax.faces.view.facelets.FaceletContext;
 import javax.faces.view.facelets.TagAttribute;
+import javax.faces.view.facelets.TagConfig;
+import javax.faces.view.facelets.TagException;
+import javax.faces.view.facelets.TagHandler;
 import javax.faces.view.facelets.ValidatorConfig;
-import javax.faces.view.facelets.ValidatorHandler;
 
-public class RateLimiterValidatorTagHandler extends ValidatorHandler {
+public class RateLimiterValidatorTagHandler extends TagHandler {
 
-    public RateLimiterValidatorTagHandler(ValidatorConfig config) {
-        super(config);
+    public RateLimiterValidatorTagHandler(TagConfig tagConfig) {
+        super(tagConfig);
+    }
+
+    public RateLimiterValidatorTagHandler(ValidatorConfig validatorConfig) {
+        super(validatorConfig);
     }
 
     @Override
@@ -30,11 +37,6 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
         if (!ComponentHandler.isNew(parent)) {
             return;
         }
-        if (!(parent instanceof EditableValueHolder)) {
-            super.apply(context, parent);
-            return;
-        }
-
         TagAttribute forTagAttribute = getRequiredAttribute("for");
         String forValue = forTagAttribute.getValue();
         ValueExpression forValueExpression;
@@ -48,7 +50,7 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
         int limitForPeriod = getIntegerAttributeValue("limitForPeriod", 5, context);
 
         ValueExpression messageValueExpression;
-        TagAttribute messageTagAttribute = getTagAttribute("message");
+        TagAttribute messageTagAttribute = getAttribute("message");
         if (null != messageTagAttribute) {
             messageValueExpression = messageTagAttribute.getValueExpression(context, String.class);
         } else {
@@ -74,8 +76,17 @@ public class RateLimiterValidatorTagHandler extends ValidatorHandler {
         rateLimiterValidator.setOnLimitMethodExpression(onLimitMethodExpression);
         rateLimiterValidator.setForValueExpression(forValueExpression);
 
-        EditableValueHolder parentEditableValueHolder = (EditableValueHolder) parent;
-        parentEditableValueHolder.addValidator(rateLimiterValidator);
+        if (parent instanceof EditableValueHolder) {
+            EditableValueHolder parentEditableValueHolder = (EditableValueHolder) parent;
+            parentEditableValueHolder.addValidator(rateLimiterValidator);
+            return;
+        }
+        if (parent instanceof ActionSource2) {
+            ActionSource2 parentActionSource = (ActionSource2) parent;
+            parentActionSource.addActionListener(rateLimiterValidator);
+            return;
+        }
+        throw new TagException(this.tag, "parent must be EditableValueHolder or ActionSource2");
     }
 
     private int getIntegerAttributeValue(String attributeName, int defaultValue, FaceletContext context) {

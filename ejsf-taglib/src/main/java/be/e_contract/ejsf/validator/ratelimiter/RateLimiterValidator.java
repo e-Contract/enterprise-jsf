@@ -17,6 +17,9 @@ import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
@@ -24,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesValidator(RateLimiterValidator.VALIDATOR_ID)
-public class RateLimiterValidator implements Validator, StateHolder {
+public class RateLimiterValidator implements Validator, StateHolder, ActionListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateLimiterValidator.class);
 
@@ -146,6 +149,7 @@ public class RateLimiterValidator implements Validator, StateHolder {
                 ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
                 message = resourceBundle.getString("rateLimiter");
             }
+            LOGGER.debug("reached limit for {}: {}", forValue, message);
             FacesMessage facesMessage = new FacesMessage(message);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
@@ -197,5 +201,16 @@ public class RateLimiterValidator implements Validator, StateHolder {
     @Override
     public void setTransient(boolean newTransientValue) {
         this._transient = newTransientValue;
+    }
+
+    @Override
+    public void processAction(ActionEvent event) throws AbortProcessingException {
+        UIComponent component = event.getComponent();
+        FacesContext facesContext = event.getFacesContext();
+        try {
+            validate(facesContext, component, null);
+        } catch (ValidatorException ex) {
+            throw new AbortProcessingException(ex);
+        }
     }
 }
