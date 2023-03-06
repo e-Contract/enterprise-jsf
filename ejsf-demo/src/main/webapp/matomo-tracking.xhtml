@@ -7,6 +7,13 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Matomo Tracking Demo</ui:define>
     <ui:define name="body">
+        <p>
+            This page demonstrates the
+            <ejsf:outputUrl value="https://matomo.org"
+                            label="Matomo"
+                            newTab="true"/>
+            component.
+        </p>
         <h:form>
             <ejsf:matomoTracking enableTracking="#{matomoTrackingController.enableTracking}"
                                  matomoUrl="#{matomoTrackingController.matomoUrl}"
