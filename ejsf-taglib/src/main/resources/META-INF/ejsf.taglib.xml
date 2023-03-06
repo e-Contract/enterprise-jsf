@@ -926,4 +926,27 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Adds a Matomo custom dimension to the Matomo tracking.</description>
+        <tag-name>matomoCustomDimension</tag-name>
+        <handler-class>be.e_contract.ejsf.matomo.CustomDimensionTagHandler</handler-class>
+        <attribute>
+            <description>The dimension.</description>
+            <name>dimension</name>
+            <required>true</required>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The value of this dimension.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Indicates whether this custom dimension is enabled or not.</description>
+            <name>enabled</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

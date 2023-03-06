@@ -20,7 +20,10 @@
                                  siteId="#{matomoTrackingController.siteId}"
                                  userId="#{matomoTrackingController.userId}"
                                  documentTitle="#{matomoTrackingController.documentTitle}"
-                                 id="example"/>
+                                 id="example">
+                <ejsf:matomoCustomDimension dimension="1" value="test"/>
+                <ejsf:matomoCustomDimension dimension="#{2}" value="#{'test 2'}"/>
+            </ejsf:matomoTracking>
             <h:panelGrid columns="3">
                 <p:outputLabel for="enableTracking" value="Enable Tracking:"/>
                 <p:selectBooleanCheckbox id="enableTracking" value="#{matomoTrackingController.enableTracking}"/>

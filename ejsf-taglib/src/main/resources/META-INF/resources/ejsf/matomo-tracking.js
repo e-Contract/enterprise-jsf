@@ -22,6 +22,15 @@ PrimeFaces.widget.EJSFMatomoTracking = PrimeFaces.widget.BaseWidget.extend({
             if (typeof _cfg.DOCUMENT_TITLE !== "undefined") {
                 _paq.push(["setDocumentTitle", _cfg.DOCUMENT_TITLE]);
             }
+            if (typeof _cfg.CUSTOM_DIMENSION_COUNT !== "undefined") {
+                for (let idx = 0; idx < _cfg.CUSTOM_DIMENSION_COUNT; idx++) {
+                    let dimension = _cfg["CUSTOM_DIMENSION_" + idx + "_DIMENSION"];
+                    let dimensionValue = _cfg["CUSTOM_DIMENSION_" + idx + "_VALUE"];
+                    _paq.push(["setCustomDimension",
+                        customDimensionId = dimension,
+                        customDimensionValue = dimensionValue]);
+                }
+            }
             let matomoScript = document.createElement("script");
             matomoScript.type = "text/javascript";
             matomoScript.async = true;

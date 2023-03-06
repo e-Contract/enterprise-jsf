@@ -7,6 +7,7 @@
 package be.e_contract.ejsf.matomo;
 
 import java.io.IOException;
+import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -54,6 +55,15 @@ public class TrackingRenderer extends CoreRenderer {
         }
         if (!UIInput.isEmpty(documentTitle)) {
             widgetBuilder.attr("DOCUMENT_TITLE", documentTitle);
+        }
+        List<CustomDimension> customDimensions = trackingComponent.getCustomDimensions();
+        if (null != customDimensions) {
+            widgetBuilder.attr("CUSTOM_DIMENSION_COUNT", customDimensions.size());
+            for (int idx = 0; idx < customDimensions.size(); idx++) {
+                CustomDimension customDimension = customDimensions.get(idx);
+                widgetBuilder.attr("CUSTOM_DIMENSION_" + idx + "_DIMENSION", customDimension.getDimension());
+                widgetBuilder.attr("CUSTOM_DIMENSION_" + idx + "_VALUE", customDimension.getValue());
+            }
         }
         widgetBuilder.finish();
     }

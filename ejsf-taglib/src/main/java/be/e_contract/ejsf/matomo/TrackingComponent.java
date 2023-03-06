@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.matomo;
 
+import java.util.List;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
@@ -36,6 +37,7 @@ public class TrackingComponent extends UIComponentBase implements Widget {
         siteId,
         userId,
         documentTitle,
+        customDimensions,
     }
 
     public boolean isEnableTracking() {
@@ -76,5 +78,13 @@ public class TrackingComponent extends UIComponentBase implements Widget {
 
     public void setDocumentTitle(String documentTitle) {
         getStateHelper().put(PropertyKeys.documentTitle, documentTitle);
+    }
+
+    public List<CustomDimension> getCustomDimensions() {
+        return (List<CustomDimension>) getStateHelper().eval(PropertyKeys.customDimensions);
+    }
+
+    public void setCustomDimensions(List<CustomDimension> customDimensions) {
+        getStateHelper().put(PropertyKeys.customDimensions, customDimensions);
     }
 }

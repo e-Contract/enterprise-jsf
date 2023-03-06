@@ -6,4 +6,6 @@
 
     <name>EJSF</name>
 
+    <distributable/>
+
 </web-fragment>
