@@ -217,5 +217,6 @@
         <module>ejsf-demo-quarkus</module>
         <module>ejsf-taglib-d3</module>
         <module>ejsf-taglib-highlight</module>
+        <module>ejsf-taglib-visnetwork</module>
     </modules>
 </project>

@@ -949,4 +949,34 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Component for VIS Network.</description>
+        <tag-name>visNetwork</tag-name>
+        <component>
+            <component-type>ejsf.visNetworkComponent</component-type>
+            <renderer-type>ejsf.visNetworkRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The VIS Network data JSON structure.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional width of the network. Defaults to 600.</description>
+            <name>width</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The optional height of the network. Defaults to 400.</description>
+            <name>height</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

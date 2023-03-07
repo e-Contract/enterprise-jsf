@@ -1,0 +1,68 @@
+{
+    "nodes": [
+        {
+            "id": "jsf-api",
+            "label": "Faces API"
+        },
+        {
+            "id": "mojarra",
+            "label": "Mojarra"
+        },
+        {
+            "id": "myfaces",
+            "label": "MyFaces"
+        },
+        {
+            "id": "primefaces",
+            "label": "PrimeFaces"
+        },
+        {
+            "id": "primefaces-extensions",
+            "label": "PrimeFaces Extensions"
+        },
+        {
+            "id": "ejsf",
+            "label": "Enterprise JSF"
+        },
+        {
+            "id": "omnifaces",
+            "label": "OmniFaces"
+        }
+    ],
+    "edges": [
+        {
+            "from": "mojarra",
+            "to": "jsf-api"
+        },
+        {
+            "from": "myfaces",
+            "to": "jsf-api"
+        },
+        {
+            "from": "primefaces",
+            "to": "jsf-api"
+        },
+        {
+            "from": "primefaces-extensions",
+            "to": "primefaces"
+        },
+        {
+            "from": "ejsf",
+            "to": "primefaces"
+        },
+        {
+            "from": "omnifaces",
+            "to": "jsf-api"
+        }
+    ],
+    "options": {
+        "nodes": {
+            "color": {
+                "background": "#ffffff"
+            }
+        },
+        "edges": {
+            "arrows": "to"
+        }
+    }
+}

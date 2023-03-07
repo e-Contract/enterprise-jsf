@@ -5,34 +5,30 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
-    <ui:define name="title">Apache ECharts Demo</ui:define>
+    <ui:define name="title">VIS Network Demo</ui:define>
     <ui:define name="body">
         <p>
             This page demonstrates the
-            <ejsf:outputUrl value="https://echarts.apache.org/en/index.html"
-                            label="Apache ECharts"
+            <ejsf:outputUrl value="https://visjs.org"
+                            label="vis.js network"
                             newTab="true"/>
             component.
         </p>
         <h:form id="example">
-            <ejsf:echarts value="#{echartsController.value}">
-                <p:ajax listener="#{echartsController.handleClick}"
-                        update=":messages"/>
-            </ejsf:echarts>
+            <ejsf:visNetwork value="#{visNetworkController.value}"/>
         </h:form>
-        <ejsf:echarts value="#{echartsController.value}" rendered="false"/>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>
             </p:tab>
-            <p:tab title="EChartsController.java">
-                <ejsf:highlight resource="/be/e_contract/demo/EChartsController.java"/>
+            <p:tab title="VisNetworkController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/VisNetworkController.java"/>
             </p:tab>
-            <p:tab title="echarts.json">
-                <ejsf:highlight resource="/echarts.json"/>
+            <p:tab title="vis-network.json">
+                <ejsf:highlight resource="/vis-network.json"/>
             </p:tab>
             <p:tab title="API">
-                <ejsf:tagInfo library="ejsf" tag="echarts"/>
+                <ejsf:tagInfo library="ejsf" tag="visNetwork"/>
             </p:tab>
         </p:tabView>
     </ui:define>
