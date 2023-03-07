@@ -6,8 +6,11 @@
  */
 package be.e_contract.demo;
 
+import be.e_contract.ejsf.output.visnetwork.DoubleClickEvent;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.apache.commons.io.IOUtils;
 
@@ -22,5 +25,12 @@ public class VisNetworkController {
         } catch (IOException ex) {
             return "";
         }
+    }
+
+    public void handleDoubleClick(DoubleClickEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String message = "Double clicked " + event.getNode();
+        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, message, null);
+        facesContext.addMessage(null, facesMessage);
     }
 }

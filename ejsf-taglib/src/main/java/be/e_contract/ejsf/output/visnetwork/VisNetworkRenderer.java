@@ -45,6 +45,7 @@ public class VisNetworkRenderer extends CoreRenderer {
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
         widgetBuilder.init("EJSFVisNetwork", visNetworkComponent);
+        encodeClientBehaviors(facesContext, visNetworkComponent);
         widgetBuilder.finish();
     }
 
@@ -60,5 +61,6 @@ public class VisNetworkRenderer extends CoreRenderer {
             context.renderResponse();
             return;
         }
+        decodeBehaviors(context, component);
     }
 }

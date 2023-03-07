@@ -30,7 +30,21 @@ PrimeFaces.widget.EJSFVisNetwork = PrimeFaces.widget.BaseWidget.extend({
                 };
                 let visNetworkOptions = parsedData.options;
                 let visNetworkContainer = document.getElementById($this.id);
-                new vis.Network(visNetworkContainer, visNetworkData, visNetworkOptions);
+                let visNetwork = new vis.Network(visNetworkContainer, visNetworkData, visNetworkOptions);
+                visNetwork.on("doubleClick", function (event) {
+                    if (typeof event.nodes[0] === "undefined") {
+                        return;
+                    }
+                    let doubleClickBehaviorOptions = {
+                        params: [
+                            {
+                                name: $this.id + "_node",
+                                value: event.nodes[0]
+                            }
+                        ]
+                    };
+                    $this.callBehavior("doubleClick", doubleClickBehaviorOptions);
+                });
             }
         };
         PrimeFaces.ajax.Request.handle(ajaxRequestOptions);
