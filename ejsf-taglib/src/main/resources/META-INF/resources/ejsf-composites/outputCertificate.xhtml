@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ejsf="urn:be:e-contract:ejsf">
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>This content will not be displayed</title>
     </h:head>
@@ -13,6 +14,9 @@
                                  required="true"
                                  shortDescription="The X509 certificate."
                                  type="java.security.cert.X509Certificate"/>
+            <composite:attribute name="download"
+                                 shortDescription="Set to true to add download button."
+                                 type="java.lang.Boolean"/>
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
@@ -37,6 +41,9 @@
                     <h:outputText value="Fingerprint (SHA-256):"/>
                     <ejsf:outputFingerprint value="#{cc.certificateData}" algo="SHA-256"/>
                 </h:panelGrid>
+                <p:commandButton rendered="#{cc.attrs.download}" ajax="false" icon="pi pi-arrow-down">
+                    <p:fileDownload value="#{cc.file}"/>
+                </p:commandButton>
             </div>
         </composite:implementation>
     </h:body>

@@ -2,15 +2,20 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Certificate Demo</ui:define>
     <ui:define name="body">
-        <ejsf:outputCertificate id="example"
-                                value="#{outputCertificateController.certificate}"/>
-        <ejsf:outputCertificate value="#{null}"/>
-        <ejsf:outputCertificate rendered="false"
-                                value="#{outputCertificateController.certificate}"/>
+        <h:form>
+            <ejsf:outputCertificate id="example"
+                                    value="#{outputCertificateController.certificate}"/>
+            <ejsf:outputCertificate value="#{null}"/>
+            <ejsf:outputCertificate rendered="false"
+                                    value="#{outputCertificateController.certificate}"/>
+            <ejsf:outputCertificate value="#{outputCertificateController.certificate}"
+                                    download="true"/>
+        </h:form>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>
