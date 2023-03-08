@@ -15,25 +15,28 @@
                                  shortDescription="The X509 certificate."
                                  type="java.security.cert.X509Certificate"/>
             <composite:attribute name="download"
-                                 shortDescription="Set to true to add download button."
+                                 shortDescription="Set to true to show a download button."
                                  type="java.lang.Boolean"/>
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
                 <h:panelGrid columns="2" rendered="#{not empty cc.attrs.value}">
-                    <h:outputText value="Subject:"/>
+                    <h:outputText value="#{ejsfMessages.certificateSubject}:"/>
                     <h:outputText value="#{cc.attrs.value.subjectDN}"/>
 
-                    <h:outputText value="Issuer:"/>
+                    <h:outputText value="#{ejsfMessages.certificateIssuer}:"/>
                     <h:outputText value="#{cc.attrs.value.issuerDN}"/>
 
-                    <h:outputText value="Not before:"/>
+                    <h:outputText value="#{ejsfMessages.certificateNotBefore}:"/>
                     <h:outputText value="#{cc.attrs.value.notBefore}"
                                   style="#{cc.notBeforeStyle}"/>
 
-                    <h:outputText value="Not after:"/>
+                    <h:outputText value="#{ejsfMessages.certificateNotAfter}:"/>
                     <h:outputText value="#{cc.attrs.value.notAfter}"
                                   style="#{cc.notAfterStyle}"/>
+
+                    <h:outputText value="#{ejsfMessages.certificateSerialNumber}:"/>
+                    <h:outputText value="#{cc.attrs.value.serialNumber}"/>
 
                     <h:outputText value="Fingerprint (SHA-1):"/>
                     <ejsf:outputFingerprint value="#{cc.certificateData}"/>
