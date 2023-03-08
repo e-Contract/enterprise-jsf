@@ -3,7 +3,8 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ejsf="urn:be:e-contract:ejsf"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>This content will not be displayed</title>
     </h:head>
@@ -29,11 +30,15 @@
 
                     <h:outputText value="#{ejsfMessages.certificateNotBefore}:"/>
                     <h:outputText value="#{cc.attrs.value.notBefore}"
-                                  style="#{cc.notBeforeStyle}"/>
+                                  style="#{cc.notBeforeStyle}">
+                        <f:convertDateTime type="both" timeStyle="full" />
+                    </h:outputText>
 
                     <h:outputText value="#{ejsfMessages.certificateNotAfter}:"/>
                     <h:outputText value="#{cc.attrs.value.notAfter}"
-                                  style="#{cc.notAfterStyle}"/>
+                                  style="#{cc.notAfterStyle}">
+                        <f:convertDateTime type="both" timeStyle="full" />
+                    </h:outputText>
 
                     <h:outputText value="#{ejsfMessages.certificateSerialNumber}:"/>
                     <h:outputText value="#{cc.attrs.value.serialNumber}"/>
