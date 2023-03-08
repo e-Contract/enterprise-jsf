@@ -32,6 +32,11 @@
                                      whenCallbackParam="whatever"
                                      whenCallbackParamValue="some value"/>
                 </p:commandButton>
+                <p:menu>
+                    <p:menuitem value="Open Dialog" action="#{openDialogController.actionWithCallbackParameter('whatever','some value')}">
+                        <ejsf:openDialog dialog="demoDialog" whenCallbackParam="whatever" whenCallbackParamValue="some value"/>
+                    </p:menuitem>
+                </p:menu>
             </h:panelGrid>
         </h:form>
 

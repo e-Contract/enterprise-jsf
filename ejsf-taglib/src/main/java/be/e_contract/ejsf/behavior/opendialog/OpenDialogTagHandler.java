@@ -19,6 +19,7 @@ import javax.faces.view.facelets.TagException;
 import javax.faces.view.facelets.TagHandler;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.commandlink.CommandLink;
+import org.primefaces.component.menuitem.UIMenuItem;
 
 public class OpenDialogTagHandler extends TagHandler {
 
@@ -63,6 +64,12 @@ public class OpenDialogTagHandler extends TagHandler {
         if (parent instanceof CommandLink) {
             CommandLink commandLink = (CommandLink) parent;
             commandLink.setOncomplete(oncompleteScript);
+            configured = true;
+        }
+
+        if (parent instanceof UIMenuItem) {
+            UIMenuItem menuItem = (UIMenuItem) parent;
+            menuItem.setOncomplete(oncompleteScript);
             configured = true;
         }
 
