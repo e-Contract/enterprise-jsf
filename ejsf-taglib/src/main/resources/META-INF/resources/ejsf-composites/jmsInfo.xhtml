@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface shortDescription="Displays information about JMS."
+                             componentType="ejsf.jmsInfo">
+            <composite:attribute name="queue"
+                                 required="true"
+                                 shortDescription="The JMS queue."
+                                 type="java.lang.String"/>
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                <p:panel header="#{cc.attrs.queue}">
+                    <ui:fragment rendered="#{not cc.error}">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Message count:"/>
+                            <h:outputText value="#{cc.messageCount}"/>
+
+                            <h:outputText value="Consumer count:"/>
+                            <h:outputText value="#{cc.consumerCount}"/>
+
+                            <h:outputText value="Messages added:"/>
+                            <h:outputText value="#{cc.messagesAdded}"/>
+
+                            <h:outputText value="Delivery count:"/>
+                            <h:outputText value="#{cc.deliveryCount}"/>
+
+                            <h:outputText value="Dead letter address:"/>
+                            <h:outputText value="#{cc.deadLetterAddress}"/>
+
+                            <h:outputText value="Expiry address:"/>
+                            <h:outputText value="#{cc.expiryAddress}"/>
+
+                            <h:outputText value="Queue address:"/>
+                            <h:outputText value="#{cc.queueAddress}"/>
+                        </h:panelGrid>
+                        <p:spacer height="10px"/>
+                        <p:dataTable value="#{cc.jmsMessages}" var="jmsMessage"
+                                     rows="10" paginator="true" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                JMS Messages in queue #{cc.attrs.queue}
+                            </f:facet>
+                            <p:column headerText="Identifier">
+                                #{jmsMessage.id}
+                            </p:column>
+                            <p:column headerText="Timestamp">
+                                <h:outputText value="#{jmsMessage.timestamp}">
+                                    <f:convertDateTime type="both" timeStyle="full" />
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{cc.error}">
+                        Could not retrieve JMS information.
+                    </ui:fragment>
+                </p:panel>
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>
