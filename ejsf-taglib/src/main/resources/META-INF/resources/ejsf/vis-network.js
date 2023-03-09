@@ -28,7 +28,12 @@ PrimeFaces.widget.EJSFVisNetwork = PrimeFaces.widget.BaseWidget.extend({
                     nodes: visNetworkNodes,
                     edges: visNetworkEdges
                 };
-                let visNetworkOptions = parsedData.options;
+                let visNetworkOptions;
+                if (typeof parsedData.options !== "undefined") {
+                    visNetworkOptions = parsedData.options;
+                } else {
+                    visNetworkOptions = {};
+                }
                 let visNetworkContainer = document.getElementById($this.id);
                 let visNetwork = new vis.Network(visNetworkContainer, visNetworkData, visNetworkOptions);
                 visNetwork.on("doubleClick", function (event) {

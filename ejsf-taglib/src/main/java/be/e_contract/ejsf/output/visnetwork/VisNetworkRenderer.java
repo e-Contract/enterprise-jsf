@@ -31,16 +31,27 @@ public class VisNetworkRenderer extends CoreRenderer {
 
         responseWriter.startElement("div", visNetworkComponent);
         responseWriter.writeAttribute("id", clientId, "id");
-        Integer width = visNetworkComponent.getWidth();
-        if (null == width) {
-            width = 600;
+
+        String style = visNetworkComponent.getStyle();
+        String styleClass = visNetworkComponent.getStyleClass();
+        if (null == style && null == styleClass) {
+            Integer width = visNetworkComponent.getWidth();
+            if (null == width) {
+                width = 600;
+            }
+            Integer height = visNetworkComponent.getHeight();
+            if (null == height) {
+                height = 400;
+            }
+            style = "width: " + width + "px; height: " + height + "px;";
         }
-        Integer height = visNetworkComponent.getHeight();
-        if (null == height) {
-            height = 400;
+
+        if (null != style) {
+            responseWriter.writeAttribute("style", style, "style");
         }
-        String style = "width: " + width + "px; height: " + height + "px;";
-        responseWriter.writeAttribute("style", style, null);
+        if (null != styleClass) {
+            responseWriter.writeAttribute("class", styleClass, "styleClass");
+        }
         responseWriter.endElement("div");
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);

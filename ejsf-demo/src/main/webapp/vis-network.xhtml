@@ -15,7 +15,7 @@
             component.
         </p>
         <h:form id="example">
-            <ejsf:visNetwork value="#{visNetworkController.value}">
+            <ejsf:visNetwork value="#{visNetworkController.value}" style="height: 400px; width: 100%;">
                 <p:ajax listener="#{visNetworkController.handleDoubleClick}" update=":messages"/>
             </ejsf:visNetwork>
         </h:form>
