@@ -10,7 +10,7 @@
         <ui:repeat value="#{outputEnumController.enums}" var="item" id="example">
             <p>
                 #{item} becomes
-                <ejsf:outputEnum value="#{item}">
+                <ejsf:outputEnum value="#{item}" handleNullAs="STATE1">
                     <ejsf:enum name="STATE1" label="State 1"/>
                     <ejsf:enum name="STATE2" color="green" background="greenyellow"/>
                     <ejsf:enum name="STATE3" label="State 3" color="red" background="lightpink" icon="pi pi-exclamation-triangle"/>

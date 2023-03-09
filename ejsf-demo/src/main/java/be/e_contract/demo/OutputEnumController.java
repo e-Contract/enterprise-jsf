@@ -6,6 +6,9 @@
  */
 package be.e_contract.demo;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import javax.inject.Named;
 
 @Named("outputEnumController")
@@ -16,6 +19,8 @@ public class OutputEnumController {
     }
 
     public ExampleEnum[] getEnums() {
-        return ExampleEnum.values();
+        List<ExampleEnum> enums = new LinkedList<>(Arrays.asList(ExampleEnum.values()));
+        enums.add(null);
+        return enums.toArray(new ExampleEnum[0]);
     }
 }

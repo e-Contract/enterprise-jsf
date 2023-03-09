@@ -37,6 +37,7 @@ public class OutputEnumComponent extends UIOutput {
 
     enum PropertyKeys {
         enums,
+        handleNullAs
     }
 
     public static class EnumInfo implements Serializable {
@@ -82,6 +83,14 @@ public class OutputEnumComponent extends UIOutput {
         getStateHelper().put(PropertyKeys.enums, enums);
     }
 
+    public String getHandleNullAs() {
+        return (String) getStateHelper().eval(PropertyKeys.handleNullAs);
+    }
+
+    public void setHandleNullAs(String handleNullAs) {
+        getStateHelper().put(PropertyKeys.handleNullAs, handleNullAs);
+    }
+
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         Enum value = (Enum) getValue();
@@ -89,9 +98,20 @@ public class OutputEnumComponent extends UIOutput {
         String label = null;
         String style = "";
         String icon = null;
-        if (null != value) {
+        String enumName;
+        if (null == value) {
+            String handleNullAs = getHandleNullAs();
+            if (null != handleNullAs) {
+                enumName = handleNullAs;
+            } else {
+                enumName = null;
+            }
+        } else {
+            enumName = value.name();
+        }
+        if (null != enumName) {
             if (null != enums) {
-                EnumInfo enumInfo = enums.get(value.name());
+                EnumInfo enumInfo = enums.get(enumName);
                 if (null != enumInfo) {
                     label = enumInfo.getLabel();
                     icon = enumInfo.getIcon();
@@ -106,7 +126,11 @@ public class OutputEnumComponent extends UIOutput {
                 }
             }
             if (label == null) {
-                label = value.toString();
+                if (null != value) {
+                    label = value.toString();
+                } else {
+                    label = enumName;
+                }
             }
         } else {
             label = "";
@@ -115,7 +139,9 @@ public class OutputEnumComponent extends UIOutput {
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
-        responseWriter.writeAttribute("class", "ejsf-output-enum", null);
+        if (null != enumName) {
+            responseWriter.writeAttribute("class", "ejsf-output-enum", null);
+        }
         if (!style.isEmpty()) {
             responseWriter.writeAttribute("style", style, null);
         }

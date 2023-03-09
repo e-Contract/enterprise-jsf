@@ -581,10 +581,15 @@
             <required>true</required>
             <type>java.lang.Enum</type>
         </attribute>
+        <attribute>
+            <description>Optional enum name in case of null value.</description>
+            <name>handleNullAs</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
-        <description>An enum style.</description>
+        <description>An enum style. Child of outputEnum.</description>
         <tag-name>enum</tag-name>
         <handler-class>be.e_contract.ejsf.output.enums.EnumTagHandler</handler-class>
         <attribute>
