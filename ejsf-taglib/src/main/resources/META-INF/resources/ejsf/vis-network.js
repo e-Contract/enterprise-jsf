@@ -21,6 +21,9 @@ PrimeFaces.widget.EJSFVisNetwork = PrimeFaces.widget.BaseWidget.extend({
                 }
             ],
             oncomplete: function (xhr, status, args, data) {
+                if (typeof args.data === "undefined") {
+                    return;
+                }
                 let parsedData = JSON.parse(args.data);
                 let visNetworkNodes = new vis.DataSet(parsedData.nodes);
                 let visNetworkEdges = new vis.DataSet(parsedData.edges);
