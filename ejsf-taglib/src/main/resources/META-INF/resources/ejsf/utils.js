@@ -71,6 +71,10 @@ var ejsf = ejsf || {};
             }
         }
         let dialogWidgetVar = event.target.dataset.dialog;
+        if (typeof dialogWidgetVar === "undefined") {
+            console.error("cannot close the dialog");
+            return;
+        }
         PF(dialogWidgetVar).hide();
     };
 
