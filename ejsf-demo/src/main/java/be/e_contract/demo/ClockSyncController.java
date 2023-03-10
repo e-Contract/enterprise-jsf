@@ -6,7 +6,7 @@
  */
 package be.e_contract.demo;
 
-import be.e_contract.ejsf.clocksync.ClockSyncEvent;
+import be.e_contract.ejsf.component.clocksync.ClockSyncEvent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

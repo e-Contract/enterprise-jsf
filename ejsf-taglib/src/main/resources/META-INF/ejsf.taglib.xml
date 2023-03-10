@@ -432,7 +432,7 @@
     <tag>
         <description>An entry for the dictionary.</description>
         <tag-name>dictionaryEntry</tag-name>
-        <handler-class>be.e_contract.ejsf.dictionary.DictionaryEntryTagHandler</handler-class>
+        <handler-class>be.e_contract.ejsf.component.dictionary.DictionaryEntryTagHandler</handler-class>
         <attribute>
             <description>The key of this dictionary entry.</description>
             <name>key</name>
@@ -591,7 +591,7 @@
     <tag>
         <description>An enum style. Child of outputEnum.</description>
         <tag-name>enum</tag-name>
-        <handler-class>be.e_contract.ejsf.output.enums.EnumTagHandler</handler-class>
+        <handler-class>be.e_contract.ejsf.component.output.enums.EnumTagHandler</handler-class>
         <attribute>
             <description>The name of the enum value.</description>
             <name>name</name>
@@ -934,7 +934,7 @@
     <tag>
         <description>Adds a Matomo custom dimension to the Matomo tracking.</description>
         <tag-name>matomoCustomDimension</tag-name>
-        <handler-class>be.e_contract.ejsf.matomo.CustomDimensionTagHandler</handler-class>
+        <handler-class>be.e_contract.ejsf.component.matomo.CustomDimensionTagHandler</handler-class>
         <attribute>
             <description>The dimension.</description>
             <name>dimension</name>

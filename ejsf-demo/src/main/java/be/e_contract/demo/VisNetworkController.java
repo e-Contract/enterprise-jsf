@@ -6,7 +6,7 @@
  */
 package be.e_contract.demo;
 
-import be.e_contract.ejsf.output.visnetwork.DoubleClickEvent;
+import be.e_contract.ejsf.component.output.visnetwork.DoubleClickEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.faces.application.FacesMessage;

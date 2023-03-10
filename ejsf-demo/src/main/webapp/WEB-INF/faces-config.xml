@@ -5,7 +5,7 @@
               version="2.1">
 
     <application>
-        <resource-handler>be.e_contract.ejsf.viewlogs.ViewLogsResourceHandler</resource-handler>
+        <resource-handler>be.e_contract.ejsf.component.viewlogs.ViewLogsResourceHandler</resource-handler>
     </application>
 
 </faces-config>

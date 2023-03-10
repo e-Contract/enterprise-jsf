@@ -6,8 +6,8 @@
  */
 package be.e_contract.demo;
 
-import be.e_contract.ejsf.geolocation.GeolocationErrorEvent;
-import be.e_contract.ejsf.geolocation.GeolocationPositionEvent;
+import be.e_contract.ejsf.component.geolocation.GeolocationErrorEvent;
+import be.e_contract.ejsf.component.geolocation.GeolocationPositionEvent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
