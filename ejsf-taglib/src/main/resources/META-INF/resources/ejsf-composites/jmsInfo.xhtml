@@ -15,10 +15,23 @@
                                  required="true"
                                  shortDescription="The JMS queue."
                                  type="java.lang.String"/>
+            <composite:attribute name="replayQueue"
+                                 shortDescription="The optional JMS queue used to replay JMS messages."
+                                 type="java.lang.String"/>
+            <composite:attribute name="requiredRole"
+                                 shortDescription="The optional required RBAC role."
+                                 type="java.lang.String"/>
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
                 <p:panel header="#{cc.attrs.queue}">
+                    <f:facet name="options">
+                        <p:menu>
+                            <p:submenu label="Settings">
+                                <p:menuitem value="Refresh" icon="pi pi-refresh" action="#{cc.refresh()}" update="@form"/>
+                            </p:submenu>
+                        </p:menu>
+                    </f:facet>
                     <ui:fragment rendered="#{not cc.error}">
                         <h:panelGrid columns="2">
                             <h:outputText value="Message count:"/>
@@ -41,10 +54,14 @@
 
                             <h:outputText value="Queue address:"/>
                             <h:outputText value="#{cc.queueAddress}"/>
+
+                            <h:outputText value="Replay queue:" rendered="#{cc.replay}"/>
+                            <h:outputText value="#{cc.attrs.replayQueue}" rendered="#{cc.replay}"/>
                         </h:panelGrid>
                         <p:spacer height="10px"/>
                         <p:dataTable value="#{cc.jmsMessages}" var="jmsMessage"
-                                     rows="10" paginator="true" paginatorPosition="bottom">
+                                     rows="10" paginator="true" paginatorPosition="bottom"
+                                     lazy="false">
                             <f:facet name="header">
                                 JMS Messages in queue #{cc.attrs.queue}
                             </f:facet>
@@ -55,6 +72,19 @@
                                 <h:outputText value="#{jmsMessage.timestamp}">
                                     <f:convertDateTime type="both" timeStyle="full" />
                                 </h:outputText>
+                            </p:column>
+                            <p:column headerText="Actions" rendered="#{cc.replay}">
+                                <p:commandButton icon="pi pi-replay"
+                                                 styleClass="rounded-button ui-button-flat"
+                                                 update="@form"
+                                                 action="#{cc.replayMessage(jmsMessage)}"/>
+                                <p:tooltip for="@previous" value="Replay JMS message."/>
+
+                                <p:commandButton icon="pi pi-trash"
+                                                 styleClass="rounded-button ui-button-flat"
+                                                 update="@form"
+                                                 action="#{cc.removeMessage(jmsMessage)}"/>
+                                <p:tooltip for="@previous" value="Remove JMS message."/>
                             </p:column>
                         </p:dataTable>
                     </ui:fragment>

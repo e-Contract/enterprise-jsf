@@ -11,9 +11,13 @@ import java.util.Date;
 
 public class JmsMessage implements Serializable {
 
-    private final String id;
+    private String id;
 
-    private final Date timestamp;
+    private Date timestamp;
+
+    public JmsMessage() {
+        super();
+    }
 
     public JmsMessage(String id, Date timestamp) {
         this.id = id;
