@@ -51,7 +51,7 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         messageCount,
         consumerCount,
         messagesAdded,
-        deliveryCount,
+        deliveringCount,
         deadLetterAddress,
         expiryAddress,
         queueAddress
@@ -90,13 +90,13 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         return (Long) getStateHelper().eval(PropertyKeys.messagesAdded);
     }
 
-    public void setDeliveryCount(int deliveryCount) {
-        getStateHelper().put(PropertyKeys.deliveryCount, deliveryCount);
+    public void setDeliveringCount(int deliveryCount) {
+        getStateHelper().put(PropertyKeys.deliveringCount, deliveryCount);
     }
 
-    public Integer getDeliveryCount() {
+    public Integer getDeliveringCount() {
         loadData();
-        return (Integer) getStateHelper().eval(PropertyKeys.deliveryCount);
+        return (Integer) getStateHelper().eval(PropertyKeys.deliveringCount);
     }
 
     public void setDeadLetterAddress(String deadLetterAddress) {
@@ -130,6 +130,19 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         loadData(false);
     }
 
+    private boolean isEAP6() {
+        MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
+        try {
+            ObjectName serverName = new ObjectName("jboss.as:management-root=server");
+            String productVersion = (String) mBeanServer.getAttribute(serverName, "productVersion");
+            LOGGER.debug("product version: {}", productVersion);
+            return productVersion.startsWith("6");
+        } catch (MalformedObjectNameException | MBeanException | AttributeNotFoundException | InstanceNotFoundException | ReflectionException ex) {
+            LOGGER.error("JMX error: " + ex.getMessage(), ex);
+            return false;
+        }
+    }
+
     private void loadData(boolean force) {
         if (!force) {
             Boolean loaded = (Boolean) getStateHelper().eval(PropertyKeys.error);
@@ -151,17 +164,35 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         }
         String queue = (String) getAttributes().get("queue");
         LOGGER.debug("queue: {}", queue);
+        String queueNameStr;
+        String consumerCountName;
+        String messageCountName;
+        String messagesAddedName;
+        String deliveringCountName;
+        if (isEAP6()) {
+            queueNameStr = "jboss.as:subsystem=messaging,hornetq-server=default,jms-queue=" + queue;
+            consumerCountName = "consumerCount";
+            messageCountName = "messageCount";
+            messagesAddedName = "messagesAdded";
+            deliveringCountName = "deliveringCount";
+        } else {
+            queueNameStr = "jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue;
+            consumerCountName = "consumer-count";
+            messageCountName = "message-count";
+            messagesAddedName = "messages-added";
+            deliveringCountName = "delivering-count";
+        }
         try {
             MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
-            ObjectName queueName = new ObjectName("jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue);
-            long messageCount = (Long) mBeanServer.getAttribute(queueName, "message-count");
+            ObjectName queueName = new ObjectName(queueNameStr);
+            long messageCount = (Long) mBeanServer.getAttribute(queueName, messageCountName);
             setMessageCount(messageCount);
-            int consumerCount = (Integer) mBeanServer.getAttribute(queueName, "consumer-count");
+            int consumerCount = (Integer) mBeanServer.getAttribute(queueName, consumerCountName);
             setConsumerCount(consumerCount);
-            long messagesAdded = (Long) mBeanServer.getAttribute(queueName, "messages-added");
+            long messagesAdded = (Long) mBeanServer.getAttribute(queueName, messagesAddedName);
             setMessagesAdded(messagesAdded);
-            int deliveryCount = (Integer) mBeanServer.getAttribute(queueName, "delivering-count");
-            setDeliveryCount(deliveryCount);
+            int deliveringCount = (Integer) mBeanServer.getAttribute(queueName, deliveringCountName);
+            setDeliveringCount(deliveringCount);
             String deadLetterAddress = (String) mBeanServer.getAttribute(queueName, "deadLetterAddress");
             setDeadLetterAddress(deadLetterAddress);
             String expiryAddress = (String) mBeanServer.getAttribute(queueName, "expiryAddress");
@@ -218,12 +249,23 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         String replayQueue = (String) getAttributes().get("replayQueue");
         String messageId = jmsMessage.getId();
         LOGGER.debug("replay JMS message: {}", messageId);
+        String queueNameStr;
+        Object[] params;
+        String[] signature;
+        if (isEAP6()) {
+            queueNameStr = "jboss.as:subsystem=messaging,hornetq-server=default,jms-queue=" + queue;
+            params = new Object[]{messageId, replayQueue};
+            signature = new String[]{String.class.getName(), String.class.getName()};
+        } else {
+            queueNameStr = "jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue;
+            params = new Object[]{messageId, replayQueue, true};
+            signature = new String[]{String.class.getName(), String.class.getName(), Boolean.class.getName()};
+        }
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
             MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
-            ObjectName queueName = new ObjectName("jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue);
-            mBeanServer.invoke(queueName, "moveMessage", new Object[]{messageId, replayQueue, true},
-                    new String[]{String.class.getName(), String.class.getName(), Boolean.class.getName()});
+            ObjectName queueName = new ObjectName(queueNameStr);
+            mBeanServer.invoke(queueName, "moveMessage", params, signature);
             facesContext.addMessage(getClientId() + ":jmsMessagesTable",
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Replaying JMS message " + messageId, null));
         } catch (MalformedObjectNameException | MBeanException | InstanceNotFoundException | ReflectionException ex) {
@@ -238,10 +280,16 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         String queue = (String) getAttributes().get("queue");
         String messageId = jmsMessage.getId();
         LOGGER.debug("remove JMS message: {}", messageId);
+        String queueNameStr;
+        if (isEAP6()) {
+            queueNameStr = "jboss.as:subsystem=messaging,hornetq-server=default,jms-queue=" + queue;
+        } else {
+            queueNameStr = "jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue;
+        }
         FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
             MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
-            ObjectName queueName = new ObjectName("jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue);
+            ObjectName queueName = new ObjectName(queueNameStr);
             mBeanServer.invoke(queueName, "removeMessage", new Object[]{messageId},
                     new String[]{String.class.getName()});
             facesContext.addMessage(getClientId() + ":jmsMessagesTable",
