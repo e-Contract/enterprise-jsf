@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponentBase;
@@ -217,13 +218,18 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         String replayQueue = (String) getAttributes().get("replayQueue");
         String messageId = jmsMessage.getId();
         LOGGER.debug("replay JMS message: {}", messageId);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
             MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
             ObjectName queueName = new ObjectName("jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue);
             mBeanServer.invoke(queueName, "moveMessage", new Object[]{messageId, replayQueue, true},
                     new String[]{String.class.getName(), String.class.getName(), Boolean.class.getName()});
+            facesContext.addMessage(getId() + ":form:jmsMessagesTable",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Replaying JMS message " + messageId, null));
         } catch (MalformedObjectNameException | MBeanException | InstanceNotFoundException | ReflectionException ex) {
             LOGGER.error("JMX error: " + ex.getMessage(), ex);
+            facesContext.addMessage(getId() + ":form:jmsMessagesTable",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "JMX error: " + ex.getMessage(), null));
         }
         loadData(true);
     }
@@ -232,13 +238,18 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         String queue = (String) getAttributes().get("queue");
         String messageId = jmsMessage.getId();
         LOGGER.debug("remove JMS message: {}", messageId);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
         try {
             MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
             ObjectName queueName = new ObjectName("jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue);
             mBeanServer.invoke(queueName, "removeMessage", new Object[]{messageId},
                     new String[]{String.class.getName()});
+            facesContext.addMessage(getId() + ":form:jmsMessagesTable",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Removing JMS message " + messageId, null));
         } catch (MalformedObjectNameException | MBeanException | InstanceNotFoundException | ReflectionException ex) {
             LOGGER.error("JMX error: " + ex.getMessage(), ex);
+            facesContext.addMessage(getId() + ":form:jmsMessagesTable",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "JMX error: " + ex.getMessage(), null));
         }
         loadData(true);
     }
