@@ -224,11 +224,11 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
             ObjectName queueName = new ObjectName("jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue);
             mBeanServer.invoke(queueName, "moveMessage", new Object[]{messageId, replayQueue, true},
                     new String[]{String.class.getName(), String.class.getName(), Boolean.class.getName()});
-            facesContext.addMessage(getId() + ":form:jmsMessagesTable",
+            facesContext.addMessage(getClientId() + ":jmsMessagesTable",
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Replaying JMS message " + messageId, null));
         } catch (MalformedObjectNameException | MBeanException | InstanceNotFoundException | ReflectionException ex) {
             LOGGER.error("JMX error: " + ex.getMessage(), ex);
-            facesContext.addMessage(getId() + ":form:jmsMessagesTable",
+            facesContext.addMessage(getClientId() + ":jmsMessagesTable",
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "JMX error: " + ex.getMessage(), null));
         }
         loadData(true);
@@ -244,11 +244,11 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
             ObjectName queueName = new ObjectName("jboss.as:subsystem=messaging-activemq,server=default,jms-queue=" + queue);
             mBeanServer.invoke(queueName, "removeMessage", new Object[]{messageId},
                     new String[]{String.class.getName()});
-            facesContext.addMessage(getId() + ":form:jmsMessagesTable",
+            facesContext.addMessage(getClientId() + ":jmsMessagesTable",
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Removing JMS message " + messageId, null));
         } catch (MalformedObjectNameException | MBeanException | InstanceNotFoundException | ReflectionException ex) {
             LOGGER.error("JMX error: " + ex.getMessage(), ex);
-            facesContext.addMessage(getId() + ":form:jmsMessagesTable",
+            facesContext.addMessage(getClientId() + ":jmsMessagesTable",
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "JMX error: " + ex.getMessage(), null));
         }
         loadData(true);

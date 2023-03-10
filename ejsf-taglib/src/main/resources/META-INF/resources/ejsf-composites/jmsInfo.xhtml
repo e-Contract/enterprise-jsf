@@ -24,81 +24,79 @@
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
-                <h:form id="form">
-                    <p:panel header="#{cc.attrs.queue}" id="panel">
-                        <f:facet name="options">
-                            <p:menu>
-                                <p:submenu label="Settings">
-                                    <p:menuitem value="Refresh" icon="pi pi-refresh"
-                                                action="#{cc.refresh()}" update="panel"/>
-                                </p:submenu>
-                            </p:menu>
-                        </f:facet>
-                        <ui:fragment rendered="#{not cc.error}">
-                            <h:panelGrid id="panelContent">
-                                <h:panelGrid columns="2" id="infoPanel">
-                                    <h:outputText value="Message count:"/>
-                                    <h:outputText value="#{cc.messageCount}"/>
+                <p:panel header="#{cc.attrs.queue}" id="panel">
+                    <f:facet name="options">
+                        <p:menu>
+                            <p:submenu label="Settings">
+                                <p:menuitem value="Refresh" icon="pi pi-refresh"
+                                            action="#{cc.refresh()}" update="panel"/>
+                            </p:submenu>
+                        </p:menu>
+                    </f:facet>
+                    <ui:fragment rendered="#{not cc.error}">
+                        <h:panelGrid id="panelContent">
+                            <h:panelGrid columns="2" id="infoPanel">
+                                <h:outputText value="Message count:"/>
+                                <h:outputText value="#{cc.messageCount}"/>
 
-                                    <h:outputText value="Consumer count:"/>
-                                    <h:outputText value="#{cc.consumerCount}"/>
+                                <h:outputText value="Consumer count:"/>
+                                <h:outputText value="#{cc.consumerCount}"/>
 
-                                    <h:outputText value="Messages added:"/>
-                                    <h:outputText value="#{cc.messagesAdded}"/>
+                                <h:outputText value="Messages added:"/>
+                                <h:outputText value="#{cc.messagesAdded}"/>
 
-                                    <h:outputText value="Delivery count:"/>
-                                    <h:outputText value="#{cc.deliveryCount}"/>
+                                <h:outputText value="Delivery count:"/>
+                                <h:outputText value="#{cc.deliveryCount}"/>
 
-                                    <h:outputText value="Dead letter address:"/>
-                                    <h:outputText value="#{cc.deadLetterAddress}"/>
+                                <h:outputText value="Dead letter address:"/>
+                                <h:outputText value="#{cc.deadLetterAddress}"/>
 
-                                    <h:outputText value="Expiry address:"/>
-                                    <h:outputText value="#{cc.expiryAddress}"/>
+                                <h:outputText value="Expiry address:"/>
+                                <h:outputText value="#{cc.expiryAddress}"/>
 
-                                    <h:outputText value="Queue address:"/>
-                                    <h:outputText value="#{cc.queueAddress}"/>
+                                <h:outputText value="Queue address:"/>
+                                <h:outputText value="#{cc.queueAddress}"/>
 
-                                    <h:outputText value="Replay queue:" rendered="#{cc.replay}"/>
-                                    <h:outputText value="#{cc.attrs.replayQueue}" rendered="#{cc.replay}"/>
-                                </h:panelGrid>
-                                <p:message for="jmsMessagesTable" id="jmsMessagesTableMessage" style="width: 100%;"/>
-                                <p:dataTable value="#{cc.jmsMessages}" var="jmsMessage"
-                                             rows="10" paginator="true" paginatorPosition="bottom"
-                                             lazy="false" id="jmsMessagesTable">
-                                    <f:facet name="header">
-                                        JMS Messages in queue #{cc.attrs.queue}
-                                    </f:facet>
-                                    <p:column headerText="Identifier">
-                                        #{jmsMessage.id}
-                                    </p:column>
-                                    <p:column headerText="Timestamp">
-                                        <h:outputText value="#{jmsMessage.timestamp}">
-                                            <f:convertDateTime type="both" timeStyle="full" />
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Actions" rendered="#{cc.replay}">
-                                        <p:commandButton id="replayButton"
-                                                         icon="pi pi-replay"
-                                                         styleClass="rounded-button ui-button-flat"
-                                                         update="#{cc.id}:form:infoPanel,jmsMessagesTable,#{cc.id}:form:jmsMessagesTableMessage"
-                                                         action="#{cc.replayMessage(jmsMessage)}"/>
-                                        <p:tooltip for="@previous" value="Replay JMS message."/>
-
-                                        <p:commandButton id="removeButton"
-                                                         icon="pi pi-trash"
-                                                         styleClass="rounded-button ui-button-flat"
-                                                         update="#{cc.id}:form:infoPanel,jmsMessagesTable,#{cc.id}:form:jmsMessagesTableMessage"
-                                                         action="#{cc.removeMessage(jmsMessage)}"/>
-                                        <p:tooltip for="@previous" value="Remove JMS message."/>
-                                    </p:column>
-                                </p:dataTable>
+                                <h:outputText value="Replay queue:" rendered="#{cc.replay}"/>
+                                <h:outputText value="#{cc.attrs.replayQueue}" rendered="#{cc.replay}"/>
                             </h:panelGrid>
-                        </ui:fragment>
-                        <ui:fragment rendered="#{cc.error}">
-                            Could not retrieve JMS information.
-                        </ui:fragment>
-                    </p:panel>
-                </h:form>
+                            <p:message for="jmsMessagesTable" id="jmsMessagesTableMessage" style="width: 100%;"/>
+                            <p:dataTable value="#{cc.jmsMessages}" var="jmsMessage"
+                                         rows="10" paginator="true" paginatorPosition="bottom"
+                                         lazy="false" id="jmsMessagesTable">
+                                <f:facet name="header">
+                                    JMS Messages in queue #{cc.attrs.queue}
+                                </f:facet>
+                                <p:column headerText="Identifier">
+                                    #{jmsMessage.id}
+                                </p:column>
+                                <p:column headerText="Timestamp">
+                                    <h:outputText value="#{jmsMessage.timestamp}">
+                                        <f:convertDateTime type="both" timeStyle="full" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Actions" rendered="#{cc.replay}">
+                                    <p:commandButton id="replayButton"
+                                                     icon="pi pi-replay"
+                                                     styleClass="rounded-button ui-button-flat"
+                                                     update=":#{cc.clientId}:jmsMessagesTable,:#{cc.clientId}:jmsMessagesTableMessage,:#{cc.clientId}:infoPanel"
+                                                     action="#{cc.replayMessage(jmsMessage)}"/>
+                                    <p:tooltip for="@previous" value="Replay JMS message."/>
+
+                                    <p:commandButton id="removeButton"
+                                                     icon="pi pi-trash"
+                                                     styleClass="rounded-button ui-button-flat"
+                                                     update=":#{cc.clientId}:jmsMessagesTable,:#{cc.clientId}:jmsMessagesTableMessage,:#{cc.clientId}:infoPanel"
+                                                     action="#{cc.removeMessage(jmsMessage)}"/>
+                                    <p:tooltip for="@previous" value="Remove JMS message."/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{cc.error}">
+                        Could not retrieve JMS information.
+                    </ui:fragment>
+                </p:panel>
             </div>
         </composite:implementation>
     </h:body>
