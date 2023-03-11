@@ -48,7 +48,9 @@ public class ViewLogsComponent extends UIComponentBase {
     public enum PropertyKeys {
         style,
         styleClass,
-        newTab
+        newTab,
+        includes,
+        excludes,
     }
 
     @Override
@@ -87,7 +89,9 @@ public class ViewLogsComponent extends UIComponentBase {
         responseWriter.endElement("th");
 
         responseWriter.endElement("tr");
-        List<File> logFiles = ViewLogsManager.getLogFiles();
+        List<String> includes = getIncludes();
+        List<String> excludes = getExcludes();
+        List<File> logFiles = ViewLogsManager.getLogFiles(includes, excludes);
         for (File logFile : logFiles) {
             responseWriter.startElement("tr", this);
 
@@ -155,5 +159,21 @@ public class ViewLogsComponent extends UIComponentBase {
 
     public void setNewTab(boolean newTab) {
         getStateHelper().put(PropertyKeys.newTab, newTab);
+    }
+
+    public void setIncludes(List<String> includes) {
+        getStateHelper().put(PropertyKeys.includes, includes);
+    }
+
+    public List<String> getIncludes() {
+        return (List<String>) getStateHelper().eval(PropertyKeys.includes);
+    }
+
+    public void setExcludes(List<String> excludes) {
+        getStateHelper().put(PropertyKeys.excludes, excludes);
+    }
+
+    public List<String> getExcludes() {
+        return (List<String>) getStateHelper().eval(PropertyKeys.excludes);
     }
 }

@@ -43,11 +43,6 @@
                                         onclick="selectMenuitemLink(this);"
                                         styleClass="#{menuController.getMenuitemStyleClass('api')}"/>
                             <p:submenu label="Output Components">
-                                <p:menuitem value="View Logs"
-                                            action="view-logs?faces-redirect=true"
-                                            ajax="false"
-                                            onclick="selectMenuitemLink(this);"
-                                            styleClass="#{menuController.getMenuitemStyleClass('view-logs')}"/>
                                 <p:menuitem value="Currency"
                                             action="output-currency?faces-redirect=true"
                                             ajax="false"
@@ -237,6 +232,11 @@
                                             ajax="false"
                                             onclick="selectMenuitemLink(this);"
                                             styleClass="#{menuController.getMenuitemStyleClass('jms-info')}"/>
+                                <p:menuitem value="View Logs"
+                                            action="view-logs?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('view-logs')}"/>
                             </p:submenu>
                         </p:menu>
                     </h:form>

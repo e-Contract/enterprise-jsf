@@ -12,7 +12,10 @@
                          detail="Of course in production, exposing the server-side logs should be protected properly. For example, behind an administrator portal or such."
                          style="width: 100%"/>
         <h:form>
-            <ejsf:viewLogs id="example" newTab="true"/>
+            <ejsf:viewLogs id="example" newTab="true">
+                <ejsf:viewLogsInclude name="ejsf.log.*"/>
+                <ejsf:viewLogsInclude name="server.log.*"/>
+            </ejsf:viewLogs>
             <ejsf:viewLogs rendered="false"/>
         </h:form>
         <p:tabView>
@@ -21,6 +24,8 @@
             </p:tab>
             <p:tab title="API">
                 <ejsf:tagInfo library="ejsf" tag="viewLogs"/>
+                <ejsf:tagInfo library="ejsf" tag="viewLogsInclude"/>
+                <ejsf:tagInfo library="ejsf" tag="viewLogsExclude"/>
             </p:tab>
         </p:tabView>
     </ui:define>

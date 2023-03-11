@@ -34,6 +34,30 @@
     </tag>
 
     <tag>
+        <description>Include filter for viewLogs.</description>
+        <tag-name>viewLogsInclude</tag-name>
+        <handler-class>be.e_contract.ejsf.component.viewlogs.ViewLogsIncludeTagHandler</handler-class>
+        <attribute>
+            <description>The regular expression to filter log file names.</description>
+            <name>name</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>Exclude filter for viewLogs.</description>
+        <tag-name>viewLogsExclude</tag-name>
+        <handler-class>be.e_contract.ejsf.component.viewlogs.ViewLogsExcludeTagHandler</handler-class>
+        <attribute>
+            <description>The regular expression to filter log file names.</description>
+            <name>name</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
         <description>
             Outputs a value as currency.
         </description>
