@@ -3,7 +3,7 @@
     <parent>
         <groupId>be.e-contract</groupId>
         <artifactId>enterprise-jsf</artifactId>
-        <version>0.9.2-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>be.e-contract.enterprise-jsf</groupId>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib</artifactId>
-            <version>0.9.2-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>
