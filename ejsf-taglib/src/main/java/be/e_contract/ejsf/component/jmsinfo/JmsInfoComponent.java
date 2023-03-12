@@ -7,16 +7,24 @@
 package be.e_contract.ejsf.component.jmsinfo;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ResourceDependencies;
+import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UINamingContainer;
+import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.FacesEvent;
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
@@ -26,19 +34,24 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 import javax.management.openmbean.CompositeData;
+import org.primefaces.component.api.Widget;
+import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesComponent(JmsInfoComponent.COMPONENT_TYPE)
-public class JmsInfoComponent extends UIComponentBase implements NamingContainer {
+@ResourceDependencies({
+    @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
+    @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
+    @ResourceDependency(library = "primefaces", name = "core.js"),
+    @ResourceDependency(library = "ejsf", name = "jms-info.js")
+})
+public class JmsInfoComponent extends UIComponentBase implements NamingContainer, ClientBehaviorHolder, Widget {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JmsInfoComponent.class);
 
     public static final String COMPONENT_TYPE = "ejsf.jmsInfo";
-
-    public JmsInfoComponent() {
-        setRendererType(null);
-    }
 
     @Override
     public String getFamily() {
@@ -57,10 +70,44 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         queueAddress
     }
 
+    private CommandButton replayButton;
+    private CommandButton removeButton;
+
+    public CommandButton getReplayButton() {
+        return this.replayButton;
+    }
+
+    public void setReplayButton(CommandButton replayButton) {
+        this.replayButton = replayButton;
+    }
+
+    public CommandButton getRemoveButton() {
+        return this.removeButton;
+    }
+
+    public void setRemoveButton(CommandButton removeButton) {
+        this.removeButton = removeButton;
+    }
+
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
-        loadData();
+        JmsInfoRenderer jmsInfoRenderer = new JmsInfoRenderer();
+        jmsInfoRenderer.encodeBegin(context, this);
         super.encodeBegin(context);
+    }
+
+    @Override
+    public void encodeEnd(FacesContext context) throws IOException {
+        JmsInfoRenderer jmsInfoRenderer = new JmsInfoRenderer();
+        jmsInfoRenderer.encodeEnd(context, this);
+        super.encodeEnd(context);
+    }
+
+    @Override
+    public void decode(FacesContext context) {
+        JmsInfoRenderer jmsInfoRenderer = new JmsInfoRenderer();
+        jmsInfoRenderer.decode(context, this);
+        super.decode(context);
     }
 
     public void setMessageCount(long messageCount) {
@@ -126,7 +173,7 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         return (String) getStateHelper().eval(PropertyKeys.queueAddress);
     }
 
-    private void loadData() {
+    public void loadData() {
         loadData(false);
     }
 
@@ -304,5 +351,77 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
 
     public void refresh() {
         loadData(true);
+    }
+
+    @Override
+    public Collection<String> getEventNames() {
+        return Arrays.asList(ReplayEvent.NAME, RemoveEvent.NAME);
+    }
+
+    @Override
+    public String getDefaultEventName() {
+        return ReplayEvent.NAME;
+    }
+
+    @Override
+    public void processDecodes(final FacesContext fc) {
+        if (isSelfRequest(fc)) {
+            decode(fc);
+        } else {
+            super.processDecodes(fc);
+        }
+    }
+
+    @Override
+    public void processValidators(final FacesContext fc) {
+        if (!isSelfRequest(fc)) {
+            super.processValidators(fc);
+        }
+    }
+
+    @Override
+    public void processUpdates(final FacesContext fc) {
+        if (!isSelfRequest(fc)) {
+            super.processUpdates(fc);
+        }
+    }
+
+    private boolean isSelfRequest(FacesContext facesContext) {
+        String clientId = getClientId(facesContext);
+        ExternalContext externalContext = facesContext.getExternalContext();
+        Map<String, String> requestParameterMap = externalContext.getRequestParameterMap();
+        String partialSourceParam = requestParameterMap.get(Constants.RequestParams.PARTIAL_SOURCE_PARAM);
+        return clientId.equals(partialSourceParam);
+    }
+
+    @Override
+    public void queueEvent(FacesEvent facesEvent) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        if (isSelfRequest(facesContext) && facesEvent instanceof AjaxBehaviorEvent) {
+            ExternalContext externalContext = facesContext.getExternalContext();
+            Map<String, String> requestParameterMap = externalContext.getRequestParameterMap();
+            String eventName = requestParameterMap.get(Constants.RequestParams.PARTIAL_BEHAVIOR_EVENT_PARAM);
+            String clientId = getClientId(facesContext);
+            AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) facesEvent;
+            if (ReplayEvent.NAME.equals(eventName)) {
+                String messageIdParam = requestParameterMap.get(clientId + "_messageId");
+                ReplayEvent replayEvent
+                        = new ReplayEvent(this, behaviorEvent.getBehavior(),
+                                messageIdParam);
+                replayEvent.setPhaseId(facesEvent.getPhaseId());
+                super.queueEvent(replayEvent);
+                return;
+            }
+            if (RemoveEvent.NAME.equals(eventName)) {
+                String messageIdParam = requestParameterMap.get(clientId + "_messageId");
+                RemoveEvent removeEvent
+                        = new RemoveEvent(this, behaviorEvent.getBehavior(),
+                                messageIdParam);
+                removeEvent.setPhaseId(facesEvent.getPhaseId());
+                super.queueEvent(removeEvent);
+                return;
+            }
+        }
+        super.queueEvent(facesEvent);
     }
 }

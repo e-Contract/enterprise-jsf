@@ -80,14 +80,16 @@
                                                      icon="pi pi-replay"
                                                      styleClass="rounded-button ui-button-flat"
                                                      update=":#{cc.clientId}:jmsMessagesTable,:#{cc.clientId}:jmsMessagesTableMessage,:#{cc.clientId}:infoPanel"
-                                                     action="#{cc.replayMessage(jmsMessage)}"/>
+                                                     action="#{cc.replayMessage(jmsMessage)}"
+                                                     binding="#{cc.replayButton}"/>
                                     <p:tooltip for="@previous" value="Replay JMS message."/>
 
                                     <p:commandButton id="removeButton"
                                                      icon="pi pi-trash"
                                                      styleClass="rounded-button ui-button-flat"
                                                      update=":#{cc.clientId}:jmsMessagesTable,:#{cc.clientId}:jmsMessagesTableMessage,:#{cc.clientId}:infoPanel"
-                                                     action="#{cc.removeMessage(jmsMessage)}"/>
+                                                     action="#{cc.removeMessage(jmsMessage)}"
+                                                     binding="#{cc.removeButton}"/>
                                     <p:tooltip for="@previous" value="Remove JMS message."/>
                                 </p:column>
                             </p:dataTable>

@@ -245,6 +245,18 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         }
         String tagDescription = interfaceElement.getAttribute("shortDescription");
         TagInfo tagInfo = new TagInfo(tagName, tagDescription);
+        String componentType = interfaceElement.getAttribute("componentType");
+        if (null != componentType) {
+            FacesContext facesContext = getFacesContext();
+            Application application = facesContext.getApplication();
+            UIComponent component = application.createComponent(componentType);
+            if (component instanceof ClientBehaviorHolder) {
+                ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) component;
+                String defaultEventName = clientBehaviorHolder.getDefaultEventName();
+                tagInfo.setClientBehaviorDefaultEventName(defaultEventName);
+                tagInfo.getClientBehaviorEventNames().addAll(clientBehaviorHolder.getEventNames());
+            }
+        }
         NodeList attributeNodeList = interfaceElement.getElementsByTagNameNS("*", "attribute");
         for (int attributeIdx = 0; attributeIdx < attributeNodeList.getLength(); attributeIdx++) {
             Element attributeElement = (Element) attributeNodeList.item(attributeIdx);

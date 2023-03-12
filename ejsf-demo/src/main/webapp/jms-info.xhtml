@@ -7,7 +7,7 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">JMS Info Demo</ui:define>
     <ui:define name="body">
-        <h:form id="example">
+        <h:form>
             <ejsf:jmsInfo id="example" queue="DLQ"/>
         </h:form>
         <p:spacer height="20px"/>
@@ -15,8 +15,11 @@
             <ejsf:jmsInfo queue="foobar"/>
         </h:form>
         <p:spacer height="20px"/>
-        <h:form>
-            <ejsf:jmsInfo queue="DLQ" replayQueue="DLQ"/>
+        <h:form id="example">
+            <ejsf:jmsInfo queue="DLQ" replayQueue="DLQ">
+                <p:ajax listener="#{jmsInfoController.handleReplay}" update=":messages"/>
+                <p:ajax event="remove" listener="#{jmsInfoController.handleRemove}" update=":messages"/>
+            </ejsf:jmsInfo>
         </h:form>
         <p:spacer height="20px"/>
         <h:form>
@@ -25,6 +28,9 @@
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="JmsInfoController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/JmsInfoController.java"/>
             </p:tab>
             <p:tab title="API">
                 <ejsf:tagInfo library="ejsf" tag="jmsInfo"/>
