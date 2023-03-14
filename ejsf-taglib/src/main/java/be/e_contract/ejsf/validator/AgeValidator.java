@@ -77,6 +77,7 @@ public class AgeValidator implements Validator, StateHolder {
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
         }
+        LOGGER.debug("minimum age: {}", minimumAge);
         if (age < this.minimumAge) {
             String errorMessage;
             if (null != this.message) {
