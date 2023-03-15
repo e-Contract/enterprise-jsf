@@ -75,6 +75,16 @@ public class ViewLogsResource extends Resource {
             // OmniFaces somehow adds .xhtml to the resource name
             resourceName = resourceName.substring(0, resourceName.indexOf(".xhtml"));
         }
+
+        Map<String, String> requestParameters = externalContext.getRequestParameterMap();
+        String code = requestParameters.get("code");
+        AuthorizationCode authorizationCode = new AuthorizationCode(facesContext);
+        boolean codeValid = authorizationCode.validateCode(resourceName, code);
+        if (!codeValid) {
+            LOGGER.warn("authorization code invalid: {}", code);
+            return new ByteArrayInputStream("Not authorized.".getBytes());
+        }
+
         File logFile = ViewLogsManager.findLogFile(resourceName);
         if (null == logFile) {
             String message = "Unknown logfile: " + resourceName;

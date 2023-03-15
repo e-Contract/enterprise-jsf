@@ -92,6 +92,7 @@ public class ViewLogsComponent extends UIComponentBase {
         List<String> includes = getIncludes();
         List<String> excludes = getExcludes();
         List<File> logFiles = ViewLogsManager.getLogFiles(includes, excludes);
+        AuthorizationCode authorizationCode = new AuthorizationCode(context);
         for (File logFile : logFiles) {
             responseWriter.startElement("tr", this);
 
@@ -106,6 +107,8 @@ public class ViewLogsComponent extends UIComponentBase {
                 LOGGER.warn("missing ViewLogsResourceHandler configuration");
             }
             String resourceRequestPath = resource.getRequestPath();
+            String code = authorizationCode.generateCode(logFile.getName());
+            resourceRequestPath += "&code=" + code;
             responseWriter.writeAttribute("href", resourceRequestPath, null);
             responseWriter.writeText(logFile.getName(), null);
             responseWriter.endElement("a");
