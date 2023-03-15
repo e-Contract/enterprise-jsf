@@ -1038,4 +1038,13 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Logs all client behavior events on a component via console.log.</description>
+        <tag-name>clientBehaviorLogger</tag-name>
+        <behavior>
+            <behavior-id>ejsf.clientBehaviorLogger</behavior-id>
+            <handler-class>be.e_contract.ejsf.behavior.logger.LoggerClientBehaviorTagHandler</handler-class>
+        </behavior>
+    </tag>
+
 </facelet-taglib>

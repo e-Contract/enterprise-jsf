@@ -82,4 +82,8 @@ var ejsf = ejsf || {};
         navigator.clipboard.writeText(value);
     };
 
+    ejsf.logClientBehavior = function (event) {
+        console.log(event.type);
+    };
+
 })();

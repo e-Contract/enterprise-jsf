@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">Client Behavior Logger Demo</ui:define>
+    <ui:define name="body">
+        <h:form id="example">
+            <h:commandButton value="Test">
+                <ejsf:clientBehaviorLogger/>
+                <!-- next is to ensure jsf.js is available for chaining -->
+                <f:ajax/>
+            </h:commandButton>
+            <p:commandButton value="Test">
+                <ejsf:clientBehaviorLogger/>
+            </p:commandButton>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="clientBehaviorLogger"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
