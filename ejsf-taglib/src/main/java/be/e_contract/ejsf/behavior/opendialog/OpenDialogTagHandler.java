@@ -36,8 +36,15 @@ public class OpenDialogTagHandler extends TagHandler {
             return;
         }
 
-        TagAttribute dialogTagAttribute = getRequiredAttribute("dialog");
-        String dialog = dialogTagAttribute.getValue();
+        String dialog;
+        TagAttribute dialogIdTagAttribute = getAttribute("dialogId");
+        if (null != dialogIdTagAttribute) {
+            String dialogId = dialogIdTagAttribute.getValue();
+            dialog = "#{p:resolveWidgetVar('" + dialogId + "',component)}";
+        } else {
+            TagAttribute dialogTagAttribute = getRequiredAttribute("dialog");
+            dialog = dialogTagAttribute.getValue();
+        }
 
         String whenCallbackParam;
         String oncompleteScript;

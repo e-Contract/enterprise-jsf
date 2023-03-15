@@ -11,14 +11,14 @@
         <h:form id="example">
             <h:panelGrid columns="1">
                 <p:commandButton value="Open Dialog">
-                    <ejsf:openDialog dialog="#{p:resolveClientId('demoDialog', component)}"/>
+                    <ejsf:openDialog dialog="#{p:resolveWidgetVar('demoDialog', component)}"/>
                 </p:commandButton>
                 <p:commandButton value="Open Dialog with unmet condition">
                     <ejsf:openDialog dialog="demoDialog" whenCallbackParam="foobar"/>
                 </p:commandButton>
                 <p:commandButton value="Open Dialog with met condition"
                                  action="#{openDialogController.actionWithCallbackParameter('whatever','some value')}">
-                    <ejsf:openDialog dialog="demoDialog" whenCallbackParam="whatever"/>
+                    <ejsf:openDialog dialogId="demoDialog" whenCallbackParam="whatever"/>
                 </p:commandButton>
                 <p:commandButton value="Open Dialog with unmet value"
                                  action="#{openDialogController.actionWithCallbackParameter('whatever','some value')}">

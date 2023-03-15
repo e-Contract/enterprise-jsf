@@ -914,7 +914,11 @@
         <attribute>
             <description>The dialog widget var.</description>
             <name>dialog</name>
-            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The dialog id.</description>
+            <name>dialogId</name>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
