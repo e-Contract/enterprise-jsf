@@ -7,14 +7,18 @@
 
 {
     {T
-        + WAR project
+        + Maven WAR project
             ++ pom.xml
-                +++ src/main/webapp
+            ++ src/main
+                +++ webapp
                     ++++ index.xhtml
+                    ++++ ...
                     ++++ WEB-INF
                         +++++ web.xml
                         +++++ faces-config.xml
                         +++++ beans.xml
+                +++ java
+                    ++++ ...
     }
 }
 
