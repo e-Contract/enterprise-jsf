@@ -7,6 +7,9 @@
 package be.e_contract.ejsf.behavior.opendialog;
 
 import java.io.IOException;
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.ClientBehaviorHolder;
@@ -54,16 +57,37 @@ public class OpenDialogTagHandler extends TagHandler {
             oncompleteScript = "ejsf.openDialog('" + dialog + "',status,xhr.pfArgs)";
         }
 
+        FacesContext facesContext = faceletContext.getFacesContext();
+        Application application = facesContext.getApplication();
+
+        ValueExpression oncompleteValueExpression;
+        if (dialog.startsWith("#{")) {
+            ExpressionFactory expressionFactory = application.getExpressionFactory();
+            ELContext elContext = facesContext.getELContext();
+            oncompleteValueExpression = expressionFactory.createValueExpression(elContext,
+                    oncompleteScript, String.class);
+        } else {
+            oncompleteValueExpression = null;
+        }
+
         boolean configured = false;
         if (parent instanceof CommandButton) {
             CommandButton commandButton = (CommandButton) parent;
-            commandButton.setOncomplete(oncompleteScript);
+            if (null != oncompleteValueExpression) {
+                commandButton.setValueExpression("oncomplete", oncompleteValueExpression);
+            } else {
+                commandButton.setOncomplete(oncompleteScript);
+            }
             configured = true;
         }
 
         if (parent instanceof CommandLink) {
             CommandLink commandLink = (CommandLink) parent;
-            commandLink.setOncomplete(oncompleteScript);
+            if (null != oncompleteValueExpression) {
+                commandLink.setValueExpression("oncomplete", oncompleteValueExpression);
+            } else {
+                commandLink.setOncomplete(oncompleteScript);
+            }
             configured = true;
         }
 
@@ -82,8 +106,6 @@ public class OpenDialogTagHandler extends TagHandler {
         }
 
         ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) parent;
-        FacesContext facesContext = faceletContext.getFacesContext();
-        Application application = facesContext.getApplication();
         OpenDialogClientBehavior openDialogClientBehavior
                 = (OpenDialogClientBehavior) application.createBehavior(OpenDialogClientBehavior.BEHAVIOR_ID);
         if (!configured) {

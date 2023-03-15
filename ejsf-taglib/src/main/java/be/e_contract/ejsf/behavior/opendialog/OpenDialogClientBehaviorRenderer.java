@@ -6,10 +6,15 @@
  */
 package be.e_contract.ejsf.behavior.opendialog;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
+import javax.faces.application.Application;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.behavior.ClientBehavior;
 import javax.faces.component.behavior.ClientBehaviorContext;
+import javax.faces.context.FacesContext;
 import javax.faces.render.ClientBehaviorRenderer;
 import javax.faces.render.FacesBehaviorRenderer;
 
@@ -27,6 +32,15 @@ public class OpenDialogClientBehaviorRenderer extends ClientBehaviorRenderer {
         String dialog = openDialogClientBehavior.getDialog();
         if (null == dialog) {
             return null;
+        }
+        if (dialog.startsWith("#{")) {
+            FacesContext facesContext = behaviorContext.getFacesContext();
+            Application application = facesContext.getApplication();
+            ExpressionFactory expressionFactory = application.getExpressionFactory();
+            ELContext elContext = facesContext.getELContext();
+            ValueExpression dialogValueExpression = expressionFactory.createValueExpression(elContext,
+                    dialog, String.class);
+            dialog = (String) dialogValueExpression.getValue(elContext);
         }
         return "ejsf.openDialog('" + dialog + "')";
     }

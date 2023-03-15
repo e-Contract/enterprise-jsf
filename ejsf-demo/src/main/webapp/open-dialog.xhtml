@@ -11,7 +11,7 @@
         <h:form id="example">
             <h:panelGrid columns="1">
                 <p:commandButton value="Open Dialog">
-                    <ejsf:openDialog dialog="demoDialog"/>
+                    <ejsf:openDialog dialog="#{p:resolveClientId('demoDialog', component)}"/>
                 </p:commandButton>
                 <p:commandButton value="Open Dialog with unmet condition">
                     <ejsf:openDialog dialog="demoDialog" whenCallbackParam="foobar"/>
