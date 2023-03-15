@@ -171,6 +171,11 @@
                                             ajax="false"
                                             onclick="selectMenuitemLink(this);"
                                             styleClass="#{menuController.getMenuitemStyleClass('role-validator')}"/>
+                                <p:menuitem value="IP address"
+                                            action="inet-address-validator?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('inet-address-validator')}"/>
                             </p:submenu>
                             <p:separator/>
                             <p:submenu label="Client Behavior">

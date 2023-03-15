@@ -1018,4 +1018,24 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Internet address validator.
+        </description>
+        <tag-name>inetAddressValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.inetAddressValidator</validator-id>
+        </validator>
+        <attribute>
+            <description>Set to true to only allow IPv4 addresses.</description>
+            <name>ipv4Only</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
