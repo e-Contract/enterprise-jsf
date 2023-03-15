@@ -49,9 +49,12 @@
                     <h:outputText value="Fingerprint (SHA-256):"/>
                     <ejsf:outputFingerprint value="#{cc.certificateData}" algo="SHA-256"/>
                 </h:panelGrid>
-                <p:commandButton rendered="#{cc.attrs.download}" ajax="false" icon="pi pi-arrow-down">
+                <p:commandButton rendered="#{cc.attrs.download}" ajax="false"
+                                 icon="pi pi-arrow-down" styleClass="rounded-button ui-button-flat">
                     <p:fileDownload value="#{cc.file}"/>
                 </p:commandButton>
+                <p:tooltip for="@previous" rendered="#{cc.attrs.download}"
+                           value="Download certificate."/>
             </div>
         </composite:implementation>
     </h:body>

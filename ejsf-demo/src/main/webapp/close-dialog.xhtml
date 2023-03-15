@@ -9,7 +9,10 @@
     <ui:define name="title">Close Dialog Demo</ui:define>
     <ui:define name="body">
         <h:form>
-            <p:commandButton oncomplete="PF('demoDialog').show()" value="Open Dialog"/>
+            <p:commandButton value="Open Dialog" update="example">
+                <p:resetInput target=":demoDialogForm"/>
+                <ejsf:openDialog dialog="demoDialog"/>
+            </p:commandButton>
         </h:form>
 
         <p:tabView>
@@ -25,7 +28,7 @@
         </p:tabView>
 
         <p:dialog widgetVar="demoDialog" header="Demo Dialog" id="example">
-            <h:form>
+            <h:form id="demoDialogForm">
                 <p>
                     This is a demo dialog.
                 </p>
