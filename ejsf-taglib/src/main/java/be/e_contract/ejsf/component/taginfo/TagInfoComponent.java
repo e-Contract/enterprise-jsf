@@ -17,6 +17,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -125,7 +126,12 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
                     ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) component;
                     String defaultEventName = clientBehaviorHolder.getDefaultEventName();
                     tagInfo.setClientBehaviorDefaultEventName(defaultEventName);
-                    tagInfo.getClientBehaviorEventNames().addAll(clientBehaviorHolder.getEventNames());
+                    Collection<String> eventNames = clientBehaviorHolder.getEventNames();
+                    if (null != eventNames) {
+                        tagInfo.getClientBehaviorEventNames().addAll(eventNames);
+                    } else {
+                        LOGGER.warn("component {} returns null for getEventNames()", componentType);
+                    }
                 }
             }
             NodeList attributeNodeList = tagElement.getElementsByTagNameNS("*", "attribute");
