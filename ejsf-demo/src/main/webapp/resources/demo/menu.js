@@ -6,6 +6,6 @@
  */
 
 function selectMenuitemLink(link) {
-    $("#mainMenuList").find(".ui-state-active").removeClass("ui-state-active");
+    $("#menuForm\\:mainMenuList").find(".ui-state-active").removeClass("ui-state-active");
     $(link).addClass("ui-state-active");
 }
