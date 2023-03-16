@@ -13,7 +13,7 @@ import org.primefaces.PrimeFaces;
 @ViewScoped
 public class CRUDController implements Serializable {
 
-    public static class Item {
+    public static class Item implements Serializable {
 
         private String name;
         private int amount;
