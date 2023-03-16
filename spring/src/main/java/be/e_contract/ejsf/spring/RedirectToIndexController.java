@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class RedirectToIndexController {
 
     @GetMapping("/")
-    public String index(){
+    public String index() {
         return "redirect:index.xhtml";
     }
-
 }

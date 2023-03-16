@@ -29,7 +29,7 @@ Jakarta EE 10 is supported by WildFly version 27 and higher.
 This requires Java 11 as JVM.
 
 While converting from Java EE 8 towards Jakarta EE 10 is not a big deal for a single project, things are different for (company-wide) JSF component libraries.
-Since you will not be able to transition all your Java EE 8 projects at the same time, you need JSF component libraries that can support Java EE 8 in parallel with Jakarta EE 10.
+Since you will probably not be able to transition all your Java EE 8 projects at the same time, you need JSF component libraries that can support Java EE 8 in parallel with Jakarta EE 10.
 
 Luckily this can easily be achieved using the \texttt{maven-shade-plugin} Maven plugin as demonstrated within the following Maven POM.
 \lstinputlisting[language=XML]{../helloworld-ee10/taglib/pom.xml}
@@ -37,3 +37,4 @@ Hence we keep producing a Java EE 8 JSF component library, and via the \texttt{m
 Notice the usage of the \texttt{jakarta} artifact classifier here.
 Hence within our WAR POM we refer to the Jakarta EE 10 version of our JSF component library as follows:
 \lstinputlisting[language=XML]{../helloworld-ee10/war-ee10/pom.xml}
+Via the \texttt{jakarta} \texttt{classifier} we include the Jakarta EE 10 flavor of our JSF component library.
