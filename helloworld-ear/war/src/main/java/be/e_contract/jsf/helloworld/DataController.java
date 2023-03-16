@@ -3,17 +3,15 @@ package be.e_contract.jsf.helloworld;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 @Named
 @ViewScoped
 public class DataController implements Serializable {
-
-    private static final Logger LOGGER = Logger.getLogger(DataController.class.getName());
 
     public static class Item<T> implements Serializable {
 
@@ -58,8 +56,11 @@ public class DataController implements Serializable {
     }
 
     public void save() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
         for (Item item : this.items) {
-            LOGGER.log(Level.FINE, "item value: {0}", item.value);
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "item value: " + item.value, null);
+            facesContext.addMessage(null, facesMessage);
         }
     }
 }

@@ -2,8 +2,6 @@ package be.e_contract.jsf.taglib;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.application.Application;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponent;
@@ -20,8 +18,6 @@ import javax.faces.event.PostAddToViewEvent;
 @FacesComponent(DynamicInputComponent.COMPONENT_TYPE)
 @ListenerFor(systemEventClass = PostAddToViewEvent.class)
 public class DynamicInputComponent extends UIInput implements ComponentSystemEventListener {
-
-    private static final Logger LOGGER = Logger.getLogger(DynamicInputComponent.class.getName());
 
     public static final String COMPONENT_TYPE = "ejsf.dynamicInput";
 
@@ -65,7 +61,6 @@ public class DynamicInputComponent extends UIInput implements ComponentSystemEve
                             HtmlSelectBooleanCheckbox.COMPONENT_TYPE);
             htmlSelectBooleanCheckbox.setId(getId() + "_boolean");
             getChildren().add(htmlSelectBooleanCheckbox);
-            LOGGER.log(Level.FINE, "number of children: {0}", getChildCount());
         }
         super.processEvent(event);
     }

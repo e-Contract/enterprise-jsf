@@ -50,8 +50,10 @@ public class GenericConverter implements Converter<Object>, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
-        return new Object[]{this.getAsObjectMethodExpression,
-            this.getAsStringMethodExpression};
+        return new Object[]{
+            this.getAsObjectMethodExpression,
+            this.getAsStringMethodExpression
+        };
     }
 
     @Override

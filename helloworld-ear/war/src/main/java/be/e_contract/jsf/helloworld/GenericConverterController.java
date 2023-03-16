@@ -13,7 +13,7 @@ import javax.inject.Named;
 @ViewScoped
 public class GenericConverterController implements Serializable {
 
-    public static class Item {
+    public static class Item implements Serializable {
 
         private final String id;
         private final String name;
@@ -66,6 +66,9 @@ public class GenericConverterController implements Serializable {
     }
 
     public String getAsString(Object object) {
+        if (null == object) {
+            return null;
+        }
         Item item = (Item) object;
         return item.getId();
     }

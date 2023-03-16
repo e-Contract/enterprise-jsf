@@ -16,10 +16,6 @@ public class ExampleBackingComponent extends UIInput implements NamingContainer 
     private UIInput hours;
     private UIInput days;
 
-    public ExampleBackingComponent() {
-        setRendererType(null);
-    }
-
     @Override
     public String getFamily() {
         return UINamingContainer.COMPONENT_FAMILY;

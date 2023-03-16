@@ -9,6 +9,7 @@
     <h:body>
         <h1>Dynamic Input</h1>
         <h:form>
+            <h:messages globalOnly="true"/>
             <h:dataTable value="#{dataController.items}" var="item">
                 <h:column>
                     <f:facet name="header">
