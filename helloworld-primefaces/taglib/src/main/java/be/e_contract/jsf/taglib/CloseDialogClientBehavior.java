@@ -19,7 +19,7 @@ public class CloseDialogClientBehavior extends ClientBehaviorBase {
             }
         }
         Dialog dialog = (Dialog) component;
-        String dialogWidgetVar = dialog.getWidgetVar();
+        String dialogWidgetVar = dialog.resolveWidgetVar();
         return "PF('" + dialogWidgetVar + "').hide()";
     }
 }

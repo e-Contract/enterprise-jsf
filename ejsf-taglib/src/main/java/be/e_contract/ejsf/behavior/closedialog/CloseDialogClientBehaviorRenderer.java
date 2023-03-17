@@ -60,7 +60,7 @@ public class CloseDialogClientBehaviorRenderer extends ClientBehaviorRenderer {
             return confirmDialog.getWidgetVar();
         } else {
             Dialog dialog = dialogOptional.get();
-            return dialog.getWidgetVar();
+            return dialog.resolveWidgetVar();
         }
     }
 
