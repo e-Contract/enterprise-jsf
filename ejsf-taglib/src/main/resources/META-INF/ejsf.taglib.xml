@@ -1051,4 +1051,29 @@
         </behavior>
     </tag>
 
+    <tag>
+        <description>
+            PIN validator.
+        </description>
+        <tag-name>pinValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.pinValidator</validator-id>
+        </validator>
+        <attribute>
+            <description>The optional minimum number of digits. Defaults to 4.</description>
+            <name>minimumDigits</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The optional maximum number of digits.</description>
+            <name>maximumDigits</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

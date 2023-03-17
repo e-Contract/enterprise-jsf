@@ -6,8 +6,7 @@
  */
 package test.unit.be.e_contract.ejsf.validator;
 
-import be.e_contract.ejsf.validator.AgeValidator;
-import java.util.Date;
+import be.e_contract.ejsf.validator.EmailValidator;
 import java.util.ResourceBundle;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
@@ -17,24 +16,28 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AgeValidatorTest {
+public class EmailValidatorTest {
 
-    private AgeValidator testedInstance;
+    private EmailValidator testedInstance;
 
     @BeforeEach
     public void setUp() {
-        this.testedInstance = new AgeValidator();
+        this.testedInstance = new EmailValidator();
     }
 
     @Test
-    public void testNullPasses() throws Exception {
+    public void testNullOrEmptyPasses() throws Exception {
         this.testedInstance.validate(null, null, null);
+        this.testedInstance.validate(null, null, "");
     }
 
     @Test
-    public void testAgeValidationTooYoung() throws Exception {
-        this.testedInstance.setMinimumAge(18);
+    public void testEmailPasses() throws Exception {
+        this.testedInstance.validate(null, null, "info@e-contract.be");
+    }
 
+    @Test
+    public void testNonEmailFails() throws Exception {
         FacesContext mockFacesContext = EasyMock.mock(FacesContext.class);
         Application mockApplication = EasyMock.mock(Application.class);
         EasyMock.expect(mockFacesContext.getApplication()).andReturn(mockApplication);
@@ -43,10 +46,8 @@ public class AgeValidatorTest {
 
         EasyMock.replay(mockFacesContext, mockApplication);
 
-        ValidatorException exception = Assertions.assertThrows(ValidatorException.class,
-                () -> this.testedInstance.validate(mockFacesContext, null, new Date())
-        );
-        Assertions.assertTrue(exception.getFacesMessage().getSummary().contains("18"));
+        Assertions.assertThrows(ValidatorException.class, ()
+                -> this.testedInstance.validate(mockFacesContext, null, "foobar"));
 
         EasyMock.verify(mockFacesContext, mockApplication);
     }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">PIN Validator Demo</ui:define>
+    <ui:define name="body">
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="pin" value="PIN:"/>
+                <p:inputText id="pin" value="#{inputOutputController.value}" size="40">
+                    <ejsf:pinValidator minimumDigits="4" maximumDigits="12"/>
+                </p:inputText>
+                <p:message for="pin"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                Submitted PIN is: #{inputOutputController.value}
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Submit" update="@form"/>
+            </h:panelGrid>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="pin"/>
+            </p:tab>
+            <p:tab title="InputOutputController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/InputOutputController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="pinValidator"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

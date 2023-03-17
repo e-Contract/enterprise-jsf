@@ -1,37 +1,31 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2022-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator;
 
-import be.e_contract.ejsf.Environment;
-import java.util.ResourceBundle;
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import org.owasp.html.HtmlPolicyBuilder;
-import org.owasp.html.PolicyFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@FacesValidator(PlainTextValidator.VALIDATOR_ID)
-public class PlainTextValidator implements Validator, StateHolder {
+@FacesValidator(PINValidator.VALIDATOR_ID)
+public class PINValidator implements Validator, StateHolder {
 
-    public static final String VALIDATOR_ID = "ejsf.plainTextValidator";
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(PlainTextValidator.class);
+    public static final String VALIDATOR_ID = "ejsf.pinValidator";
 
     private boolean _transient;
 
     private String message;
+
+    private Integer minimumDigits;
+
+    private Integer maximumDigits;
 
     public String getMessage() {
         return this.message;
@@ -41,29 +35,50 @@ public class PlainTextValidator implements Validator, StateHolder {
         this.message = message;
     }
 
+    public Integer getMinimumDigits() {
+        return this.minimumDigits;
+    }
+
+    public void setMinimumDigits(Integer minimumDigits) {
+        this.minimumDigits = minimumDigits;
+    }
+
+    public Integer getMaximumDigits() {
+        return this.maximumDigits;
+    }
+
+    public void setMaximumDigits(Integer maximumDigits) {
+        this.maximumDigits = maximumDigits;
+    }
+
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
-        if (UIInput.isEmpty(value)) {
+        if (null == value) {
+            // allow for optional
             return;
         }
-        String strValue = (String) value;
-        if (!Environment.hasOwaspHtmlSanitizer()) {
-            String errorMessage = "Missing owasp-java-html-sanitizer";
-            LOGGER.error(errorMessage);
-            FacesMessage facesMessage = new FacesMessage(errorMessage);
-            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ValidatorException(facesMessage);
+        String pin = (String) value;
+        if (pin.isEmpty()) {
+            // allow for optional
+            return;
         }
-        PolicyFactory policy = new HtmlPolicyBuilder().toFactory();
-        String safeHTML = policy.sanitize(strValue);
-        if (!safeHTML.equals(strValue)) {
+        Integer minDigits = getMinimumDigits();
+        if (null == minDigits) {
+            minDigits = 4;
+        }
+        Integer maxDigits = getMaximumDigits();
+        String regex;
+        if (null == maxDigits) {
+            regex = "\\d{" + minDigits + ",}";
+        } else {
+            regex = "\\d{" + minDigits + "," + maxDigits + "}";
+        }
+        if (!pin.matches(regex)) {
             String errorMessage;
             if (null != this.message) {
                 errorMessage = this.message;
             } else {
-                Application application = facesContext.getApplication();
-                ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
-                errorMessage = resourceBundle.getString("invalidCharacters");
+                errorMessage = "Not a PIN.";
             }
             FacesMessage facesMessage = new FacesMessage(errorMessage);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -77,7 +92,9 @@ public class PlainTextValidator implements Validator, StateHolder {
             throw new NullPointerException();
         }
         return new Object[]{
-            this.message
+            this.message,
+            this.minimumDigits,
+            this.maximumDigits
         };
     }
 
@@ -94,6 +111,8 @@ public class PlainTextValidator implements Validator, StateHolder {
             return;
         }
         this.message = (String) stateObjects[0];
+        this.minimumDigits = (Integer) stateObjects[1];
+        this.maximumDigits = (Integer) stateObjects[2];
     }
 
     @Override
