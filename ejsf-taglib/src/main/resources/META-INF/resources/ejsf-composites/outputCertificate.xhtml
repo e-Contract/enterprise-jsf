@@ -43,6 +43,12 @@
                     <h:outputText value="#{ejsfMessages.certificateSerialNumber}:"/>
                     <h:outputText value="#{cc.attrs.value.serialNumber}"/>
 
+                    <h:outputText value="Algorithm:"/>
+                    <h:outputText value="#{cc.attrs.value.publicKey.algorithm}"/>
+
+                    <h:outputText value="Key size:"/>
+                    <h:outputText value="#{cc.keySize} bit"/>
+
                     <h:outputText value="Fingerprint (SHA-1):"/>
                     <ejsf:outputFingerprint value="#{cc.certificateData}"/>
 

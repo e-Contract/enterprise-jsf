@@ -8,8 +8,11 @@ package be.e_contract.ejsf.component.output;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.security.PublicKey;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
+import java.security.interfaces.ECPublicKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
@@ -95,5 +98,22 @@ public class OutputCertificateComponent extends UIOutput implements NamingContai
                         .stream(() -> certificateInputStream)
                         .build();
         return file;
+    }
+
+    public int getKeySize() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return 0;
+        }
+        PublicKey publicKey = certificate.getPublicKey();
+        if (publicKey instanceof RSAPublicKey) {
+            RSAPublicKey rsaPublicKey = (RSAPublicKey) publicKey;
+            return rsaPublicKey.getModulus().bitLength();
+        }
+        if (publicKey instanceof ECPublicKey) {
+            ECPublicKey ecPublicKey = (ECPublicKey) publicKey;
+            return ecPublicKey.getParams().getCurve().getField().getFieldSize();
+        }
+        return 0;
     }
 }
