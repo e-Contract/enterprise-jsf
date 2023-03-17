@@ -1096,4 +1096,32 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            KeyStore Password validator.
+        </description>
+        <tag-name>keyStorePasswordValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.keyStorePasswordValidator</validator-id>
+            <handler-class>be.e_contract.ejsf.validator.keystore.KeyStorePasswordValidatorTagHandler</handler-class>
+        </validator>
+        <attribute>
+            <description>The type of the key store.</description>
+            <name>keyStoreType</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The id of the UIInput holding the keystore path.</description>
+            <name>forKeyStore</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

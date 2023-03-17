@@ -23,14 +23,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesValidator(PasswordValidator.VALIDATOR_ID)
-public class PasswordValidator implements Validator<String> {
+public class PasswordValidator implements Validator {
 
     public static final String VALIDATOR_ID = "ejsf.passwordValidator";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PasswordValidator.class);
 
     @Override
-    public void validate(FacesContext facesContext, UIComponent component, String value) throws ValidatorException {
+    public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
         if (UIInput.isEmpty(value)) {
             return;
         }
@@ -41,7 +41,7 @@ public class PasswordValidator implements Validator<String> {
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
         }
-        RuleResult result = PassayPasswordValidator.validate(value);
+        RuleResult result = PassayPasswordValidator.validate((String) value);
         if (result.isValid()) {
             return;
         }
