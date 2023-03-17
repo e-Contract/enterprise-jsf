@@ -1076,4 +1076,24 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Home File validator.
+        </description>
+        <tag-name>homeFileValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.homeFileValidator</validator-id>
+        </validator>
+        <attribute>
+            <description>The optional directory restriction.</description>
+            <name>directory</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
