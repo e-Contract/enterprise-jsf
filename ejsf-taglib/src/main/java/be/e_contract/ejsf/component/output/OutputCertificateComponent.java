@@ -14,6 +14,7 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UINamingContainer;
@@ -115,5 +116,20 @@ public class OutputCertificateComponent extends UIOutput implements NamingContai
             return ecPublicKey.getParams().getCurve().getField().getFieldSize();
         }
         return 0;
+    }
+
+    public long getDaysLeft() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return 0;
+        }
+        Date now = new Date();
+        Date notAfter = certificate.getNotAfter();
+        long diffInMillies = notAfter.getTime() - now.getTime();
+        if (diffInMillies < 0) {
+            diffInMillies = 0;
+        }
+        long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        return days;
     }
 }
