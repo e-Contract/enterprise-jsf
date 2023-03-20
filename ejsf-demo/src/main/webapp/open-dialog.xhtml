@@ -40,6 +40,14 @@
             </h:panelGrid>
         </h:form>
 
+        <h:form>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Open Unknown Dialog">
+                    <ejsf:openDialog dialog="foobar"/>
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
+
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

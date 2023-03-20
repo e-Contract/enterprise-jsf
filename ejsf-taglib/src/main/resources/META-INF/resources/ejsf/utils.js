@@ -9,7 +9,7 @@ var ejsf = ejsf || {};
 
 (function () {
 
-    ejsf.handleDialogResponse = function (args, dailogWidgetVar, callbackParam) {
+    ejsf.handleDialogResponse = function (args, dialogWidgetVar, callbackParam) {
         if (args.validationFailed) {
             return;
         }
@@ -18,10 +18,18 @@ var ejsf = ejsf || {};
                 return;
             }
         }
-        PF(dailogWidgetVar).hide();
+        if (typeof dialogWidgetVar === "undefined") {
+            console.error("cannot close the dialog");
+            return;
+        }
+        PF(dialogWidgetVar).hide();
     };
 
     ejsf.closeDialog = function (dialogWidgetVar) {
+        if (typeof dialogWidgetVar === "undefined") {
+            console.error("cannot close the dialog");
+            return;
+        }
         PF(dialogWidgetVar).hide();
     };
 
@@ -40,7 +48,14 @@ var ejsf = ejsf || {};
                 }
             }
         }
-        PF(dialogWidgetVar).show();
+        if (typeof dialogWidgetVar === "undefined") {
+            console.error("cannot open the dialog");
+            return;
+        }
+        let dialogWidget = PF(dialogWidgetVar);
+        if (typeof dialogWidget !== "undefined") {
+            dialogWidget.show();
+        }
     };
 
     ejsf.storeDialog = function (event, dialogWidgetVar) {
