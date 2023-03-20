@@ -106,6 +106,17 @@ An example usage of our custom validator is given below.
 \section{Output Component}
 In this section we construct our first "real" JSF component.
 This component simply outputs its value.
+An output component inherits from \texttt{UIOutput}.
+To give you a better idea on where to position \texttt{UIOuput} in the class hierarchy of JSF,
+we depicted the most important JSF classes within Figure \ref{fig:jsf-classes}.
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=0.8,rotate=90]{jsf-classes}
+		\caption{Most important classes for a JSF component library developer.}
+		\label{fig:jsf-classes}
+	\end{center}
+\end{figure}
+
 The source code of our custom output JSF component is given below.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleOutput.java}
 As we are constructing an output component, we inherit from \texttt{UIOutput}.

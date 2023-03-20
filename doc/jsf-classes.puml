@@ -1,0 +1,38 @@
+@startuml
+
+' Enterprise JSF project.
+'
+' Copyright 2023 e-Contract.be BV. All rights reserved.
+' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+hide empty members
+
+interface ActionSource
+interface ActionSource2
+interface ValueHolder
+interface EditableValueHolder
+interface StateHolder
+interface NamingContainer
+interface UIComponent
+class UIComponentBase
+class UICommand
+class UIData
+class UIOutput
+class UIInput
+class UINamingContainer
+ActionSource2 -u-|> ActionSource
+UIComponent -u-|> StateHolder
+UIComponentBase .u.|> UIComponent
+UINamingContainer .u.|> NamingContainer
+UINamingContainer -u-|> UIComponentBase
+UICommand -u-|> UIComponentBase
+UICommand .u.|> ActionSource2
+UIData -u-|> UIComponentBase
+UIOutput .u.-|> ValueHolder
+UIOutput -u-|> UIComponentBase
+EditableValueHolder -u-|> ValueHolder
+UIInput .u.|> EditableValueHolder
+UIInput -u-|> UIOutput
+UIData .u.|> NamingContainer
+
+@enduml
