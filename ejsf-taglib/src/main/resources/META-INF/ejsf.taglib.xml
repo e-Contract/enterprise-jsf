@@ -1139,4 +1139,25 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Cron validator.
+        </description>
+        <tag-name>cronValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.cronValidator</validator-id>
+        </validator>
+        <attribute>
+            <description>The type of cron expression. Accepted values: CRON4J, QUARTZ, UNIX, SPRING, SPRING53</description>
+            <name>cronType</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
