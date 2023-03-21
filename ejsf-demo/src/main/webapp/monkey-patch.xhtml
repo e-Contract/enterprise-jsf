@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Monkey Patch Demo</ui:define>
+    <ui:define name="body">
+        <ejsf:monkeyPatch id="example"/>
+        <h:form>
+            <p:commandButton icon="pi pi-trash">
+                <ejsf:openDialog dialogId="exampleDialog"/>
+            </p:commandButton>
+            <p:tooltip for="@previous" value="A tooltip that has to disappear when you open the modal dialog."/>
+        </h:form>
+        <p:dialog id="exampleDialog" header="Example Dialog" modal="true">
+            <p>
+                Hello World
+            </p>
+            <h:form>
+                <p:commandButton value="Close">
+                    <ejsf:closeDialog/>
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="monkeyPatch"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

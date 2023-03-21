@@ -1160,4 +1160,14 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Provides some useful monkey patches for PrimeFaces.
+        </description>
+        <tag-name>monkeyPatch</tag-name>
+        <component>
+            <component-type>ejsf.monkeyPatchComponent</component-type>
+        </component>
+    </tag>
+
 </facelet-taglib>
