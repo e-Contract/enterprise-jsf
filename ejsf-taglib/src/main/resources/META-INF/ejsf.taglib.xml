@@ -1085,8 +1085,13 @@
             <validator-id>ejsf.homeFileValidator</validator-id>
         </validator>
         <attribute>
-            <description>The optional directory restriction.</description>
+            <description>The optional directory restriction under the home directory.</description>
             <name>directory</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional file type. Can be FILE or DIRECTORY. Defaults to FILE.</description>
+            <name>type</name>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
@@ -1106,7 +1111,7 @@
             <handler-class>be.e_contract.ejsf.validator.keystore.KeyStorePasswordValidatorTagHandler</handler-class>
         </validator>
         <attribute>
-            <description>The type of the key store.</description>
+            <description>The type of the key store. JKS or PKCS12.</description>
             <name>keyStoreType</name>
             <required>true</required>
             <type>java.lang.String</type>

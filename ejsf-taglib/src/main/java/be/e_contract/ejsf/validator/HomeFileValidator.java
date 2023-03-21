@@ -31,6 +31,8 @@ public class HomeFileValidator implements Validator, StateHolder {
 
     private String message;
 
+    private String type;
+
     public String getDirectory() {
         return this.directory;
     }
@@ -47,6 +49,14 @@ public class HomeFileValidator implements Validator, StateHolder {
         this.message = message;
     }
 
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public Object saveState(FacesContext context) {
         if (context == null) {
@@ -54,6 +64,7 @@ public class HomeFileValidator implements Validator, StateHolder {
         }
         return new Object[]{
             this.directory,
+            this.type,
             this.message
         };
     }
@@ -71,7 +82,8 @@ public class HomeFileValidator implements Validator, StateHolder {
             return;
         }
         this.directory = (String) stateObjects[0];
-        this.message = (String) stateObjects[1];
+        this.type = (String) stateObjects[1];
+        this.message = (String) stateObjects[2];
     }
 
     @Override
@@ -117,9 +129,16 @@ public class HomeFileValidator implements Validator, StateHolder {
             LOGGER.warn("file does not exist: {}", fileName);
             throwValidatorException();
         }
-        if (!file.isFile()) {
-            LOGGER.warn("not a regular file: {}", fileName);
-            throwValidatorException();
+        if (this.type != null && this.type.equals("DIRECTORY")) {
+            if (!file.isDirectory()) {
+                LOGGER.warn("not a directory file: {}", fileName);
+                throwValidatorException();
+            }
+        } else {
+            if (!file.isFile()) {
+                LOGGER.warn("not a regular file: {}", fileName);
+                throwValidatorException();
+            }
         }
         if (!file.canRead()) {
             LOGGER.warn("cannot read file: {}", fileName);
