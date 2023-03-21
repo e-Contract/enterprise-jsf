@@ -14,16 +14,19 @@
             </p:commandButton>
             <p:tooltip for="@previous" value="A tooltip that has to disappear when you open the modal dialog."/>
         </h:form>
+
         <p:dialog id="exampleDialog" header="Example Dialog" modal="true">
             <p>
                 Hello World
             </p>
             <h:form>
-                <p:commandButton value="Close">
+                <p:commandButton icon="pi pi-times">
                     <ejsf:closeDialog/>
                 </p:commandButton>
+                <p:tooltip for="@previous" value="A tooltip that has to disappear when you close the modal dialog."/>
             </h:form>
         </p:dialog>
+
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

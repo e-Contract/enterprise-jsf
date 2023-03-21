@@ -14,6 +14,15 @@ if (PrimeFaces.widget.Dialog) {
                         tooltip.hide();
                     }
             );
+        },
+
+        hide: function () {
+            this._super();
+            PrimeFaces.getWidgetsByType(PrimeFaces.widget.Tooltip).forEach(
+                    function (tooltip) {
+                        tooltip.hide();
+                    }
+            );
         }
     });
 }
@@ -21,6 +30,15 @@ if (PrimeFaces.widget.Dialog) {
 if (PrimeFaces.widget.ConfirmDialog) {
     PrimeFaces.widget.ConfirmDialog = PrimeFaces.widget.ConfirmDialog.extend({
         show: function () {
+            this._super();
+            PrimeFaces.getWidgetsByType(PrimeFaces.widget.Tooltip).forEach(
+                    function (tooltip) {
+                        tooltip.hide();
+                    }
+            );
+        },
+
+        hide: function () {
             this._super();
             PrimeFaces.getWidgetsByType(PrimeFaces.widget.Tooltip).forEach(
                     function (tooltip) {
