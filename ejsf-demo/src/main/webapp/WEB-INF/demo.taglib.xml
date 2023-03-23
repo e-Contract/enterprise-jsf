@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facelet-taglib xmlns="http://java.sun.com/xml/ns/javaee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+                version="2.0">
+
+    <description>Demo tag library.</description>
+
+    <namespace>urn:be:e-contract:ejsf:demo</namespace>
+
+    <tag>
+        <tag-name>vulnerableComponent</tag-name>
+        <component>
+            <component-type>demo.vulnerableComponent</component-type>
+        </component>
+        <attribute>
+            <name>secure</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>vulnerable</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+</facelet-taglib>

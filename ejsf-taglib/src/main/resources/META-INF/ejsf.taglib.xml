@@ -1175,4 +1175,25 @@
         </component>
     </tag>
 
+    <tag>
+        <description>Tests a component.</description>
+        <tag-name>testComponent</tag-name>
+        <component>
+            <component-type>ejsf.testComponentComponent</component-type>
+            <renderer-type>ejsf.testComponentRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The JSF library.</description>
+            <name>library</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The component tag.</description>
+            <name>tag</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

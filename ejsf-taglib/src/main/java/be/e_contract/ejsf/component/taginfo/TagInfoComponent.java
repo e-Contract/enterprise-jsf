@@ -29,7 +29,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.behavior.ClientBehaviorHolder;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -304,8 +306,14 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
     private Document getTaglibDocument(String library) {
         InputStream taglibInputStream = TagInfoComponent.class.getResourceAsStream("/META-INF/" + library + ".taglib.xml");
         if (null == taglibInputStream) {
-            LOGGER.warn("taglib not found: {}", library);
-            return null;
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = facesContext.getExternalContext();
+            ServletContext servletContext = (ServletContext) externalContext.getContext();
+            taglibInputStream = servletContext.getResourceAsStream("/WEB-INF/" + library + ".taglib.xml");
+            if (null == taglibInputStream) {
+                LOGGER.warn("taglib not found: {}", library);
+                return null;
+            }
         }
         try {
             return loadDocument(taglibInputStream);
