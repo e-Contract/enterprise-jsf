@@ -10,6 +10,10 @@ public class DataList extends UIData {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public DataList() {
+        setRendererType(DataListRenderer.RENDERER_TYPE);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;
