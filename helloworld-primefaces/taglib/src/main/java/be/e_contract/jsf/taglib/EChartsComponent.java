@@ -21,6 +21,10 @@ public class EChartsComponent extends UIOutput implements Widget {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public EChartsComponent() {
+        setRendererType(EChartsRenderer.RENDERER_TYPE);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

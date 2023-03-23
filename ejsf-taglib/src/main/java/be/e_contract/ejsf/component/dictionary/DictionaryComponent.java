@@ -30,6 +30,10 @@ public class DictionaryComponent extends UIComponentBase implements Widget {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public DictionaryComponent() {
+        setRendererType(DictionaryRenderer.RENDERER_TYPE);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

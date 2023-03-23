@@ -39,6 +39,10 @@ public class GeolocationComponent extends UIComponentBase implements Widget, Cli
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeolocationComponent.class);
 
+    public GeolocationComponent() {
+        setRendererType(GeolocationRenderer.RENDERER_TYPE);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

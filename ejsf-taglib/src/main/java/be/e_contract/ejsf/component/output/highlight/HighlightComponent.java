@@ -28,6 +28,10 @@ public class HighlightComponent extends UIOutput implements Widget {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public HighlightComponent() {
+        setRendererType(HighlightRenderer.RENDERER_TYPE);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

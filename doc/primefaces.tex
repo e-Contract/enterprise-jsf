@@ -131,3 +131,12 @@ With the \texttt{src/main/node/package.json} file containing:
 Hence we use \texttt{node} and \texttt{npm} to retrieve the ECharts Javascript package.
 
 Via the \texttt{maven-resources-plugin} we selectively pick what we need out of the downloaded \texttt{echarts} node module as was retrieved by the \texttt{frontend-maven-plugin}.
+
+While in this example we bundled the external resources from \texttt{echarts} directly within the JSF tag library itself,
+it is strongly advised to separate such external resources within a dedicated JAR.
+This strategy brings several advantages:
+\begin{itemize}
+	\item obviously a smaller tag library JAR, and hence your WARs/EARs remain as small as possible, safeguarding build and deployment time.
+	\item because all \texttt{npm} stuff lives outside the tag library, the development-deployment cycle improves drastically for the component development itself.
+	\item cleaner tag library \texttt{pom.xml}.
+\end{itemize}

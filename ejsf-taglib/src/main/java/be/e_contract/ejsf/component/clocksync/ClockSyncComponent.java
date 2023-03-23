@@ -55,6 +55,10 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public ClockSyncComponent() {
+        setRendererType(ClockSyncRenderer.RENDERER_TYPE);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

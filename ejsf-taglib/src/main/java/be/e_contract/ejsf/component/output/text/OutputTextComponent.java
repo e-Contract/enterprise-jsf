@@ -25,6 +25,10 @@ public class OutputTextComponent extends UIOutput implements Widget {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public OutputTextComponent() {
+        setRendererType(OutputTextRenderer.RENDERER_TYPE);
+    }
+
     public enum PropertyKeys {
         widgetVar,
         style,

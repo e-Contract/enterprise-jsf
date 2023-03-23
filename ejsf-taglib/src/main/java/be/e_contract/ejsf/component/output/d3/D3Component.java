@@ -27,6 +27,10 @@ public class D3Component extends UIOutput implements Widget {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public D3Component() {
+        setRendererType(D3Renderer.RENDERER_TYPE);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

@@ -43,6 +43,10 @@ public class VisNetworkComponent extends UIOutput implements Widget, ClientBehav
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public VisNetworkComponent() {
+        setRendererType(VisNetworkRenderer.RENDERER_TYPE);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;

@@ -25,6 +25,10 @@ public class OutputCurrencyComponent extends UIOutput implements Widget {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public OutputCurrencyComponent() {
+        setRendererType(OutputCurrencyRenderer.RENDERER_TYPE);
+    }
+
     public enum PropertyKeys {
         widgetVar,
         currency,

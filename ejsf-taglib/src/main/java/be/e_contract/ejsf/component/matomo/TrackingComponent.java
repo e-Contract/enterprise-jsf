@@ -26,6 +26,10 @@ public class TrackingComponent extends UIComponentBase implements Widget {
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public TrackingComponent() {
+        setRendererType(TrackingRenderer.RENDERER_TYPE);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;
