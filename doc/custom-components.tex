@@ -150,7 +150,22 @@ Suppose we have an enumerate, which we want to visualize using different colors.
 
 The JSF output component to achieve this looks as follows:
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleStyledOutput.java}
+In this example, we perform the rendering via a separate \texttt{Renderer}.
+Having a separate \texttt{Renderer} has several advantages.
+\begin{itemize}
+	\item It keeps the code of the component itself clean.
+	\item The \texttt{Renderer} implementation focuses purely on the rendering (and decoding).
+	\item Some frameworks provide a nice base class to implement a \texttt{Renderer}, which automatically forces you to have a separate rendering.
+\end{itemize}
+Within our component we explicitly set the renderer type within the constructor via \texttt{setRendererType}.
+This is actually only required to make \texttt{createComponent} to work without too much trouble.
+If we don't do this, components created via \texttt{createComponent} will have the wrong renderer assigned.
+See also Section \ref{sec:dynamic-components} \nameref{sec:dynamic-components} on page \pageref{sec:dynamic-components}.
+
+The implementation of the \texttt{Renderer} looks as follows.
+\lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleStyledOutputRenderer.java}
 Depending on the value of our enumerate, we change the \texttt{class} attribute value of our rendered \texttt{span} element.
+Obviously the \texttt{encodeBegin} method now also receives our component as additional parameter.
 
 The corresponding
 
@@ -159,7 +174,7 @@ The corresponding
 When creating CSS style sheets as part of a JSF component library, it is important to properly prefix your CSS classes to prevent clashes with other style sheets within your web application.
 In our example, we prefixed every defined CSS class with \texttt{example-}.
 
-We register this custom component within our \texttt{.taglib.xml} tag library descriptor as follows.
+We register this custom component and corresponding renderer within our \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=exampleStyledOutput]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
 We can use this custom output component as follows,
@@ -410,6 +425,7 @@ With the corresponding CDI controller given below.
 
 
 \section{Dynamic Components}
+\label{sec:dynamic-components}
 In this section we demonstrate how to construct dynamic components, i.e., components that change behavior at runtime.
 Imagine we have a list of objects, each object has its own type as shown in the following example CDI controller.
 \lstinputlisting[language=Java]{../helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/DataController.java}

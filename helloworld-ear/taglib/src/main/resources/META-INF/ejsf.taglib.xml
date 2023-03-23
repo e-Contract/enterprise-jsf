@@ -83,6 +83,7 @@
         <tag-name>exampleStyledOutput</tag-name>
         <component>
             <component-type>ejsf.exampleStyledOutput</component-type>
+            <renderer-type>ejsf.exampleStyledOutputRenderer</renderer-type>
         </component>
         <attribute>
             <name>value</name>
