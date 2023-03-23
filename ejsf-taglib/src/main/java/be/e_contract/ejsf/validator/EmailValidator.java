@@ -70,6 +70,7 @@ public class EmailValidator implements Validator, StateHolder {
         boolean valid;
         if (this.allowMultiple) {
             StringTokenizer stringTokenizer = new StringTokenizer(strValue, ",");
+            valid = true;
             while (stringTokenizer.hasMoreTokens()) {
                 String token = stringTokenizer.nextToken();
                 valid = validator.isValid(token);
@@ -77,7 +78,6 @@ public class EmailValidator implements Validator, StateHolder {
                     break;
                 }
             }
-            valid = true;
         } else {
             valid = validator.isValid(strValue);
         }

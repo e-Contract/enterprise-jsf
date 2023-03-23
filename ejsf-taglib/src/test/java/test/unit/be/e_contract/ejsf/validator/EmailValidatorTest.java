@@ -37,6 +37,29 @@ public class EmailValidatorTest {
     }
 
     @Test
+    public void testMultipleEmailPasses() throws Exception {
+        this.testedInstance.setAllowMultiple(true);
+        this.testedInstance.validate(null, null, "info@e-contract.be,info@e-contract.be");
+    }
+
+    @Test
+    public void testMultipleEmailFails() throws Exception {
+        FacesContext mockFacesContext = EasyMock.mock(FacesContext.class);
+        Application mockApplication = EasyMock.mock(Application.class);
+        EasyMock.expect(mockFacesContext.getApplication()).andReturn(mockApplication);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("be.e_contract.ejsf.Messages");
+        EasyMock.expect(mockApplication.getResourceBundle(mockFacesContext, "ejsfMessages")).andReturn(resourceBundle);
+
+        EasyMock.replay(mockFacesContext, mockApplication);
+
+        this.testedInstance.setAllowMultiple(true);
+        Assertions.assertThrows(ValidatorException.class, ()
+                -> this.testedInstance.validate(mockFacesContext, null, "info@e-contract.be,foobar"));
+
+        EasyMock.verify(mockFacesContext, mockApplication);
+    }
+
+    @Test
     public void testNonEmailFails() throws Exception {
         FacesContext mockFacesContext = EasyMock.mock(FacesContext.class);
         Application mockApplication = EasyMock.mock(Application.class);
