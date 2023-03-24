@@ -8,12 +8,11 @@
     <ui:define name="title">Output Certificate Demo</ui:define>
     <ui:define name="body">
         <h:form>
-            <ejsf:outputCertificate id="example"
-                                    value="#{outputCertificateController.certificate}"/>
             <ejsf:outputCertificate value="#{null}"/>
             <ejsf:outputCertificate rendered="false"
                                     value="#{outputCertificateController.certificate}"/>
-            <ejsf:outputCertificate value="#{outputCertificateController.certificate}"
+            <ejsf:outputCertificate id="example"
+                                    value="#{outputCertificateController.certificate}"
                                     download="true"/>
         </h:form>
         <p:tabView>

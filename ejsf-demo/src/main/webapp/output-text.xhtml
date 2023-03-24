@@ -7,11 +7,13 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Text Demo</ui:define>
     <ui:define name="body">
-        <ejsf:outputText value="hello world" widgetVar="outputText" id="example"/>
-        <h:form>
-            <p:commandButton oncomplete="PF('outputText').setValue('client-side value')"
-                             value="Client-side API call"/>
-        </h:form>
+        <div id="example">
+            <ejsf:outputText value="hello world" widgetVar="outputText"/>
+            <h:form>
+                <p:commandButton oncomplete="PF('outputText').setValue('client-side value')"
+                                 value="Client-side API call"/>
+            </h:form>
+        </div>
         <ejsf:outputText value="hello world" rendered="false"/>
         <p:tabView>
             <p:tab title="XHTML">
