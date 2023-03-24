@@ -8,6 +8,8 @@
 
     <namespace>urn:be:e-contract:ejsf:demo</namespace>
 
+    <composite-library-name>demo-composites</composite-library-name>
+
     <tag>
         <tag-name>vulnerableComponent</tag-name>
         <component>

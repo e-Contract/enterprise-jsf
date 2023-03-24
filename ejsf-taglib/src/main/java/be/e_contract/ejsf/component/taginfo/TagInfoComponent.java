@@ -22,11 +22,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIInput;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.context.ExternalContext;
@@ -254,10 +256,17 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         String tagDescription = interfaceElement.getAttribute("shortDescription");
         TagInfo tagInfo = new TagInfo(tagName, tagDescription);
         String componentType = interfaceElement.getAttribute("componentType");
-        if (null != componentType) {
+        if (!UIInput.isEmpty(componentType)) {
+            LOGGER.debug("componentType: {}", componentType);
             FacesContext facesContext = getFacesContext();
             Application application = facesContext.getApplication();
-            UIComponent component = application.createComponent(componentType);
+            UIComponent component;
+            try {
+                component = application.createComponent(componentType);
+            } catch (FacesException ex) {
+                LOGGER.error("error creating component: " + ex.getMessage(), ex);
+                return tagInfo;
+            }
             if (component instanceof ClientBehaviorHolder) {
                 ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) component;
                 String defaultEventName = clientBehaviorHolder.getDefaultEventName();
@@ -290,10 +299,17 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
     }
 
     private Document getCompositeTagDocument(String compositeLibraryName, String tagName) {
+        LOGGER.debug("composite {} tag {}", compositeLibraryName, tagName);
         InputStream inputStream = TagInfoComponent.class.getResourceAsStream("/META-INF/resources/" + compositeLibraryName + "/" + tagName + ".xhtml");
         if (null == inputStream) {
-            LOGGER.warn("composite not found: {}", tagName);
-            return null;
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = facesContext.getExternalContext();
+            ServletContext servletContext = (ServletContext) externalContext.getContext();
+            inputStream = servletContext.getResourceAsStream("/resources/" + compositeLibraryName + "/" + tagName + ".xhtml");
+            if (null == inputStream) {
+                LOGGER.warn("composite not found: {}", tagName);
+                return null;
+            }
         }
         try {
             return loadDocument(inputStream);
