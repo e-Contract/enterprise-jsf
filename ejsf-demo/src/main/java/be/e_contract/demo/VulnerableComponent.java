@@ -72,6 +72,7 @@ public class VulnerableComponent extends UIComponentBase {
         String vulnerable = getVulnerable();
         LOGGER.debug("vulnerable attribute: {}", vulnerable);
         if (null != vulnerable) {
+            // no proper HTML escaping here
             responseWriter.write(vulnerable);
         }
         responseWriter.endElement("p");

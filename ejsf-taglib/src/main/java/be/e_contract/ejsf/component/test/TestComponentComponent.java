@@ -173,6 +173,7 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
             }
             NodeList componentTypeNodeList = tagElement.getElementsByTagNameNS("*", "component-type");
             if (componentTypeNodeList.getLength() == 0) {
+                LOGGER.warn("missing component-type for tag: {}", tagName);
                 return;
             }
             String componentType = componentTypeNodeList.item(0).getTextContent();
@@ -181,7 +182,9 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
             component.setId("test");
             getChildren().add(component);
             LOGGER.debug("added child component: {}", componentType);
+            return;
         }
+        LOGGER.warn("tag not found: {}", tagName);
     }
 
     private Document getTaglibDocument(String library) {
