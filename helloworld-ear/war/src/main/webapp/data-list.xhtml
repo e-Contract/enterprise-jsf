@@ -8,14 +8,17 @@
     </h:head>
     <h:body>
         <h1>Data List</h1>
+        <h:messages id="messages" globalOnly="true"/>
         <h:form>
             <ejsf:dataList value="#{dataController.items}" var="item">
-                #{item.name}
-                <ejsf:dynamicInput value="#{item.value}"
-                                   type="#{item.type}"/>
+                <h:column>
+                    #{item.name}
+                    <ejsf:dynamicInput value="#{item.value}"
+                                       type="#{item.type}"/>
+                </h:column>
             </ejsf:dataList>
             <h:commandButton value="Save" action="#{dataController.save()}">
-                <f:ajax execute="@form" render="@form"/>
+                <f:ajax execute="@form" render="@form :messages"/>
             </h:commandButton>
         </h:form>
         <h:form>

@@ -473,12 +473,13 @@ The source code of the corresponding rendered is given below.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/datalist/DataListRenderer.java}
 Notice how we play with \texttt{setRowIndex} to render our child components multiple times for all our rows.
 
-We register this custom component within our \texttt{.taglib.xml} tag library descriptor as follows.
+We register this custom component and corresponding renderer within our \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=dataList]{../helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
-\begin{TODO}{Input decoding}
-	Seems like the input decoding is missing from the above component.
-\end{TODO}
+The following example demonstrates the usage of our custom data list component.
+\lstinputlisting[language=XML]{../helloworld-ear/war/src/main/webapp/data-list.xhtml}
+An important remark here is that we really need \texttt{h:column} here if we want proper decoding of the components within the custom data table.
+This can be seen within the source code of \texttt{UIData} where specific decoding happens for \texttt{UIColumn} child components.
 
 
 \section{EL functions}
