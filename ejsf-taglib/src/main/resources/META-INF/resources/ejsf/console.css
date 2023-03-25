@@ -1,0 +1,28 @@
+/*
+ * Enterprise JSF project.
+ *
+ * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+ */
+
+.ejsf-console {
+    border: 1px solid lightgrey;
+    overflow-y: auto;
+}
+
+.ejsf-console > div {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.ejsf-console > div:hover {
+    background-color: #F4F4F4;
+}
+
+.ejsf-console > div.info {
+    color: blue;
+}
+
+.ejsf-console > div.error  {
+    color: red;
+}
