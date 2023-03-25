@@ -8,6 +8,7 @@
 PrimeFaces.widget.EJSFTestComponent = PrimeFaces.widget.BaseWidget.extend({
     init: function (cfg) {
         this._super(cfg);
+        this.console = PrimeFaces.getWidgetById(this.id + ":console");
         this.log("Start testing component...");
         this.requestTest();
     },
@@ -39,11 +40,10 @@ PrimeFaces.widget.EJSFTestComponent = PrimeFaces.widget.BaseWidget.extend({
     },
 
     failedTest: function (message) {
-        this.log("FAILED TEST DETECTED: " + message);
-        $(this.jqId + "_log").css("background-color", "lightpink");
+        this.console.error("FAILED TEST DETECTED: " + message);
     },
 
     log: function (message) {
-        $(this.jqId + "_log").append(message + "\n");
+        this.console.info(message);
     }
 });

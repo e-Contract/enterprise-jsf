@@ -32,21 +32,12 @@ public class TestComponentRenderer extends CoreRenderer {
         String clientId = component.getClientId(facesContext);
         responseWriter.startElement("div", component);
         responseWriter.writeAttribute("id", clientId, "id");
-        LOGGER.debug("number of children: {}", component.getChildCount());
     }
 
     @Override
     public void encodeEnd(FacesContext facesContext, UIComponent component) throws IOException {
         ResponseWriter responseWriter = facesContext.getResponseWriter();
         responseWriter.endElement("div");
-
-        responseWriter.startElement("textarea", null);
-        String clientId = component.getClientId(facesContext);
-        responseWriter.writeAttribute("id", clientId + "_log", null);
-        responseWriter.writeAttribute("cols", 80, null);
-        responseWriter.writeAttribute("rows", 20, null);
-        responseWriter.writeAttribute("readonly", "readonly", null);
-        responseWriter.endElement("textarea");
 
         TestComponentComponent testComponentComponent = (TestComponentComponent) component;
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
@@ -60,7 +51,6 @@ public class TestComponentRenderer extends CoreRenderer {
         Map<String, String> requestParameterMap = externalContext.getRequestParameterMap();
         String clientId = component.getClientId(context);
         if (requestParameterMap.containsKey(clientId + "_request_test")) {
-            LOGGER.debug("requesting test");
             TestComponentComponent testComponentComponent = (TestComponentComponent) component;
             ComponentTest componentTest = testComponentComponent.getNextTest();
             PrimeFaces primeFaces = PrimeFaces.current();
@@ -68,10 +58,9 @@ public class TestComponentRenderer extends CoreRenderer {
             if (null != componentTest) {
                 String testName = componentTest.getName();
                 LOGGER.debug("running test: {}", testName);
-                UIComponent componentUnderTest = testComponentComponent.getChildren().get(0);
+                UIComponent componentUnderTest = testComponentComponent.getChildren().get(1);
                 componentTest.run(testComponentComponent, componentUnderTest);
                 ajax.addCallbackParam("name", testName);
-                LOGGER.debug("child count: {}", testComponentComponent.getChildCount());
                 ajax.update(componentUnderTest);
             } else {
                 LOGGER.debug("done testing");

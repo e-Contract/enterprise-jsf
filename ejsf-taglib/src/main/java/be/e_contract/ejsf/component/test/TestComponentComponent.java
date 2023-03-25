@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.component.test;
 
+import be.e_contract.ejsf.component.console.ConsoleComponent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
@@ -14,6 +15,7 @@ import javax.faces.application.Application;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
+import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIViewRoot;
@@ -42,7 +44,7 @@ import org.xml.sax.SAXException;
     @ResourceDependency(library = "primefaces", name = "core.js"),
     @ResourceDependency(library = "ejsf", name = "test-component.js")
 })
-public class TestComponentComponent extends UIComponentBase implements Widget, SystemEventListener {
+public class TestComponentComponent extends UIComponentBase implements Widget, SystemEventListener, NamingContainer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestComponentComponent.class);
 
@@ -154,6 +156,11 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
             return;
         }
         FacesContext facesContext = event.getFacesContext();
+        Application application = facesContext.getApplication();
+        ConsoleComponent consoleComponent = (ConsoleComponent) application.createComponent(ConsoleComponent.COMPONENT_TYPE);
+        consoleComponent.setId("console");
+        consoleComponent.setTimestamp(true);
+        getChildren().add(consoleComponent);
         LOGGER.debug("PostAddToViewEvent");
         String library = getLibrary();
         String tagName = getTag();
@@ -177,7 +184,6 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
                 return;
             }
             String componentType = componentTypeNodeList.item(0).getTextContent();
-            Application application = facesContext.getApplication();
             UIComponent component = application.createComponent(componentType);
             component.setId("test");
             getChildren().add(component);
