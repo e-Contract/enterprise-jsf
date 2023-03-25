@@ -33,6 +33,13 @@ PrimeFaces.widget.EJSFTestComponent = PrimeFaces.widget.BaseWidget.extend({
                     return;
                 }
                 $this.log("Completed test: " + testName);
+                let testResult = args.result;
+                if (typeof testResult !== "undefined") {
+                    let resultLines = testResult.split("\n");
+                    resultLines.forEach((resultLine) => {
+                        $this.log(resultLine);
+                    });
+                }
                 $this.requestTest();
             }
         };

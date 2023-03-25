@@ -112,6 +112,14 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
             if (null != tagName && !tagName.equals(thisTagName)) {
                 continue;
             }
+            NodeList componentTypeNodeList = tagElement.getElementsByTagNameNS("*", "component-type");
+            if (componentTypeNodeList.getLength() == 0) {
+                LOGGER.warn("missing component-type for tag: {}", tagName);
+                break;
+            }
+            String componentType = componentTypeNodeList.item(0).getTextContent();
+            InfoComponentTest infoComponentTest = new InfoComponentTest(library, tagName, componentType);
+            tests.add(infoComponentTest);
             NodeList attributeNodeList = tagElement.getElementsByTagNameNS("*", "attribute");
             for (int attributeIdx = 0; attributeIdx < attributeNodeList.getLength(); attributeIdx++) {
                 Element attributeElement = (Element) attributeNodeList.item(attributeIdx);
@@ -155,7 +163,7 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
         if (!(event instanceof PostAddToViewEvent)) {
             return;
         }
-        FacesContext facesContext = event.getFacesContext();
+        FacesContext facesContext = getFacesContext();
         Application application = facesContext.getApplication();
         LOGGER.debug("PostAddToViewEvent");
         String library = getLibrary();

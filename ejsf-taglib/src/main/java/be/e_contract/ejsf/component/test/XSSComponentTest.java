@@ -28,12 +28,13 @@ public class XSSComponentTest implements ComponentTest {
     }
 
     @Override
-    public void run(TestComponentComponent testComponent, UIComponent component) {
+    public String run(TestComponentComponent testComponent, UIComponent component) {
         this.previousValue = (String) component.getAttributes().get(this.attributeName);
         String script = "<script>PF('" + testComponent.resolveWidgetVar() + "').failedTest('XSS on "
                 + this.attributeName + " attribute');</script>";
         component.getAttributes().put(this.attributeName, script);
         LOGGER.debug("[{}] = {}", this.attributeName, script);
+        return null;
     }
 
     @Override

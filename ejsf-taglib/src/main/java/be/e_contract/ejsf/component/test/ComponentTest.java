@@ -13,7 +13,7 @@ public interface ComponentTest extends Serializable {
 
     String getName();
 
-    void run(TestComponentComponent testComponent, UIComponent component);
+    String run(TestComponentComponent testComponent, UIComponent component);
 
     void cleanup(TestComponentComponent testComponent, UIComponent component);
 }
