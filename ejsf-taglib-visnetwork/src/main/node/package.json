@@ -1,6 +1,6 @@
 {
     "name": "taglib",
     "dependencies": {
-        "vis-network": "9.1.4"
+        "vis-network": "9.1.6"
     }
 }

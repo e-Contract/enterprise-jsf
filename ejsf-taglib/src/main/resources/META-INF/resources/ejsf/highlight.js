@@ -8,6 +8,9 @@
 PrimeFaces.widget.EJSFHighlight = PrimeFaces.widget.BaseWidget.extend({
     init: function (cfg) {
         this._super(cfg);
+        hljs.configure({
+            ignoreUnescapedHTML: true
+        });
         hljs.highlightElement(this.jq.get(0));
     }
 });

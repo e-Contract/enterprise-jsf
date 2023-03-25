@@ -186,7 +186,9 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
             LOGGER.debug("added child component: {}", componentType);
             break;
         }
-        LOGGER.warn("tag not found: {}", tagName);
+        if (getChildCount() == 0) {
+            LOGGER.warn("tag not found: {}", tagName);
+        }
         ConsoleComponent consoleComponent = (ConsoleComponent) application.createComponent(ConsoleComponent.COMPONENT_TYPE);
         consoleComponent.setId("console");
         consoleComponent.setTimestamp(true);
