@@ -1,14 +1,15 @@
 package be.e_contract.jsf.taglib;
 
 import java.io.IOException;
-import java.util.List;
 import javax.faces.application.Application;
 import javax.faces.component.FacesComponent;
+import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.ComponentSystemEventListener;
@@ -17,7 +18,8 @@ import javax.faces.event.PostAddToViewEvent;
 
 @FacesComponent(DynamicInputComponent.COMPONENT_TYPE)
 @ListenerFor(systemEventClass = PostAddToViewEvent.class)
-public class DynamicInputComponent extends UIInput implements ComponentSystemEventListener {
+public class DynamicInputComponent extends UIInput
+        implements ComponentSystemEventListener, NamingContainer {
 
     public static final String COMPONENT_TYPE = "ejsf.dynamicInput";
 
@@ -50,17 +52,17 @@ public class DynamicInputComponent extends UIInput implements ComponentSystemEve
             FacesContext facesContext = event.getFacesContext();
             Application application = facesContext.getApplication();
 
-            HtmlInputText htmlInputText
-                    = (HtmlInputText) application.createComponent(
+            UIComponent textInputComponent
+                    = application.createComponent(
                             HtmlInputText.COMPONENT_TYPE);
-            htmlInputText.setId(getId() + "_text");
-            getChildren().add(htmlInputText);
+            textInputComponent.setId("text");
+            getChildren().add(textInputComponent);
 
-            HtmlSelectBooleanCheckbox htmlSelectBooleanCheckbox
-                    = (HtmlSelectBooleanCheckbox) application.createComponent(
+            UIComponent booleanInputComponent
+                    = application.createComponent(
                             HtmlSelectBooleanCheckbox.COMPONENT_TYPE);
-            htmlSelectBooleanCheckbox.setId(getId() + "_boolean");
-            getChildren().add(htmlSelectBooleanCheckbox);
+            booleanInputComponent.setId("boolean");
+            getChildren().add(booleanInputComponent);
         }
         super.processEvent(event);
     }
@@ -71,15 +73,22 @@ public class DynamicInputComponent extends UIInput implements ComponentSystemEve
     }
 
     private UIInput findInputComponent() {
-        List<UIComponent> children = getChildren();
         Class type = getType();
-        UIInput inputComponent = null;
         if (type.equals(String.class)) {
-            inputComponent = (UIInput) children.get(0);
-        } else if (type.equals(Boolean.class)) {
-            inputComponent = (UIInput) children.get(1);
+            return (UIInput) findComponent("text");
         }
-        return inputComponent;
+        if (type.equals(Boolean.class)) {
+            return (UIInput) findComponent("boolean");
+        }
+        return null;
+    }
+
+    @Override
+    public void encodeBegin(FacesContext context) throws IOException {
+        ResponseWriter responseWriter = context.getResponseWriter();
+        String clientId = super.getClientId(context);
+        responseWriter.startElement("span", this);
+        responseWriter.writeAttribute("id", clientId, "id");
     }
 
     @Override
@@ -90,6 +99,12 @@ public class DynamicInputComponent extends UIInput implements ComponentSystemEve
         }
         inputComponent.setValue(getValue());
         inputComponent.encodeAll(context);
+    }
+
+    @Override
+    public void encodeEnd(FacesContext context) throws IOException {
+        ResponseWriter responseWriter = context.getResponseWriter();
+        responseWriter.endElement("span");
     }
 
     @Override

@@ -441,7 +441,16 @@ Via the \texttt{@ListenerFor} annotations we indicate that we want to receive \t
 These events are fired towards the \texttt{processEvent} method.
 During the \texttt{PostAddToViewEvent} event we add specific input components to the component tree within the \texttt{processEvent} method.
 Notice that we add all possible input components here,  since at this point we don't know yet which exact type will be required at render/decode time and it is of eminent importance to keep the view root component tree stable during the lifecycle of the page.
+
 When programmatically adding JSF components to the JSF view root tree, it is important to always define a relative unique identifier for each component via the \texttt{setId} method.
+Here we let our component to implement the \texttt{NamingContainer} interface.
+This will ensure that all child components will have a unique client identifier.
+Hence despite that we set the identifier for our child components simply to \texttt{text} and \texttt{boolean}, JSF will ensure unique client ids, even if there are multiple instances of our component on the same XHTML page.
+Implementing \texttt{NamingContainer} has the additional advantage that it makes it very easy to locate child components via the \texttt{findComponent} method.
+
+Via the \texttt{encodeBegin} and \texttt{encodeEnd} methods we  ensure that our component has a proper client-side identifier.
+This is important to ensure that AJAX updates can locate our component.
+
 Via the \texttt{getRendersChildren} method we indicate that we take care of rendering/decoding our children.
 And this is exactly what we do within the \texttt{encodeChildren} and \texttt{decode} methods where we delegate towards the appropriate child component depending on the type.
 Hence we selectively render the child component that is capable of handling the item type.

@@ -157,10 +157,6 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
         }
         FacesContext facesContext = event.getFacesContext();
         Application application = facesContext.getApplication();
-        ConsoleComponent consoleComponent = (ConsoleComponent) application.createComponent(ConsoleComponent.COMPONENT_TYPE);
-        consoleComponent.setId("console");
-        consoleComponent.setTimestamp(true);
-        getChildren().add(consoleComponent);
         LOGGER.debug("PostAddToViewEvent");
         String library = getLibrary();
         String tagName = getTag();
@@ -181,16 +177,20 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
             NodeList componentTypeNodeList = tagElement.getElementsByTagNameNS("*", "component-type");
             if (componentTypeNodeList.getLength() == 0) {
                 LOGGER.warn("missing component-type for tag: {}", tagName);
-                return;
+                break;
             }
             String componentType = componentTypeNodeList.item(0).getTextContent();
             UIComponent component = application.createComponent(componentType);
             component.setId("test");
             getChildren().add(component);
             LOGGER.debug("added child component: {}", componentType);
-            return;
+            break;
         }
         LOGGER.warn("tag not found: {}", tagName);
+        ConsoleComponent consoleComponent = (ConsoleComponent) application.createComponent(ConsoleComponent.COMPONENT_TYPE);
+        consoleComponent.setId("console");
+        consoleComponent.setTimestamp(true);
+        getChildren().add(consoleComponent);
     }
 
     private Document getTaglibDocument(String library) {

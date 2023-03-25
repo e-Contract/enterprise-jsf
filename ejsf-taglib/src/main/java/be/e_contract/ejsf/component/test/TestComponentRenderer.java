@@ -58,7 +58,7 @@ public class TestComponentRenderer extends CoreRenderer {
             if (null != componentTest) {
                 String testName = componentTest.getName();
                 LOGGER.debug("running test: {}", testName);
-                UIComponent componentUnderTest = testComponentComponent.getChildren().get(1);
+                UIComponent componentUnderTest = testComponentComponent.findComponent("test");
                 componentTest.run(testComponentComponent, componentUnderTest);
                 ajax.addCallbackParam("name", testName);
                 ajax.update(componentUnderTest);
