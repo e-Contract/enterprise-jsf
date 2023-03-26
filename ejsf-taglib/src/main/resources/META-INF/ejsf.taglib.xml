@@ -1230,4 +1230,24 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Automatically submit upon a condition.</description>
+        <tag-name>autoSubmit</tag-name>
+        <behavior>
+            <behavior-id>ejsf.autoSubmitClientBehavior</behavior-id>
+            <handler-class>be.e_contract.ejsf.behavior.autosubmit.AutoSubmitTagHandler</handler-class>
+        </behavior>
+        <attribute>
+            <description>Automatically submit when length of input has been reached.</description>
+            <name>onLength</name>
+            <required>true</required>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>Identifier of the default command component. If not provided, we submit the form.</description>
+            <name>target</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

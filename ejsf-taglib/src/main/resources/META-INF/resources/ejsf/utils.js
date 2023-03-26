@@ -105,4 +105,15 @@ var ejsf = ejsf || {};
         }
     };
 
+    ejsf.autoSubmitOnLength = function (event, onLength, targetClientId) {
+        if (event.target.value.length === onLength) {
+            if (targetClientId) {
+                let targetWidget = $(PrimeFaces.escapeClientId(targetClientId));
+                targetWidget.trigger(PrimeFaces.csp.clickEvent());
+            } else {
+                event.target.form.submit();
+            }
+        }
+    };
+
 })();
