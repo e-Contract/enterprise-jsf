@@ -24,11 +24,9 @@
             <ejsf:outputText value="#{geolocationController.accuracy}"
                              unit="m"/>
         </h:panelGrid>
-        <h:form>
-            <h:panelGrid columns="1">
-                <p:commandButton oncomplete="PF('geolocation').currentPosition()" value="Get Current Position"/>
-            </h:panelGrid>
-        </h:form>
+        <h:panelGrid columns="1">
+            <p:button onclick="PF('geolocation').currentPosition(); return false;" value="Get Current Position"/>
+        </h:panelGrid>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

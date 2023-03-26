@@ -8,18 +8,22 @@
                 xmlns:f="http://java.sun.com/jsf/core">
     <ui:define name="title">Client Behavior Logger Demo</ui:define>
     <ui:define name="body">
-        <p>
-            Open your web browser console to view the event logging.
-        </p>
         <h:form id="example">
             <h:commandButton value="Test">
-                <ejsf:clientBehaviorLogger/>
+                <ejsf:clientBehaviorLogger
+                    onevent="PF('console').info('h:commandButton ' + event.type)"/>
                 <!-- next is to ensure jsf.js is available for chaining -->
                 <f:ajax/>
             </h:commandButton>
             <p:commandButton value="Test">
-                <ejsf:clientBehaviorLogger/>
+                <ejsf:clientBehaviorLogger
+                    onevent="PF('console').info('p:commandButton ' + event.type)"/>
             </p:commandButton>
+            <p:inputText>
+                <ejsf:clientBehaviorLogger
+                    onevent="PF('console').info('p:inputText ' + event.type)"/>
+            </p:inputText>
+            <ejsf:console widgetVar="console" timestamp="true"/>
         </h:form>
         <p:tabView>
             <p:tab title="XHTML">

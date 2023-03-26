@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.BehaviorConfig;
 import javax.faces.view.facelets.ComponentHandler;
 import javax.faces.view.facelets.FaceletContext;
+import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagException;
 import javax.faces.view.facelets.TagHandler;
 import org.slf4j.Logger;
@@ -38,6 +39,14 @@ public class LoggerClientBehaviorTagHandler extends TagHandler {
             throw new TagException(this.tag, "parent must be ClientBehaviorHolder.");
         }
 
+        String oneventCallback;
+        TagAttribute oneventTagAttribute = getAttribute("onevent");
+        if (null != oneventTagAttribute) {
+            oneventCallback = oneventTagAttribute.getValue(faceletContext);
+        } else {
+            oneventCallback = null;
+        }
+
         ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) parent;
         Collection<String> eventNames = clientBehaviorHolder.getEventNames();
         if (null == eventNames) {
@@ -50,7 +59,8 @@ public class LoggerClientBehaviorTagHandler extends TagHandler {
         Application application = facesContext.getApplication();
         LoggerClientBehavior loggerClientBehavior
                 = (LoggerClientBehavior) application.createBehavior(LoggerClientBehavior.BEHAVIOR_ID);
-        LOGGER.debug("event names: {}", eventNames);
+        loggerClientBehavior.setOneventCallback(oneventCallback);
+        LOGGER.debug("component {} event names: {}", parent.getId(), eventNames);
         for (String eventName : eventNames) {
             clientBehaviorHolder.addClientBehavior(eventName, loggerClientBehavior);
         }

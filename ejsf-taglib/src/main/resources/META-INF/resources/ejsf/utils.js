@@ -97,8 +97,12 @@ var ejsf = ejsf || {};
         navigator.clipboard.writeText(value);
     };
 
-    ejsf.logClientBehavior = function (event) {
-        console.log(event.type);
+    ejsf.logClientBehavior = function (event, oneventCallback) {
+        if (oneventCallback) {
+            oneventCallback.call(this, event);
+        } else {
+            console.log(event.type);
+        }
     };
 
 })();

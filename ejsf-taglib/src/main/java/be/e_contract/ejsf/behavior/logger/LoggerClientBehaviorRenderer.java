@@ -23,6 +23,12 @@ public class LoggerClientBehaviorRenderer extends ClientBehaviorRenderer {
 
     @Override
     public String getScript(ClientBehaviorContext behaviorContext, ClientBehavior clientBehavior) {
-        return "ejsf.logClientBehavior(event)";
+        LoggerClientBehavior loggerClientBehavior = (LoggerClientBehavior) clientBehavior;
+        String oneventCallback = loggerClientBehavior.getOneventCallback();
+        if (null == oneventCallback) {
+            return "ejsf.logClientBehavior(event)";
+        } else {
+            return "ejsf.logClientBehavior(event, function(event) {" + oneventCallback + "})";
+        }
     }
 }

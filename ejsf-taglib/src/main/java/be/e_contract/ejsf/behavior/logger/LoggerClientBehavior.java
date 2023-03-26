@@ -14,6 +14,16 @@ public class LoggerClientBehavior extends ClientBehaviorBase {
 
     public static final String BEHAVIOR_ID = "ejsf.clientBehaviorLogger";
 
+    private String oneventCallback;
+
+    public String getOneventCallback() {
+        return this.oneventCallback;
+    }
+
+    public void setOneventCallback(String oneventCallback) {
+        this.oneventCallback = oneventCallback;
+    }
+
     @Override
     public String getRendererType() {
         return LoggerClientBehaviorRenderer.RENDERER_TYPE;
