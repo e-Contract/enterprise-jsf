@@ -26,3 +26,11 @@
 .ejsf-console > div.error  {
     color: red;
 }
+
+.ejsf-console > button.remove-button {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 10px;
+    left: 100%;
+    margin-right: 10px;
+}

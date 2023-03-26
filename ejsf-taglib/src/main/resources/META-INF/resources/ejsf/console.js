@@ -45,5 +45,9 @@ PrimeFaces.widget.EJSFConsole = PrimeFaces.widget.BaseWidget.extend({
                 ("0" + now.getMinutes()).slice(-2) + ":" +
                 ("0" + now.getSeconds()).slice(-2);
         return timestamp;
+    },
+
+    clear: function () {
+        $(this.jqId).children("div").remove();
     }
 });

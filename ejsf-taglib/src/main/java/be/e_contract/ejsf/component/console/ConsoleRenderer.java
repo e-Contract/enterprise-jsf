@@ -42,6 +42,16 @@ public class ConsoleRenderer extends CoreRenderer {
         }
         responseWriter.writeAttribute("class", styleClass, "styleClass");
 
+        String widgetVar = consoleComponent.resolveWidgetVar();
+        responseWriter.startElement("button", null);
+        responseWriter.writeAttribute("type", "button", null);
+        responseWriter.writeAttribute("onclick", "PF('" + widgetVar + "').clear()", null);
+        responseWriter.writeAttribute("class", "ui-button ui-widget rounded-button ui-button-flat remove-button", null);
+        responseWriter.startElement("i", null);
+        responseWriter.writeAttribute("class", "ui-button-icon-left ui-icon ui-c pi pi-trash", null);
+        responseWriter.endElement("i");
+        responseWriter.endElement("button");
+
         responseWriter.endElement("div");
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
