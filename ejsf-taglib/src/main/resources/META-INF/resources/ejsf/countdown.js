@@ -65,11 +65,11 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
             this.updateCountdown();
             return;
         }
-        let position = this.progressBarWidget.jq.get(0).getBoundingClientRect();
-        if (position.bottom < 0) {
+        let position = this.jq.get(0).getBoundingClientRect();
+        if (position.bottom < -50) {
             return;
         }
-        if (position.top > window.innerHeight) {
+        if (position.top > window.innerHeight + 50) {
             return;
         }
         this.updateCountdown();
