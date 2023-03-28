@@ -21,7 +21,7 @@ Hence template language frameworks and such were invented, up to the point where
 
 \section{Basic Project Structure}
 Let us start with the classic "hello world" using JSF technology.
-Within our example code, we use Maven as build system.
+We use Maven \cite{ApacheMaven} as build system.
 Our basic project structure is depicted in Figure \ref{fig:helloworld-structure}.
 \begin{figure}[htbp]
 	\begin{center}
@@ -41,8 +41,8 @@ Our basic project structure is depicted in Figure \ref{fig:helloworld-structure}
 
 Our basic Maven \cite{ApacheMaven} \texttt{pom.xml} file looks as follows.
 \lstinputlisting[language=XML]{../helloworld/pom.xml}
-This Maven POM file will create a deployable WAR file, as indicated by the \texttt{packaging} element.
-Please notice that we stick with Java 8 \cite{GoslingJoyEtAl14} and Java EE 8 \cite{JavaEE8} for the moment.
+This Maven POM file creates a deployable WAR file, as indicated by the \texttt{packaging} element.
+Notice that we stick with Java 8 \cite{GoslingJoyEtAl14} and Java EE 8 \cite{JavaEE8} for the moment.
 
 \begin{TIP}{XML schema location}
 	When working with XML files, like Maven POM files, do yourself a favor and always put proper \texttt{xsi:schemaLocation} metadata.
@@ -58,6 +58,8 @@ Please notice that we stick with Java 8 \cite{GoslingJoyEtAl14} and Java EE 8 \c
 Our initial \texttt{src/main/webapp/index.xhtml} XHTML file looks as follows.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/index.xhtml}
 This JSF page simply shows some text.
+The JSF  page uses a combination of plain HTML together with JSF specific tags.
+This is cleary indicated by means of the different XML namespaces and prefixes.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/web.xml}
@@ -65,7 +67,7 @@ The JSF runtime actually lives within its own servlet, just like every other fro
 As indicated by the \texttt{version} attribute, we are targeting servlet containers version 4.0, which is part of Java EE 8.
 \begin{TIP}{javax.faces.PROJECT\_STAGE}
 An explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
-For proper development, the web browser caching has to be disabled.
+For proper development, the web browser caching has to be disabled so changes to your source code files are directly reflected within the web browser.
 \end{TIP}
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate.
@@ -77,7 +79,7 @@ You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} config
 As indicated by the \texttt{version} attribute, we are using CDI version 2.0, which is part of Java EE 8.
 \begin{TIP}{XML descriptors}
 While there is a strong tendency towards avoiding everything XML,
-we strongly advice to put all XML descriptors in place,
+we strongly advice you to put all XML descriptors in place,
 even it they are basically empty.
 That way, if you later on need to configure something,
 you know directly where you need  to go.
@@ -162,9 +164,9 @@ cd helloworld
 mvn wildfly:deploy
 \end{lstlisting}
 
-Check out the deployed application with a web browser by navigating to:
+Check out the deployed application within a web browser by navigating to:
 
-http://localhost:8080/helloworld-1.0.0-SNAPSHOT/
+\url{http://localhost:8080/helloworld-1.0.0-SNAPSHOT/}
 
 \section{CDI Bean}
 
@@ -191,12 +193,13 @@ We access the \texttt{value} property of our CDI bean via the \texttt{\#\{...\}}
 In this example we do some basic input and output.
 The CDI controller for this looks as follows:
 \lstinputlisting[language=Java]{../helloworld/src/main/java/be/e_contract/jsf/helloworld/InputOutputController.java}
-Notice the usage of the \texttt{@ViewScoped} annotation to control the lifecycle of our CDI bean within the context of the JSF page.
-This also requires our class to implement the \texttt{Serializable} interface.
+Via the \texttt{@ViewScoped} annotation we control the lifecycle of our CDI bean within the context of the JSF page.
+This requires our class to implement the \texttt{Serializable} interface.
 
 The JSF page demonstrating basic input/output using our CDI bean is given below:
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/input-output.xhtml}
 When we click on the \texttt{h:commandButton}, the entire page is being reloaded, with an updated value reflecting the given input.
+Important here is to put every JSF component that can interact with the server-side within an \texttt{h:form} HTML form.
 
 
 \section{AJAX}
@@ -204,7 +207,7 @@ When we click on the \texttt{h:commandButton}, the entire page is being reloaded
 The reloading of the entire JSF page can be avoided by using AJAX as shown in the following example JSF page.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/ajax.xhtml}
 Via the \texttt{f:ajax} tag we enable AJAX on the \texttt{h:commandButton} component.
-The \texttt{execute} attribute instructs which components has to be processed, while the \texttt{render} attributes defines which components need to be rendered again.
+The \texttt{execute} attribute instructs which components has to be processed, while the \texttt{render} attribute defines which components need to be rendered again.
 
 
 \section{Page Actions}
@@ -228,14 +231,16 @@ Via the \texttt{mainForm:input} client identifier we explicitly target a JSF mes
 Enabling input validation on JSF input components is demonstrated in the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/validation.xhtml}
 Here you get an error message when the length of the input is less than 4.
+Validator tags like \texttt{f:validateLength} can be attached to input components by simply adding them as child element of the input component tag.
 JSF comes with a lot of common validators out-of-the-box.
 
 \section{CSS}
 
-Styling JSF can easily be done by attaching a CSS stylesheet to our XHTML page as demonstrated within the following example.
+Styling JSF can be done by attaching a CSS stylesheet to our XHTML page as demonstrated within the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/css.xhtml}
 Via the \texttt{h:outputStylesheet} tag we include our CSS stylesheet as part of the rendering of our JSF page.
 The CSS resource file, located under
+
 \texttt{src/main/webapp/resources/css/style.css}, contains the following style:
 \lstinputlisting[language=CSS]{../helloworld/src/main/webapp/resources/css/style.css}
 Now JSF messages show up colored in red.
@@ -247,10 +252,10 @@ The following CDI controller holds a list of items that we want to visualize wit
 \lstinputlisting[language=Java]{../helloworld/src/main/java/be/e_contract/jsf/helloworld/DataController.java}
 Using a \texttt{@PostConstruct} method we initialize our list with some example data values.
 
-The JSF page uses a \texttt{h:dataTable} component to visualize the list within a table as displayed below.
+The JSF page uses an \texttt{h:dataTable} component to visualize the list within a table as shown below.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/datatable.xhtml}
 The variable \texttt{item} is used to iterate over the different items within our list of items.
-Via the \texttt{f:facet} elements we can define various facets of JSF components.
+Via \texttt{f:facet} elements we can define various facets of JSF components.
 Here the \texttt{h:column} component will interpret the facet named "\texttt{header}" as column header within the rendered data table.
 
 \section{Pass-through JSF}
@@ -278,7 +283,7 @@ Some observations here:
 	How do you tackle this problem? Right, you first investigate on the technology, so you know what you can express/achieve with it.
 	And in a second phase, you tackle the business problem with this technological knowledge in mind.
 	
-	The same strategy applies to web design/behavior versus implementation of web functionality.
+	The same strategy applies to web design/behavior versus implementation of web application functionality.
 	
 	\item Looking at for example the Github issues of different web frameworks,
 	you still see the need for browser specific work-arounds and tweaks.
@@ -288,7 +293,7 @@ Some observations here:
 	\item The argument that JSF components are difficult to tweak/style is true, but not JSF specific.
 	Every component technology, whether it is using server-side rendering or client-side rendering,
 	is subject to this problem.
-	You always have to investigate the renderer (unless there is good documentation of course)
+	You always have to dig into the renderer (unless there is good documentation of course)
 	to see which style classes and/or CSS selectors you can use to fiddle with the look and feel of the component.
 	This is not much more painful for JSF than it is for other "modern" web frameworks out there.
 \end{itemize}
@@ -302,7 +307,7 @@ That way, your development team can keep focus on the implementation of web func
 
 \section{JSF Lifecycle}
 Understanding the JSF page lifecycle is important.
-Actually, understanding the lifecycle of every type of container defined by Java EE is equally important.
+Actually, understanding the lifecycle of every type of container defined by Java EE (or Spring, or Quarkus) is equally important.
 This is the major difference between regular Java and Java EE: lifecycle management of various "things" within some kind of container.
 Java EE defines several types of containers/runtimes:
 \begin{itemize}
@@ -318,7 +323,7 @@ Java EE defines several types of containers/runtimes:
 
 Using the following custom \texttt{PhaseListener}, you can follow the phases of each JSF request.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExamplePhaseListener.java}
-Via the \texttt{getPhaseId} method we indicate that we want to receive a callback during every JSF phase execution.
+Via the \texttt{getPhaseId} method we indicate that we want to receive \texttt{beforePhase} and \texttt{afterPhase} callbacks during every JSF phase execution.
 
 This phase listener should be configured within \texttt{faces-config.xml} as follows:
 \lstinputlisting[language=XML]{../helloworld-ear/taglib/src/main/resources/META-INF/faces-config.xml}
@@ -366,22 +371,22 @@ We give a description of each JSF phase.
 	\item[Process Validations]
 	During this phase, all convertors and validators are executed against the component local values.
 	\item[Update Model Values]
-	During this phase, the CDI backing beans properties are updated with the components local values.
+	During this phase, the CDI backing bean properties are updated with the components local values.
 	\item[Invoke Application]
 	During this phase, all actions are executed.
 	\item[Render Response]
 	During this final phase, the components are rendered.
-	The response state is also saved for subsequent access during the restore view phase.
+	The component state is also saved for subsequent access during the restore view phase.
 \end{description}
 Not every JSF request will walk through all these phases. For example, an initial JSF request will directly jump from \textbf{Restore View} to \textbf{Render Response} as there is no input to process.
 Similarly, when a validator fails during the \textbf{Process Validations} phase, we directly jump to the \textbf{Render Response} phase as we don't want to process invalid input towards our CDI backing beans.
 
 \section{Facelets Templates}
 JSF comes with a template declaration language called facelets.
-This allows us to define, for example, a common template used by all our JSF pages,
+This allows us to define a common template used by all our JSF pages,
 giving us a common look and feel.
 The following example template, located under \texttt{WEB-INF/template.xhtml},
-gives us a common header structure that also shows us global JSF messages right after the page title.
+gives us a common header structure that shows us global JSF messages right after the page title.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/template.xhtml}
 Via the \texttt{ui:insert} tags we define insertion points to be used by our actual JSF pages like shown in the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/facelets.xhtml}

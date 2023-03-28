@@ -13,9 +13,9 @@
                 Result: #{pageController.value}
             </p>
             <h:panelGrid columns="3">
-                <h:outputLabel for="input" value="Input"/>
-                <h:inputText id="input" value="#{pageController.value}"/>
-                <h:message for="input"/>
+                <h:outputLabel for="@next" value="Input"/>
+                <h:inputText value="#{pageController.value}" required="true"/>
+                <h:message for="@previous"/>
             </h:panelGrid>
             <h:commandButton value="click me" action="#{pageController.action()}">
                 <f:ajax execute="@form" render="@form messages"/>

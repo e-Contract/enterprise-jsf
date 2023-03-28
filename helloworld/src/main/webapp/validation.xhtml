@@ -11,11 +11,12 @@
             <p>
                 Result: #{inputOutputController.value}
             </p>
-            <h:inputText id="input" value="#{inputOutputController.value}"
+            <h:outputLabel for="@next" value="Input"/>
+            <h:inputText value="#{inputOutputController.value}"
                          required="true">
                 <f:validateLength minimum="4"/>
             </h:inputText>
-            <h:message for="input"/>
+            <h:message for="@previous"/>
             <h:commandButton value="click me">
                 <f:ajax execute="@form" render="@form"/>
             </h:commandButton>
