@@ -19,14 +19,14 @@ public class AutoSubmitClientBehavior extends ClientBehaviorBase {
         return AutoSubmitClientBehaviorRenderer.RENDERER_TYPE;
     }
 
-    private int onLength;
+    private int whenLength;
 
-    public int getOnLength() {
-        return this.onLength;
+    public int getWhenLength() {
+        return this.whenLength;
     }
 
-    public void setOnLength(int onLength) {
-        this.onLength = onLength;
+    public void setWhenLength(int whenLength) {
+        this.whenLength = whenLength;
     }
 
     private String target;

@@ -27,16 +27,16 @@ public class AutoSubmitClientBehaviorRenderer extends ClientBehaviorRenderer {
     @Override
     public String getScript(ClientBehaviorContext behaviorContext, ClientBehavior clientBehavior) {
         AutoSubmitClientBehavior autoSubmitClientBehavior = (AutoSubmitClientBehavior) clientBehavior;
-        int onLength = autoSubmitClientBehavior.getOnLength();
+        int whenLength = autoSubmitClientBehavior.getWhenLength();
         String target = autoSubmitClientBehavior.getTarget();
         if (null != target) {
             FacesContext facesContext = behaviorContext.getFacesContext();
             UIComponent source = behaviorContext.getComponent();
             UIComponent targetComponent = SearchExpressionFacade.resolveComponent(facesContext, source, target);
             String targetClientId = targetComponent.getClientId();
-            return "ejsf.autoSubmitOnLength(event, " + onLength + ",'" + targetClientId + "')";
+            return "ejsf.autoSubmit(event, " + whenLength + ",'" + targetClientId + "')";
         } else {
-            return "ejsf.autoSubmitOnLength(event, " + onLength + ")";
+            return "ejsf.autoSubmit(event, " + whenLength + ")";
         }
 
     }

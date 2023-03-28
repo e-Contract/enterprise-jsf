@@ -36,8 +36,8 @@ public class AutoSubmitTagHandler extends TagHandler {
         if (!(parent instanceof UIInput)) {
             throw new TagException(this.tag, "parent must be UIInput.");
         }
-        TagAttribute onLengthTagAttribute = getRequiredAttribute("onLength");
-        int onLength = onLengthTagAttribute.getInt(faceletContext);
+        TagAttribute whenLengthTagAttribute = getRequiredAttribute("whenLength");
+        int whenLength = whenLengthTagAttribute.getInt(faceletContext);
 
         String target;
         TagAttribute targetTagAttribute = getAttribute("target");
@@ -52,7 +52,7 @@ public class AutoSubmitTagHandler extends TagHandler {
         Application application = facesContext.getApplication();
         AutoSubmitClientBehavior autoSubmitClientBehavior
                 = (AutoSubmitClientBehavior) application.createBehavior(AutoSubmitClientBehavior.BEHAVIOR_ID);
-        autoSubmitClientBehavior.setOnLength(onLength);
+        autoSubmitClientBehavior.setWhenLength(whenLength);
         autoSubmitClientBehavior.setTarget(target);
         clientBehaviorHolder.addClientBehavior("input", autoSubmitClientBehavior);
     }

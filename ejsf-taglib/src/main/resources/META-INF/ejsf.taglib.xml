@@ -1239,7 +1239,7 @@
         </behavior>
         <attribute>
             <description>Automatically submit when length of input has been reached.</description>
-            <name>onLength</name>
+            <name>whenLength</name>
             <required>true</required>
             <type>java.lang.Integer</type>
         </attribute>

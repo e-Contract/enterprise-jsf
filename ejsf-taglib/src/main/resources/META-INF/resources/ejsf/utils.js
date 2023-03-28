@@ -105,8 +105,8 @@ var ejsf = ejsf || {};
         }
     };
 
-    ejsf.autoSubmitOnLength = function (event, onLength, targetClientId) {
-        if (event.target.value.length === onLength) {
+    ejsf.autoSubmit = function (event, whenLength, targetClientId) {
+        if (event.target.value.length === whenLength) {
             if (targetClientId) {
                 let targetWidget = $(PrimeFaces.escapeClientId(targetClientId));
                 targetWidget.trigger(PrimeFaces.csp.clickEvent());

@@ -12,7 +12,7 @@
                 <p:outputLabel for="otp" value="OTP:"/>
                 <p:inputText id="otp" value="#{inputOutputController.value}" size="6">
                     <ejsf:otpValidator/>
-                    <ejsf:autoSubmit onLength="6" target="submit"/>
+                    <ejsf:autoSubmit whenLength="6" target="submit"/>
                 </p:inputText>
                 <p:message for="otp"/>
             </h:panelGrid>
