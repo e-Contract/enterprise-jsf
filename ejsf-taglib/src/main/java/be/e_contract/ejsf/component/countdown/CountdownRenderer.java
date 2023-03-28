@@ -73,6 +73,8 @@ public class CountdownRenderer extends CoreRenderer {
         ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
         widgetBuilder.attr("daysAnd", resourceBundle.getString("daysAnd"));
         widgetBuilder.attr("dayAnd", resourceBundle.getString("dayAnd"));
+        boolean useHeartbeatTimer = countdownComponent.isUseHeartbeatTimer();
+        widgetBuilder.attr("useHeartbeatTimer", useHeartbeatTimer);
         widgetBuilder.finish();
     }
 }

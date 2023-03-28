@@ -1262,6 +1262,11 @@
             <name>widgetVar</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Set to true to use a global heartbeat timer. Defaults to false.</description>
+            <name>useHeartbeatTimer</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>

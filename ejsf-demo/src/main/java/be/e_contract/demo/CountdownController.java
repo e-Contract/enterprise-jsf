@@ -30,6 +30,16 @@ public class CountdownController implements Serializable {
         this.countdowns = countdowns;
     }
 
+    private boolean useHeartbeatTimer;
+
+    public boolean isUseHeartbeatTimer() {
+        return this.useHeartbeatTimer;
+    }
+
+    public void setUseHeartbeatTimer(boolean useHeartbeatTimer) {
+        this.useHeartbeatTimer = useHeartbeatTimer;
+    }
+
     public Integer[] getCountdownIndexes() {
         Integer[] countdownIndexes = new Integer[this.countdowns];
         for (int idx = 0; idx < this.countdowns; idx++) {

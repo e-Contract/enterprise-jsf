@@ -13,6 +13,10 @@
                 <p:outputLabel for="@next" value="Number of countdowns:"/>
                 <p:inputText value="#{countdownCountroller.countdowns}" required="true"/>
                 <p:message for="@previous"/>
+
+                <p:outputLabel for="@next" value="Use heartbeat timer:"/>
+                <p:toggleSwitch value="#{countdownCountroller.useHeartbeatTimer}"/>
+                <p:message for="@previous"/>
             </h:panelGrid>
             <p:commandButton value="Update" update="@form"/>
             <p:button value="Start All"
@@ -20,7 +24,8 @@
             <p:button value="Stop All"
                       onclick="PrimeFaces.widget.EJSFCountdown.stopAll(); return false;"/>
             <ui:repeat value="#{countdownCountroller.countdownIndexes}" var="index">
-                <ejsf:countdown widgetVar="countdown#{index}"/>
+                <ejsf:countdown widgetVar="countdown#{index}"
+                                useHeartbeatTimer="#{countdownCountroller.useHeartbeatTimer}"/>
                 <p:button value="Start"
                           onclick="PF('countdown#{index}').setTime(#{1000 * 60}); return false;"/>
                 <p:button value="Stop"

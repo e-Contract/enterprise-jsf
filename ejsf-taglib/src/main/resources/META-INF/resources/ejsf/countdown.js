@@ -13,6 +13,16 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
         this.clock = this.jq.find(this.jqId + "\\:clock");
         this.clockText = this.jq.find(this.jqId + "\\:clock-text");
         this.counter = this.jq.find(this.jqId + "\\:counter");
+
+        this.expires = 0;
+
+        let $this = this;
+        this.intersectionObserver = new IntersectionObserver(function () {
+            $this.updateCountdown();
+        }, {
+            threshold: 1.0
+        });
+        this.intersectionObserver.observe(this.jq.get(0));
     },
 
     setTime: function (timeInMilliseconds) {
@@ -25,9 +35,11 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
                 window.clearInterval(this.timer);
             }
             let $this = this;
-            this.timer = window.setInterval(function () {
-                $this.onTimer();
-            }, 1000);
+            if (!this.cfg.useHeartbeatTimer) {
+                this.timer = window.setInterval(function () {
+                    $this.onTimer();
+                }, 1000);
+            }
         } else {
             this.notified = 0;
             this.expires = 0;
@@ -50,6 +62,15 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
                 window.clearInterval(this.timer);
                 this.timer = null;
             }
+            this.updateCountdown();
+            return;
+        }
+        let position = this.progressBarWidget.jq.get(0).getBoundingClientRect();
+        if (position.bottom < 0) {
+            return;
+        }
+        if (position.top > window.innerHeight) {
+            return;
         }
         this.updateCountdown();
     },
@@ -102,6 +123,12 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
             this.timer = null;
         }
         this._super(cfg);
+    },
+
+    heartbeat: function () {
+        if (this.cfg.useHeartbeatTimer) {
+            this.onTimer();
+        }
     }
 });
 
@@ -112,3 +139,15 @@ PrimeFaces.widget.EJSFCountdown.stopAll = function () {
             }
     );
 };
+
+PrimeFaces.widget.EJSFCountdown.heartbeat = function () {
+    PrimeFaces.getWidgetsByType(PrimeFaces.widget.EJSFCountdown).forEach(
+            function (countdown) {
+                countdown.heartbeat();
+            }
+    );
+};
+
+window.setInterval(function () {
+    PrimeFaces.widget.EJSFCountdown.heartbeat();
+}, 1000);
