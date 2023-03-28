@@ -30,6 +30,9 @@
                           onclick="PF('countdown').setTime(0); return false;"/>
             </h:panelGrid>
         </div>
+        <h:form>
+            <p:commandLink action="countdown-performance?faces-redirect=true" ajax="false" value="Performance Test"/>
+        </h:form>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

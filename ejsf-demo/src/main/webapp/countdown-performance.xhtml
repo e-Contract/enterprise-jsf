@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Countdown Performance Test</ui:define>
+    <ui:define name="body">
+        <h:outputScript library="demo" name="countdown-performance.js"/>
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="@next" value="Number of countdowns:"/>
+                <p:inputText value="#{countdownCountroller.countdowns}" required="true"/>
+                <p:message for="@previous"/>
+            </h:panelGrid>
+            <p:commandButton value="Update" update="@form"/>
+            <p:button value="Start All"
+                      onclick="countdownStartAll(#{1000 * 60}); return false;"/>
+            <p:button value="Stop All"
+                      onclick="PrimeFaces.widget.EJSFCountdown.stopAll(); return false;"/>
+            <ui:repeat value="#{countdownCountroller.countdownIndexes}" var="index">
+                <ejsf:countdown widgetVar="countdown#{index}"/>
+                <p:button value="Start"
+                          onclick="PF('countdown#{index}').setTime(#{1000 * 60}); return false;"/>
+                <p:button value="Stop"
+                          onclick="PF('countdown#{index}').setTime(0); return false;"/>
+            </ui:repeat>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

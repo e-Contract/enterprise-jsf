@@ -37,7 +37,7 @@ public class CountdownRenderer extends CoreRenderer {
 
         {
             writer.startElement("div", component);
-            writer.writeAttribute("class", "ejsf-countdown-indicator", null);
+            writer.writeAttribute("class", "indicator", null);
             {
                 writer.startElement("div", component);
                 writer.writeAttribute("id", component.getClientId() + ":clock", null);

@@ -104,3 +104,11 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
         this._super(cfg);
     }
 });
+
+PrimeFaces.widget.EJSFCountdown.stopAll = function () {
+    PrimeFaces.getWidgetsByType(PrimeFaces.widget.EJSFCountdown).forEach(
+            function (countdown) {
+                countdown.setTime(0);
+            }
+    );
+};
