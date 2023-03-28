@@ -1250,4 +1250,18 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Countdown component.</description>
+        <tag-name>countdown</tag-name>
+        <component>
+            <component-type>ejsf.countdownComponent</component-type>
+            <renderer-type>ejsf.countdownRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

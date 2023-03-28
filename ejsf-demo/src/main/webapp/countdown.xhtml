@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Countdown Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            <ejsf:countdown widgetVar="countdown"/>
+            <h:panelGrid columns="1">
+                <p:button value="Start 15 seconds countdown"
+                          onclick="PF('countdown').setTime(#{1000 * 15}); return false;"/>
+                <p:button value="Start 1 minute countdown"
+                          onclick="PF('countdown').setTime(#{1000 * 60}); return false;"/>
+                <p:button value="Start 1 minute and 10 seconds countdown"
+                          onclick="PF('countdown').setTime(#{1000 * 60 + 1000 * 10}); return false;"/>
+                <p:button value="Start 2 minute countdown"
+                          onclick="PF('countdown').setTime(#{1000 * 60 * 2}); return false;"/>
+                <p:button value="Start 1 day countdown"
+                          onclick="PF('countdown').setTime(#{1000 * 60 * 60 * 24}); return false;"/>
+                <p:button value="Start 1 day and 10 seconds countdown"
+                          onclick="PF('countdown').setTime(#{1000 * 60 * 60 * 24 + 1000 * 10}); return false;"/>
+                <p:button value="Start 2 days countdown"
+                          onclick="PF('countdown').setTime(#{1000 * 60 * 60 * 24 * 2}); return false;"/>
+                <p:button value="Start 3 days countdown"
+                          onclick="PF('countdown').setTime(#{1000 * 60 * 60 * 24 * 3}); return false;"/>
+                <p:button value="Stop countdown"
+                          onclick="PF('countdown').setTime(0); return false;"/>
+            </h:panelGrid>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="countdown"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

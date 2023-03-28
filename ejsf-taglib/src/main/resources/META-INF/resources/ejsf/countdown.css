@@ -1,0 +1,31 @@
+/*
+ * Enterprise JSF project.
+ *
+ * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+ */
+
+.ejsf-countdown-indicator {
+    float: right;
+    margin-top: 5px;
+}
+
+.ejsf-countdown-indicator .counter {
+    font-size: xx-large;
+}
+
+.ejsf-countdown-indicator .clock-text {
+    margin-left: 5px;
+}
+
+.ejsf-countdown .progress-normal {
+    background: greenyellow !important;
+}
+
+.ejsf-countdown .progress-1-minute {
+    background: orange !important;
+}
+
+.ejsf-countdown .progress-10-seconds {
+    background: red !important;
+}
