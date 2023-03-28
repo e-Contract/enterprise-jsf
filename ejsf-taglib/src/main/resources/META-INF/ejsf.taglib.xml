@@ -953,8 +953,8 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>The optional space between each byte hex value.</description>
-            <name>space</name>
+            <description>The optional spacing between each byte hex value.</description>
+            <name>spacing</name>
             <type>java.lang.Boolean</type>
         </attribute>
     </tag>
