@@ -16,13 +16,7 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
 
         this.expires = 0;
 
-        let $this = this;
-        this.intersectionObserver = new IntersectionObserver(function () {
-            $this.updateCountdown();
-        }, {
-            threshold: 1.0
-        });
-        this.intersectionObserver.observe(this.jq.get(0));
+        PrimeFaces.widget.EJSFCountdown.registerCountdown(this);
     },
 
     setTime: function (timeInMilliseconds) {
@@ -33,9 +27,10 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
             this.updateCountdown();
             if (this.timer) {
                 window.clearInterval(this.timer);
+                this.timer = null;
             }
-            let $this = this;
             if (!this.cfg.useHeartbeatTimer) {
+                let $this = this;
                 this.timer = window.setInterval(function () {
                     $this.onTimer();
                 }, 1000);
@@ -122,6 +117,7 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
             window.clearInterval(this.timer);
             this.timer = null;
         }
+        PrimeFaces.widget.EJSFCountdown.unregisterCountdown(this);
         this._super(cfg);
     },
 
@@ -140,14 +136,29 @@ PrimeFaces.widget.EJSFCountdown.stopAll = function () {
     );
 };
 
-PrimeFaces.widget.EJSFCountdown.heartbeat = function () {
+window.setInterval(function () {
     PrimeFaces.getWidgetsByType(PrimeFaces.widget.EJSFCountdown).forEach(
             function (countdown) {
                 countdown.heartbeat();
             }
     );
+}, 1000);
+
+PrimeFaces.widget.EJSFCountdown.intersectionObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(
+            function (entry) {
+                let countdownWidget = PrimeFaces.getWidgetById(entry.target.id);
+                if (null !== countdownWidget) {
+                    countdownWidget.updateCountdown();
+                }
+            }
+    );
+});
+
+PrimeFaces.widget.EJSFCountdown.registerCountdown = function (countdown) {
+    PrimeFaces.widget.EJSFCountdown.intersectionObserver.observe(countdown.jq.get(0));
 };
 
-window.setInterval(function () {
-    PrimeFaces.widget.EJSFCountdown.heartbeat();
-}, 1000);
+PrimeFaces.widget.EJSFCountdown.unregisterCountdown = function (countdown) {
+    PrimeFaces.widget.EJSFCountdown.intersectionObserver.unobserve(countdown.jq.get(0));
+};
