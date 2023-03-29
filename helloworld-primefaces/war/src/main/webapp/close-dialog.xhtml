@@ -10,14 +10,14 @@
         <h1>Close Dialog Example</h1>
         <h:form>
             <p:commandButton value="Open Dialog"
-                             oncomplete="PF('demoDialog').show()"/>
+                             onclick="PF('demoDialog').show(); return false;"/>
             <p:button value="Back" outcome="index"/>
         </h:form>
     </h:body>
 
-    <p:dialog id="demoDialog" widgetVar="demoDialog" header="Demo Dialog">
+    <p:dialog widgetVar="demoDialog" header="Demo Dialog">
+        This is a demo.
         <h:form>
-            This is a demo.
             <p:commandButton value="Dismiss">
                 <ejsf:closeDialog/>
             </p:commandButton>

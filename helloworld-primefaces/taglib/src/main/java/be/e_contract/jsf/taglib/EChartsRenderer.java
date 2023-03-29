@@ -25,14 +25,8 @@ public class EChartsRenderer extends CoreRenderer {
 
         responseWriter.startElement("div", eChartsComponent);
         responseWriter.writeAttribute("id", clientId, "id");
-        Integer width = eChartsComponent.getWidth();
-        if (null == width) {
-            width = 600;
-        }
-        Integer height = eChartsComponent.getHeight();
-        if (null == height) {
-            height = 400;
-        }
+        int width = eChartsComponent.getWidth();
+        int height = eChartsComponent.getHeight();
         String style = "width: " + width + "px; height: " + height + "px;";
         responseWriter.writeAttribute("style", style, null);
         responseWriter.endElement("div");

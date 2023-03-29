@@ -44,19 +44,19 @@ public class EChartsComponent extends UIOutput implements Widget {
         getStateHelper().put(PropertyKeys.widgetVar, widgetVar);
     }
 
-    public Integer getWidth() {
-        return (Integer) getStateHelper().eval(PropertyKeys.width, null);
+    public int getWidth() {
+        return (int) getStateHelper().eval(PropertyKeys.width, 600);
     }
 
-    public void setWidth(Integer width) {
+    public void setWidth(int width) {
         getStateHelper().put(PropertyKeys.width, width);
     }
 
-    public Integer getHeight() {
-        return (Integer) getStateHelper().eval(PropertyKeys.height, null);
+    public int getHeight() {
+        return (int) getStateHelper().eval(PropertyKeys.height, 800);
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(int height) {
         getStateHelper().put(PropertyKeys.height, height);
     }
 }

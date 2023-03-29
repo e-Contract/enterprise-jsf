@@ -24,7 +24,7 @@ public class ExampleRenderer extends CoreRenderer {
         responseWriter.startElement("span", exampleComponent);
         responseWriter.writeAttribute("id", clientId, "id");
         if (initialValue != null) {
-            responseWriter.write(initialValue);
+            responseWriter.writeText(initialValue, "value");
         }
         responseWriter.endElement("span");
 

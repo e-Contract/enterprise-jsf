@@ -10,13 +10,15 @@
         <h1>Input Validation</h1>
         <h:form>
             <p>
-                Result: #{inputOutputController.value}
+                <h:outputText value="Result: #{inputOutputController.value}"
+                              rendered="#{not empty inputOutputController.value}"/>
             </p>
-            <p:inputText id="input" value="#{inputOutputController.value}"
+            <p:outputLabel for="@next" value="Input"/>
+            <p:inputText value="#{inputOutputController.value}"
                          required="true">
                 <f:validateLength minimum="4"/>
             </p:inputText>
-            <p:message for="input"/>
+            <p:message for="@previous"/>
             <p:commandButton value="click me" update="@form"/>
         </h:form>
         <h:form>

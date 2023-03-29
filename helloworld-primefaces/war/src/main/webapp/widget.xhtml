@@ -10,19 +10,19 @@
         <h1>Example Widget</h1>
         <h:form>
             <p>
-                <ejsf:exampleComponent id="output"
-                                       widgetVar="outputWidget"
+                <ejsf:exampleComponent widgetVar="outputWidget"
                                        value="#{inputOutputController.value}"/>
             </p>
-            <p:inputText id="input" value="#{inputOutputController.value}"
+            <p:outputLabel for="@next" value="Input"/>
+            <p:inputText value="#{inputOutputController.value}"
                          required="true"/>
-            <p:message for="input"/>
+            <p:message for="@previous"/>
             <p:commandButton value="click me">
                 <p:ajax update="@form" process="@form"/>
             </p:commandButton>
-            <p:commandButton value="Client-side action"
-                             onclick="PF('outputWidget').setValue('hello')"/>
         </h:form>
+        <p:button value="Client-side action"
+                  onclick="PF('outputWidget').setValue('hello'); return false;"/>
         <h:form>
             <p:button value="Back" outcome="index"/>
         </h:form>
