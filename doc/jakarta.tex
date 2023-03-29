@@ -5,10 +5,14 @@
 
 \chapter{Jakarta EE 10}
 
-Jakarta EE 10 comes with a renaming of the \texttt{javax} package towards \texttt{jakarta}.
-We also have similar renaming of the different namespaces.
+In 2017 Oracle handed over Java EE to the Eclipse Foundation.
+Since Oracle wanted to protect the Java trademark, we had a renaming towards Jakarta EE.
+The name refers to the largest city of the island of Java.
 
-For example, our CDI controller now looks as follows:
+Jakarta EE 10 comes with a renaming of the \texttt{javax} package towards \texttt{jakarta}.
+We also have similar renaming of the different XML namespaces.
+
+As an example, our CDI controller targeting Jakarta EE 10 looks as follows:
 \lstinputlisting[language=Java]{../helloworld-ee10/war-ee10/src/main/java/be/e_contract/jsf/helloworld/InputOutputController.java}
 The \texttt{jakarta} namespace prefix for the Java EE packages is the only change here.
 
@@ -26,7 +30,7 @@ And the JSF descriptor becomes:
 \lstinputlisting[language=XML]{../helloworld-ee10/war-ee10/src/main/webapp/WEB-INF/faces-config.xml}
 
 Jakarta EE 10 is supported by WildFly version 27 and higher.
-This requires Java 11 as JVM.
+This application server requires Java 11 as runtime.
 
 While converting from Java EE 8 towards Jakarta EE 10 is not a big deal for a single project, things are different for (company-wide) JSF component libraries.
 Since you will probably not be able to transition all your Java EE 8 projects at the same time, you need JSF component libraries that can support Java EE 8 in parallel with Jakarta EE 10.
@@ -35,6 +39,7 @@ Luckily this can easily be achieved using the \texttt{maven-shade-plugin} Maven 
 \lstinputlisting[language=XML]{../helloworld-ee10/taglib/pom.xml}
 Hence we keep producing a Java EE 8 JSF component library, and via the \texttt{maven-shade-plugin} Maven plugin we create a Jakarta EE 10 flavored version as well.
 Notice the usage of the \texttt{jakarta} artifact classifier here.
-Hence within our WAR POM we refer to the Jakarta EE 10 version of our JSF component library as follows:
+
+Within our WAR POM we refer to the Jakarta EE 10 version of our JSF component library as follows:
 \lstinputlisting[language=XML]{../helloworld-ee10/war-ee10/pom.xml}
 Via the \texttt{jakarta} \texttt{classifier} we include the Jakarta EE 10 flavor of our JSF component library.

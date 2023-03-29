@@ -10,12 +10,12 @@
         <h1>Custom Output Component</h1>
         <h:form>
             <p>
-                <ejsf:exampleOutput id="output"
-                                    value="#{inputOutputController.value}"/>
+                <ejsf:exampleOutput value="#{inputOutputController.value}"/>
             </p>
-            <h:inputText id="input" value="#{inputOutputController.value}"/>
+            <h:outputLabel for="@next" value="Input"/>
+            <h:inputText value="#{inputOutputController.value}"/>
             <h:commandButton value="click me">
-                <f:ajax execute="@form" render="output"/>
+                <f:ajax execute="@form" render="@form"/>
             </h:commandButton>
         </h:form>
     </h:body>
