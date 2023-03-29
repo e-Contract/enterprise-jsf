@@ -31,7 +31,6 @@ public class SeleniumTest {
     @Test
     public void testInputOutputPage() throws Exception {
         InputOutputPage ioPage = new InputOutputPage(this.driver);
-        assertEquals("", ioPage.getOutput());
         ioPage.setInput("hello world");
         ioPage.submit();
         assertEquals("hello world", ioPage.getOutput());

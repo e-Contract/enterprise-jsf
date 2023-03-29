@@ -41,8 +41,8 @@ Compile and run the application via:
 	cd spring
 	mvn clean spring-boot:run
 \end{lstlisting}
-The application should now be available at:
-https://localhost:8080/test
+The application is available at:
+\url{https://localhost:8080/test}
 
 
 
@@ -62,30 +62,31 @@ Besides the obvious advantages, which you can find all over the internet, there 
 	The application server vendor had this fight for you.
 	\item Quarkus is still very young compared to the established Java EE application servers.
 	Hence keeping your application up to date with the latest version of Quarkus might eat away some of your time.
-	\item A classical application server has a stronger focus on production stability versus adding new features all the time to keep up the fight with Spring Boot \cite{spring}.
+	\item A classical application server has a stronger focus on production stability and security versus adding new features all the time to keep up the fight with Spring Boot \cite{spring}.
 \end{itemize}
 
 The Maven project file for our example Quarkus application looks as follows.
 \lstinputlisting[language=XML]{../quarkus/pom.xml}
-We simplified our POM file compared to what Quarkus normally generates for you.
+We simplified the POM file compared to what Quarkus normally generates for you.
 This was done to more easily highlight to required configuration aspects.
 Basically all the heavy lifting to build the Quarkus based runtime is handled by the \texttt{quarkus-maven-plugin} Maven plugin.
-We use the \texttt{myfaces-quarkus} Quarkus extension to provide us with a JSF runtime based on MyFaces.
+We use the \texttt{myfaces-quarkus} Quarkus extension to provide us with a JSF runtime based on Apache MyFaces.
 
 
-Via \texttt{src/main/resources/application.properties}  the Quarkus application configuration file we can configure different aspects of the runtime.
+Via the \texttt{src/main/resources/application.properties}  Quarkus application configuration file we can configure different aspects of the runtime. For example:
 \lstinputlisting{../quarkus/src/main/resources/application.properties}
 
-Web deployment descriptor \texttt{src/main/resources/META-INF/web.xml}:
+The web deployment descriptor \texttt{src/main/resources/META-INF/web.xml} looks as follows:
 \lstinputlisting[language=XML]{../quarkus/src/main/resources/META-INF/web.xml}
 As you can see, we no longer have to configure the JSF servlet ourselves.
 This has been taken care of by the \texttt{myfaces-quarkus} extension.
 
-Index page \texttt{src/main/resources/META-INF/resources/index.xhtml}:
+Our example index page \texttt{src/main/resources/META-INF/resources/index.xhtml} looks as follows:
 \lstinputlisting[language=XML]{../quarkus/src/main/resources/META-INF/resources/index.xhtml}
 
 Our \texttt{HelloController.java} CDI based controller:
 \lstinputlisting[language=Java]{../quarkus/src/main/java/be/e_contract/ejsf/quarkus/HelloController.java}
+As you can see, the classical Java EE API's can be used directly within Quarkus, which allows for an easy transition to this new runtime.
 
 \begin{TIP}{Java Runtime}
 	Quarkus requires at least Java version 11 as runtime.

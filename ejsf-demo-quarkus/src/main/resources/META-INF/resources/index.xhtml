@@ -15,11 +15,11 @@
         <p:messages globalOnly="true" id="messages"/>
         <h:form>
             <h:panelGrid columns="3">
-                <p:outputLabel for="url" value="URL:"/>
-                <p:inputText id="url" value="#{helloController.value}" size="60">
+                <p:outputLabel for="@next" value="URL:"/>
+                <p:inputText value="#{helloController.value}" size="60">
                     <ejsf:urlValidator/>
                 </p:inputText>
-                <p:message for="url"/>
+                <p:message for="@previous"/>
             </h:panelGrid>
             <p>
                 Submitted URL is: #{helloController.value}
@@ -37,24 +37,23 @@
                     #{hello.name}
                 </p:column>
                 <p:column headerText="Actions">
-                    <p:commandButton id="removeButton"
-                                     icon="pi pi-trash"
+                    <p:commandButton icon="pi pi-trash"
                                      action="#{helloController.removeItem(hello)}"
                                      update="helloTable,:messages">
                         <p:confirm header="Remove Item"
                                    message="Are you sure you want to remove #{hello.name}?"
                                    icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
+                    <p:tooltip for="@previous" value="Remove..."/>
                 </p:column>
                 <f:facet name="footer">
-                    <p:commandButton id="addButton"
-                                     icon="pi pi-plus"
+                    <p:commandButton icon="pi pi-plus"
                                      action="#{helloController.initAdd}"
                                      update=":addDialog,:messages">
                         <p:resetInput target=":addDialogForm"/>
                         <ejsf:openDialog dialog="addDialog"/>
                     </p:commandButton>
-                    <p:tooltip value="Add..." for="addButton"/>
+                    <p:tooltip value="Add..." for="@previous"/>
                 </f:facet>
             </p:dataTable>
         </h:form>
@@ -62,11 +61,11 @@
         <p:dialog widgetVar="addDialog" header="Add" id="addDialog">
             <h:form id="addDialogForm">
                 <h:panelGrid columns="3">
-                    <p:outputLabel for="name" value="Name:"/>
+                    <p:outputLabel for="@next" value="Name:"/>
                     <p:inputText id="name"
                                  value="#{helloController.newHello.name}"
                                  required="true"/>
-                    <p:message for="name"/>
+                    <p:message for="@previous"/>
                 </h:panelGrid>
                 <h:panelGrid columns="2">
                     <p:commandButton value="Add"
@@ -82,7 +81,7 @@
         </p:dialog>
 
         <p:confirmDialog global="true">
-            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"/>
             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
         </p:confirmDialog>
     </h:body>

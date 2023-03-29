@@ -4,14 +4,14 @@
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Testing JSF Components}
-Within this chapter we investigate different strategies for testing out custom developed JSF components.
+Within this chapter we investigate different strategies for testing custom developed JSF components.
 
 \section{Unit Testing}
 Simple components like validators or converters, that don't really depend on the behavior of the JSF runtime, can be unit tested like we are used to do with regular POJOs.
 
 As example, we demonstrate the unit testing of the validator from Section \ref{sec:validator} \nameref{sec:validator} on page \pageref{sec:validator}.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleValidatorTest.java}
-We are using JUnit \cite{junit5} as testing framework here.
+We are using JUnit \cite{junit5} as testing framework.
 
 
 \section{Selenium}
@@ -21,11 +21,12 @@ Hence your JSF component really needs to be testing within an actual JSF enabled
 Using Selenium \cite{selenium} one can easily test web applications, and hence JSF components.
 Let us test out the functionality of the following JSF page.
 \lstinputlisting[language=XML]{../testing/war/src/main/webapp/input-output.xhtml}
-We gave every JSF component that we want to access from within our test an \texttt{id} attribute.
+We gave every JSF component that we want to access from within our test an explicit \texttt{id} attribute.
 
-We represent this JSF page by the following test class.
+In our test, we represent this JSF page by the following test class.
 \lstinputlisting[language=Java]{../testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/InputOutputPage.java}
 We locate the web elements using \texttt{By.id}.
+On the located \texttt{WebElement} object, you can perform various operations, like \texttt{click} or \texttt{getText}.
 
 Our basic integration test using Selenium looks as follows.
 \lstinputlisting[language=Java]{../testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/SeleniumTest.java}
@@ -34,9 +35,13 @@ Within the actual test we simply set some input value, perform a submit, and ver
 
 Since this Selenium based integration test assumes that the application has been deployed on a local running application server, we need some special constructs within our Maven POM file.
 \lstinputlisting[language=XML]{../testing/tests/pom.xml}
-Per default, we disable the executing of the tests by setting \texttt{skipTests} to \texttt{true}.
+Per default, we disable the executing of the integration tests by setting \texttt{skipTests} to \texttt{true}.
 Only upon explicit activation of our \texttt{integration-tests} Maven profile,
 the Selenium integration tests will run as part of a Maven build.
+On the command line, you can activate this Maven profile as follows:
+\begin{lstlisting}[language=bash]
+	mvn clean test -Pintegration-tests
+\end{lstlisting}
 
 \subsection{PrimeFaces Selenium}
 \begin{TODO}{TODO}
@@ -50,7 +55,7 @@ Let us start easy here, and test out the following simple servlet.
 
 We can unit test the servlet via an embedded servlet container as shown in the following example.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleServletTest.java}
-Here we run Jetty \cite{jetty} as embedded servlet container.
+We run Jetty \cite{jetty} as embedded servlet container.
 Via Apache HttpClient \cite{httpclient} we test out the behavior of our servlet.
 
 \subsection{CDI}
@@ -70,9 +75,9 @@ Just before starting the Jetty servlet container, we configure Weld so it can ge
 
 \subsection{JSF}
 
-Next step is to enable a JSF runtime within our embedded servlet container.
+The next step is to enable a JSF runtime within our embedded servlet container.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleJSFServletTest.java}
-We are using Mojarra here as JSF implementation.
+We are using Mojarra as JSF implementation.
 
 \section{Jetty and Selenium}
 Since we need to have the web browser for correct interpretation of possible Javascript, the final step is to combine our Jetty JSF runtime with Selenium.
