@@ -29,7 +29,7 @@ public class PanelGridComponent extends UIComponentBase {
     }
 
     public int getColumns() {
-        return (int) getStateHelper().eval(PropertyKeys.columns, null);
+        return (int) getStateHelper().eval(PropertyKeys.columns, 1);
     }
 
     public void setColumns(int columns) {

@@ -10,13 +10,13 @@
         <h1>Custom Input Component</h1>
         <h:form>
             <p>
-                <ejsf:exampleOutput id="output"
-                                    value="#{inputOutputController.value}"/>
+                <ejsf:exampleOutput value="#{inputOutputController.value}"/>
             </p>
-            <ejsf:exampleInput id="input" value="#{inputOutputController.value}">
+            <h:outputLabel for="@next" value="Input"/>
+            <ejsf:exampleInput value="#{inputOutputController.value}">
                 <ejsf:parameterValidator parameter="foobar"/>
             </ejsf:exampleInput>
-            <h:message for="input"/>
+            <h:message for="@previous"/>
             <h:commandButton value="click me">
                 <f:ajax execute="@form" render="@form"/>
             </h:commandButton>

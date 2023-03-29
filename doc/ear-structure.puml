@@ -16,6 +16,7 @@
                         +++++ ejsf.taglib.xml
                         +++++ beans.xml
                         +++++ faces-config.xml
+                        +++++ web-fragment.xml
                         +++++ resources
                             ++++++ ...
                     ++++ java

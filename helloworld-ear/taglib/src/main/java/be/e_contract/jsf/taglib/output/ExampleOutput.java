@@ -29,7 +29,9 @@ public class ExampleOutput extends UIOutput {
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
-        responseWriter.write("hello: " + value);
+        if (null != value) {
+            responseWriter.writeText("hello: " + value, "value");
+        }
         responseWriter.endElement("span");
     }
 }

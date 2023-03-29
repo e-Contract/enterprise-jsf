@@ -10,11 +10,11 @@
         <h1>Custom Client Behavior</h1>
         <h:form>
             <p>
-                <h:outputText id="output"
-                              value="#{inputOutputController.value}"/>
+                <h:outputText value="#{inputOutputController.value}"/>
             </p>
-            <h:inputText id="input" value="#{inputOutputController.value}"/>
-            <h:message for="input"/>
+            <h:outputLabel for="@next" value="Input"/>
+            <h:inputText value="#{inputOutputController.value}"/>
+            <h:message for="@previous"/>
             <h:commandButton value="click me">
                 <f:ajax execute="@form" render="@form"/>
                 <ejsf:exampleClientBehavior/>

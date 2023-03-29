@@ -31,6 +31,10 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    public ExampleAjaxEventComponent() {
+        setRendererType(null);
+    }
+
     @Override
     public String getFamily() {
         return COMPONENT_FAMILY;
@@ -53,7 +57,7 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
                     + clientId + "',event," + executeParam + "," + renderParam + ")", null);
         }
 
-        responseWriter.write("Click me");
+        responseWriter.writeText("Click me", null);
         responseWriter.endElement("button");
     }
 

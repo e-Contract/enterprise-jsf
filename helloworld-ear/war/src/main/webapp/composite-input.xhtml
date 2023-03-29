@@ -10,12 +10,14 @@
         <h1>Composite Input Component</h1>
         <h:form>
             <p>
-                Period: #{inputPeriodController.period} hours.
+                <h:outputText value="Period: #{inputPeriodController.period} hours."
+                              rendered="#{not empty inputPeriodController.period}"/>
             </p>
-            <ejsf:inputPeriod id="input" value="#{inputPeriodController.period}">
+            <h:outputLabel for="@next" value="Period"/>
+            <ejsf:inputPeriod value="#{inputPeriodController.period}">
                 <f:validateLongRange minimum="2"/>
             </ejsf:inputPeriod>
-            <h:message for="input"/>
+            <h:message for="@previous"/>
             <h:commandButton value="click me">
                 <f:ajax execute="@form" render="@form"/>
             </h:commandButton>

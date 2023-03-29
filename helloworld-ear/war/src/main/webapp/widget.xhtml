@@ -7,17 +7,14 @@
     </h:head>
     <h:body>
         <h1>Widget Component</h1>
-        <h:form>
-            <p>
-                <ejsf:exampleWidget id="output"
-                                    value="initial value"
-                                    widgetVar="example"/>
-            </p>
-            <button type="button"
-                    onclick="EJSF('example').setValue('hello');">
-                Click me
-            </button>
-        </h:form>
+        <p>
+            <ejsf:exampleWidget value="initial value"
+                                widgetVar="example"/>
+        </p>
+        <button type="button"
+                onclick="EJSF('example').setValue('hello');">
+            Click me
+        </button>
         <h:form>
             <h:button value="Back" outcome="index"/>
         </h:form>

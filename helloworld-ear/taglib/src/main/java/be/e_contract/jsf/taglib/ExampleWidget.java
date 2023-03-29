@@ -53,7 +53,7 @@ public class ExampleWidget extends UIOutput {
         if (null != widgetVar) {
             responseWriter.writeAttribute("data-ejsf-widgetVar", widgetVar, null);
         }
-        responseWriter.write(value);
+        responseWriter.writeText(value, "value");
         responseWriter.endElement("span");
     }
 }

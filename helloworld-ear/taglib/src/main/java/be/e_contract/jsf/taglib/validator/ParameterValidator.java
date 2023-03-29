@@ -31,7 +31,7 @@ public class ParameterValidator implements Validator, StateHolder {
         if (this.parameter.equals(value)) {
             FacesMessage facesMessage
                     = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "foobar not allowed", null);
+                            "Not allowed: " + this.parameter, null);
             throw new ValidatorException(facesMessage);
         }
     }

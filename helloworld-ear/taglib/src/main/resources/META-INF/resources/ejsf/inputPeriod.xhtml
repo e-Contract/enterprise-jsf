@@ -7,13 +7,13 @@
         <cc:attribute name="value" type="java.lang.Integer" required="true"/>
     </cc:interface>
     <cc:implementation>
-        <p id="#{cc.clientId}">
+        <span id="#{cc.clientId}">
             <h:inputText id="days" binding="#{cc.days}" size="4"/>
             days and
             <h:selectOneMenu id="hours" binding="#{cc.hours}">
                 <f:selectItems value="#{cc.hoursSelectItems}"/>
             </h:selectOneMenu>
             hours
-        </p>
+        </span>
     </cc:implementation>
 </html>

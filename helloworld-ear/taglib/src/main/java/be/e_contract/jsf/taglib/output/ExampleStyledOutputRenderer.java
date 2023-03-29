@@ -23,7 +23,7 @@ public class ExampleStyledOutputRenderer extends Renderer {
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.writeAttribute("class", "example-styled-output "
                 + "example-styled-output-" + value.name(), null);
-        responseWriter.write(value.toString());
+        responseWriter.writeText(value.toString(), "value");
         responseWriter.endElement("span");
     }
 }

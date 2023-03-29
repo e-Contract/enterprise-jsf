@@ -48,7 +48,7 @@ public class ExampleAjax extends UIComponentBase implements ClientBehaviorHolder
             responseWriter.writeAttribute("onclick", click, null);
         }
 
-        responseWriter.write("Click me");
+        responseWriter.writeText("Click me", null);
         responseWriter.endElement("button");
     }
 

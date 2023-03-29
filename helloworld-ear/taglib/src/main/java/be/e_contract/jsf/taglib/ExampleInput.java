@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.UINamingContainer;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -50,8 +51,9 @@ public class ExampleInput extends UIInput {
 
     @Override
     public void decode(FacesContext context) {
+        ExternalContext externalContext = context.getExternalContext();
         Map<String, String> requestParameterMap
-                = context.getExternalContext().getRequestParameterMap();
+                = externalContext.getRequestParameterMap();
         String clientId = getClientId(context);
         char separatorChar = UINamingContainer.getSeparatorChar(context);
         String submittedValue
