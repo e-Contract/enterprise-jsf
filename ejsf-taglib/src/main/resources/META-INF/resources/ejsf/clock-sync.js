@@ -23,6 +23,8 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
                 $this.keepAlive();
             }, this.cfg.SESSION_KEEP_ALIVE_PING_INTERVAL);
         }
+
+        this.syncListeners = [];
     },
 
     sync: function () {
@@ -42,7 +44,11 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
                         $this.bestRoundTripDelay = roundTripDelay;
                         if (roundTripDelay < $this.cfg.ACCEPTED_ROUND_TRIP_DELAY) {
                             // already good enough
+                            let alreadyInSync = $this.inSync;
                             $this.inSync = true;
+                            if (!alreadyInSync) {
+                                $this.invokeSyncListeners();
+                            }
                         }
                     }
                     $this.syncCount++;
@@ -112,5 +118,28 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
         let xmlHttpRequest = new XMLHttpRequest();
         xmlHttpRequest.open("GET", this.cfg.SYNC_ENDPOINT, true);
         xmlHttpRequest.send();
+    },
+
+    registerSyncListener: function (syncCallback) {
+        this.syncListeners.push(syncCallback);
+        if (this.inSync) {
+            syncCallback();
+        }
+    },
+
+    unregisterSyncListener: function (syncCallback) {
+        this.syncListeners = this.syncListeners.filter(
+                function (item) {
+                    if (item !== syncCallback) {
+                        return item;
+                    }
+                }
+        );
+    },
+
+    invokeSyncListeners: function () {
+        this.syncListeners.forEach(function (syncCallback) {
+            syncCallback();
+        });
     }
 });

@@ -8,11 +8,12 @@
     <ui:define name="title">Clock Sync Demo</ui:define>
     <ui:define name="body">
         <h:form id="example">
-            <ejsf:clockSync clockLocation="clock">
+            <ejsf:clockSync clockLocation="clock" widgetVar="clockSync">
                 <p:ajax listener="#{clockSyncController.clockSynchronized}"
                         update=":messages,:results"/>
             </ejsf:clockSync>
         </h:form>
+        <h:outputScript library="demo" name="clock-sync.js"/>
         <h:panelGrid columns="2" id="results">
             <h:outputText value="Best round trip delay:"/>
             <ejsf:outputText value="#{clockSyncController.bestRoundTripDelay}"
