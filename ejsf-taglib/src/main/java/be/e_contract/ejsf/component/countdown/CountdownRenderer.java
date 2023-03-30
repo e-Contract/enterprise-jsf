@@ -75,6 +75,10 @@ public class CountdownRenderer extends CoreRenderer {
         widgetBuilder.attr("dayAnd", resourceBundle.getString("dayAnd"));
         boolean useHeartbeatTimer = countdownComponent.isUseHeartbeatTimer();
         widgetBuilder.attr("useHeartbeatTimer", useHeartbeatTimer);
+        String clockSyncWidgetVar = countdownComponent.getClockSyncWidgetVar();
+        if (null != clockSyncWidgetVar) {
+            widgetBuilder.attr("clockSyncWidgetVar", clockSyncWidgetVar);
+        }
         widgetBuilder.finish();
     }
 }

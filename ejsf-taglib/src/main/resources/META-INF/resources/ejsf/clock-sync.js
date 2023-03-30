@@ -86,6 +86,7 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
                 console.log("clock drift too high: " + clockDrift);
                 this.inSync = false;
                 this.syncCount = 0;
+                this.bestRoundTripDelay = Number.MAX_SAFE_INTEGER;
             }
         }
     },

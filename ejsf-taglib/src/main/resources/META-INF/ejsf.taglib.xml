@@ -497,12 +497,12 @@
             <type>java.lang.Integer</type>
         </attribute>
         <attribute>
-            <description>The accepted round trip delay in milliseconds for synchronization.</description>
+            <description>The accepted round trip delay in milliseconds for synchronization. Defaults to 1000.</description>
             <name>acceptedRoundTripDelay</name>
             <type>java.lang.Integer</type>
         </attribute>
         <attribute>
-            <description>The maximum clock drift in milliseconds to consider us out-of-sync.</description>
+            <description>The maximum clock drift in milliseconds to consider us out-of-sync. Defaults to 1000.</description>
             <name>maximumClockDrift</name>
             <type>java.lang.Integer</type>
         </attribute>
@@ -1266,6 +1266,11 @@
             <description>Set to true to use a global heartbeat timer. Defaults to false.</description>
             <name>useHeartbeatTimer</name>
             <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <description>The clockSync widget variable used to recalibrate after synchronization.</description>
+            <name>clockSyncWidgetVar</name>
+            <type>java.lang.String</type>
         </attribute>
     </tag>
 

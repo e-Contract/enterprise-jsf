@@ -8,6 +8,7 @@
     <ui:define name="title">Countdown Performance Test</ui:define>
     <ui:define name="body">
         <h:outputScript library="demo" name="countdown-performance.js"/>
+        <ejsf:clockSync clockLocation="clock" widgetVar="clockSync" />
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel for="@next" value="Number of countdowns:"/>
@@ -20,12 +21,13 @@
             </h:panelGrid>
             <p:commandButton value="Update" update="@form"/>
             <p:button value="Start All"
-                      onclick="countdownStartAll(#{1000 * 60}); return false;"/>
+                      onclick="countdownStartAll(); return false;"/>
             <p:button value="Stop All"
                       onclick="PrimeFaces.widget.EJSFCountdown.stopAll(); return false;"/>
             <ui:repeat value="#{countdownCountroller.countdownIndexes}" var="index">
                 <ejsf:countdown widgetVar="countdown#{index}"
-                                useHeartbeatTimer="#{countdownCountroller.useHeartbeatTimer}"/>
+                                useHeartbeatTimer="#{countdownCountroller.useHeartbeatTimer}"
+                                clockSyncWidgetVar="clockSync"/>
                 <p:button value="Start"
                           onclick="PF('countdown#{index}').setTime(#{1000 * 60}); return false;"/>
                 <p:button value="Stop"

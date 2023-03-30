@@ -44,6 +44,7 @@ public class CountdownComponent extends UINamingContainer implements SystemEvent
     enum PropertyKeys {
         widgetVar,
         useHeartbeatTimer,
+        clockSyncWidgetVar,
     }
 
     public String getWidgetVar() {
@@ -52,6 +53,14 @@ public class CountdownComponent extends UINamingContainer implements SystemEvent
 
     public void setWidgetVar(String widgetVar) {
         getStateHelper().put(PropertyKeys.widgetVar, widgetVar);
+    }
+
+    public String getClockSyncWidgetVar() {
+        return (String) getStateHelper().eval(PropertyKeys.clockSyncWidgetVar, null);
+    }
+
+    public void setClockSyncWidgetVar(String clockSyncWidgetVar) {
+        getStateHelper().put(PropertyKeys.clockSyncWidgetVar, clockSyncWidgetVar);
     }
 
     public boolean isUseHeartbeatTimer() {

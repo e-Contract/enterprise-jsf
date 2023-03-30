@@ -17,6 +17,37 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
         this.expires = 0;
 
         PrimeFaces.widget.EJSFCountdown.registerCountdown(this);
+
+        if (typeof this.cfg.clockSyncWidgetVar !== "undefined") {
+            let clockSyncWidget = PF(this.cfg.clockSyncWidgetVar);
+            let $this = this;
+            this.clockSyncCallback = function () {
+                $this.recalibrate();
+            };
+            clockSyncWidget.registerSyncListener(this.clockSyncCallback);
+        }
+    },
+
+    recalibrate: function () {
+        console.log("recalibrate");
+        if (this.serverSideExpires) {
+            let now = Date.now();
+            let remainingMilliseconds = this.expires - now;
+            let clockSyncWidget = PF(this.cfg.clockSyncWidgetVar);
+            let bestRemainingMilliseconds = clockSyncWidget.getBestRemainingMilliseconds(remainingMilliseconds, this.serverSideExpires);
+            this.setTime(bestRemainingMilliseconds);
+        }
+    },
+
+    setExpires: function (timeInMilliseconds, serverSideExpires) {
+        if (typeof this.cfg.clockSyncWidgetVar !== "undefined") {
+            this.serverSideExpires = serverSideExpires;
+            let clockSyncWidget = PF(this.cfg.clockSyncWidgetVar);
+            let bestRemainingMilliseconds = clockSyncWidget.getBestRemainingMilliseconds(timeInMilliseconds, serverSideExpires);
+            this.setTime(bestRemainingMilliseconds);
+        } else {
+            this.setTime(timeInMilliseconds);
+        }
     },
 
     setTime: function (timeInMilliseconds) {
@@ -118,6 +149,11 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
             this.timer = null;
         }
         PrimeFaces.widget.EJSFCountdown.unregisterCountdown(this);
+        if (this.clockSyncCallback) {
+            let clockSyncWidget = PF(this.cfg.clockSyncWidgetVar);
+            clockSyncWidget.unregisterSyncListener(this.clockSyncCallback);
+            this.clockSyncCallback = null;
+        }
         this._super(cfg);
     },
 

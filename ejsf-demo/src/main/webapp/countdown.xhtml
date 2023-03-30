@@ -8,7 +8,8 @@
     <ui:define name="title">Countdown Demo</ui:define>
     <ui:define name="body">
         <div id="example">
-            <ejsf:countdown widgetVar="countdown"/>
+            <ejsf:clockSync clockLocation="clock" widgetVar="clockSync" />
+            <ejsf:countdown widgetVar="countdown" clockSyncWidgetVar="clockSync"/>
             <h:panelGrid columns="1">
                 <p:button value="Start 15 seconds countdown"
                           onclick="PF('countdown').setTime(#{1000 * 15}); return false;"/>
