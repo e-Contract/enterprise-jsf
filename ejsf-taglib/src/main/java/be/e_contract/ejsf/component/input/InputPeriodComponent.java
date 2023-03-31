@@ -220,51 +220,9 @@ public class InputPeriodComponent extends UIInput implements NamingContainer {
     public void processDecodes(FacesContext context) {
         super.processDecodes(context);
 
-        String yearsSubmittedValue = (String) this.years.getSubmittedValue();
-        int yearsValue;
-        if (UIInput.isEmpty(yearsSubmittedValue)) {
-            yearsValue = 0;
-        } else {
-            try {
-                yearsValue = Integer.parseInt(yearsSubmittedValue);
-            } catch (NumberFormatException ex) {
-                this.years.setValid(false);
-                return;
-            }
-        }
-
-        String monthsSubmittedValue = (String) this.months.getSubmittedValue();
-        if (UIInput.isEmpty(monthsSubmittedValue)) {
-            monthsSubmittedValue = (String) this.monthsRange.getSubmittedValue();
-        }
-        int monthsValue;
-        if (UIInput.isEmpty(monthsSubmittedValue)) {
-            monthsValue = 0;
-        } else {
-            try {
-                monthsValue = Integer.parseInt(monthsSubmittedValue);
-            } catch (NumberFormatException ex) {
-                this.months.setValid(false);
-                return;
-            }
-        }
-
-        String daysSubmittedValue = (String) this.days.getSubmittedValue();
-        if (UIInput.isEmpty(daysSubmittedValue)) {
-            daysSubmittedValue = (String) this.daysRange.getSubmittedValue();
-        }
-        int daysValue;
-        if (UIInput.isEmpty(daysSubmittedValue)) {
-            daysValue = 0;
-        } else {
-            try {
-                daysValue = Integer.parseInt(daysSubmittedValue);
-            } catch (NumberFormatException ex) {
-                this.days.setValid(false);
-                return;
-            }
-        }
-
+        int yearsValue = getIntValue(this.years, null);
+        int monthsValue = getIntValue(this.months, this.monthsRange);
+        int daysValue = getIntValue(this.days, this.daysRange);
         int hoursValue = getIntValue(this.hours, this.hoursRange);
         int minutesValue = getIntValue(this.minutes, this.minutesRange);
         int secondsValue = getIntValue(this.seconds, this.secondsRange);
@@ -306,7 +264,11 @@ public class InputPeriodComponent extends UIInput implements NamingContainer {
     private int getIntValue(UIInput input, UIInput input2) {
         String submittedValue = (String) input.getSubmittedValue();
         if (UIInput.isEmpty(submittedValue)) {
-            submittedValue = (String) input2.getSubmittedValue();
+            if (null != input2) {
+                submittedValue = (String) input2.getSubmittedValue();
+            } else {
+                return 0;
+            }
         }
         if (UIInput.isEmpty(submittedValue)) {
             return 0;

@@ -11,12 +11,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 @Named("inputPeriodController")
-@SessionScoped
+@ViewScoped
 public class InputPeriodController implements Serializable {
 
     @PostConstruct
