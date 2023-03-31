@@ -42,6 +42,7 @@
                                         ajax="false"
                                         onclick="selectMenuitemLink(this);"
                                         styleClass="#{menuController.getMenuitemStyleClass('api')}"/>
+                            <p:separator/>
                             <p:submenu label="Output Components">
                                 <p:menuitem value="Currency"
                                             action="output-currency?faces-redirect=true"
@@ -118,6 +119,14 @@
                                             ajax="false"
                                             onclick="selectMenuitemLink(this);"
                                             styleClass="#{menuController.getMenuitemStyleClass('vis-network')}"/>
+                            </p:submenu>
+                            <p:separator/>
+                            <p:submenu label="Input Components">
+                                <p:menuitem value="Period"
+                                            action="input-period?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('input-period')}"/>
                             </p:submenu>
                             <p:separator/>
                             <p:submenu label="Validators">

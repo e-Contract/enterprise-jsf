@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">Input Period</ui:define>
+    <ui:define name="body">
+        <h:form>
+            <p>
+                <h:outputText value="#{inputPeriodController.period} #{inputPeriodController.unit}"
+                              rendered="#{not empty inputPeriodController.period}"/>
+            </p>
+            <h:panelGrid columns="2">
+                <p:outputLabel for="@next" value="Unit"/>
+                <p:selectOneMenu value="#{inputPeriodController.unit}">
+                    <f:selectItems value="#{inputPeriodController.unitSelectItems}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel for="@next" value="Max unit"/>
+                <p:selectOneMenu value="#{inputPeriodController.maxUnit}">
+                    <f:selectItems value="#{inputPeriodController.unitSelectItems}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel for="@next" value="Period"/>
+                <ejsf:inputPeriod id="example" value="#{inputPeriodController.period}"
+                                  unit="#{inputPeriodController.unit}"
+                                  maxUnit="#{inputPeriodController.maxUnit}"/>
+            </h:panelGrid>
+            <p:commandButton value="Submit" update="@form"/>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="inputPeriod"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
