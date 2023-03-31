@@ -196,36 +196,86 @@ public class InputPeriodComponent extends UIInput implements NamingContainer {
             int monthsValue = monthsLeft % 12;
             int yearsValue = monthsLeft / 12;
 
-            this.seconds.setValue(secondsValue);
-            this.secondsRange.setValue(secondsValue);
+            if (isAllValid()) {
+                this.seconds.setValue(secondsValue);
+                this.secondsRange.setValue(secondsValue);
 
-            this.minutes.setValue(minutesValue);
-            this.minutesRange.setValue(minutesValue);
+                this.minutes.setValue(minutesValue);
+                this.minutesRange.setValue(minutesValue);
 
-            this.hours.setValue(hoursValue);
-            this.hoursRange.setValue(hoursValue);
+                this.hours.setValue(hoursValue);
+                this.hoursRange.setValue(hoursValue);
 
-            this.days.setValue(daysValue);
-            this.daysRange.setValue(daysValue);
+                this.days.setValue(daysValue);
+                this.daysRange.setValue(daysValue);
 
-            this.months.setValue(monthsValue);
-            this.monthsRange.setValue(monthsValue);
+                this.months.setValue(monthsValue);
+                this.monthsRange.setValue(monthsValue);
 
-            this.years.setValue(yearsValue);
+                this.years.setValue(yearsValue);
+            }
         }
         super.encodeBegin(context);
+    }
+
+    private boolean isAllValid() {
+        if (!this.seconds.isValid()) {
+            return false;
+        }
+        if (!this.secondsRange.isValid()) {
+            return false;
+        }
+        if (!this.minutes.isValid()) {
+            return false;
+        }
+        if (!this.minutesRange.isValid()) {
+            return false;
+        }
+        if (!this.hours.isValid()) {
+            return false;
+        }
+        if (!this.hoursRange.isValid()) {
+            return false;
+        }
+        if (!this.days.isValid()) {
+            return false;
+        }
+        if (!this.daysRange.isValid()) {
+            return false;
+        }
+        if (!this.months.isValid()) {
+            return false;
+        }
+        if (!this.monthsRange.isValid()) {
+            return false;
+        }
+        if (!this.years.isValid()) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void processDecodes(FacesContext context) {
         super.processDecodes(context);
 
-        int yearsValue = getIntValue(this.years, null);
-        int monthsValue = getIntValue(this.months, this.monthsRange);
-        int daysValue = getIntValue(this.days, this.daysRange);
-        int hoursValue = getIntValue(this.hours, this.hoursRange);
-        int minutesValue = getIntValue(this.minutes, this.minutesRange);
-        int secondsValue = getIntValue(this.seconds, this.secondsRange);
+        int yearsValue;
+        int monthsValue;
+        int daysValue;
+        int hoursValue;
+        int minutesValue;
+        int secondsValue;
+
+        try {
+            yearsValue = getIntValue(this.years, null);
+            monthsValue = getIntValue(this.months, this.monthsRange);
+            daysValue = getIntValue(this.days, this.daysRange);
+            hoursValue = getIntValue(this.hours, this.hoursRange);
+            minutesValue = getIntValue(this.minutes, this.minutesRange);
+            secondsValue = getIntValue(this.seconds, this.secondsRange);
+        } catch (NumberFormatException e) {
+            return;
+        }
 
         int totalSeconds = yearsValue;
         totalSeconds = totalSeconds * 12 + monthsValue;
@@ -330,18 +380,6 @@ public class InputPeriodComponent extends UIInput implements NamingContainer {
             ChronoUnit chronoUnit = ChronoUnit.values()[idx];
             chronoUnitOrder.put(chronoUnit, idx);
         }
-    }
-
-    private boolean biggerOrEqual(ChronoUnit unit1, ChronoUnit unit2) {
-        int unit1Order = chronoUnitOrder.get(unit1);
-        int unit2Order = chronoUnitOrder.get(unit2);
-        return unit1Order >= unit2Order;
-    }
-
-    private boolean smaller(ChronoUnit unit1, ChronoUnit unit2) {
-        int unit1Order = chronoUnitOrder.get(unit1);
-        int unit2Order = chronoUnitOrder.get(unit2);
-        return unit1Order < unit2Order;
     }
 
     private boolean inRange(ChronoUnit chronoUnit) {
