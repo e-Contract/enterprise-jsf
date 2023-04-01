@@ -69,4 +69,8 @@ public class InputPeriodController implements Serializable {
     public void setMaxUnit(String maxUnit) {
         this.maxUnit = maxUnit;
     }
+
+    public void update() {
+        this.period = null;
+    }
 }

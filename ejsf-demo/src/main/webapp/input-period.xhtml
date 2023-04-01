@@ -9,10 +9,6 @@
     <ui:define name="title">Input Period</ui:define>
     <ui:define name="body">
         <h:form>
-            <p>
-                <h:outputText value="Valid period value: #{inputPeriodController.period} #{inputPeriodController.unit}"
-                              rendered="#{not empty inputPeriodController.period}"/>
-            </p>
             <h:panelGrid columns="3">
                 <p:outputLabel for="@next" value="Unit"/>
                 <p:selectOneMenu value="#{inputPeriodController.unit}">
@@ -25,7 +21,16 @@
                     <f:selectItems value="#{inputPeriodController.unitSelectItems}"/>
                 </p:selectOneMenu>
                 <p:message for="@previous"/>
-
+            </h:panelGrid>
+            <p:commandButton value="Update" update="@form,exampleForm"
+                             action="#{inputPeriodController.update}"/>
+        </h:form>
+        <h:form id="exampleForm">
+            <p>
+                <h:outputText value="Valid period value: #{inputPeriodController.period} #{inputPeriodController.unit}"
+                              rendered="#{not empty inputPeriodController.period}"/>
+            </p>
+            <h:panelGrid columns="3">
                 <p:outputLabel for="@next" value="Period"/>
                 <ejsf:inputPeriod id="example" value="#{inputPeriodController.period}"
                                   unit="#{inputPeriodController.unit}"

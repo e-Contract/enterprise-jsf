@@ -171,7 +171,7 @@ public class InputPeriodComponent extends UIInput implements NamingContainer {
         }
         if (null == totalSeconds) {
             Stream<UIInput> inputsStream = getInputsStream();
-            inputsStream.forEach(input -> input.setValue(null));
+            inputsStream.forEach(input -> input.setValue(0));
         } else {
             LOGGER.debug("total seconds: {}", totalSeconds);
             int secondsValue = totalSeconds % 60;
