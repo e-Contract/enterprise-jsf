@@ -61,20 +61,34 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         return UINamingContainer.COMPONENT_FAMILY;
     }
 
-    private String namespace;
-    private String description;
-    private String version;
+    public enum PropertyKeys {
+        namespace,
+        description,
+        version
+    }
 
     public String getNamespace() {
-        return this.namespace;
+        return (String) getStateHelper().get(PropertyKeys.namespace);
     }
 
     public String getDescription() {
-        return this.description;
+        return (String) getStateHelper().get(PropertyKeys.description);
     }
 
     public String getVersion() {
-        return this.version;
+        return (String) getStateHelper().get(PropertyKeys.version);
+    }
+
+    private void setNamespace(String namespace) {
+        getStateHelper().put(PropertyKeys.namespace, namespace);
+    }
+
+    private void setDescription(String description) {
+        getStateHelper().put(PropertyKeys.description, description);
+    }
+
+    private void setVersion(String version) {
+        getStateHelper().put(PropertyKeys.version, version);
     }
 
     public List<TagInfo> getTags() {
@@ -87,19 +101,22 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         if (null == taglibDocument) {
             return tags;
         }
-        this.version = taglibDocument.getDocumentElement().getAttribute("version");
-        if ("2.0".equals(this.version)) {
-            this.version = "2.1";
+        String version = taglibDocument.getDocumentElement().getAttribute("version");
+        if ("2.0".equals(version)) {
+            version = "2.1";
         }
+        setVersion(version);
         NodeList descriptionNodeList = taglibDocument.getElementsByTagNameNS("*", "description");
         for (int descriptionIdx = 0; descriptionIdx < descriptionNodeList.getLength(); descriptionIdx++) {
             Element descriptionElement = (Element) descriptionNodeList.item(descriptionIdx);
             if (descriptionElement.getParentNode().equals(taglibDocument.getDocumentElement())) {
-                this.description = descriptionElement.getTextContent();
+                String description = descriptionElement.getTextContent();
+                setDescription(description);
                 break;
             }
         }
-        this.namespace = taglibDocument.getElementsByTagNameNS("*", "namespace").item(0).getTextContent();
+        String namespace = taglibDocument.getElementsByTagNameNS("*", "namespace").item(0).getTextContent();
+        setNamespace(namespace);
         String tagName = (String) getAttributes().get("tag");
         NodeList tagNodeList = taglibDocument.getElementsByTagNameNS("*", "tag");
         LOGGER.debug("number of tags: {}", tagNodeList.getLength());
@@ -123,9 +140,12 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
             NodeList componentTypeNodeList = tagElement.getElementsByTagNameNS("*", "component-type");
             if (componentTypeNodeList.getLength() > 0) {
                 String componentType = componentTypeNodeList.item(0).getTextContent();
+                tagInfo.setComponentType(componentType);
                 FacesContext facesContext = getFacesContext();
                 Application application = facesContext.getApplication();
                 UIComponent component = application.createComponent(componentType);
+                String componentClass = component.getClass().getName();
+                tagInfo.setComponentClass(componentClass);
                 if (component instanceof ClientBehaviorHolder) {
                     ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) component;
                     String defaultEventName = clientBehaviorHolder.getDefaultEventName();
@@ -258,6 +278,7 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         String componentType = interfaceElement.getAttribute("componentType");
         if (!UIInput.isEmpty(componentType)) {
             LOGGER.debug("componentType: {}", componentType);
+            tagInfo.setComponentType(componentType);
             FacesContext facesContext = getFacesContext();
             Application application = facesContext.getApplication();
             UIComponent component;
@@ -267,6 +288,8 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
                 LOGGER.error("error creating component: " + ex.getMessage(), ex);
                 return tagInfo;
             }
+            String componentClass = component.getClass().getName();
+            tagInfo.setComponentClass(componentClass);
             if (component instanceof ClientBehaviorHolder) {
                 ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) component;
                 String defaultEventName = clientBehaviorHolder.getDefaultEventName();

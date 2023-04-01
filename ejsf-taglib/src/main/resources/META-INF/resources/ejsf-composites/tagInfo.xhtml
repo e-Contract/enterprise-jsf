@@ -40,9 +40,20 @@
                         <p>
                             #{tag.description}
                         </p>
-                        <p>
-                            Namespace: #{cc.namespace}
-                        </p>
+                        <h:panelGrid columns="2" style="margin-bottom: 10px;">
+                            <h:outputText value="Namespace:"/>
+                            <h:outputText value="#{cc.namespace}"/>
+
+                            <h:outputText value="Component Type:"
+                                          rendered="#{not empty tag.componentType}"/>
+                            <h:outputText value="#{tag.componentType}"
+                                          rendered="#{not empty tag.componentType}"/>
+
+                            <h:outputText value="Component Class:"
+                                          rendered="#{not empty tag.componentClass}"/>
+                            <h:outputText value="#{tag.componentClass}"
+                                          rendered="#{not empty tag.componentClass}"/>
+                        </h:panelGrid>
                         <p:dataTable value="#{tag.requiredAttributes}" var="attribute"
                                      rendered="#{not empty tag.requiredAttributes}"
                                      style="margin-bottom: 10px;">
@@ -86,7 +97,8 @@
                                 #{eventName}
                             </p:column>
                             <f:facet name="footer">
-                                Default event name: #{tag.clientBehaviorDefaultEventName}
+                                <h:outputText rendered="#{not empty tag.clientBehaviorDefaultEventName}"
+                                              value="Default event name: #{tag.clientBehaviorDefaultEventName}"/>
                             </f:facet>
                         </p:dataTable>
                     </p:panel>

@@ -20,6 +20,9 @@ public class TagInfo {
     private final List<String> clientBehaviorEventNames;
     private String clientBehaviorDefaultEventName;
 
+    private String componentType;
+    private String componentClass;
+
     public TagInfo(String tagName, String description) {
         this.tagName = tagName;
         this.description = description;
@@ -54,5 +57,21 @@ public class TagInfo {
 
     public void setClientBehaviorDefaultEventName(String clientBehaviorDefaultEventName) {
         this.clientBehaviorDefaultEventName = clientBehaviorDefaultEventName;
+    }
+
+    public String getComponentType() {
+        return this.componentType;
+    }
+
+    public void setComponentType(String componentType) {
+        this.componentType = componentType;
+    }
+
+    public String getComponentClass() {
+        return this.componentClass;
+    }
+
+    public void setComponentClass(String componentClass) {
+        this.componentClass = componentClass;
     }
 }
