@@ -13,15 +13,15 @@
     <composite:implementation>
         <span id="#{cc.clientId}">
             <h:panelGroup rendered="#{cc.renderYears}">
-                <p:inputText binding="#{cc.years}" size="4" id="years">
+                <p:spinner binding="#{cc.years}" size="4" id="years">
                     <f:validateLongRange minimum="0"/>
-                </p:inputText>
+                </p:spinner>
                 years
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMonths}">
-                <p:inputText binding="#{cc.months}" size="4" id="months">
+                <p:spinner binding="#{cc.months}" size="4" id="months">
                     <f:validateLongRange minimum="0"/>
-                </p:inputText>
+                </p:spinner>
                 months
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMonthsRange}">
@@ -31,9 +31,9 @@
                 months
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderDays}">
-                <p:inputText binding="#{cc.days}" size="4" id="days">
+                <p:spinner binding="#{cc.days}" size="4" id="days">
                     <f:validateLongRange minimum="0"/>
-                </p:inputText>
+                </p:spinner>
                 days
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderDaysRange}">
@@ -43,9 +43,9 @@
                 days
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderHours}">
-                <p:inputText binding="#{cc.hours}" size="4" id="hours">
+                <p:spinner binding="#{cc.hours}" size="4" id="hours">
                     <f:validateLongRange minimum="0"/>
-                </p:inputText>
+                </p:spinner>
                 hours
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderHoursRange}">
@@ -55,9 +55,9 @@
                 hours
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMinutes}">
-                <p:inputText binding="#{cc.minutes}" size="4" id="minutes">
+                <p:spinner binding="#{cc.minutes}" size="4" id="minutes">
                     <f:validateLongRange minimum="0"/>
-                </p:inputText>
+                </p:spinner>
                 minutes
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMinutesRange}">
@@ -67,9 +67,9 @@
                 minutes
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderSeconds}">
-                <p:inputText binding="#{cc.seconds}" size="4" id="seconds">
+                <p:spinner binding="#{cc.seconds}" size="4" id="seconds">
                     <f:validateLongRange minimum="0"/>
-                </p:inputText>
+                </p:spinner>
                 seconds
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderSecondsRange}">

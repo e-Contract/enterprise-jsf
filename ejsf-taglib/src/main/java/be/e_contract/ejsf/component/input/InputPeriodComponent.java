@@ -8,10 +8,12 @@ package be.e_contract.ejsf.component.input;
 
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIInput;
@@ -168,17 +170,8 @@ public class InputPeriodComponent extends UIInput implements NamingContainer {
             }
         }
         if (null == totalSeconds) {
-            this.years.setValue(null);
-            this.months.setValue(null);
-            this.monthsRange.setValue(null);
-            this.days.setValue(null);
-            this.daysRange.setValue(null);
-            this.hours.setValue(null);
-            this.hoursRange.setValue(null);
-            this.minutes.setValue(null);
-            this.minutesRange.setValue(null);
-            this.seconds.setValue(null);
-            this.secondsRange.setValue(null);
+            Stream<UIInput> inputsStream = getInputsStream();
+            inputsStream.forEach(input -> input.setValue(null));
         } else {
             LOGGER.debug("total seconds: {}", totalSeconds);
             int secondsValue = totalSeconds % 60;
@@ -214,45 +207,36 @@ public class InputPeriodComponent extends UIInput implements NamingContainer {
 
                 this.years.setValue(yearsValue);
             }
+            if (!isValid()) {
+                Stream<UIInput> inputsStream = getInputsStream();
+                inputsStream.forEach(input -> input.setValid(false));
+            }
         }
         super.encodeBegin(context);
     }
 
+    private Stream<UIInput> getInputsStream() {
+        UIInput[] inputs = new UIInput[]{
+            this.seconds,
+            this.secondsRange,
+            this.minutes,
+            this.minutesRange,
+            this.hours,
+            this.hoursRange,
+            this.days,
+            this.daysRange,
+            this.months,
+            this.monthsRange,
+            this.years
+        };
+        Stream<UIInput> stream = Arrays.stream(inputs);
+        return stream;
+    }
+
     private boolean isAllValid() {
-        if (!this.seconds.isValid()) {
-            return false;
-        }
-        if (!this.secondsRange.isValid()) {
-            return false;
-        }
-        if (!this.minutes.isValid()) {
-            return false;
-        }
-        if (!this.minutesRange.isValid()) {
-            return false;
-        }
-        if (!this.hours.isValid()) {
-            return false;
-        }
-        if (!this.hoursRange.isValid()) {
-            return false;
-        }
-        if (!this.days.isValid()) {
-            return false;
-        }
-        if (!this.daysRange.isValid()) {
-            return false;
-        }
-        if (!this.months.isValid()) {
-            return false;
-        }
-        if (!this.monthsRange.isValid()) {
-            return false;
-        }
-        if (!this.years.isValid()) {
-            return false;
-        }
-        return true;
+        Stream<UIInput> inputsStream = getInputsStream();
+        boolean anyInputInvalid = inputsStream.anyMatch(input -> !input.isValid());
+        return !anyInputInvalid;
     }
 
     @Override

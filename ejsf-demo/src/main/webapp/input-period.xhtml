@@ -10,30 +10,38 @@
     <ui:define name="body">
         <h:form>
             <p>
-                <h:outputText value="#{inputPeriodController.period} #{inputPeriodController.unit}"
+                <h:outputText value="Valid period value: #{inputPeriodController.period} #{inputPeriodController.unit}"
                               rendered="#{not empty inputPeriodController.period}"/>
             </p>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3">
                 <p:outputLabel for="@next" value="Unit"/>
                 <p:selectOneMenu value="#{inputPeriodController.unit}">
                     <f:selectItems value="#{inputPeriodController.unitSelectItems}"/>
                 </p:selectOneMenu>
+                <p:message for="@previous"/>
 
                 <p:outputLabel for="@next" value="Max unit"/>
                 <p:selectOneMenu value="#{inputPeriodController.maxUnit}">
                     <f:selectItems value="#{inputPeriodController.unitSelectItems}"/>
                 </p:selectOneMenu>
+                <p:message for="@previous"/>
 
                 <p:outputLabel for="@next" value="Period"/>
                 <ejsf:inputPeriod id="example" value="#{inputPeriodController.period}"
                                   unit="#{inputPeriodController.unit}"
-                                  maxUnit="#{inputPeriodController.maxUnit}"/>
+                                  maxUnit="#{inputPeriodController.maxUnit}">
+                    <f:validateLongRange minimum="5"/>
+                </ejsf:inputPeriod>
+                <p:message for="@previous"/>
             </h:panelGrid>
             <p:commandButton value="Submit" update="@form"/>
         </h:form>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="InputPeriodController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/InputPeriodController.java"/>
             </p:tab>
             <p:tab title="API">
                 <ejsf:tagInfo library="ejsf" tag="inputPeriod"/>
