@@ -6,9 +6,12 @@
       xmlns:p="http://primefaces.org/ui">
     <composite:interface componentType="ejsf.inputPeriodComponent"
                          shortDescription="Input component for periods.">
-        <composite:attribute name="value" type="java.lang.Integer" required="true"/>
-        <composite:attribute name="unit" type="java.lang.String" default="SECONDS"/>
-        <composite:attribute name="maxUnit" type="java.lang.String" default="MONTHS"/>
+        <composite:attribute name="value" type="java.lang.Integer" required="true"
+                             shortDescription="The period in the unit indicated by unit."/>
+        <composite:attribute name="unit" type="java.lang.String" default="SECONDS"
+                             shortDescription="The period unit: SECONDS, MINUTES, HOURS, DAYS, MONTHS, YEARS. Defaults to SECONDS."/>
+        <composite:attribute name="maxUnit" type="java.lang.String" default="MONTHS"
+                             shortDescription="The maximum unit to visualize: SECONDS, MINUTES, HOURS, DAYS, MONTHS, YEARS. Defaults to MONTHS."/>
     </composite:interface>
     <composite:implementation>
         <span id="#{cc.clientId}">
@@ -16,67 +19,67 @@
                 <p:spinner binding="#{cc.years}" size="4" id="years">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
-                years
+                #{ejsfMessages.inputPeriod_years}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMonths}">
                 <p:spinner binding="#{cc.months}" size="4" id="months">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
-                months
+                #{ejsfMessages.inputPeriod_months}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMonthsRange}">
                 <p:selectOneMenu binding="#{cc.monthsRange}" id="monthsRange">
                     <f:selectItems value="#{cc.monthsSelectItems}"/>
                 </p:selectOneMenu>
-                months
+                #{ejsfMessages.inputPeriod_months}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderDays}">
                 <p:spinner binding="#{cc.days}" size="4" id="days">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
-                days
+                #{ejsfMessages.inputPeriod_days}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderDaysRange}">
                 <p:selectOneMenu binding="#{cc.daysRange}" id="daysRange">
                     <f:selectItems value="#{cc.daysSelectItems}"/>
                 </p:selectOneMenu>
-                days
+                #{ejsfMessages.inputPeriod_days}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderHours}">
                 <p:spinner binding="#{cc.hours}" size="4" id="hours">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
-                hours
+                #{ejsfMessages.inputPeriod_hours}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderHoursRange}">
                 <p:selectOneMenu binding="#{cc.hoursRange}" id="hoursRange">
                     <f:selectItems value="#{cc.hoursSelectItems}"/>
                 </p:selectOneMenu>
-                hours
+                #{ejsfMessages.inputPeriod_hours}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMinutes}">
                 <p:spinner binding="#{cc.minutes}" size="4" id="minutes">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
-                minutes
+                #{ejsfMessages.inputPeriod_minutes}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMinutesRange}">
                 <p:selectOneMenu binding="#{cc.minutesRange}" id="minutesRange">
                     <f:selectItems value="#{cc.minutesSelectItems}"/>
                 </p:selectOneMenu>
-                minutes
+                #{ejsfMessages.inputPeriod_minutes}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderSeconds}">
                 <p:spinner binding="#{cc.seconds}" size="4" id="seconds">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
-                seconds
+                #{ejsfMessages.inputPeriod_seconds}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderSecondsRange}">
                 <p:selectOneMenu binding="#{cc.secondsRange}" id="secondsRange">
                     <f:selectItems value="#{cc.secondsSelectItems}"/>
                 </p:selectOneMenu>
-                seconds
+                #{ejsfMessages.inputPeriod_seconds}
             </h:panelGroup>
         </span>
     </composite:implementation>
