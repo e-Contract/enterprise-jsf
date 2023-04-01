@@ -16,13 +16,13 @@
     <composite:implementation>
         <span id="#{cc.clientId}">
             <h:panelGroup rendered="#{cc.renderYears}">
-                <p:spinner binding="#{cc.years}" size="4" id="years">
+                <p:spinner binding="#{cc.years}" size="4" id="years" min="0">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_years}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMonths}">
-                <p:spinner binding="#{cc.months}" size="4" id="months">
+                <p:spinner binding="#{cc.months}" size="4" id="months" min="0">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_months}
@@ -34,7 +34,7 @@
                 #{ejsfMessages.inputPeriod_months}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderDays}">
-                <p:spinner binding="#{cc.days}" size="4" id="days">
+                <p:spinner binding="#{cc.days}" size="4" id="days" min="0">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_days}
@@ -46,7 +46,7 @@
                 #{ejsfMessages.inputPeriod_days}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderHours}">
-                <p:spinner binding="#{cc.hours}" size="4" id="hours">
+                <p:spinner binding="#{cc.hours}" size="4" id="hours" min="0">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_hours}
@@ -58,7 +58,7 @@
                 #{ejsfMessages.inputPeriod_hours}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMinutes}">
-                <p:spinner binding="#{cc.minutes}" size="4" id="minutes">
+                <p:spinner binding="#{cc.minutes}" size="4" id="minutes" min="0">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_minutes}
@@ -70,7 +70,7 @@
                 #{ejsfMessages.inputPeriod_minutes}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderSeconds}">
-                <p:spinner binding="#{cc.seconds}" size="4" id="seconds">
+                <p:spinner binding="#{cc.seconds}" size="4" id="seconds" min="0">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_seconds}
