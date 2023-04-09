@@ -6,6 +6,12 @@
  */
 
 PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
+
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     init: function (cfg) {
         this._super(cfg);
         this.progressBarWidget = PrimeFaces.getWidgetById(this.id + ":progressBar");
@@ -28,6 +34,9 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
         }
     },
 
+    /**
+     * @private
+     */
     recalibrate: function () {
         console.log("recalibrate");
         if (this.serverSideExpires) {
@@ -39,22 +48,33 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
         }
     },
 
-    setExpires: function (timeInMilliseconds, serverSideExpires) {
+    /**
+     * Sets the time when the countdown expires.
+     * When synchronized via the clockSync component, we can use the server-side time.
+     * Else we will use the time left in milliseconds.
+     * @param {number} timeLeftInMilliseconds the time left in milliseconds when the countdown expires.
+     * @param {number} serverSideExpires the server-side time when the countdown expires.
+     */
+    setExpires: function (timeLeftInMilliseconds, serverSideExpires) {
         if (typeof this.cfg.clockSyncWidgetVar !== "undefined") {
             this.serverSideExpires = serverSideExpires;
             let clockSyncWidget = PF(this.cfg.clockSyncWidgetVar);
-            let bestRemainingMilliseconds = clockSyncWidget.getBestRemainingMilliseconds(timeInMilliseconds, serverSideExpires);
+            let bestRemainingMilliseconds = clockSyncWidget.getBestRemainingMilliseconds(timeLeftInMilliseconds, serverSideExpires);
             this.setTime(bestRemainingMilliseconds);
         } else {
-            this.setTime(timeInMilliseconds);
+            this.setTime(timeLeftInMilliseconds);
         }
     },
 
-    setTime: function (timeInMilliseconds) {
-        if (timeInMilliseconds > 0) {
+    /**
+     * Sets the time left when the countdown expires.
+     * @param {number} timeLeftInMilliseconds the time left in milliseconds when the countdown expires.
+     */
+    setTime: function (timeLeftInMilliseconds) {
+        if (timeLeftInMilliseconds > 0) {
             let now = Date.now();
             this.notified = now;
-            this.expires = now + timeInMilliseconds;
+            this.expires = now + timeLeftInMilliseconds;
             this.updateCountdown();
             if (this.timer) {
                 window.clearInterval(this.timer);
@@ -143,6 +163,11 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
         this.progressBarWidgetValue.attr("class", progressBarValueClasses);
     },
 
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     refresh: function (cfg) {
         if (this.timer) {
             window.clearInterval(this.timer);
@@ -157,6 +182,9 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
         this._super(cfg);
     },
 
+    /**
+     * @private
+     */
     heartbeat: function () {
         if (this.cfg.useHeartbeatTimer) {
             this.onTimer();
@@ -164,6 +192,10 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
     }
 });
 
+/**
+ * Stops all the countdown widgets.
+ * @function
+ */
 PrimeFaces.widget.EJSFCountdown.stopAll = function () {
     PrimeFaces.getWidgetsByType(PrimeFaces.widget.EJSFCountdown).forEach(
             function (countdown) {

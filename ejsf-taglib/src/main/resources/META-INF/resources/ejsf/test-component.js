@@ -6,6 +6,12 @@
  */
 
 PrimeFaces.widget.EJSFTestComponent = PrimeFaces.widget.BaseWidget.extend({
+
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     init: function (cfg) {
         this._super(cfg);
         this.console = PrimeFaces.getWidgetById(this.id + ":console");
@@ -13,6 +19,9 @@ PrimeFaces.widget.EJSFTestComponent = PrimeFaces.widget.BaseWidget.extend({
         this.requestTest();
     },
 
+    /**
+     * @private
+     */
     requestTest: function () {
         let $this = this;
         let ajaxRequestOptions = {
@@ -46,10 +55,16 @@ PrimeFaces.widget.EJSFTestComponent = PrimeFaces.widget.BaseWidget.extend({
         PrimeFaces.ajax.Request.handle(ajaxRequestOptions);
     },
 
+    /**
+     * Called to indicate that a test has failed.
+     */
     failedTest: function (message) {
         this.console.error("FAILED TEST DETECTED: " + message);
     },
 
+    /**
+     * @private
+     */
     log: function (message) {
         this.console.info(message);
     }

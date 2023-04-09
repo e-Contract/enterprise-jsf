@@ -6,6 +6,12 @@
  */
 
 PrimeFaces.widget.EJSFECharts = PrimeFaces.widget.BaseWidget.extend({
+
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     init: function (cfg) {
         this._super(cfg);
         let myChart = echarts.init(document.getElementById(this.id));

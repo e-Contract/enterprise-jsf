@@ -6,10 +6,21 @@
  */
 
 PrimeFaces.widget.EJSFDictionary = PrimeFaces.widget.BaseWidget.extend({
+
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     init: function (cfg) {
         this._super(cfg);
     },
 
+    /**
+     * Gives back a dictionary message.
+     * @param {string} key the key within the dictionary.
+     * @returns {string} the corresponding message.
+     */
     getMessage: function (key) {
         let message = this.cfg["message_" + key];
         if (typeof message === "undefined") {
@@ -18,6 +29,12 @@ PrimeFaces.widget.EJSFDictionary = PrimeFaces.widget.BaseWidget.extend({
         return message;
     },
 
+    /**
+     * Gives back a formatted message from the dictionary.
+     * @param {string} key the key within the dictionary.
+     * @param  {...string} args the arguments to format the message.
+     * @returns {string} the formatted message.
+     */
     getFormattedMessage: function (key, ...args) {
         let message = this.cfg["message_" + key];
         if (typeof message === "undefined") {

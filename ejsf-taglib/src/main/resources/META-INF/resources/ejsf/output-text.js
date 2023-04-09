@@ -6,6 +6,12 @@
  */
 
 PrimeFaces.widget.EJSFOutputText = PrimeFaces.widget.BaseWidget.extend({
+
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     init: function (cfg) {
         this._super(cfg);
         if (typeof this.cfg.initialValue !== "undefined") {

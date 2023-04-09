@@ -6,6 +6,12 @@
  */
 
 PrimeFaces.widget.EJSFOutputCurrency = PrimeFaces.widget.BaseWidget.extend({
+
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     init: function (cfg) {
         this._super(cfg);
         if (typeof this.cfg.initialValue !== "undefined") {
@@ -16,6 +22,10 @@ PrimeFaces.widget.EJSFOutputCurrency = PrimeFaces.widget.BaseWidget.extend({
         this.currency = this.cfg.currency;
     },
 
+    /**
+     * Sets the currency (formatted value).
+     * @param {string} value the formatted value.
+     */
     setValue: function (value) {
         this.currencyValue = value;
         if (null !== value) {
@@ -27,6 +37,10 @@ PrimeFaces.widget.EJSFOutputCurrency = PrimeFaces.widget.BaseWidget.extend({
         }
     },
 
+    /**
+     * Gives back the formatted currency value.
+     * @returns {string} the formatted currency.
+     */
     getValue: function () {
         return this.currencyValue;
     }

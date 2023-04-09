@@ -6,6 +6,12 @@
  */
 
 PrimeFaces.widget.EJSFGeolocation = PrimeFaces.widget.BaseWidget.extend({
+
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     init: function (cfg) {
         this._super(cfg);
         if (typeof this.cfg.AUTO_START !== "undefined") {
@@ -15,6 +21,9 @@ PrimeFaces.widget.EJSFGeolocation = PrimeFaces.widget.BaseWidget.extend({
         }
     },
 
+    /**
+     * Retrieve the current position.
+     */
     currentPosition: function () {
         let $this = this;
         let options = {};
@@ -34,6 +43,10 @@ PrimeFaces.widget.EJSFGeolocation = PrimeFaces.widget.BaseWidget.extend({
         }, options);
     },
 
+    /**
+     * @private
+     * @param {any} position
+     */
     onSuccess: function (position) {
         let coords = position.coords;
         var options = {
@@ -55,6 +68,10 @@ PrimeFaces.widget.EJSFGeolocation = PrimeFaces.widget.BaseWidget.extend({
         this.callBehavior("geolocation", options);
     },
 
+    /**
+     * @private
+     * @param {any} error
+     */
     onError: function (error) {
         console.log("error code: " + error.code);
         console.log("error message: " + error.message);

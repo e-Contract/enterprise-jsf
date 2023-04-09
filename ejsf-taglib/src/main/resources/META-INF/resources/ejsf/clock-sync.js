@@ -6,6 +6,12 @@
  */
 
 PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
+
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     init: function (cfg) {
         this._super(cfg);
         this.syncCount = 0;
@@ -27,6 +33,9 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
         this.syncListeners = [];
     },
 
+    /**
+     * @private
+     */
     sync: function () {
         if (this.syncCount < this.cfg.SYNC_COUNT) {
             let $this = this;
@@ -93,11 +102,11 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
 
     /**
      * Gives back the best estimate for the remaining millisecond until the "event" happens.
-     * 
-     * @param {type} remainingMilliseconds
-     * @param {type} expires server-side expires time in milliseconds from the epoch
+     *
+     * @param {number} remainingMilliseconds
+     * @param {number} expires server-side expires time in milliseconds from the epoch
      * of 1970-01-01T00:00:00Z..
-     * @returns {Number}
+     * @returns {number}
      */
     getBestRemainingMilliseconds: function (remainingMilliseconds, expires) {
         if (remainingMilliseconds === 0) {
@@ -114,6 +123,9 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
         return bestRemainingMilliseconds;
     },
 
+    /**
+     * @private
+     */
     keepAlive: function () {
         console.log("keep alive ping");
         let xmlHttpRequest = new XMLHttpRequest();
@@ -121,6 +133,18 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
         xmlHttpRequest.send();
     },
 
+    /**
+     * Gets called when we are synchronized.
+     *
+     * @callback syncCallback
+     */
+
+    /**
+     * Registers a synchronization callback function.
+     *
+     * @param {syncCallback} syncCallback the synchronization callback function.
+     *
+     */
     registerSyncListener: function (syncCallback) {
         this.syncListeners.push(syncCallback);
         if (this.inSync) {
@@ -128,6 +152,12 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
         }
     },
 
+    /**
+     * Unregisters a synchronization callback function.
+     *
+     * @param {syncCallback} syncCallback the synchronization callback function.
+     *
+     */
     unregisterSyncListener: function (syncCallback) {
         this.syncListeners = this.syncListeners.filter(
                 function (item) {
@@ -138,6 +168,9 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
         );
     },
 
+    /**
+     * @private
+     */
     invokeSyncListeners: function () {
         this.syncListeners.forEach(function (syncCallback) {
             syncCallback();

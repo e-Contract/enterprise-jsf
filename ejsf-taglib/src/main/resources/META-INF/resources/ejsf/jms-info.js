@@ -6,10 +6,21 @@
  */
 
 PrimeFaces.widget.EJSFJmsInfo = PrimeFaces.widget.BaseWidget.extend({
+
+    /**
+     * @override
+     * @inheritdoc
+     * @param {PrimeFaces.PartialWidgetCfg<TCfg>} cfg
+     */
     init: function (cfg) {
         this._super(cfg);
     },
 
+    /**
+     * Called when the JMS message has been replayed.
+     * @private
+     * @param {string} messageId the JMS message identifier.
+     */
     messageReplayed: function (messageId) {
         let replayBehaviorOptions = {
             params: [
@@ -22,6 +33,11 @@ PrimeFaces.widget.EJSFJmsInfo = PrimeFaces.widget.BaseWidget.extend({
         this.callBehavior("replay", replayBehaviorOptions);
     },
 
+    /**
+     * Called when the JMS message has been removed.
+     * @private
+     * @param {string} messageId the JMS message identifier.
+     */
     messageRemoved: function (messageId) {
         let removeBehaviorOptions = {
             params: [
