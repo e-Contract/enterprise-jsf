@@ -21,6 +21,11 @@ PrimeFaces.widget.EJSFOutputText = PrimeFaces.widget.BaseWidget.extend({
         }
     },
 
+    /**
+     * Sets the value.
+     *
+     * @param {string} value
+     */
     setValue: function (value) {
         this.value = value;
         if (null !== value) {
@@ -34,6 +39,10 @@ PrimeFaces.widget.EJSFOutputText = PrimeFaces.widget.BaseWidget.extend({
         }
     },
 
+    /**
+     * Gives back the value.
+     * @returns {string} the value.
+     */
     getValue: function () {
         return this.value;
     }

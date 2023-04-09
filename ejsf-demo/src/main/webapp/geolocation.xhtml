@@ -7,26 +7,28 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Geolocation Demo</ui:define>
     <ui:define name="body">
-        <h:form id="example">
-            <ejsf:geolocation widgetVar="geolocation" enableHighAccuracy="true" maximumAge="#{1000 * 60}">
-                <p:ajax listener="#{geolocationController.handleEvent}" update=":results"/>
-                <p:ajax event="error" update=":messages" listener="#{geolocationController.handleErrorEvent}"/>
-            </ejsf:geolocation>
-        </h:form>
-        <h:panelGrid columns="2" id="results">
-            <h:outputText value="Latitude:"/>
-            <h:outputText value="#{geolocationController.latitude}"/>
+        <div id="example">
+            <h:form>
+                <ejsf:geolocation widgetVar="geolocation" enableHighAccuracy="true" maximumAge="#{1000 * 60}">
+                    <p:ajax listener="#{geolocationController.handleEvent}" update=":results"/>
+                    <p:ajax event="error" update=":messages" listener="#{geolocationController.handleErrorEvent}"/>
+                </ejsf:geolocation>
+            </h:form>
+            <h:panelGrid columns="2" id="results">
+                <h:outputText value="Latitude:"/>
+                <h:outputText value="#{geolocationController.latitude}"/>
 
-            <h:outputText value="Longitude:"/>
-            <h:outputText value="#{geolocationController.longitude}"/>
+                <h:outputText value="Longitude:"/>
+                <h:outputText value="#{geolocationController.longitude}"/>
 
-            <h:outputText value="Accuracy:"/>
-            <ejsf:outputText value="#{geolocationController.accuracy}"
-                             unit="m"/>
-        </h:panelGrid>
-        <h:panelGrid columns="1">
-            <p:button onclick="PF('geolocation').currentPosition(); return false;" value="Get Current Position"/>
-        </h:panelGrid>
+                <h:outputText value="Accuracy:"/>
+                <ejsf:outputText value="#{geolocationController.accuracy}"
+                                 unit="m"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <p:button onclick="PF('geolocation').currentPosition(); return false;" value="Get Current Position"/>
+            </h:panelGrid>
+        </div>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>

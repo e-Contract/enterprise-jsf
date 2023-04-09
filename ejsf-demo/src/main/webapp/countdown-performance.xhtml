@@ -29,7 +29,7 @@
                                 useHeartbeatTimer="#{countdownCountroller.useHeartbeatTimer}"
                                 clockSyncWidgetVar="clockSync"/>
                 <p:button value="Start"
-                          onclick="PF('countdown#{index}').setTime(#{1000 * 60}); return false;"/>
+                          onclick="PF('countdown#{index}').setTime(#{1000 * (60 + 10)}); return false;"/>
                 <p:button value="Stop"
                           onclick="PF('countdown#{index}').setTime(0); return false;"/>
             </ui:repeat>
