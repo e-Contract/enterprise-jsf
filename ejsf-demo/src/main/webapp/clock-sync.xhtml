@@ -7,28 +7,48 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Clock Sync Demo</ui:define>
     <ui:define name="body">
-        <h:form id="example">
-            <ejsf:clockSync clockLocation="clock" widgetVar="clockSync">
-                <p:ajax listener="#{clockSyncController.clockSynchronized}"
-                        update=":messages,:results"/>
-            </ejsf:clockSync>
-        </h:form>
-        <h:outputScript library="demo" name="clock-sync.js"/>
-        <h:panelGrid columns="2" id="results">
-            <h:outputText value="Best round trip delay:"/>
-            <ejsf:outputText value="#{clockSyncController.bestRoundTripDelay}"
-                             unit="ms"/>
+        <div id="example">
+            <h:form>
+                <ejsf:clockSync clockLocation="clock" widgetVar="clockSync">
+                    <p:ajax listener="#{clockSyncController.clockSynchronized}"
+                            update=":messages,:results"/>
+                </ejsf:clockSync>
+            </h:form>
+            <h:outputScript library="demo" name="clock-sync.js"/>
+            <h:panelGrid columns="2" id="results">
+                <h:outputText value="Best round trip delay:"/>
+                <ejsf:outputText value="#{clockSyncController.bestRoundTripDelay}"
+                                 unit="ms"/>
 
-            <h:outputText value="Delta T:"/>
-            <ejsf:outputText value="#{clockSyncController.deltaT}"
-                             unit="ms"/>
+                <h:outputText value="Delta T:"/>
+                <ejsf:outputText value="#{clockSyncController.deltaT}"
+                                 unit="ms"/>
+            </h:panelGrid>
+        </div>
+        <h:panelGrid columns="2">
+            <h:outputLabel for="@next" value="PrimeFaces Server-side"/>
+            <p:clock mode="server" autoSync="true" id="pClock"/>
+
+            <h:outputLabel for="@next" value="PrimeFaces Client-side"/>
+            <p:clock mode="client"/>
         </h:panelGrid>
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputText value="Client-side time:"/>
+                <ejsf:outputText widgetVar="clientSideTime"/>
+            </h:panelGrid>
+            <p:button value="Calculate client-side time"
+                      onclick="calculateClientSideTime(); return false;"/>
+        </h:form>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>
             </p:tab>
             <p:tab title="ClockSyncController.java">
                 <ejsf:highlight resource="/be/e_contract/demo/ClockSyncController.java"/>
+            </p:tab>
+            <p:tab title="clock-sync.js">
+                <ejsf:highlight resource="/resources/demo/clock-sync.js"/>
             </p:tab>
             <p:tab title="API">
                 <ejsf:tagInfo library="ejsf" tag="clockSync"/>

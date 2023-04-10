@@ -23,3 +23,16 @@ $(document).ready(function () {
     };
     clockSyncWidget.registerSyncListener(syncCallback);
 });
+
+
+function calculateClientSideTime() {
+    let clockWidget = PrimeFaces.getWidgetById("pClock");
+    let date = clockWidget.current;
+    let serverSideEvent = date.getTime();
+    let clockSyncWidget = PF("clockSync");
+    let clientSideEvent = clockSyncWidget.getClientSideEvent(serverSideEvent);
+    let clientSideEventDate = new Date();
+    clientSideEventDate.setTime(clientSideEvent);
+    let clientSideTimeWidget = PF("clientSideTime");
+    clientSideTimeWidget.setValue(clientSideEventDate.toISOString());
+}

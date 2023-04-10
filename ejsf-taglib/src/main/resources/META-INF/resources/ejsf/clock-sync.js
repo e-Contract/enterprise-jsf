@@ -105,7 +105,7 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
      *
      * @param {number} remainingMilliseconds
      * @param {number} expires server-side expires time in milliseconds from the epoch
-     * of 1970-01-01T00:00:00Z..
+     * of 1970-01-01T00:00:00Z.
      * @returns {number}
      */
     getBestRemainingMilliseconds: function (remainingMilliseconds, expires) {
@@ -121,6 +121,19 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
         console.log("original remaining seconds: " + remainingMilliseconds);
         console.log("best remaining seconds: " + bestRemainingMilliseconds);
         return bestRemainingMilliseconds;
+    },
+
+    /**
+     * Calculates the client-side event time given a server-side event time.
+     * If not yet synchronized, we return null.
+     * @param {number} serverSideEvent server-side event time in milliseconds from the epoch of 1970-01-01T00:00:00Z.
+     * @returns {number|null}
+     */
+    getClientSideEvent: function (serverSideEvent) {
+        if (!this.inSync) {
+            return null;
+        }
+        return serverSideEvent + this.dt;
     },
 
     /**
