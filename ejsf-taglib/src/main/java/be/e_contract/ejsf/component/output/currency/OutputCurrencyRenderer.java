@@ -93,7 +93,8 @@ public class OutputCurrencyRenderer extends CoreRenderer {
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
         widgetBuilder.init("EJSFOutputCurrency", outputCurrencyComponent);
-        widgetBuilder.attr("initialValue", formattedNumber);
+        widgetBuilder.attr("initialValue", number);
+        widgetBuilder.attr("locale", locale.getLanguage());
         widgetBuilder.attr("currency", currency);
         widgetBuilder.finish();
     }

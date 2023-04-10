@@ -2,12 +2,22 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Currency Demo</ui:define>
     <ui:define name="body">
-        <ejsf:outputCurrency id="example" value="#{outputCurrencyController.value}"/>
-        <ejsf:outputCurrency value="#{outputCurrencyController.value}" rendered="false"/>
+        <ejsf:outputCurrency id="example"
+                             value="#{outputCurrencyController.value}"
+                             widgetVar="outputCurrency"/>
+        <ejsf:outputCurrency value="#{outputCurrencyController.value}"
+                             rendered="false"/>
+        <h:form>
+            <p:outputLabel for="@next" value="Value:"/>
+            <p:inputNumber widgetVar="inputNumber"/>
+            <p:button value="Update"
+                      onclick="PF('outputCurrency').setValue(PF('inputNumber').getValue()); return false;"/>
+        </h:form>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>
@@ -17,6 +27,9 @@
             </p:tab>
             <p:tab title="API">
                 <ejsf:tagInfo library="ejsf" tag="outputCurrency"/>
+            </p:tab>
+            <p:tab title="Client API">
+                <ejsf:highlight resource="/META-INF/resources/ejsf/output-currency.js"/>
             </p:tab>
         </p:tabView>
     </ui:define>

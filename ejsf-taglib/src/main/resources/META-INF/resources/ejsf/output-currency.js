@@ -29,12 +29,28 @@ PrimeFaces.widget.EJSFOutputCurrency = PrimeFaces.widget.BaseWidget.extend({
     setValue: function (value) {
         this.currencyValue = value;
         if (null !== value) {
-            $(this.jqId + "\\:value").text(value);
+            let formattedValue = this.formatValue(value);
+            $(this.jqId + "\\:value").text(formattedValue);
             $(this.jqId + "\\:currency").text(" " + this.currency);
         } else {
             $(this.jqId + "\\:value").text("");
             $(this.jqId + "\\:currency").text("");
         }
+    },
+
+    /**
+     * Formats the currency value.
+     * @private
+     * @param {number} value the currency value.
+     * @returns {string} the formatted value.
+     */
+    formatValue: function (value) {
+        let numberFormat = Intl.NumberFormat(this.cfg.locale, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+        let formattedValue = numberFormat.format(value);
+        return formattedValue;
     },
 
     /**
