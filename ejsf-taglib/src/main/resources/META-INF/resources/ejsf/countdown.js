@@ -40,11 +40,11 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
     recalibrate: function () {
         console.log("recalibrate");
         if (this.serverSideExpires) {
-            let now = Date.now();
-            let remainingMilliseconds = this.expires - now;
             let clockSyncWidget = PF(this.cfg.clockSyncWidgetVar);
-            let bestRemainingMilliseconds = clockSyncWidget.getBestRemainingMilliseconds(remainingMilliseconds, this.serverSideExpires);
-            this.setTime(bestRemainingMilliseconds);
+            let clientSideExpires = clockSyncWidget.getClientSideEvent(this.serverSideExpires);
+            if (null !== clientSideExpires) {
+                this.expires = clientSideExpires;
+            }
         }
     },
 
@@ -59,8 +59,26 @@ PrimeFaces.widget.EJSFCountdown = PrimeFaces.widget.BaseWidget.extend({
         if (typeof this.cfg.clockSyncWidgetVar !== "undefined") {
             this.serverSideExpires = serverSideExpires;
             let clockSyncWidget = PF(this.cfg.clockSyncWidgetVar);
-            let bestRemainingMilliseconds = clockSyncWidget.getBestRemainingMilliseconds(timeLeftInMilliseconds, serverSideExpires);
-            this.setTime(bestRemainingMilliseconds);
+            let clientSideExpires = clockSyncWidget.getClientSideEvent(serverSideExpires);
+            if (null !== clientSideExpires) {
+                this.expires = clientSideExpires;
+                let now = Date.now();
+                this.notified = now;
+                this.updateCountdown();
+                if (this.timer) {
+                    window.clearInterval(this.timer);
+                    this.timer = null;
+                }
+                if (!this.cfg.useHeartbeatTimer) {
+                    let $this = this;
+                    this.timer = window.setInterval(function () {
+                        $this.onTimer();
+                    }, 1000);
+                }
+            } else {
+                // not yet synchronized, so we use what we have.
+                this.setTime(timeLeftInMilliseconds);
+            }
         } else {
             this.setTime(timeLeftInMilliseconds);
         }
