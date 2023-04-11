@@ -14,9 +14,9 @@
                              rendered="false"/>
         <h:form>
             <p:outputLabel for="@next" value="Value:"/>
-            <p:inputNumber widgetVar="inputNumber"/>
+            <p:inputText widgetVar="inputNumber"/>
             <p:button value="Update"
-                      onclick="PF('outputCurrency').setValue(PF('inputNumber').getValue()); return false;"/>
+                      onclick="PF('outputCurrency').setValue(PF('inputNumber').jq.get(0).value); return false;"/>
         </h:form>
         <p:tabView>
             <p:tab title="XHTML">

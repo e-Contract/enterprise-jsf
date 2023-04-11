@@ -20,21 +20,23 @@ PrimeFaces.widget.EJSFOutputCurrency = PrimeFaces.widget.BaseWidget.extend({
             this.currencyValue = null;
         }
         this.currency = this.cfg.currency;
+        this.jqValue = $(this.jqId + "\\:value");
+        this.jqCurrency = $(this.jqId + "\\:currency");
     },
 
     /**
-     * Sets the currency (formatted value).
-     * @param {string} value the formatted value.
+     * Sets the currency value.
+     * @param {number} value the value.
      */
     setValue: function (value) {
         this.currencyValue = value;
         if (null !== value) {
             let formattedValue = this.formatValue(value);
-            $(this.jqId + "\\:value").text(formattedValue);
-            $(this.jqId + "\\:currency").text(" " + this.currency);
+            this.jqValue.text(formattedValue);
+            this.jqCurrency.text(" " + this.currency);
         } else {
-            $(this.jqId + "\\:value").text("");
-            $(this.jqId + "\\:currency").text("");
+            this.jqValue.text("");
+            this.jqCurrency.text("");
         }
     },
 
@@ -54,8 +56,8 @@ PrimeFaces.widget.EJSFOutputCurrency = PrimeFaces.widget.BaseWidget.extend({
     },
 
     /**
-     * Gives back the formatted currency value.
-     * @returns {string} the formatted currency.
+     * Gives back the currency value.
+     * @returns {number} the currency value.
      */
     getValue: function () {
         return this.currencyValue;
