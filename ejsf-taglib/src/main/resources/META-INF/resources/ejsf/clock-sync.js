@@ -45,54 +45,52 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
                     let t1 = Date.now();
                     let roundTripDelay = t1 - $this.t0;
                     console.log("round-trip delay: " + roundTripDelay + " ms");
-                    console.log("response: " + this.responseText);
                     let dt = t1 - this.responseText - roundTripDelay / 2;
-                    console.log("dt: " + dt);
+                    console.log("dt: " + dt + " ms");
                     if (roundTripDelay < $this.bestRoundTripDelay) {
                         $this.dt = dt;
                         $this.bestRoundTripDelay = roundTripDelay;
-                        if (roundTripDelay < $this.cfg.ACCEPTED_ROUND_TRIP_DELAY) {
-                            // already good enough
-                            let alreadyInSync = $this.inSync;
-                            $this.inSync = true;
-                            if (!alreadyInSync) {
-                                $this.invokeSyncListeners();
-                            }
-                        }
                     }
                     $this.syncCount++;
                     if ($this.syncCount === $this.cfg.SYNC_COUNT) {
-                        console.log("best round-trip delay: " + $this.bestRoundTripDelay + " ms");
-                        console.log("corresponding dt: " + $this.dt + " ms");
-                        let options = {
-                            params: [
-                                {
-                                    name: $this.id + '_bestRoundTripDelay',
-                                    value: $this.bestRoundTripDelay
-                                },
-                                {
-                                    name: $this.id + '_deltaT',
-                                    value: Math.round($this.dt)
-                                }
-                            ]
-                        };
-                        $this.callBehavior("sync", options);
-                        $this.clockDriftCount = 0;
+                        if ($this.bestRoundTripDelay > $this.cfg.ACCEPTED_ROUND_TRIP_DELAY) {
+                            // have another round of syncing
+                            $this.syncCount = 0;
+                        } else {
+                            $this.clockDriftCount = 0;
+                            $this.inSync = true;
+                            console.log("best round-trip delay: " + $this.bestRoundTripDelay + " ms");
+                            console.log("corresponding dt: " + $this.dt + " ms");
+                            let options = {
+                                params: [
+                                    {
+                                        name: $this.id + '_bestRoundTripDelay',
+                                        value: $this.bestRoundTripDelay
+                                    },
+                                    {
+                                        name: $this.id + '_deltaT',
+                                        value: Math.round($this.dt)
+                                    }
+                                ]
+                            };
+                            $this.callBehavior("sync", options);
+                            $this.invokeSyncListeners();
+                        }
                     }
                 }
             };
             xmlHttpRequest.open("GET", $this.cfg.SYNC_ENDPOINT, true);
             this.t0 = Date.now();
             xmlHttpRequest.send();
-        } else {
+        } else if (this.inSync) {
             if (this.clockDriftCount === 0) {
                 this.clockDriftTime = Date.now();
             }
             let clockDrift = Math.abs(this.clockDriftTime + this.clockDriftCount * 1000 - Date.now());
             this.clockDriftCount++;
-            console.log("clock drift: " + clockDrift);
+            console.log("clock drift: " + clockDrift + " ms");
             if (clockDrift > this.cfg.MAXIMUM_CLOCK_DRIFT) {
-                console.log("clock drift too high: " + clockDrift);
+                console.log("clock drift too high: " + clockDrift + " ms");
                 this.inSync = false;
                 this.syncCount = 0;
                 this.bestRoundTripDelay = Number.MAX_SAFE_INTEGER;
