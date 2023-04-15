@@ -7,6 +7,7 @@
 package be.e_contract.ejsf.component.jmsinfo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -178,7 +179,11 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
     }
 
     private boolean isEAP6() {
-        MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
+        ArrayList<MBeanServer> mBeanServers = MBeanServerFactory.findMBeanServer(null);
+        if (mBeanServers.isEmpty()) {
+            return false;
+        }
+        MBeanServer mBeanServer = mBeanServers.get(0);
         try {
             ObjectName serverName = new ObjectName("jboss.as:management-root=server");
             String productVersion = (String) mBeanServer.getAttribute(serverName, "productVersion");
@@ -230,7 +235,12 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
             deliveringCountName = "delivering-count";
         }
         try {
-            MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
+            ArrayList<MBeanServer> mBeanServers = MBeanServerFactory.findMBeanServer(null);
+            if (mBeanServers.isEmpty()) {
+                setError(true);
+                return;
+            }
+            MBeanServer mBeanServer = mBeanServers.get(0);
             ObjectName queueName = new ObjectName(queueNameStr);
             long messageCount = (Long) mBeanServer.getAttribute(queueName, messageCountName);
             setMessageCount(messageCount);

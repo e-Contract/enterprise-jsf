@@ -240,6 +240,9 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
                         compositeTags.add(childName);
                     }
                 }
+            } else if (uri.getScheme().equals("wsjar")) {
+                compositeTags = new LinkedList<>();
+                LOGGER.warn("TODO: implement me");
             } else {
                 Path compositePath = Paths.get(uri);
                 compositeTags = Files.list(compositePath)
