@@ -1,0 +1,7 @@
+<web-ext
+    xmlns="http://websphere.ibm.com/xml/ns/javaee"
+    version="1.1">
+
+    <context-root uri="/ejsf-demo"/>
+
+</web-ext>

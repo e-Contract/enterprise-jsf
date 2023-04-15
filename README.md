@@ -115,6 +115,12 @@ cd ejsf-demo
 mvn clean jetty:run -Pmyfaces
 ```
 
+Run the demo web application on the Open Liberty application server via:
+```
+cd ejsf-demo
+mvn clean package liberty:run
+```
+
 Alternatively, the Java EE application can be compiled and deployed to a WildFly Docker container
 that is built on the fly (using the `Dockerfile`-files located in `docker/`) by entering the following command:
 ```shell
