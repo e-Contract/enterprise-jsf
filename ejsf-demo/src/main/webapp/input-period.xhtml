@@ -21,6 +21,10 @@
                     <f:selectItems value="#{inputPeriodController.unitSelectItems}"/>
                 </p:selectOneMenu>
                 <p:message for="@previous"/>
+
+                <p:outputLabel for="@next" value="Disabled"/>
+                <p:inputSwitch value="#{inputPeriodController.disabled}"/>
+                <p:message for="@previous"/>
             </h:panelGrid>
             <p:commandButton value="Update" update="@form,exampleForm"
                              action="#{inputPeriodController.update}"/>
@@ -34,7 +38,8 @@
                 <p:outputLabel for="@next" value="Period"/>
                 <ejsf:inputPeriod id="example" value="#{inputPeriodController.period}"
                                   unit="#{inputPeriodController.unit}"
-                                  maxUnit="#{inputPeriodController.maxUnit}">
+                                  maxUnit="#{inputPeriodController.maxUnit}"
+                                  disabled="#{inputPeriodController.disabled}">
                     <f:validateLongRange minimum="5"/>
                 </ejsf:inputPeriod>
                 <p:message for="@previous"/>

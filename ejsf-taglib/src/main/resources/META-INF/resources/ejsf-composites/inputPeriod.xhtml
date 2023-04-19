@@ -12,71 +12,84 @@
                              shortDescription="The period unit: SECONDS, MINUTES, HOURS, DAYS, MONTHS, YEARS. Defaults to SECONDS."/>
         <composite:attribute name="maxUnit" type="java.lang.String" default="MONTHS"
                              shortDescription="The maximum unit to visualize: SECONDS, MINUTES, HOURS, DAYS, MONTHS, YEARS. Defaults to MONTHS."/>
+        <composite:attribute name="disabled" type="java.lang.Boolean" default="false"
+                             shortDescription="Disables the input element, default is false."/>
     </composite:interface>
     <composite:implementation>
         <span id="#{cc.clientId}">
             <h:panelGroup rendered="#{cc.renderYears}">
-                <p:spinner binding="#{cc.years}" size="4" id="years" min="0">
+                <p:spinner binding="#{cc.years}" size="4" id="years" min="0"
+                           disabled="#{cc.attrs.disabled}">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_years}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMonths}">
-                <p:spinner binding="#{cc.months}" size="4" id="months" min="0">
+                <p:spinner binding="#{cc.months}" size="4" id="months" min="0"
+                           disabled="#{cc.attrs.disabled}">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_months}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMonthsRange}">
-                <p:selectOneMenu binding="#{cc.monthsRange}" id="monthsRange">
+                <p:selectOneMenu binding="#{cc.monthsRange}" id="monthsRange"
+                                 disabled="#{cc.attrs.disabled}">
                     <f:selectItems value="#{cc.monthsSelectItems}"/>
                 </p:selectOneMenu>
                 #{ejsfMessages.inputPeriod_months}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderDays}">
-                <p:spinner binding="#{cc.days}" size="4" id="days" min="0">
+                <p:spinner binding="#{cc.days}" size="4" id="days" min="0"
+                           disabled="#{cc.attrs.disabled}">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_days}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderDaysRange}">
-                <p:selectOneMenu binding="#{cc.daysRange}" id="daysRange">
+                <p:selectOneMenu binding="#{cc.daysRange}" id="daysRange"
+                                 disabled="#{cc.attrs.disabled}">
                     <f:selectItems value="#{cc.daysSelectItems}"/>
                 </p:selectOneMenu>
                 #{ejsfMessages.inputPeriod_days}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderHours}">
-                <p:spinner binding="#{cc.hours}" size="4" id="hours" min="0">
+                <p:spinner binding="#{cc.hours}" size="4" id="hours" min="0"
+                           disabled="#{cc.attrs.disabled}">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_hours}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderHoursRange}">
-                <p:selectOneMenu binding="#{cc.hoursRange}" id="hoursRange">
+                <p:selectOneMenu binding="#{cc.hoursRange}" id="hoursRange"
+                                 disabled="#{cc.attrs.disabled}">
                     <f:selectItems value="#{cc.hoursSelectItems}"/>
                 </p:selectOneMenu>
                 #{ejsfMessages.inputPeriod_hours}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMinutes}">
-                <p:spinner binding="#{cc.minutes}" size="4" id="minutes" min="0">
+                <p:spinner binding="#{cc.minutes}" size="4" id="minutes" min="0"
+                           disabled="#{cc.attrs.disabled}">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_minutes}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderMinutesRange}">
-                <p:selectOneMenu binding="#{cc.minutesRange}" id="minutesRange">
+                <p:selectOneMenu binding="#{cc.minutesRange}" id="minutesRange"
+                                 disabled="#{cc.attrs.disabled}">
                     <f:selectItems value="#{cc.minutesSelectItems}"/>
                 </p:selectOneMenu>
                 #{ejsfMessages.inputPeriod_minutes}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderSeconds}">
-                <p:spinner binding="#{cc.seconds}" size="4" id="seconds" min="0">
+                <p:spinner binding="#{cc.seconds}" size="4" id="seconds" min="0"
+                           disabled="#{cc.attrs.disabled}">
                     <f:validateLongRange minimum="0"/>
                 </p:spinner>
                 #{ejsfMessages.inputPeriod_seconds}
             </h:panelGroup>
             <h:panelGroup rendered="#{cc.renderSecondsRange}">
-                <p:selectOneMenu binding="#{cc.secondsRange}" id="secondsRange">
+                <p:selectOneMenu binding="#{cc.secondsRange}" id="secondsRange"
+                                 disabled="#{cc.attrs.disabled}">
                     <f:selectItems value="#{cc.secondsSelectItems}"/>
                 </p:selectOneMenu>
                 #{ejsfMessages.inputPeriod_seconds}

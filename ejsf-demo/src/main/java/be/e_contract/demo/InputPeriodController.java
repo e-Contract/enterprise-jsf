@@ -31,6 +31,8 @@ public class InputPeriodController implements Serializable {
 
     private String maxUnit;
 
+    private boolean disabled;
+
     public Integer getPeriod() {
         return period;
     }
@@ -72,5 +74,13 @@ public class InputPeriodController implements Serializable {
 
     public void update() {
         this.period = null;
+    }
+
+    public boolean isDisabled() {
+        return this.disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 }
