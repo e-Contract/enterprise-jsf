@@ -58,7 +58,7 @@
             </p:dataTable>
         </h:form>
 
-        <p:dialog widgetVar="addDialog" header="Add" id="addDialog">
+        <p:dialog widgetVar="addDialog" header="Add" id="addDialog" modal="true">
             <h:form id="addDialogForm">
                 <h:panelGrid columns="3">
                     <p:outputLabel for="@next" value="Name:"/>
@@ -73,7 +73,7 @@
                                      update=":helloForm:helloTable,@form,:messages">
                         <ejsf:closeDialog whenCallbackParam="helloAdded"/>
                     </p:commandButton>
-                    <p:commandButton value="Cancel">
+                    <p:commandButton value="Cancel" immediate="true">
                         <ejsf:closeDialog/>
                     </p:commandButton>
                 </h:panelGrid>

@@ -7,15 +7,28 @@
 package be.e_contract.ejsf.quarkus;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Query;
 import javax.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Entity
 @Table(name = "hello")
+@NamedQueries({
+    @NamedQuery(
+            name = HelloEntity.ALL,
+            query = "SELECT he FROM HelloEntity AS he"
+    )
+})
 public class HelloEntity implements Serializable {
+
+    public static final String ALL = "HelloEntity.all";
 
     @Id
     private String name;
@@ -52,5 +65,10 @@ public class HelloEntity implements Serializable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.name).toHashCode();
+    }
+
+    public static List<HelloEntity> getAll(EntityManager entityManager) {
+        Query query = entityManager.createQuery("SELECT he FROM HelloEntity AS he");
+        return query.getResultList();
     }
 }

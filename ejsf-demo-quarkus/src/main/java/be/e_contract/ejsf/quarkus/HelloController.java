@@ -6,18 +6,16 @@
  */
 package be.e_contract.ejsf.quarkus;
 
+import be.e_contract.ejsf.Utils;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIInput;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
@@ -42,12 +40,11 @@ public class HelloController implements Serializable {
     private List<HelloEntity> helloList;
 
     @Inject
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @PostConstruct
     public void postConstruct() {
-        Query query = this.entityManager.createQuery("SELECT he FROM HelloEntity AS he");
-        this.helloList = query.getResultList();
+        this.helloList = HelloEntity.getAll(this.entityManager);
     }
 
     public List<HelloEntity> getHelloList() {
@@ -69,16 +66,11 @@ public class HelloController implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HelloEntity existingHelloEntity = this.entityManager.find(HelloEntity.class, this.newHello.getName());
         if (null != existingHelloEntity) {
-            facesContext.addMessage("addDialogForm:name",
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "existing entity", null));
-            UIViewRoot viewRoot = facesContext.getViewRoot();
-            UIInput nameInput = (UIInput) viewRoot.findComponent("addDialogForm:name");
-            nameInput.setValid(false);
+            Utils.invalidateInput(new FacesMessage(FacesMessage.SEVERITY_ERROR, "existing entity", null), "name");
             return;
         }
         this.entityManager.persist(this.newHello);
-        Query query = this.entityManager.createQuery("SELECT he FROM HelloEntity AS he");
-        this.helloList = query.getResultList();
+        this.helloList = HelloEntity.getAll(this.entityManager);
         PrimeFaces.current().ajax().addCallbackParam("helloAdded", true);
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "entity added: " + this.newHello.getName(), null));
@@ -89,8 +81,7 @@ public class HelloController implements Serializable {
     public void removeItem(HelloEntity hello) {
         HelloEntity helloEntity = this.entityManager.find(HelloEntity.class, hello.getName());
         this.entityManager.remove(helloEntity);
-        Query query = this.entityManager.createQuery("SELECT he FROM HelloEntity AS he");
-        this.helloList = query.getResultList();
+        this.helloList = HelloEntity.getAll(this.entityManager);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "entity removed: " + hello.getName(), null));
