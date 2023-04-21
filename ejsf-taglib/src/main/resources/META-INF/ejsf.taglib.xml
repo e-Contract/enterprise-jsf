@@ -1274,4 +1274,13 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Session keep alive component.</description>
+        <tag-name>sessionKeepAlive</tag-name>
+        <component>
+            <component-type>ejsf.sessionKeepAliveComponent</component-type>
+            <renderer-type>ejsf.sessionKeepAliveRenderer</renderer-type>
+        </component>
+    </tag>
+
 </facelet-taglib>
