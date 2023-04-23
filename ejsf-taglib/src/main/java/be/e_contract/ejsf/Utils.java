@@ -7,6 +7,7 @@
 package be.e_contract.ejsf;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -54,9 +55,26 @@ public class Utils {
         }
         UIComponent component = currentComponent.findComponent(relativeId);
         if (null == component) {
-            LOGGER.error("component not found: {}", relativeId);
-            facesContext.addMessage(null, facesMessage);
-            return;
+            UIComponent namingContainer = currentComponent.getNamingContainer();
+            if (null == namingContainer) {
+                LOGGER.error("component not found: {}", relativeId);
+                facesContext.addMessage(null, facesMessage);
+                return;
+            }
+            for (UIComponent child : namingContainer.getChildren()) {
+                if (!(child instanceof NamingContainer)) {
+                    continue;
+                }
+                component = child.findComponent(relativeId);
+                if (null != component) {
+                    break;
+                }
+            }
+            if (null == component) {
+                LOGGER.error("component not found: {}", relativeId);
+                facesContext.addMessage(null, facesMessage);
+                return;
+            }
         }
         String clientId = component.getClientId();
         facesContext.addMessage(clientId, facesMessage);
