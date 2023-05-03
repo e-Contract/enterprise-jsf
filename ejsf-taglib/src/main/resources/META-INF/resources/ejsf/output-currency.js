@@ -29,12 +29,13 @@ PrimeFaces.widget.EJSFOutputCurrency = PrimeFaces.widget.BaseWidget.extend({
      * @param {number} value the value.
      */
     setValue: function (value) {
-        this.currencyValue = value;
         if (null !== value) {
+            this.currencyValue = Number(value);
             let formattedValue = this.formatValue(value);
             this.jqValue.text(formattedValue);
             this.jqCurrency.text(" " + this.currency);
         } else {
+            this.currencyValue = null;
             this.jqValue.text("");
             this.jqCurrency.text("");
         }

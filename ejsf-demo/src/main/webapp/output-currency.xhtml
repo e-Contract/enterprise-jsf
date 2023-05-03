@@ -7,6 +7,7 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Output Currency Demo</ui:define>
     <ui:define name="body">
+        <h:outputScript library="demo" name="output-currency.js"/>
         <ejsf:outputCurrency id="example"
                              value="#{outputCurrencyController.value}"
                              widgetVar="outputCurrency"/>
@@ -16,7 +17,7 @@
             <p:outputLabel for="@next" value="Value:"/>
             <p:inputText widgetVar="inputNumber"/>
             <p:button value="Update"
-                      onclick="PF('outputCurrency').setValue(PF('inputNumber').jq.get(0).value); return false;"/>
+                      onclick="updateOutputCurrency(); return false;"/>
         </h:form>
         <p:tabView>
             <p:tab title="XHTML">
