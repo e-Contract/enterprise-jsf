@@ -53,7 +53,9 @@ public class EChartsComponent extends UIOutput implements Widget, ClientBehavior
     enum PropertyKeys {
         widgetVar,
         width,
-        height
+        height,
+        style,
+        styleClass,
     }
 
     public String getWidgetVar() {
@@ -78,6 +80,22 @@ public class EChartsComponent extends UIOutput implements Widget, ClientBehavior
 
     public void setHeight(Integer height) {
         getStateHelper().put(PropertyKeys.height, height);
+    }
+
+    public String getStyle() {
+        return (String) getStateHelper().eval(PropertyKeys.style, null);
+    }
+
+    public void setStyle(String style) {
+        getStateHelper().put(PropertyKeys.style, style);
+    }
+
+    public String getStyleClass() {
+        return (String) getStateHelper().eval(PropertyKeys.styleClass, null);
+    }
+
+    public void setStyleClass(String styleClass) {
+        getStateHelper().put(PropertyKeys.styleClass, styleClass);
     }
 
     @Override
