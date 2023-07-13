@@ -39,7 +39,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>12.0.0</version>
+            <version>13.0.0-RC2</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
@@ -82,7 +82,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>5.1.0.Final</version>
+                    <version>5.1.1.Final</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -121,7 +121,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>5.1.0.Final</version>
+                    <version>5.1.1.Final</version>
                 </dependency>
             </dependencies>
         </profile>
