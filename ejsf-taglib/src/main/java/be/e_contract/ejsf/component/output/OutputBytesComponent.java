@@ -56,7 +56,9 @@ public class OutputBytesComponent extends UIOutput {
         if (null == value) {
             return;
         }
-        String formattedBytes = FileUtils.byteCountToDisplaySize(value);
+        // next is to also make it work on commons-io < 2.12.0
+        long longValue = value;
+        String formattedBytes = FileUtils.byteCountToDisplaySize(longValue);
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);
