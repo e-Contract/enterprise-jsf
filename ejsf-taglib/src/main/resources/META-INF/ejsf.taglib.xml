@@ -1296,6 +1296,11 @@
             <component-type>ejsf.sessionKeepAliveComponent</component-type>
             <renderer-type>ejsf.sessionKeepAliveRenderer</renderer-type>
         </component>
+        <attribute>
+            <description>Period in seconds before session expiry that we send a ping. Defaults to 30.</description>
+            <name>pingPeriodBeforeExpiry</name>
+            <type>java.lang.Integer</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>

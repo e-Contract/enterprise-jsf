@@ -33,4 +33,16 @@ public class SessionKeepAliveComponent extends UIComponentBase implements Widget
     public String getFamily() {
         return COMPONENT_FAMILY;
     }
+
+    enum PropertyKeys {
+        pingPeriodBeforeExpiry,
+    }
+
+    public int getPingPeriodBeforeExpiry() {
+        return (int) getStateHelper().eval(PropertyKeys.pingPeriodBeforeExpiry, 30);
+    }
+
+    public void setPingPeriodBeforeExpiry(int pingPeriodBeforeExpiry) {
+        getStateHelper().put(PropertyKeys.pingPeriodBeforeExpiry, pingPeriodBeforeExpiry);
+    }
 }

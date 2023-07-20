@@ -32,7 +32,8 @@ public class SessionKeepAliveRenderer extends CoreRenderer {
         ExternalContext externalContext = context.getExternalContext();
         int sessionMaxInactiveIntervalSeconds = externalContext.getSessionMaxInactiveInterval();
         LOGGER.debug("session max inactive interval: {} sec", sessionMaxInactiveIntervalSeconds);
-        sessionMaxInactiveIntervalSeconds -= 30;
+        int pingPeriodBeforeExpiry = sessionKeepAliveComponent.getPingPeriodBeforeExpiry();
+        sessionMaxInactiveIntervalSeconds -= pingPeriodBeforeExpiry;
         if (sessionMaxInactiveIntervalSeconds > 0) {
             widgetBuilder.attr("SESSION_KEEP_ALIVE_PING_INTERVAL", sessionMaxInactiveIntervalSeconds * 1000);
         }
