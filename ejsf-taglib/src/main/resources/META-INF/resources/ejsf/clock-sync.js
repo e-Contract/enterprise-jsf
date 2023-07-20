@@ -139,9 +139,14 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
      */
     keepAlive: function () {
         console.log("keep alive ping");
-        let xmlHttpRequest = new XMLHttpRequest();
-        xmlHttpRequest.open("GET", this.cfg.SYNC_ENDPOINT, true);
-        xmlHttpRequest.send();
+        let ajaxRequestOptions = {
+            source: this.id,
+            process: this.id,
+            async: true,
+            global: false,
+            event: "keepAlive"
+        };
+        PrimeFaces.ajax.Request.handle(ajaxRequestOptions);
     },
 
     /**

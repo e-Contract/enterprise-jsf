@@ -511,6 +511,11 @@
             <name>sessionKeepAlivePing</name>
             <type>java.lang.Boolean</type>
         </attribute>
+        <attribute>
+            <description>The number of seconds before session expiry that we should ping the server-side. Defaults to 30.</description>
+            <name>sessionKeepAliveBeforeExpiryPeriod</name>
+            <type>java.lang.Integer</type>
+        </attribute>
     </tag>
 
     <tag>

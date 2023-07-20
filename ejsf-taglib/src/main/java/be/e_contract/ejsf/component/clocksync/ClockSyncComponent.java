@@ -70,6 +70,7 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
         acceptedRoundTripDelay,
         maximumClockDrift,
         sessionKeepAlivePing,
+        sessionKeepAliveBeforeExpiryPeriod,
         clockLocation,
     }
 
@@ -79,6 +80,14 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
 
     public void setSessionKeepAlivePing(boolean sessionKeepAlivePing) {
         getStateHelper().put(PropertyKeys.sessionKeepAlivePing, sessionKeepAlivePing);
+    }
+
+    public int getSessionKeepAliveBeforeExpiryPeriod() {
+        return (int) getStateHelper().eval(PropertyKeys.sessionKeepAliveBeforeExpiryPeriod, 30);
+    }
+
+    public void setSessionKeepAliveBeforeExpiryPeriod(int beforeExpiryPeriod) {
+        getStateHelper().put(PropertyKeys.sessionKeepAliveBeforeExpiryPeriod, beforeExpiryPeriod);
     }
 
     public String getWidgetVar() {
