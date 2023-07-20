@@ -134,20 +134,16 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
         Map<String, String> requestParameterMap
                 = externalContext.getRequestParameterMap();
         String clientId = getClientId(facesContext);
-        String behaviorSource = requestParameterMap.get(
-                ClientBehaviorContext.BEHAVIOR_SOURCE_PARAM_NAME);
-        if (clientId.equals(behaviorSource)) {
-            String eventName = requestParameterMap.get(
-                    ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
-            if ("click".equals(eventName)) {
-                AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) event;
-                String parameter = requestParameterMap.get(clientId + "_parameter");
-                ExampleAjaxBehaviorEvent exampleAjaxBehaviorEvent
-                        = new ExampleAjaxBehaviorEvent(this, behaviorEvent.getBehavior(), parameter);
-                exampleAjaxBehaviorEvent.setPhaseId(behaviorEvent.getPhaseId());
-                super.queueEvent(exampleAjaxBehaviorEvent);
-                return;
-            }
+        String eventName = requestParameterMap.get(
+                ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
+        if ("click".equals(eventName)) {
+            AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) event;
+            String parameter = requestParameterMap.get(clientId + "_parameter");
+            ExampleAjaxBehaviorEvent exampleAjaxBehaviorEvent
+                    = new ExampleAjaxBehaviorEvent(this, behaviorEvent.getBehavior(), parameter);
+            exampleAjaxBehaviorEvent.setPhaseId(behaviorEvent.getPhaseId());
+            super.queueEvent(exampleAjaxBehaviorEvent);
+            return;
         }
         super.queueEvent(event);
     }

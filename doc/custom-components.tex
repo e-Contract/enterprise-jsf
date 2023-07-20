@@ -267,6 +267,7 @@ The corresponding CDI controller looks as follows:
 One can also create custom AJAX events that contain component specific parameters.
 An example custom event with some parameter looks as follows.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjaxBehaviorEvent.java}
+This custom AJAX event inherits from the base \texttt{AjaxBehaviorEvent} class and simply adds a custom parameter called \texttt{parameter}.
 
 This custom AJAX event is passed as parameter to the CDI bean listener method as follows.
 \lstinputlisting[language=Java]{../helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/AjaxCustomEventController.java}
@@ -274,7 +275,9 @@ This custom AJAX event is passed as parameter to the CDI bean listener method as
 The following example JSF component demonstrates how to fire such custom AJAX JSF event that contains a parameter passed from the client-side to the server-side.
 \lstinputlisting[language=Java]{../helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjaxEventComponent.java}
 We don't use \texttt{getScript} of the client behavior as we want to pass on our own parameter.
+Within the \texttt{decode} method we decode the client behaviors as usual.
 Only additional thing here is that, within \texttt{queueEvent}, we like upgrade the \texttt{AjaxBehaviorEvent} to our own flavor \texttt{ExampleAjaxBehaviorEvent}.
+Notice here that within \texttt{queueEvent} we don't have to recheck whether the behavior source indeed corresponds with our component since the \texttt{decode} method already did this, and only fired the AJAX event towards our component anyway.
 
 The corresponding \texttt{example-ajax-event.js} Javascript resource file looks as follows:
 \lstinputlisting[language=Javascript]{../helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-ajax-event.js}
