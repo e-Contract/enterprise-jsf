@@ -143,8 +143,8 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <node.version>v18.16.0</node.version>
-        <npm.version>9.6.6</npm.version>
+        <node.version>v18.17.0</node.version>
+        <npm.version>9.8.0</npm.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -183,7 +183,7 @@
             <dependency>
                 <groupId>com.googlecode.libphonenumber</groupId>
                 <artifactId>libphonenumber</artifactId>
-                <version>8.13.16</version>
+                <version>8.13.17</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
