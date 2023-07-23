@@ -9,3 +9,10 @@ function selectMenuitemLink(link) {
     $("#menuForm\\:mainMenuList").find(".ui-state-active").removeClass("ui-state-active");
     $(link).addClass("ui-state-active");
 }
+
+$(document).ready(function () {
+    let activeStateMenuItemElements = $("#menuForm\\:mainMenuList").find(".ui-state-active");
+    if (activeStateMenuItemElements.length === 1) {
+        activeStateMenuItemElements[0].scrollIntoView();
+    }
+});
