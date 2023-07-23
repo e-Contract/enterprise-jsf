@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface shortDescription="Displays information about the JVM memory."
+                             componentType="ejsf.memoryInfo">
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                <p:panel header="Memory Information" id="panel">
+                    <f:facet name="options">
+                        <p:menu>
+                            <p:submenu label="Settings">
+                                <p:menuitem value="Refresh" icon="pi pi-refresh"
+                                            action="#{cc.refresh()}" update="panel"/>
+                                <p:menuitem value="Garbage Collection" icon="pi pi-trash"
+                                            action="#{cc.gc()}" update="panel"/>
+                            </p:submenu>
+                        </p:menu>
+                    </f:facet>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Used Memory:"/>
+                        <ejsf:outputBytes value="#{cc.usedMemory}"/>
+
+                        <h:outputText value="Maximum Memory:"/>
+                        <ejsf:outputBytes value="#{cc.maxMemory}"/>
+                    </h:panelGrid>
+                </p:panel>
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>
