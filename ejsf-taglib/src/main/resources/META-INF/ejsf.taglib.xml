@@ -1303,4 +1303,35 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Announcement component.</description>
+        <tag-name>announcement</tag-name>
+        <component>
+            <component-type>ejsf.announcementComponent</component-type>
+            <renderer-type>ejsf.announcementRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The name of the announcement cookie. Defaults to 'announcement'.</description>
+            <name>name</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The version of the announcement. Defaults to 0.</description>
+            <name>version</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>Action to accept the announcement.</description>
+        <tag-name>acceptAnnouncement</tag-name>
+        <handler-class>be.e_contract.ejsf.component.announcement.AcceptAnnouncementTagHandler</handler-class>
+        <attribute>
+            <description>The retention period in seconds for the announcement cookie.</description>
+            <name>retention</name>
+            <required>true</required>
+            <type>java.lang.Integer</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
