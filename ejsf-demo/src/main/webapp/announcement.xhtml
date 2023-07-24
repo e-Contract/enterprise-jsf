@@ -11,10 +11,15 @@
                            name="announcement"
                            version="#{announcementController.version}">
             <p:panel header="Announcement version #{announcementController.version}">
-                #{announcementController.message}
+                #{announcementController.latestAnnouncement}
+                <ejsf:announcementVersions var="version">
+                    <ui:fragment rendered="#{not empty announcementController.getAnnouncement(version)}">
+                        Announcement: #{announcementController.getAnnouncement(version)} (version #{version})
+                    </ui:fragment>
+                </ejsf:announcementVersions>
                 <h:form>
                     <p:commandButton value="OK">
-                        <ejsf:acceptAnnouncement retention="10"/>
+                        <ejsf:acceptAnnouncement retention="60"/>
                     </p:commandButton>
                 </h:form>
             </p:panel>
@@ -22,11 +27,27 @@
         </ejsf:announcement>
         <p:panel header="Configuration">
             <h:form>
+                <p:dataTable id="announcements" value="#{announcementController.announcements}" var="announcement">
+                    <p:column headerText="Version">
+                        #{announcement.version}
+                    </p:column>
+                    <p:column headerText="Message">
+                        #{announcement.message}
+                    </p:column>
+                    <p:column headerText="Actions">
+                        <p:commandButton icon="pi pi-trash"
+                                         action="#{announcementController.removeAnnouncement(announcement)}"
+                                         update="announcements"/>
+                    </p:column>
+                </p:dataTable>
                 <h:panelGrid columns="2">
-                    <p:outputLabel for="@next" value="Message:"/>
-                    <p:inputText value="#{announcementController.message}" size="80"/>
+                    <p:outputLabel for="@next" value="New announcement:"/>
+                    <p:inputText value="#{announcementController.message}" id="message" size="80"/>
                 </h:panelGrid>
-                <p:commandButton value="Update" update="example"/>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Add" update="announcements,message" action="#{announcementController.addAnnouncement()}"/>
+                    <p:commandButton value="Update announcement" update="example"/>
+                </h:panelGrid>
             </h:form>
         </p:panel>
         <p:tabView>
@@ -39,6 +60,7 @@
             <p:tab title="API">
                 <ejsf:tagInfo library="ejsf" tag="announcement"/>
                 <ejsf:tagInfo library="ejsf" tag="acceptAnnouncement"/>
+                <ejsf:tagInfo library="ejsf" tag="announcementVersions"/>
             </p:tab>
         </p:tabView>
     </ui:define>

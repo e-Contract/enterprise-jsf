@@ -93,4 +93,21 @@ public class AnnouncementComponent extends UIComponentBase {
         cookieOptions.put("httpOnly", Boolean.TRUE);
         ResourceUtils.addResponseCookie(facesContext, cookieName, version.toString(), cookieOptions);
     }
+
+    public Integer getAcceptedVersion() {
+        String cookieName = getName();
+        String acceptedVersionAttribute = AnnouncementComponent.class.getName() + "." + cookieName + ".version";
+        FacesContext facesContext = getFacesContext();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpServletRequest httpServletRequest = (HttpServletRequest) externalContext.getRequest();
+        Integer acceptedVersion = (Integer) httpServletRequest.getAttribute(acceptedVersionAttribute);
+        if (null != acceptedVersion) {
+            return acceptedVersion;
+        }
+        Cookie cookie = (Cookie) externalContext.getRequestCookieMap().get(cookieName);
+        if (null == cookie) {
+            return null;
+        }
+        return Integer.valueOf(cookie.getValue());
+    }
 }

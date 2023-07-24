@@ -1354,4 +1354,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>UIData component for announcement versions to be announced.</description>
+        <tag-name>announcementVersions</tag-name>
+        <component>
+            <component-type>ejsf.announcementVersionsComponent</component-type>
+            <renderer-type>ejsf.announcementVersionsRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The EL variable containing the version.</description>
+            <name>var</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
