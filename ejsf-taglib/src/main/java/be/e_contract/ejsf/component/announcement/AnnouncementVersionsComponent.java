@@ -28,6 +28,18 @@ public class AnnouncementVersionsComponent extends UIData {
         return COMPONENT_FAMILY;
     }
 
+    enum PropertyKeys {
+        oldestVersion,
+    }
+
+    public Integer getOldestVersion() {
+        return (Integer) getStateHelper().eval(PropertyKeys.oldestVersion, null);
+    }
+
+    public void setOldestVersion(Integer oldestVersion) {
+        getStateHelper().put(PropertyKeys.oldestVersion, oldestVersion);
+    }
+
     @Override
     public Object getValue() {
         AnnouncementComponent announcementComponent = findAnnouncementComponent(this);
@@ -40,6 +52,13 @@ public class AnnouncementVersionsComponent extends UIData {
         } else {
             initialVersion++;
         }
+        Integer oldestVersion = getOldestVersion();
+        if (null != oldestVersion) {
+            if (initialVersion < oldestVersion) {
+                initialVersion = oldestVersion;
+            }
+        }
+
         Integer currentVersion = announcementComponent.getVersion();
         if (null == currentVersion) {
             currentVersion = 0;

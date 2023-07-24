@@ -1367,6 +1367,11 @@
             <required>true</required>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The optional oldest version for which there is still an announcement.</description>
+            <name>oldestVersion</name>
+            <type>java.lang.Integer</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>
