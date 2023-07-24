@@ -1334,4 +1334,24 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Mermaid component.</description>
+        <tag-name>mermaid</tag-name>
+        <component>
+            <component-type>ejsf.mermaidComponent</component-type>
+            <renderer-type>ejsf.mermaidRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The Mermaid diagram.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

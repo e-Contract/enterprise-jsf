@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Mermaid Demo</ui:define>
+    <ui:define name="body">
+        <p>
+            This page demonstrates the
+            <ejsf:outputUrl value="https://mermaid.js.org"
+                            label="Mermaid"
+                            newTab="true"/>
+            component.
+        </p>
+        <ejsf:mermaid id="example" value="#{mermaidController.diagram}"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="MermaidController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/MermaidController.java"/>
+            </p:tab>
+            <p:tab title="diagram.mermaid">
+                <ejsf:highlight resource="/diagram.mermaid" language="plaintext"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="mermaid"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

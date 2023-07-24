@@ -246,6 +246,7 @@
         <module>ejsf-taglib-d3</module>
         <module>ejsf-taglib-highlight</module>
         <module>ejsf-taglib-visnetwork</module>
+        <module>ejsf-taglib-mermaid</module>
     </modules>
     <profiles>
         <profile>
