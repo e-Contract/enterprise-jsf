@@ -10,11 +10,20 @@
         <ejsf:announcement id="example"
                            name="announcement"
                            version="#{announcementController.version}">
-            <p:panel header="Announcement version #{announcementController.version}">
-                #{announcementController.latestAnnouncement}
-                <ejsf:announcementVersions var="version">
+            <p:panel header="Announcement">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Latest version:"/>
+                    <h:outputText value="#{announcementController.version}"/>
+
+                    <h:outputText value="Latest message:"/>
+                    <h:outputText value="#{announcementController.latestAnnouncement}"/>
+                </h:panelGrid>
+                <ejsf:announcementVersions var="version" order="desc">
                     <ui:fragment rendered="#{not empty announcementController.getAnnouncement(version)}">
-                        Announcement: #{announcementController.getAnnouncement(version)} (version #{version})
+                        <p:panel header="Announcement #{version}">
+                            #{announcementController.getAnnouncement(version)}
+                        </p:panel>
+                        <p:spacer height="10px"/>
                     </ui:fragment>
                 </ejsf:announcementVersions>
                 <h:form>
@@ -27,7 +36,10 @@
         </ejsf:announcement>
         <p:panel header="Configuration">
             <h:form>
-                <p:dataTable id="announcements" value="#{announcementController.announcements}" var="announcement">
+                <p:dataTable id="announcements" value="#{announcementController.announcements}"
+                             var="announcement"
+                             tableStyle="table-layout: auto !important;"
+                             resizableColumns="true">
                     <p:column headerText="Version">
                         #{announcement.version}
                     </p:column>

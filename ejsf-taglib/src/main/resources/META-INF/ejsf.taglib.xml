@@ -1316,7 +1316,7 @@
             <type>java.lang.Integer</type>
         </attribute>
         <attribute>
-            <description>The version of the announcement. Defaults to 0.</description>
+            <description>The version of the announcement.</description>
             <name>version</name>
             <type>java.lang.Integer</type>
         </attribute>
@@ -1371,6 +1371,11 @@
             <description>The optional oldest version for which there is still an announcement.</description>
             <name>oldestVersion</name>
             <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The order in which to iterate the versions. Possible values: 'asc' or 'desc'. Defaults to 'asc'.</description>
+            <name>order</name>
+            <type>java.lang.String</type>
         </attribute>
     </tag>
 

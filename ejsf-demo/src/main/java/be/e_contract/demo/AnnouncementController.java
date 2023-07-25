@@ -21,7 +21,7 @@ public class AnnouncementController implements Serializable {
 
     private String message;
 
-    private int version;
+    private Integer version;
 
     private List<Announcement> announcements;
 
@@ -70,11 +70,11 @@ public class AnnouncementController implements Serializable {
         this.message = message;
     }
 
-    public int getVersion() {
+    public Integer getVersion() {
         return this.version;
     }
 
-    public void setVersion(int version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
 
@@ -83,7 +83,11 @@ public class AnnouncementController implements Serializable {
             Utils.invalidateInput("message");
             return;
         }
-        this.version++;
+        if (null == this.version) {
+            this.version = 1;
+        } else {
+            this.version++;
+        }
         Announcement announcement = new Announcement(this.version, this.message);
         this.announcements.add(announcement);
         this.message = null;

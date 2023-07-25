@@ -16,9 +16,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.util.LangUtils;
 import org.primefaces.util.ResourceUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @FacesComponent(AnnouncementComponent.COMPONENT_TYPE)
 public class AnnouncementComponent extends UIComponentBase {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnnouncementComponent.class);
 
     public static final String COMPONENT_TYPE = "ejsf.announcementComponent";
 
@@ -47,39 +51,47 @@ public class AnnouncementComponent extends UIComponentBase {
     }
 
     public Integer getVersion() {
-        return (Integer) getStateHelper().eval(PropertyKeys.version, 0);
+        return (Integer) getStateHelper().eval(PropertyKeys.version, null);
     }
 
     public void setVersion(Integer version) {
         getStateHelper().put(PropertyKeys.version, version);
     }
 
-    public boolean hasAnnouncementAccepted() {
+    private String getAcceptedVersionAttribute() {
         String cookieName = getName();
-        Integer version = getVersion();
         String acceptedVersionAttribute = AnnouncementComponent.class.getName() + "." + cookieName + ".version";
+        return acceptedVersionAttribute;
+    }
+
+    public boolean hasAnnouncementAccepted() {
+        Integer version = getVersion();
+        if (null == version) {
+            // nothing to announce here
+            return true;
+        }
+        String acceptedVersionAttribute = getAcceptedVersionAttribute();
         FacesContext facesContext = getFacesContext();
         ExternalContext externalContext = facesContext.getExternalContext();
         HttpServletRequest httpServletRequest = (HttpServletRequest) externalContext.getRequest();
         Integer acceptedVersion = (Integer) httpServletRequest.getAttribute(acceptedVersionAttribute);
         if (null != acceptedVersion) {
-            if (null == version) {
-                return true;
-            }
             return acceptedVersion.equals(version);
         }
+        String cookieName = getName();
         Cookie cookie = (Cookie) externalContext.getRequestCookieMap().get(cookieName);
         if (null == cookie) {
             return false;
         }
         acceptedVersion = Integer.valueOf(cookie.getValue());
+        LOGGER.debug("accepted version: {}", acceptedVersion);
         return acceptedVersion.equals(version);
     }
 
     public void acceptAnnouncement(int retention) {
         String cookieName = getName();
         Integer version = getVersion();
-        String acceptedVersionAttribute = AnnouncementComponent.class.getName() + "." + cookieName + ".version";
+        String acceptedVersionAttribute = getAcceptedVersionAttribute();
         FacesContext facesContext = getFacesContext();
         ExternalContext externalContext = facesContext.getExternalContext();
         HttpServletRequest httpServletRequest = (HttpServletRequest) externalContext.getRequest();
@@ -95,8 +107,7 @@ public class AnnouncementComponent extends UIComponentBase {
     }
 
     public Integer getAcceptedVersion() {
-        String cookieName = getName();
-        String acceptedVersionAttribute = AnnouncementComponent.class.getName() + "." + cookieName + ".version";
+        String acceptedVersionAttribute = getAcceptedVersionAttribute();
         FacesContext facesContext = getFacesContext();
         ExternalContext externalContext = facesContext.getExternalContext();
         HttpServletRequest httpServletRequest = (HttpServletRequest) externalContext.getRequest();
@@ -104,6 +115,7 @@ public class AnnouncementComponent extends UIComponentBase {
         if (null != acceptedVersion) {
             return acceptedVersion;
         }
+        String cookieName = getName();
         Cookie cookie = (Cookie) externalContext.getRequestCookieMap().get(cookieName);
         if (null == cookie) {
             return null;
