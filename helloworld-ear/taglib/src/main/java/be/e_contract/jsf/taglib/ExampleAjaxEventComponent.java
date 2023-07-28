@@ -61,26 +61,26 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
         responseWriter.endElement("button");
     }
 
-    private String resolveClientIds(FacesContext facesContext, Collection<String> relativeClientIds) {
-        if (null == relativeClientIds) {
+    private String resolveClientIds(FacesContext facesContext, Collection<String> relativeIds) {
+        if (null == relativeIds) {
             return "null";
         }
-        if (relativeClientIds.isEmpty()) {
+        if (relativeIds.isEmpty()) {
             return "null";
         }
         StringBuilder absoluteClientIds = new StringBuilder();
-        for (String relativeClientId : relativeClientIds) {
+        for (String relativeClientId : relativeIds) {
             if (absoluteClientIds.length() > 0) {
                 absoluteClientIds.append(' ');
             }
             if (relativeClientId.charAt(0) == '@') {
                 absoluteClientIds.append(relativeClientId);
             } else {
-                UIComponent found = findComponent(relativeClientId);
-                if (found == null) {
+                UIComponent component = findComponent(relativeClientId);
+                if (component == null) {
                     throw new IllegalArgumentException("component not found: " + relativeClientId);
                 }
-                absoluteClientIds.append(found.getClientId(facesContext));
+                absoluteClientIds.append(component.getClientId(facesContext));
             }
         }
         return "'" + absoluteClientIds.toString() + "'";
@@ -88,21 +88,8 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
 
     @Override
     public void decode(FacesContext context) {
-        Map<String, List<ClientBehavior>> allClientBehaviors = getClientBehaviors();
-        if (allClientBehaviors.isEmpty()) {
-            return;
-        }
         ExternalContext externalContext = context.getExternalContext();
         Map<String, String> params = externalContext.getRequestParameterMap();
-        String behaviorEvent = params.get(
-                ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
-        if (null == behaviorEvent) {
-            return;
-        }
-        List<ClientBehavior> clientBehaviors = allClientBehaviors.get(behaviorEvent);
-        if (clientBehaviors.isEmpty()) {
-            return;
-        }
         String behaviorSource = params.get(
                 ClientBehaviorContext.BEHAVIOR_SOURCE_PARAM_NAME);
         if (null == behaviorSource) {
@@ -110,6 +97,16 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
         }
         String clientId = getClientId(context);
         if (!behaviorSource.equals(clientId)) {
+            return;
+        }
+        String behaviorEvent = params.get(
+                ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
+        if (null == behaviorEvent) {
+            return;
+        }
+        Map<String, List<ClientBehavior>> allClientBehaviors = getClientBehaviors();
+        List<ClientBehavior> clientBehaviors = allClientBehaviors.get(behaviorEvent);
+        if (null == clientBehaviors) {
             return;
         }
         for (ClientBehavior clientBehavior : clientBehaviors) {

@@ -1,16 +1,13 @@
 package be.e_contract.jsf.helloworld;
 
 import be.e_contract.jsf.taglib.output.ExampleEnum;
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 @Named
-@ViewScoped
-public class EnumOutputController implements Serializable {
+public class EnumOutputController {
 
     private List<ExampleEnum> items;
 

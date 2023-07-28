@@ -4,7 +4,7 @@
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Introduction}
-
+\label{chap:introduction}
 Within this chapter we give a brief overview of JSF \cite{JSF23}.
 We will not review every feature of JSF but just enough to get you started.
 Please check out the \nameref{chap:references} on page \pageref{chap:references} if you are looking for more in-depth material.
@@ -60,6 +60,8 @@ Our initial \texttt{src/main/webapp/index.xhtml} XHTML file looks as follows.
 This JSF page simply shows some text.
 The JSF  page uses a combination of plain HTML together with JSF specific tags.
 This is cleary indicated by means of the different XML namespaces and prefixes.
+While you can use any XML prefix for a given XML namespace, it is good practice to be consistent here.
+For the \texttt{http://xmlns.jcp.org/jsf/html} XML namespace we will always be using the \texttt{xmlns:h} prefix.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/web.xml}
@@ -72,6 +74,7 @@ For proper development, the web browser caching has to be disabled so changes to
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/faces-config.xml}
+The \texttt{faces-config.xml} configuration file allows you to define various settings and configurations of the JSF runtime to customize the behavior of your JSF application.
 As indicated by the \texttt{version} attribute, we are targeting JSF version 2.3, which is part of Java EE 8.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI \cite{CDI2}:
@@ -219,10 +222,13 @@ Since proper user feedback is often required when executing a page action, we al
 Within the example we have \texttt{h:messages} that displays global JSF messages only,
 indicated via \texttt{globalOnly="true"}.
 Specific for the \texttt{h:inputText} component, we have a dedicated \texttt{h:message} component.
+Notice how we refer to the \texttt{h:inputText} component using \texttt{@next} and \texttt{@previous}.
+That way we can avoid having to place an explicit \texttt{id} attribute on \texttt{h:inputText}.
 We mark the \texttt{messages} component for rendering via the \texttt{f:ajax} \texttt{render} attribute.
 
 The corresponding CDI controller demonstrates how to generate JSF messages when our action method is being invoked.
 \lstinputlisting[language=Java]{../helloworld/src/main/java/be/e_contract/jsf/helloworld/PageController.java}
+JSF messages can be emitted via the \texttt{facesContext.addMessage} method.
 Global JSF messages are added by setting \texttt{null} as client identifier.
 Via the \texttt{mainForm:input} client identifier we explicitly target a JSF message towards our input component.
 
@@ -230,8 +236,8 @@ Via the \texttt{mainForm:input} client identifier we explicitly target a JSF mes
 
 Enabling input validation on JSF input components is demonstrated in the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/validation.xhtml}
-Here you get an error message when the length of the input is less than 4.
-Validator tags like \texttt{f:validateLength} can be attached to input components by simply adding them as child element of the input component tag.
+Here you get a JSF error message when the length of the input is less than 4.
+Input validator like \texttt{f:validateLength} can be attached to input components by simply adding them as child element of the corresponding input component tag.
 JSF comes with a lot of common validators out-of-the-box.
 
 \section{CSS}
@@ -239,11 +245,11 @@ JSF comes with a lot of common validators out-of-the-box.
 Styling JSF can be done by attaching a CSS stylesheet to our XHTML page as demonstrated within the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/css.xhtml}
 Via the \texttt{h:outputStylesheet} tag we include our CSS stylesheet as part of the rendering of our JSF page.
-The CSS resource file, located under
+The CSS resource file, located within our Maven project under
 
 \texttt{src/main/webapp/resources/css/style.css}, contains the following style:
 \lstinputlisting[language=CSS]{../helloworld/src/main/webapp/resources/css/style.css}
-Now JSF messages show up colored in red.
+This makes the JSF messages to show up colored in red.
 
 \section{Data Iterators}
 
@@ -254,7 +260,8 @@ Using a \texttt{@PostConstruct} method we initialize our list with some example 
 
 The JSF page uses an \texttt{h:dataTable} component to visualize the list within a table as shown below.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/datatable.xhtml}
-The variable \texttt{item} is used to iterate over the different items within our list of items.
+Via the \texttt{var} attribute on the \texttt{h:dataTable} component we indicate which EL variable should be used to iterate over our list.
+Hence the variable \texttt{item} is used to iterate over the different items within our list of items.
 Via \texttt{f:facet} elements we can define various facets of JSF components.
 Here the \texttt{h:column} component will interpret the facet named "\texttt{header}" as column header within the rendered data table.
 
@@ -270,12 +277,12 @@ The idea of this all is to being able to expose the full power of HTML5 to the d
 To free the developer from using nicely encapsulated JSF components and to let him/her being able to go like as low-level as possible.
 This of course because since HTML5, all web browsers suddenly react in a uniform manner.
 No more web browser specific tweaks are needed.
-After like 20 years of web browser specific tweaks and work-arounds, with HTML5, they all behave in a standardized way.
+After like 20 years of web browser specific tweaks and work-arounds, with HTML5 all of a sudden, they all behave in a standardized way.
 
 Some observations here:
 \begin{itemize}
 	\item Most developers are very lousy as web design/development. With HTML5 the options and possible solutions to a problem have only increased, making things even worse.
-	\item Applying a nice HTML5 design pattern to like 50 JSF pages is cool, until the point where your customer asks you to change that cool behavior to something else. Then you find yourself in the lovely position of having to revisit every JSF page on which you applied this cool HTML5 thingy.
+	\item Applying a nice HTML5 design pattern to like 50 JSF pages is cool, up until the point where your customer asks you to change that cool behavior to something else. Then you find yourself in the lovely position of having to revisit every JSF page on which you applied this cool HTML5 thingy.
 	If this cool HTML5 thingy would have been isolated within a custom JSF component, you would have to make changes to only one component.
 	\item Separation of concerns. Even if you find yourself in the position of being both a perfect developer and a good web designer, you still want to keep these things separate as much as possible.
 	Over time, I learned that most people can only attack one problem at a time.
@@ -290,12 +297,12 @@ Some observations here:
 	This phenomenon has always existed, and will never go away.
 	Again here, it is much easier to implement the required work-arounds in a single custom JSF component versus all over the place directly within your JSF pages.
 	
-	\item The argument that JSF components are difficult to tweak/style is true, but not JSF specific.
+	\item The argument that JSF components are difficult to tweak/style is true, but this problem is not JSF specific.
 	Every component technology, whether it is using server-side rendering or client-side rendering,
 	is subject to this problem.
 	You always have to dig into the renderer (unless there is good documentation of course)
 	to see which style classes and/or CSS selectors you can use to fiddle with the look and feel of the component.
-	This is not much more painful for JSF than it is for other "modern" web frameworks out there.
+	This is not much more painful for JSF than it is for other "modern" Javascript client-side web frameworks out there.
 \end{itemize}
 
 Just like you don't start to add inline assembly code within your C/C++ applications when a new CPU generation comes out,
@@ -347,7 +354,8 @@ Configure the WildFly logging within \texttt{standalone/configuration/standalone
 	</handlers>
 </logger>
 \end{lstlisting}
-After restarting the WildFly application server, you can now follow the log via:
+This configuration will append every logging with prefix \texttt{be.e\_contract.jsf} at log level \texttt{DEBUG} or higher to the file \texttt{ejsf.log}.
+After restarting the WildFly application server, you can now follow the log file via:
 \begin{lstlisting}[language=bash]
 	cd wildfly-26.1.3.Final/standalone/log
 	tail -F ejsf.log
@@ -366,14 +374,14 @@ We give a description of each JSF phase.
 	\item[Restore View]
 	During this initial phase, the \texttt{UIViewRoot} component tree is reconstructed using the corresponding XHTML page.
 	\item[Apply Request Values]
-	During this phase, each component decodes the request parameters to update its local values.
+	During this phase, each component decodes the submitted request parameters to update its local values.
 	This is done via the \texttt{decode} method of each involved component.
 	\item[Process Validations]
 	During this phase, all convertors and validators are executed against the component local values.
 	\item[Update Model Values]
-	During this phase, the CDI backing bean properties are updated with the components local values.
+	During this phase, the CDI backing bean properties are updated with the components validated local values.
 	\item[Invoke Application]
-	During this phase, all actions are executed.
+	During this phase, all application-specific actions are executed.
 	\item[Render Response]
 	During this final phase, the components are rendered.
 	The component state is also saved for subsequent access during the restore view phase.
@@ -388,7 +396,7 @@ giving us a common look and feel.
 The following example template, located under \texttt{WEB-INF/template.xhtml},
 gives us a common header structure that shows us global JSF messages right after the page title.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/WEB-INF/template.xhtml}
-Via the \texttt{ui:insert} tags we define insertion points to be used by our actual JSF pages like shown in the following example.
+Via the \texttt{ui:insert} tags we define insertion points to be used by our actual JSF pages as shown in the following example.
 \lstinputlisting[language=XML]{../helloworld/src/main/webapp/facelets.xhtml}
 We refer to our template via the \texttt{ui:composition} \texttt{template} attribute.
 Via the \texttt{ui:define} tags, we materialize our template with the actual content.

@@ -41,7 +41,9 @@ public class ParameterValidator implements Validator, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
-        return new Object[]{this.parameter};
+        return new Object[]{
+            this.parameter
+        };
     }
 
     @Override

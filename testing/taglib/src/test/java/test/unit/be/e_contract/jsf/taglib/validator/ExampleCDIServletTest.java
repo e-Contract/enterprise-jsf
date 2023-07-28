@@ -43,9 +43,13 @@ public class ExampleCDIServletTest {
         ServletHolder servletHolder = new ServletHolder(ExampleCDIServlet.class);
         context.addServlet(servletHolder, "/hello");
 
-        context.setInitParameter(CdiServletContainerInitializer.CDI_INTEGRATION_ATTRIBUTE, CdiDecoratingListener.MODE);
-        context.addBean(new ServletContextHandler.Initializer(context, new CdiServletContainerInitializer()));
-        context.addBean(new ServletContextHandler.Initializer(context, new EnhancedListener()));
+        context.setInitParameter(
+                CdiServletContainerInitializer.CDI_INTEGRATION_ATTRIBUTE,
+                CdiDecoratingListener.MODE);
+        context.addBean(new ServletContextHandler.Initializer(context,
+                new CdiServletContainerInitializer()));
+        context.addBean(new ServletContextHandler.Initializer(context,
+                new EnhancedListener()));
 
         this.server.start();
 
@@ -62,9 +66,9 @@ public class ExampleCDIServletTest {
     @Test
     public void testRequest() throws Exception {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
-        try ( CloseableHttpClient httpClient = httpClientBuilder.build()) {
+        try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
             HttpGet httpGet = new HttpGet(this.url);
-            try ( CloseableHttpResponse httpResponse = httpClient.execute(httpGet)) {
+            try (CloseableHttpResponse httpResponse = httpClient.execute(httpGet)) {
                 int statusCode = httpResponse.getCode();
                 assertEquals(HttpURLConnection.HTTP_OK, statusCode);
                 String body = EntityUtils.toString(httpResponse.getEntity());

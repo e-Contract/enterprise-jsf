@@ -1,15 +1,12 @@
 package be.e_contract.jsf.helloworld;
 
 import be.e_contract.jsf.taglib.ExampleAjaxBehaviorEvent;
-import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 @Named
-@ViewScoped
-public class AjaxCustomEventController implements Serializable {
+public class AjaxCustomEventController {
 
     public void ajaxListener(ExampleAjaxBehaviorEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();

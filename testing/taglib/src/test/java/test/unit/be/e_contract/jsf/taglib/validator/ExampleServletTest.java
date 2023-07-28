@@ -47,9 +47,9 @@ public class ExampleServletTest {
     @Test
     public void testRequest() throws Exception {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
-        try ( CloseableHttpClient httpClient = httpClientBuilder.build()) {
+        try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
             HttpGet httpGet = new HttpGet(this.url);
-            try ( CloseableHttpResponse httpResponse = httpClient.execute(httpGet)) {
+            try (CloseableHttpResponse httpResponse = httpClient.execute(httpGet)) {
                 int statusCode = httpResponse.getCode();
                 assertEquals(HttpURLConnection.HTTP_OK, statusCode);
                 String body = EntityUtils.toString(httpResponse.getEntity());

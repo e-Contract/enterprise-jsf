@@ -44,8 +44,8 @@ public class ExampleAjax extends UIComponentBase implements ClientBehaviorHolder
             ClientBehaviorContext behaviorContext
                     = ClientBehaviorContext.createClientBehaviorContext(
                             context, this, "click", clientId, null);
-            String click = behaviors.get("click").get(0).getScript(behaviorContext);
-            responseWriter.writeAttribute("onclick", click, null);
+            String clickScript = behaviors.get("click").get(0).getScript(behaviorContext);
+            responseWriter.writeAttribute("onclick", clickScript, null);
         }
 
         responseWriter.writeText("Click me", null);
@@ -54,21 +54,8 @@ public class ExampleAjax extends UIComponentBase implements ClientBehaviorHolder
 
     @Override
     public void decode(FacesContext context) {
-        Map<String, List<ClientBehavior>> allClientBehaviors = getClientBehaviors();
-        if (allClientBehaviors.isEmpty()) {
-            return;
-        }
         ExternalContext externalContext = context.getExternalContext();
         Map<String, String> params = externalContext.getRequestParameterMap();
-        String behaviorEvent = params.get(
-                ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
-        if (null == behaviorEvent) {
-            return;
-        }
-        List<ClientBehavior> clientBehaviors = allClientBehaviors.get(behaviorEvent);
-        if (clientBehaviors.isEmpty()) {
-            return;
-        }
         String behaviorSource = params.get(
                 ClientBehaviorContext.BEHAVIOR_SOURCE_PARAM_NAME);
         if (null == behaviorSource) {
@@ -76,6 +63,16 @@ public class ExampleAjax extends UIComponentBase implements ClientBehaviorHolder
         }
         String clientId = getClientId(context);
         if (!behaviorSource.equals(clientId)) {
+            return;
+        }
+        String behaviorEvent = params.get(
+                ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
+        if (null == behaviorEvent) {
+            return;
+        }
+        Map<String, List<ClientBehavior>> allClientBehaviors = getClientBehaviors();
+        List<ClientBehavior> clientBehaviors = allClientBehaviors.get(behaviorEvent);
+        if (null == clientBehaviors) {
             return;
         }
         for (ClientBehavior clientBehavior : clientBehaviors) {

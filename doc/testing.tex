@@ -70,14 +70,14 @@ If this is the case, we know that CDI has indeed been properly initialized.
 
 We can unit test the servlet via an embedded servlet container as shown in the following example.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleCDIServletTest.java}
-We are using Weld here as CDI implementation.
+We are using Weld \cite{weld} here as CDI implementation.
 Just before starting the Jetty servlet container, we configure Weld so it can get properly activated.
 
 \subsection{JSF}
 
 The next step is to enable a JSF runtime within our embedded servlet container.
 \lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleJSFServletTest.java}
-We are using Mojarra as JSF implementation.
+We are using Mojarra \cite{mojarra} as JSF implementation.
 
 \section{Jetty and Selenium}
 Since we need to have the web browser for correct interpretation of possible Javascript, the final step is to combine our Jetty JSF runtime with Selenium.

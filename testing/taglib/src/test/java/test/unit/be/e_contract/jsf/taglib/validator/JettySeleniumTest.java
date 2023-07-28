@@ -51,12 +51,18 @@ public class JettySeleniumTest {
         ServletHolder servletHolder = new ServletHolder(FacesServlet.class);
         context.addServlet(servletHolder, "*.xhtml");
 
-        context.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
-        context.setInitParameter("com.sun.faces.forceLoadConfiguration", "true");
+        context.setInitParameter("javax.faces.PROJECT_STAGE",
+                "Development");
+        context.setInitParameter("com.sun.faces.forceLoadConfiguration",
+                "true");
         context.addEventListener(new ConfigureListener());
-        context.setInitParameter(CdiServletContainerInitializer.CDI_INTEGRATION_ATTRIBUTE, CdiDecoratingListener.MODE);
-        context.addBean(new ServletContextHandler.Initializer(context, new CdiServletContainerInitializer()));
-        context.addBean(new ServletContextHandler.Initializer(context, new EnhancedListener()));
+        context.setInitParameter(
+                CdiServletContainerInitializer.CDI_INTEGRATION_ATTRIBUTE,
+                CdiDecoratingListener.MODE);
+        context.addBean(new ServletContextHandler.Initializer(context,
+                new CdiServletContainerInitializer()));
+        context.addBean(new ServletContextHandler.Initializer(context,
+                new EnhancedListener()));
 
         this.server.start();
 
