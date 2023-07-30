@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web xmlns="http://www.jboss.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee https://www.jboss.org/schema/jbossweb/jboss-web_7_2.xsd"
+           version="7.2">
+
+    <context-root>/production</context-root>
+
+</jboss-web>

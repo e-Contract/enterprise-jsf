@@ -4,12 +4,143 @@
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Moving towards production}
-\begin{TODO}{Example project}
-	Create an example project that demonstrates all the different aspects of a production version of an application.
-	Maven profile for development/production JSF stage config, etc.
+
+\begin{TODO}{Under Construction}
+This chapter is under construction.
 \end{TODO}
 
+Within this chapter we show different aspects of how to configure your JSF web application for production.
+To get started, let us first investigate a development version of a JSF web application.
+
+If we deploy our example EAR from Chapter \ref{chap:primefaces} \nameref{chap:primefaces} and run the following command,
+\begin{lstlisting}[language=bash]
+curl --verbose http://localhost:8080/helloworld-primefaces/
+\end{lstlisting}
+the first thing that we notice is that the cookie header,
+\begin{lstlisting}
+Set-Cookie: JSESSIONID=xxx; path=/helloworld-primefaces
+\end{lstlisting}
+is missing some security related attributes.
+Furthermore within the response HTML we see things like:
+\begin{lstlisting}[language=html]
+<link type="text/css" rel="stylesheet"
+	href="/helloworld-primefaces/javax.faces.resource/theme.css.xhtml
+	;jsessionid=xxx?ln=primefaces-saga&amp;v=13.0.0" />
+\end{lstlisting}
+We can clearly see that the \texttt{jsessionid} is present within the resource \texttt{href} attributes.
+When deploying an application towards production, we probably don't want this to happen.
+We also notice the following,
+\begin{lstlisting}[language=html]
+<script type="text/javascript">
+	if(window.PrimeFaces){
+		PrimeFaces.settings.locale='nl_BE';
+		PrimeFaces.settings.viewId='/index.xhtml';
+		PrimeFaces.settings.contextPath='/helloworld-primefaces';
+		PrimeFaces.settings.cookiesSecure=false;
+		PrimeFaces.settings.projectStage='Development';
+	}
+</script>
+\end{lstlisting}
+For production we at least want secure cookies and the JSF project stage set to production.
+
+Furthermore if we retrieve such a resource,
+\begin{lstlisting}[language=bash]
+curl --head "http://localhost:8080/helloworld-primefaces/
+	javax.faces.resource/theme.css.xhtml?ln=primefaces-saga"
+\end{lstlisting}
+we notice the following HTTP header:
+\begin{lstlisting}
+Cache-Control: no-store, must-revalidate
+\end{lstlisting}
+This is fine for development as it forces the web browser to reload our resources so changes are directly reflected within the web browser.
+However for production, we probably want to activate web browser caching as this has a huge impact on required network bandwidth and end-user experience.
+If we would activate caching however we notice that for our own resources
+\begin{lstlisting}[language=bash]
+curl --verbose http://localhost:8080/helloworld-primefaces/widget.xhtml
+\end{lstlisting}
+we have,
+\begin{lstlisting}[language=html]
+<script type="text/javascript"
+	src="/helloworld-primefaces/javax.faces.resource/
+	example-widget.js.xhtml;jsessionid=xxx?ln=ejsf">
+</script>
+\end{lstlisting}
+while PrimeFaces resources are referenced via:
+\begin{lstlisting}[language=html]
+<script type="text/javascript"
+	src="/helloworld-primefaces/javax.faces.resource/jquery/
+	jquery.js.xhtml;jsessionid=xxx?ln=primefaces&amp;v=13.0.0">
+</script>
+\end{lstlisting}
+The PrimeFaces resources are versioned via \texttt{v=13.0.0} as part of the JSF resource URL.
+This is important to ensure that the web browser correctly loads new versions as they become available.
+Hence we also want such versioning on our own JSF resources.
+
+Given all the above arguments, it should be clear that we simply cannot place a JSF web application in production without a proper configuration.
+
 \section{OmniFaces}
+Within this section we demonstrate how to configure a JSF web application to ready it for production deployment.
+One of the first things we can configure is the \texttt{javax.\allowbreak faces.PROJECT\_STAGE} context parameter within \texttt{web.xml}.
+However, we don't want to manually change this. Instead we will be using a Maven profile to activate the proper production configuration.
+Our example Maven POM is given below,
+\lstinputlisting[language=XML]{../production/pom.xml}
+We defined a \texttt{javax.\allowbreak faces.PROJECT\_STAGE} property with default value \texttt{Development}.
+Next to this we also defined \texttt{production} Maven profile where we override this property value with \texttt{Production} as value.
+This Maven profile can be activated when building the project via:
+\begin{lstlisting}[language=bash]
+cd production
+mvn clean install -Pproduction
+\end{lstlisting}
+Further we enabled property filtering on the deployment descriptors on the \texttt{maven\allowbreak-war\allowbreak-plugin} Maven plugin.
+We also added OmniFaces \cite{omnifaces} as dependency.
+OmniFaces is a JSF utility library that we will be using to further enhance our production configuration.
+
+Within our \texttt{web.xml} web deployment descriptor, we had the following changes and additions:
+\lstinputlisting[language=XML]{../production/src/main/webapp/WEB-INF/web.xml}
+The JSF configuration looks as follows.
+\lstinputlisting[language=XML]{../production/src/main/webapp/WEB-INF/faces-config.xml}
+After deployment of our application via:
+\begin{lstlisting}[language=bash]
+cd production
+mvn clean wildfly:deploy -Pproduction
+\end{lstlisting}
+We can inspect the impact of our configuration,
+\begin{lstlisting}[language=bash]
+curl --verbose http://localhost:8080/production/
+\end{lstlisting}
+First thing we notice is that the session cookie now has some additional security related flags,
+\begin{lstlisting}
+Set-Cookie: JSESSIONID=xxx; path=/production; secure; HttpOnly
+\end{lstlisting}
+Further our own JSF resources now have proper versioning:
+\begin{lstlisting}[language=html]
+<link type="text/css" rel="stylesheet"
+	href="/production/javax.faces.resource/
+	style.css?ln=demo&amp;v=1.0.0-SNAPSHOT" />
+\end{lstlisting}
+and the session identifier also has disappeared from the JSF resource URLs.
+If we retrieve a JSF resource via:
+\begin{lstlisting}[language=bash]
+curl --head "http://localhost:8080/production/
+	javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces"
+\end{lstlisting}
+we also notice that a web browser cache control header has been added:
+\begin{lstlisting}
+Cache-Control: max-age=604800
+\end{lstlisting}
+We can verify that JSF resource compression indeed has been enabled via:
+\begin{lstlisting}[language=bash]
+curl --compressed --verbose --output /dev/null "http://localhost:8080/production/
+	javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces"
+\end{lstlisting}
+We notice the following HTTP request header,
+\begin{lstlisting}
+Accept-Encoding: deflate, gzip, zstd
+\end{lstlisting}
+and the response indeed has been compressed as we can see from the following HTTP response header:
+\begin{lstlisting}
+Content-Encoding: gzip
+\end{lstlisting}
 
 \section{Rewrite}
 
