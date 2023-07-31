@@ -160,10 +160,16 @@ public class EChartsComponent extends UIOutput implements Widget, ClientBehavior
                     return;
                 }
                 int dataIndex = Integer.parseInt(dataIndexParam);
+                String seriesIndexParam = requestParameterMap.get(clientId + "_seriesIndex");
+                if (UIInput.isEmpty(seriesIndexParam)) {
+                    LOGGER.debug("missing seriesIndex parameter");
+                    return;
+                }
+                int seriesIndex = Integer.parseInt(seriesIndexParam);
 
                 EChartsClickEvent eChartsClickEvent
                         = new EChartsClickEvent(this, behaviorEvent.getBehavior(),
-                                nameParam, dataIndex);
+                                nameParam, seriesIndex, dataIndex);
                 eChartsClickEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(eChartsClickEvent);
                 return;

@@ -15,7 +15,7 @@
             component.
         </p>
         <h:form id="example">
-            <ejsf:echarts value="#{echartsController.value}">
+            <ejsf:echarts value="#{echartsController.value}" style="width: 100%; height: 600px;">
                 <p:ajax listener="#{echartsController.handleClick}"
                         update=":messages"/>
             </ejsf:echarts>

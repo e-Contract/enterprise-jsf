@@ -29,7 +29,9 @@ public class EChartsController {
 
     public void handleClick(EChartsClickEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        String message = "Clicked " + event.getName() + ", data index " + event.getDataIndex();
+        String message = "Clicked " + event.getName()
+                + ", series index " + event.getSeriesIndex()
+                + ", data index " + event.getDataIndex();
         FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, message, null);
         facesContext.addMessage(null, facesMessage);
     }

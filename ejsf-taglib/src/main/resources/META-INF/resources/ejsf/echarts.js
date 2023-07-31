@@ -40,6 +40,10 @@ PrimeFaces.widget.EJSFECharts = PrimeFaces.widget.BaseWidget.extend({
                             {
                                 name: $this.id + "_dataIndex",
                                 value: params.dataIndex
+                            },
+                            {
+                                name: $this.id + "_seriesIndex",
+                                value: params.seriesIndex
                             }
                         ]
                     };

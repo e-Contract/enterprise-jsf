@@ -18,14 +18,21 @@ public class EChartsClickEvent extends AbstractAjaxBehaviorEvent {
 
     private final int dataIndex;
 
-    public EChartsClickEvent(UIComponent component, Behavior behavior, String name, int dataIndex) {
+    private final int seriesIndex;
+
+    public EChartsClickEvent(UIComponent component, Behavior behavior, String name, int seriesIndex, int dataIndex) {
         super(component, behavior);
         this.name = name;
+        this.seriesIndex = seriesIndex;
         this.dataIndex = dataIndex;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public int getSeriesIndex() {
+        return this.seriesIndex;
     }
 
     public int getDataIndex() {
