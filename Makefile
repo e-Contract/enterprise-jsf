@@ -57,7 +57,7 @@ app-deploy-ee10: app-build
 # We stop the Docker containers here because they are also listening on port 8080, as will the spring-boot server
 .PHONY: app-start-spring
 app-start-spring: app-build docker-stop
-	cd spring && mvn clean spring-boot:run
+	cd examples/spring && mvn clean spring-boot:run
 
 .PHONY: docker-stop
 docker-stop:

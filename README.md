@@ -28,6 +28,8 @@ cd doc
 make
 ```
 
+All the examples referenced within the document can be found within the `examples` directory.
+
 We prefer to edit the LaTeX document using TeXstudio.
 TeXstudio can be downloaded from:
 https://texstudio.org

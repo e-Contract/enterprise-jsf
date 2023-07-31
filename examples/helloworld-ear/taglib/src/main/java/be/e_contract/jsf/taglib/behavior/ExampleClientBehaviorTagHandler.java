@@ -29,7 +29,8 @@ public class ExampleClientBehaviorTagHandler extends TagHandler {
         FacesContext facesContext = faceletContext.getFacesContext();
         Application application = facesContext.getApplication();
         ExampleClientBehavior exampleClientBehavior
-                = (ExampleClientBehavior) application.createBehavior(ExampleClientBehavior.BEHAVIOR_ID);
+                = (ExampleClientBehavior) application.createBehavior(
+                        ExampleClientBehavior.BEHAVIOR_ID);
         clientBehaviorHolder.addClientBehavior("mouseover", exampleClientBehavior);
         clientBehaviorHolder.addClientBehavior("mouseout", exampleClientBehavior);
     }

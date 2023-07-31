@@ -10,7 +10,8 @@ public class InputOutputPage {
 
     public InputOutputPage(WebDriver driver) {
         this.driver = driver;
-        this.driver.get("http://localhost:8080/testing/input-output.xhtml");
+        this.driver
+                .get("http://localhost:8080/testing/input-output.xhtml");
     }
 
     public void setInput(String value) {

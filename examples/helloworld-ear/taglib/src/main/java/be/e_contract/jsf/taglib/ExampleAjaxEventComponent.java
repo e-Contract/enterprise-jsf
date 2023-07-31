@@ -19,6 +19,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.FacesEvent;
+import javax.faces.event.PhaseId;
 
 @FacesComponent(ExampleAjaxEventComponent.COMPONENT_TYPE)
 @ResourceDependencies({
@@ -80,7 +81,8 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
                 if (component == null) {
                     throw new IllegalArgumentException("component not found: " + relativeClientId);
                 }
-                absoluteClientIds.append(component.getClientId(facesContext));
+                String compClientId = component.getClientId(facesContext);
+                absoluteClientIds.append(compClientId);
             }
         }
         return "'" + absoluteClientIds.toString() + "'";
@@ -138,7 +140,8 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
             String parameter = requestParameterMap.get(clientId + "_parameter");
             ExampleAjaxBehaviorEvent exampleAjaxBehaviorEvent
                     = new ExampleAjaxBehaviorEvent(this, behaviorEvent.getBehavior(), parameter);
-            exampleAjaxBehaviorEvent.setPhaseId(behaviorEvent.getPhaseId());
+            PhaseId phaseId = behaviorEvent.getPhaseId();
+            exampleAjaxBehaviorEvent.setPhaseId(phaseId);
             super.queueEvent(exampleAjaxBehaviorEvent);
             return;
         }

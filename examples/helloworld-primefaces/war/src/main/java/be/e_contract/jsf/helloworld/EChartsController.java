@@ -10,7 +10,8 @@ public class EChartsController {
 
     public String getValue() {
         InputStream inputStream
-                = EChartsController.class.getResourceAsStream("/echarts.json");
+                = EChartsController.class
+                        .getResourceAsStream("/echarts.json");
         try {
             return IOUtils.toString(inputStream, "UTF-8");
         } catch (IOException ex) {

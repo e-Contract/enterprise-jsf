@@ -97,12 +97,12 @@ Via the \texttt{init} method our widget gets initialized by the PrimeFaces clien
 Via the \texttt{cfg} parameter we can access our custom attributes.
 Our widget provides two methods \texttt{getValue} and \texttt{setValue} that do exactly as they are named.
 
-We register this custom component and its corresponding renderer within our \texttt{.taglib.xml} tag library descriptor as follows.
+We register this custom component and its corresponding renderer within our \texttt{.taglib\allowbreak .xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=exampleComponent]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
 An example usage is demonstrated below:
 \lstinputlisting[language=XML]{../examples/helloworld-primefaces/war/src/main/webapp/widget.xhtml}
-Via the \texttt{PF} function we locate our client-side widget corresponding with the \texttt{exampleComponent}.
+Via the \texttt{PF} function we locate our client-side widget corresponding with the \texttt{example\allowbreak Component}.
 On this widget, we can invoke the different defined methods like \texttt{setValue} as we demonstrate within the example.
 
 \section{Turning a Javascript library into a JSF component}
@@ -111,7 +111,7 @@ We wrap the Apache ECharts \cite{ECharts} Javascript library within a JSF compon
 The Apache ECharts library allows you to generate nice looking charts via a Javascript/JSON API on the client-side.
 The source code for the component looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/EChartsComponent.java}
-Notice how we include the ECharts \texttt{echarts.min.js} Javascript library via the \texttt{@ResourceDependency} annotation.
+Notice how we include the ECharts \texttt{echarts.min.js} Javascript library via the \texttt{@Resource\allowbreak Dependency} annotation.
 
 The source code for the corresponding renderer is given below.
 \lstinputlisting[language=Java]{../examples/helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/EChartsRenderer.java}
@@ -123,7 +123,7 @@ The source code of the Javascript resource \texttt{echarts-widget.js} looks as f
 \lstinputlisting[language=Javascript]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/resources/ejsf/echarts-widget.js}
 We perform a JSF AJAX call to retrieve our component value, and use this to configure the ECharts Javascript instance within the \texttt{oncomplete} method.
 
-We register this custom component and its corresponding renderer within our \texttt{.taglib.xml} tag library descriptor as follows.
+We register this custom component and its corresponding renderer within our \texttt{.taglib\allowbreak .xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=echarts]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
 An example usage is demonstrated below:

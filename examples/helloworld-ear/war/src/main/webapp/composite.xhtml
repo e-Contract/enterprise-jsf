@@ -4,14 +4,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ejsf="urn:be:e-contract:enterprise-jsf">
     <h:head>
-        <title>Custom Output Component</title>
+        <title>Composite Component</title>
     </h:head>
     <h:body>
-        <h1>Custom Output Component</h1>
+        <h1>Composite Component</h1>
         <h:form>
             <p>
-                <ejsf:exampleComposite id="output"
-                                       value="#{inputOutputController.value}"/>
+                <ejsf:exampleComposite
+                    id="output"
+                    value="#{inputOutputController.value}"/>
             </p>
             <h:outputLabel for="@next" value="Input"/>
             <h:inputText value="#{inputOutputController.value}"/>

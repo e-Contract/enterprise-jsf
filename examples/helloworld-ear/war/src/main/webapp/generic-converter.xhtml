@@ -17,7 +17,8 @@
                 <f:selectItems value="#{genericConverterController.items}"/>
                 <ejsf:genericConverter
                     getAsObject="#{genericConverterController.getAsObject}"
-                    getAsString="#{genericConverterController.getAsString}"/>
+                    getAsString="#{genericConverterController.getAsString}"
+                    />
             </h:selectOneMenu>
             <h:commandButton value="click me">
                 <f:ajax execute="@form" render="@form"/>

@@ -10,8 +10,9 @@
         <h1>Example Widget</h1>
         <h:form>
             <p>
-                <ejsf:exampleComponent widgetVar="outputWidget"
-                                       value="#{inputOutputController.value}"/>
+                <ejsf:exampleComponent
+                    widgetVar="outputWidget"
+                    value="#{inputOutputController.value}"/>
             </p>
             <p:outputLabel for="@next" value="Input"/>
             <p:inputText value="#{inputOutputController.value}"

@@ -10,8 +10,9 @@
         <h1>Custom Output Component</h1>
         <h:form>
             <p>
-                <ejsf:exampleOutput id="output"
-                                    value="#{inputOutputController.value}"/>
+                <ejsf:exampleOutput
+                    id="output"
+                    value="#{inputOutputController.value}"/>
             </p>
             <h:outputLabel for="@next" value="Input"/>
             <h:inputText value="#{inputOutputController.value}"/>
