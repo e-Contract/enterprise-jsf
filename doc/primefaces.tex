@@ -35,7 +35,7 @@ Hence if you do so, isolate these components within dedicated libraries so multi
 \section{Introduction}
 Let's start off by doing some basic "hello world" using PrimeFaces.
 Converting our \nameref{sec:basic-input-output} example from Section \ref{sec:basic-input-output}  on page \pageref{sec:basic-input-output} to PrimeFaces gives us the following result.
-\lstinputlisting[language=XML]{../helloworld-primefaces/war/src/main/webapp/hello-world.xhtml}
+\lstinputlisting[language=XML]{../examples/helloworld-primefaces/war/src/main/webapp/hello-world.xhtml}
 The most visible change here is that they renamed the \texttt{render} attribute to the more intuitive \texttt{update} attribute.
 Where with vanilla JSF you have to explicitly indicate that you want to perform an AJAX call, with PrimeFaces components this is the default.
 Hence \texttt{p:commandButton} will perform an AJAX call per default, voiding the need for an explicit \texttt{p:ajax} tag.
@@ -45,15 +45,15 @@ You can disable this behavior by means of setting the \texttt{ajax="false"} attr
 PrimeFaces allows you to construct dialogs in a very intuitive manner, yielding an SPA alike experience towards end-users.
 Within this section, we demonstrate the dialog framework provided by PrimeFaces.
 Our CRUD (create-read-update-delete) JSF example page looks as follows:
-\lstinputlisting[language=XML]{../helloworld-primefaces/war/src/main/webapp/crud-dialogs.xhtml}
+\lstinputlisting[language=XML]{../examples/helloworld-primefaces/war/src/main/webapp/crud-dialogs.xhtml}
 A dialog is declared using the \texttt{p:dialog} PrimeFaces component.
 Notice how to invoke the client-side API of certain widgets via the \texttt{widgetVar} attributes to give them a name, and via the \texttt{PF} function to locate these widgets.
 
 The Javascript resource \texttt{crud-dialogs.js} contains the following:
-\lstinputlisting[language=Javascript]{../helloworld-primefaces/war/src/main/webapp/resources/js/crud-dialogs.js}
+\lstinputlisting[language=Javascript]{../examples/helloworld-primefaces/war/src/main/webapp/resources/js/crud-dialogs.js}
 The \texttt{itemAdded} AJAX callback argument, available via \texttt{args}, is set within the CDI controller as follows.
 
-\lstinputlisting[language=Java]{../helloworld-primefaces/war/src/main/java/be/e_contract/jsf/helloworld/CRUDController.java}
+\lstinputlisting[language=Java]{../examples/helloworld-primefaces/war/src/main/java/be/e_contract/jsf/helloworld/CRUDController.java}
 Via \texttt{addCallbackParam} we can add parameters to the AJAX response that are picked up by the client-side Javascript.
 
 \section{Close Dialog Client Behavior}
@@ -61,15 +61,15 @@ Within this section we demonstrate how to define a JSF client behavior tailored 
 Let us construct a custom client behavior to close dialogs.
 This client behavior can be attached to for example \texttt{p:commandButton} components within dialogs.
 The source code of our client behavior implementation looks as follows.
-\lstinputlisting[language=Java]{../helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/CloseDialogClientBehavior.java}
+\lstinputlisting[language=Java]{../examples/helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/CloseDialogClientBehavior.java}
 Here we locate the parent dialog of the \texttt{p:commandButton} component.
 Once we have located the dialog, we use its \texttt{widgetVar} to be able to close it at the client-side.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor as follows.
-\lstinputlisting[language=XML,linerange=closeDialog]{../helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+\lstinputlisting[language=XML,linerange=closeDialog]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
 We use this custom client behavior as follows within PrimeFaces dialogs:
-\lstinputlisting[language=XML]{../helloworld-primefaces/war/src/main/webapp/close-dialog.xhtml}
+\lstinputlisting[language=XML]{../examples/helloworld-primefaces/war/src/main/webapp/close-dialog.xhtml}
 Clicking the "Dismiss" \texttt{p:commandButton} within the dialog will trigger the \texttt{closeDialog} client-side behavior and close the corresponding \texttt{p:dialog}.
 Notice the usage of \texttt{return false;} on the \texttt{onclick} client-side event to prevent further propagation towards an actual AJAX call.
 
@@ -77,31 +77,31 @@ Notice the usage of \texttt{return false;} on the \texttt{onclick} client-side e
 Within this section, we construct a component with a client-side API, called a widget in PrimeFaces parlance.
 Our custom component with corresponding client-side widget is composed out of the actual component, and the corresponding renderer.
 The source code for the component looks as follows.
-\lstinputlisting[language=Java]{../helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleComponent.java}
+\lstinputlisting[language=Java]{../examples/helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleComponent.java}
 The component defines a \texttt{widgetVar} attribute that is used by our custom renderer.
 The different \texttt{@ResourceDependency} annotation declarations are required to provide the necessary client-side runtime for our custom widget.
 As you see, PrimeFaces fully embraced jQuery \cite{jQuery} on the client-side.
 Hence a good understanding of jQuery is of eminent importance when developing PrimeFaces widget components.
 
 The source code for the corresponding renderer looks as follows.
-\lstinputlisting[language=Java]{../helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleRenderer.java}
+\lstinputlisting[language=Java]{../examples/helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleRenderer.java}
 Notice here that we extend the PrimeFaces \texttt{CoreRenderer} class.
 Using the PrimeFaces \texttt{WidgetBuilder} we bind our client-side widget to our component.
 We can pass attributes from server-side to client-side via the \texttt{WidgetBuilder} \texttt{attr} method.
 The \texttt{finish} method takes care of the necessary rendering to activate our widget.
 
 The source code of the Javascript resource \texttt{example-widget.js} looks as follows.
-\lstinputlisting[language=Javascript]{../helloworld-primefaces/taglib/src/main/resources/META-INF/resources/ejsf/example-widget.js}
+\lstinputlisting[language=Javascript]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/resources/ejsf/example-widget.js}
 Our widget has to extend the PrimeFaces Javascript \texttt{BaseWidget} class like thingy.
 Via the \texttt{init} method our widget gets initialized by the PrimeFaces client-side framework.
 Via the \texttt{cfg} parameter we can access our custom attributes.
 Our widget provides two methods \texttt{getValue} and \texttt{setValue} that do exactly as they are named.
 
 We register this custom component and its corresponding renderer within our \texttt{.taglib.xml} tag library descriptor as follows.
-\lstinputlisting[language=XML,linerange=exampleComponent]{../helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+\lstinputlisting[language=XML,linerange=exampleComponent]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
 An example usage is demonstrated below:
-\lstinputlisting[language=XML]{../helloworld-primefaces/war/src/main/webapp/widget.xhtml}
+\lstinputlisting[language=XML]{../examples/helloworld-primefaces/war/src/main/webapp/widget.xhtml}
 Via the \texttt{PF} function we locate our client-side widget corresponding with the \texttt{exampleComponent}.
 On this widget, we can invoke the different defined methods like \texttt{setValue} as we demonstrate within the example.
 
@@ -110,32 +110,32 @@ Within this section we demonstrate how to turn a Javascript library into an easy
 We wrap the Apache ECharts \cite{ECharts} Javascript library within a JSF component.
 The Apache ECharts library allows you to generate nice looking charts via a Javascript/JSON API on the client-side.
 The source code for the component looks as follows.
-\lstinputlisting[language=Java]{../helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/EChartsComponent.java}
+\lstinputlisting[language=Java]{../examples/helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/EChartsComponent.java}
 Notice how we include the ECharts \texttt{echarts.min.js} Javascript library via the \texttt{@ResourceDependency} annotation.
 
 The source code for the corresponding renderer is given below.
-\lstinputlisting[language=Java]{../helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/EChartsRenderer.java}
+\lstinputlisting[language=Java]{../examples/helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/EChartsRenderer.java}
 The value is not directly passed during \texttt{encodeBegin} as we normally do.
 Instead we let the widget fetch the value asynchronously via an AJAX call.
 Within the \texttt{decode} method we pass the component value towards the client-side via \texttt{addCallbackParam}.
 
 The source code of the Javascript resource \texttt{echarts-widget.js} looks as follows.
-\lstinputlisting[language=Javascript]{../helloworld-primefaces/taglib/src/main/resources/META-INF/resources/ejsf/echarts-widget.js}
+\lstinputlisting[language=Javascript]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/resources/ejsf/echarts-widget.js}
 We perform a JSF AJAX call to retrieve our component value, and use this to configure the ECharts Javascript instance within the \texttt{oncomplete} method.
 
 We register this custom component and its corresponding renderer within our \texttt{.taglib.xml} tag library descriptor as follows.
-\lstinputlisting[language=XML,linerange=echarts]{../helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+\lstinputlisting[language=XML,linerange=echarts]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
 An example usage is demonstrated below:
-\lstinputlisting[language=XML]{../helloworld-primefaces/war/src/main/webapp/echarts.xhtml}
+\lstinputlisting[language=XML]{../examples/helloworld-primefaces/war/src/main/webapp/echarts.xhtml}
 
 With the CDI controller as follows:
-\lstinputlisting[language=Java]{../helloworld-primefaces/war/src/main/java/be/e_contract/jsf/helloworld/EChartsController.java}
+\lstinputlisting[language=Java]{../examples/helloworld-primefaces/war/src/main/java/be/e_contract/jsf/helloworld/EChartsController.java}
 
 To bundle the Javascript code of Apache EChart within our JSF library, we use some specific Maven build instructions as indicated in the following \texttt{pom.xml}.
-\lstinputlisting[language=XML]{../helloworld-primefaces/taglib/pom.xml}
+\lstinputlisting[language=XML]{../examples/helloworld-primefaces/taglib/pom.xml}
 With the \texttt{src/main/node/package.json} file containing:
-\lstinputlisting[language=XML]{../helloworld-primefaces/taglib/src/main/node/package.json}
+\lstinputlisting[language=XML]{../examples/helloworld-primefaces/taglib/src/main/node/package.json}
 Hence we use \texttt{node} and \texttt{npm} to retrieve the ECharts Javascript package.
 
 Via the \texttt{maven-resources-plugin} we selectively pick what we need out of the downloaded \texttt{echarts} node module as was retrieved by the \texttt{frontend-maven-plugin} Maven plugin.

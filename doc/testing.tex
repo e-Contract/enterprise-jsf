@@ -10,7 +10,7 @@ Within this chapter we investigate different strategies for testing custom devel
 Simple components like validators or converters, that don't really depend on the behavior of the JSF runtime, can be unit tested like we are used to do with regular POJOs.
 
 As example, we demonstrate the unit testing of the validator from Section \ref{sec:validator} \nameref{sec:validator} on page \pageref{sec:validator}.
-\lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleValidatorTest.java}
+\lstinputlisting[language=Java]{../examples/testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleValidatorTest.java}
 We are using JUnit \cite{junit5} as testing framework.
 
 
@@ -20,26 +20,27 @@ For most tests you  need to be able to verify the interaction of your custom JSF
 Hence your JSF component really needs to be testing within an actual JSF enabled container.
 Using Selenium \cite{selenium} one can easily test web applications, and hence JSF components.
 Let us test out the functionality of the following JSF page.
-\lstinputlisting[language=XML]{../testing/war/src/main/webapp/input-output.xhtml}
+\lstinputlisting[language=XML]{../examples/testing/war/src/main/webapp/input-output.xhtml}
 We gave every JSF component that we want to access from within our test an explicit \texttt{id} attribute.
 
 In our test, we represent this JSF page by the following test class.
-\lstinputlisting[language=Java]{../testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/InputOutputPage.java}
+\lstinputlisting[language=Java]{../examples/testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/InputOutputPage.java}
 We locate the web elements using \texttt{By.id}.
 On the located \texttt{WebElement} object, you can perform various operations, like \texttt{click} or \texttt{getText}.
 
 Our basic integration test using Selenium looks as follows.
-\lstinputlisting[language=Java]{../testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/SeleniumTest.java}
+\lstinputlisting[language=Java]{../examples/testing/tests/src/test/java/test/integ/be/e_contract/jsf/testing/SeleniumTest.java}
 Via \texttt{WebDriverManager} we make sure that the web driver \cite{webdriver} for the Chrome web browser is properly installed on our system.
 Within the actual test we simply set some input value, perform a submit, and verify whether the output corresponds with the set input.
 
 Since this Selenium based integration test assumes that the application has been deployed on a local running application server, we need some special constructs within our Maven POM file.
-\lstinputlisting[language=XML]{../testing/tests/pom.xml}
+\lstinputlisting[language=XML]{../examples/testing/tests/pom.xml}
 Per default, we disable the executing of the integration tests by setting \texttt{skipTests} to \texttt{true}.
 Only upon explicit activation of our \texttt{integration-tests} Maven profile,
 the Selenium integration tests will run as part of a Maven build.
 On the command line, you can activate this Maven profile as follows:
 \begin{lstlisting}[language=bash]
+	cd examples/testing
 	mvn clean test -Pintegration-tests
 \end{lstlisting}
 
@@ -51,10 +52,10 @@ On the command line, you can activate this Maven profile as follows:
 \section{Embedded Jetty}
 Besides testing against a full-blown Java EE application server, we can also use embedded containers to test out expected behavior of our custom developed JSF components.
 Let us start easy here, and test out the following simple servlet.
-\lstinputlisting[language=Java]{../testing/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleServlet.java}
+\lstinputlisting[language=Java]{../examples/testing/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleServlet.java}
 
 We can unit test the servlet via an embedded servlet container as shown in the following example.
-\lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleServletTest.java}
+\lstinputlisting[language=Java]{../examples/testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleServletTest.java}
 We run Jetty \cite{jetty} as embedded servlet container.
 Via Apache HttpClient \cite{httpclient} we test out the behavior of our servlet.
 
@@ -64,22 +65,22 @@ Hence let us take small steps to evolve towards an embedded Jetty container that
 
 In this example, we simply enable CDI within the embedded Jetty container.
 Our example servlet for this looks as follows:
-\lstinputlisting[language=Java]{../testing/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleCDIServlet.java}
+\lstinputlisting[language=Java]{../examples/testing/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExampleCDIServlet.java}
 Here we output whether the CDI \texttt{BeanManager} has been injected within our servlet.
 If this is the case, we know that CDI has indeed been properly initialized.
 
 We can unit test the servlet via an embedded servlet container as shown in the following example.
-\lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleCDIServletTest.java}
+\lstinputlisting[language=Java]{../examples/testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleCDIServletTest.java}
 We are using Weld \cite{weld} here as CDI implementation.
 Just before starting the Jetty servlet container, we configure Weld so it can get properly activated.
 
 \subsection{JSF}
 
 The next step is to enable a JSF runtime within our embedded servlet container.
-\lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleJSFServletTest.java}
+\lstinputlisting[language=Java]{../examples/testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/ExampleJSFServletTest.java}
 We are using Mojarra \cite{mojarra} as JSF implementation.
 
 \section{Jetty and Selenium}
 Since we need to have the web browser for correct interpretation of possible Javascript, the final step is to combine our Jetty JSF runtime with Selenium.
-\lstinputlisting[language=Java]{../testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/JettySeleniumTest.java}
+\lstinputlisting[language=Java]{../examples/testing/taglib/src/test/java/test/unit/be/e_contract/jsf/taglib/validator/JettySeleniumTest.java}
 The \texttt{index.xhtml} JSF page is the one given at the beginning of this chapter.

@@ -83,12 +83,12 @@ One of the first things we can configure is the \texttt{javax.\allowbreak faces.
 However, we don't want to manually change its value.
 Instead we will be using a Maven profile to activate the production configuration.
 Our example Maven POM to demonstrate is given below,
-\lstinputlisting[language=XML]{../production/pom.xml}
+\lstinputlisting[language=XML]{../examples/production/pom.xml}
 Under \texttt{properties} we defined a \texttt{javax.\allowbreak faces.PROJECT\_STAGE} property with default value \texttt{Development}.
 Next to this we also defined a \texttt{production} Maven profile where we override this property with \texttt{Production} as value.
 The \texttt{production} Maven profile can be activated when building the project via:
 \begin{lstlisting}[language=bash]
-cd production
+cd examples/production
 mvn clean install -Pproduction
 \end{lstlisting}
 Further we enabled property filtering on the deployment descriptors like \texttt{web.xml} via configuration of the \texttt{maven\allowbreak-war\allowbreak-plugin} Maven plugin.
@@ -97,7 +97,7 @@ We added OmniFaces \cite{omnifaces} as dependency.
 OmniFaces is a JSF utility library that we will be using to further enhance our production configuration.
 
 Within our \texttt{web.xml} web deployment descriptor, we have the following changes and additions:
-\lstinputlisting[language=XML]{../production/src/main/webapp/WEB-INF/web.xml}
+\lstinputlisting[language=XML]{../examples/production/src/main/webapp/WEB-INF/web.xml}
 The activated Maven filtering will substitute the variables:\\
 \indent \texttt{\$\{javax.faces.PROJECT\_STAGE\}}\\
 \indent \texttt{\$\{project.version\}}\\
@@ -109,7 +109,7 @@ We also configure the \texttt{GzipResponseFilter} to enable GZIP compression.
 Via an \texttt{error-page} tag we provide a very basic exception handling.
 
 The JSF configuration looks as follows.
-\lstinputlisting[language=XML]{../production/src/main/webapp/WEB-INF/faces-config.xml}
+\lstinputlisting[language=XML]{../examples/production/src/main/webapp/WEB-INF/faces-config.xml}
 Most important here is the activation of the OmniFaces \texttt{VersionedResourceHandler} JSF resource handler.
 We also activated the PrimeFaces built-in exception handler.
 

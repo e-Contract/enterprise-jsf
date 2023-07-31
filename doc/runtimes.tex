@@ -15,22 +15,22 @@ Next we investigate how to configure these JSF implementations within different 
 \subsection{Spring}
 
 Maven project file:
-\lstinputlisting[language=XML]{../spring/pom.xml}
+\lstinputlisting[language=XML]{../examples/spring/pom.xml}
 
 Configuration file \texttt{src/main/resources/application.properties}:
-\lstinputlisting{../spring/src/main/resources/application.properties}
+\lstinputlisting{../examples/spring/src/main/resources/application.properties}
 
 Our \texttt{Application.java} entry class:
-\lstinputlisting[language=Java]{../spring/src/main/java/be/e_contract/ejsf/spring/Application.java}
+\lstinputlisting[language=Java]{../examples/spring/src/main/java/be/e_contract/ejsf/spring/Application.java}
 
 Index page \texttt{src/main/resources/META-INF/resources/index.xhtml}:
-\lstinputlisting[language=XML]{../spring/src/main/webapp/index.xhtml}
+\lstinputlisting[language=XML]{../examples/spring/src/main/webapp/index.xhtml}
 
 Our \texttt{HelloWorldBean.java} controller:
-\lstinputlisting[language=Java]{../spring/src/main/java/be/e_contract/ejsf/spring/HelloWorldBean.java}
+\lstinputlisting[language=Java]{../examples/spring/src/main/java/be/e_contract/ejsf/spring/HelloWorldBean.java}
 
 A \texttt{RedirectToIndexController.java} controller that will redirect requests on \texttt{/} to \texttt{index.xhtml}:
-\lstinputlisting[language=Java]{../spring/src/main/java/be/e_contract/ejsf/spring/RedirectToIndexController.java}
+\lstinputlisting[language=Java]{../examples/spring/src/main/java/be/e_contract/ejsf/spring/RedirectToIndexController.java}
 
 \begin{TIP}{Java Runtime}
 	Please notice that Spring requires at least Java version 11 as runtime.
@@ -38,7 +38,7 @@ A \texttt{RedirectToIndexController.java} controller that will redirect requests
 
 Compile and run the application via:
 \begin{lstlisting}[language=bash]
-	cd spring
+	cd examples/spring
 	mvn clean spring-boot:run
 \end{lstlisting}
 The application is available at:
@@ -66,7 +66,7 @@ Besides the obvious advantages, which you can find all over the internet, there 
 \end{itemize}
 
 The Maven project file for our example Quarkus application looks as follows.
-\lstinputlisting[language=XML]{../quarkus/pom.xml}
+\lstinputlisting[language=XML]{../examples/quarkus/pom.xml}
 We simplified the POM file compared to what Quarkus normally generates for you.
 This was done to more easily highlight the required configuration aspects.
 Basically all the heavy lifting to build the Quarkus based runtime is handled by the \texttt{quarkus-maven-plugin} Maven plugin.
@@ -74,18 +74,18 @@ We use the \texttt{myfaces-quarkus} Quarkus extension to provide us with a JSF r
 
 
 Via the \texttt{src/main/resources/application.properties}  Quarkus application configuration file we can configure different aspects of the runtime. For example:
-\lstinputlisting{../quarkus/src/main/resources/application.properties}
+\lstinputlisting{../examples/quarkus/src/main/resources/application.properties}
 
 The web deployment descriptor \texttt{src/main/resources/META-INF/web.xml} looks as follows:
-\lstinputlisting[language=XML]{../quarkus/src/main/resources/META-INF/web.xml}
+\lstinputlisting[language=XML]{../examples/quarkus/src/main/resources/META-INF/web.xml}
 As you can see, we no longer have to configure the JSF servlet ourselves.
 This has been taken care of by the \texttt{myfaces-quarkus} extension.
 
 Our example index page \texttt{src/main/resources/META-INF/resources/index.xhtml} looks as follows:
-\lstinputlisting[language=XML]{../quarkus/src/main/resources/META-INF/resources/index.xhtml}
+\lstinputlisting[language=XML]{../examples/quarkus/src/main/resources/META-INF/resources/index.xhtml}
 
 Our \texttt{HelloController.java} CDI based controller:
-\lstinputlisting[language=Java]{../quarkus/src/main/java/be/e_contract/ejsf/quarkus/HelloController.java}
+\lstinputlisting[language=Java]{../examples/quarkus/src/main/java/be/e_contract/ejsf/quarkus/HelloController.java}
 As you can see, the classical Java EE API's can be used directly within Quarkus, which allows for an easy transition to this new runtime.
 
 \begin{TIP}{Java Runtime}
@@ -94,7 +94,7 @@ As you can see, the classical Java EE API's can be used directly within Quarkus,
 
 Compile and run the application via:
 \begin{lstlisting}[language=bash]
-	cd quarkus
+	cd examples/quarkus
 	mvn clean compile quarkus:dev
 \end{lstlisting}
 Press "w" to view the application in a web browser.
