@@ -5,10 +5,6 @@
 
 \chapter{Moving towards production}
 
-\begin{TODO}{Under Construction}
-This chapter is under construction.
-\end{TODO}
-
 Within this chapter we show different aspects of how to configure your JSF web application for production.
 To get started, let us first investigate a development version of a JSF web application.
 
@@ -20,15 +16,15 @@ the first thing that we notice is that the cookie header,
 \begin{lstlisting}
 Set-Cookie: JSESSIONID=xxx; path=/helloworld-primefaces
 \end{lstlisting}
-is missing some security related attributes.
-Furthermore within the response HTML we see things like:
+is missing some security related attributes like \texttt{secure} and \texttt{HttpOnly}.
+Furthermore within the response HTML we see resource references like:
 \begin{lstlisting}[language=html]
 <link type="text/css" rel="stylesheet"
 	href="/helloworld-primefaces/javax.faces.resource/theme.css.xhtml
 	;jsessionid=xxx?ln=primefaces-saga&amp;v=13.0.0" />
 \end{lstlisting}
 We can clearly see that the \texttt{jsessionid} is present within the resource \texttt{href} attributes.
-When deploying an application towards production, we probably don't want this to happen.
+When deploying an application towards production, we don't want this to happen.
 We also notice the following,
 \begin{lstlisting}[language=html]
 <script type="text/javascript">
@@ -41,7 +37,7 @@ We also notice the following,
 	}
 </script>
 \end{lstlisting}
-For production we at least want secure cookies and the JSF project stage set to production.
+For production we at least want secure cookies and the JSF project stage set to \texttt{Production}.
 
 Furthermore if we retrieve such a resource,
 \begin{lstlisting}[language=bash]
@@ -53,7 +49,7 @@ we notice the following HTTP header:
 Cache-Control: no-store, must-revalidate
 \end{lstlisting}
 This is fine for development as it forces the web browser to reload our resources so changes are directly reflected within the web browser.
-However for production, we probably want to activate web browser caching as this has a huge impact on required network bandwidth and end-user experience.
+However for production, we want to activate web browser caching as this has a huge impact on required network bandwidth and end-user experience.
 If we would activate caching however we notice that for our own resources
 \begin{lstlisting}[language=bash]
 curl --verbose http://localhost:8080/helloworld-primefaces/widget.xhtml
@@ -73,32 +69,50 @@ while PrimeFaces resources are referenced via:
 </script>
 \end{lstlisting}
 The PrimeFaces resources are versioned via \texttt{v=13.0.0} as part of the JSF resource URL.
-This is important to ensure that the web browser correctly loads new versions as they become available.
+This is important to ensure that the web browser correctly loads new versions of the corresponding resource as they become available.
 Hence we also want such versioning on our own JSF resources.
 
-Given all the above arguments, it should be clear that we simply cannot place a JSF web application in production without a proper configuration.
+Given all the above arguments, it should be clear that we cannot place a JSF web application in production without an appropriate configuration.
 
 \section{OmniFaces}
 Within this section we demonstrate how to configure a JSF web application to ready it for production deployment.
+Notice that the given configuration should be considered just a bare minimum.
+Depending on your JSF application architecture, you might need additional production oriented configuration.
+
 One of the first things we can configure is the \texttt{javax.\allowbreak faces.PROJECT\_STAGE} context parameter within \texttt{web.xml}.
-However, we don't want to manually change this. Instead we will be using a Maven profile to activate the proper production configuration.
-Our example Maven POM is given below,
+However, we don't want to manually change its value.
+Instead we will be using a Maven profile to activate the production configuration.
+Our example Maven POM to demonstrate is given below,
 \lstinputlisting[language=XML]{../production/pom.xml}
-We defined a \texttt{javax.\allowbreak faces.PROJECT\_STAGE} property with default value \texttt{Development}.
-Next to this we also defined \texttt{production} Maven profile where we override this property value with \texttt{Production} as value.
-This Maven profile can be activated when building the project via:
+Under \texttt{properties} we defined a \texttt{javax.\allowbreak faces.PROJECT\_STAGE} property with default value \texttt{Development}.
+Next to this we also defined a \texttt{production} Maven profile where we override this property with \texttt{Production} as value.
+The \texttt{production} Maven profile can be activated when building the project via:
 \begin{lstlisting}[language=bash]
 cd production
 mvn clean install -Pproduction
 \end{lstlisting}
-Further we enabled property filtering on the deployment descriptors on the \texttt{maven\allowbreak-war\allowbreak-plugin} Maven plugin.
-We also added OmniFaces \cite{omnifaces} as dependency.
+Further we enabled property filtering on the deployment descriptors like \texttt{web.xml} via configuration of the \texttt{maven\allowbreak-war\allowbreak-plugin} Maven plugin.
+
+We added OmniFaces \cite{omnifaces} as dependency.
 OmniFaces is a JSF utility library that we will be using to further enhance our production configuration.
 
-Within our \texttt{web.xml} web deployment descriptor, we had the following changes and additions:
+Within our \texttt{web.xml} web deployment descriptor, we have the following changes and additions:
 \lstinputlisting[language=XML]{../production/src/main/webapp/WEB-INF/web.xml}
+The activated Maven filtering will substitute the variables:\\
+\indent \texttt{\$\{javax.faces.PROJECT\_STAGE\}}\\
+\indent \texttt{\$\{project.version\}}\\
+with the actual values as defined within our \texttt{pom.xml} Maven POM.
+Via \texttt{session-config} we ensure proper configuration of the session cookie.
+Further we have some OmniFaces related configuration.
+We pass on our project version to OmniFaces for JSF resource versioning.
+We also configure the \texttt{GzipResponseFilter} to enable GZIP compression.
+Via an \texttt{error-page} tag we provide a very basic exception handling.
+
 The JSF configuration looks as follows.
 \lstinputlisting[language=XML]{../production/src/main/webapp/WEB-INF/faces-config.xml}
+Most important here is the activation of the OmniFaces \texttt{VersionedResourceHandler} JSF resource handler.
+We also activated the PrimeFaces built-in exception handler.
+
 After deployment of our application via:
 \begin{lstlisting}[language=bash]
 cd production
@@ -108,27 +122,27 @@ We can inspect the impact of our configuration,
 \begin{lstlisting}[language=bash]
 curl --verbose http://localhost:8080/production/
 \end{lstlisting}
-First thing we notice is that the session cookie now has some additional security related flags,
+The first thing we notice is that the session cookie now has some additional security related attributes,
 \begin{lstlisting}
 Set-Cookie: JSESSIONID=xxx; path=/production; secure; HttpOnly
 \end{lstlisting}
-Further our own JSF resources now have proper versioning:
+Further our own JSF resources have versioning enabled:
 \begin{lstlisting}[language=html]
 <link type="text/css" rel="stylesheet"
 	href="/production/javax.faces.resource/
 	style.css?ln=demo&amp;v=1.0.0-SNAPSHOT" />
 \end{lstlisting}
 and the session identifier also has disappeared from the JSF resource URLs.
-If we retrieve a JSF resource via:
+When we retrieve a JSF resource via:
 \begin{lstlisting}[language=bash]
 curl --head "http://localhost:8080/production/
 	javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces"
 \end{lstlisting}
-we also notice that a web browser cache control header has been added:
+we notice that a web browser cache control header has been added:
 \begin{lstlisting}
 Cache-Control: max-age=604800
 \end{lstlisting}
-We can verify that JSF resource compression indeed has been enabled via:
+We can verify that JSF resource compression has been enabled via:
 \begin{lstlisting}[language=bash]
 curl --compressed --verbose --output /dev/null "http://localhost:8080/production/
 	javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces"
@@ -137,11 +151,13 @@ We notice the following HTTP request header,
 \begin{lstlisting}
 Accept-Encoding: deflate, gzip, zstd
 \end{lstlisting}
-and the response indeed has been compressed as we can see from the following HTTP response header:
+and the response indeed has been compressed as we can deduce from the following HTTP response header:
 \begin{lstlisting}
 Content-Encoding: gzip
 \end{lstlisting}
 
 \section{Rewrite}
 
-
+\begin{TODO}{Under Construction}
+	Write me.
+\end{TODO}

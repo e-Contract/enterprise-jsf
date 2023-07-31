@@ -17,13 +17,22 @@ https://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_4_0.xsd"
         <param-value>${project.version}</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>
+            javax.faces.FACELETS_SKIP_COMMENTS
+        </param-name>
+        <param-value>
+            true
+        </param-value>
+    </context-param>
+
     <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
@@ -39,7 +48,7 @@ https://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_4_0.xsd"
     </filter>
     <filter-mapping>
         <filter-name>gzipResponseFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <servlet-name>FacesServlet</servlet-name>
     </filter-mapping>
 
     <session-config>
@@ -50,5 +59,14 @@ https://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_4_0.xsd"
         </cookie-config>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
+
+    <error-page>
+        <exception-type>
+            java.lang.Throwable
+        </exception-type>
+        <location>
+            /error.xhtml
+        </location>
+    </error-page>
 
 </web-app>

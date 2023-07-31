@@ -15,9 +15,6 @@
         <resource-handler>
             org.omnifaces.resourcehandler.VersionedResourceHandler
         </resource-handler>
-        <resource-handler>
-            org.omnifaces.resourcehandler.UnmappedResourceHandler
-        </resource-handler>
         <el-resolver>
             org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
         </el-resolver>
