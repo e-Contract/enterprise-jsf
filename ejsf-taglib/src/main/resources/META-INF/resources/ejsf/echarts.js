@@ -14,7 +14,7 @@ PrimeFaces.widget.EJSFECharts = PrimeFaces.widget.BaseWidget.extend({
      */
     init: function (cfg) {
         this._super(cfg);
-        let myChart = echarts.init(document.getElementById(this.id));
+        this.myChart = echarts.init(document.getElementById(this.id));
         let $this = this;
         let ajaxRequestOptions = {
             source: this.id,
@@ -29,8 +29,8 @@ PrimeFaces.widget.EJSFECharts = PrimeFaces.widget.BaseWidget.extend({
             ],
             oncomplete: function (xhr, status, args, data) {
                 let option = JSON.parse(args.option);
-                myChart.setOption(option);
-                myChart.on("click", function (params) {
+                $this.myChart.setOption(option);
+                $this.myChart.on("click", function (params) {
                     let clickBehaviorOptions = {
                         params: [
                             {
@@ -52,5 +52,14 @@ PrimeFaces.widget.EJSFECharts = PrimeFaces.widget.BaseWidget.extend({
             }
         };
         PrimeFaces.ajax.Request.handle(ajaxRequestOptions);
+    },
+
+    getEChartsInstance: function () {
+        return this.myChart;
+    },
+
+    setHeight: function (height) {
+        this.jq.height(height);
+        this.myChart.resize();
     }
 });

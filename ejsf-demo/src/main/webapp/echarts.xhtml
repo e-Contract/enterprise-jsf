@@ -4,7 +4,8 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
     <ui:define name="title">Apache ECharts Demo</ui:define>
     <ui:define name="body">
         <p>
@@ -14,8 +15,17 @@
                             newTab="true"/>
             component.
         </p>
+        <h:outputScript library="demo" name="echarts.js"/>
+        <h:form>
+            <p:selectOneMenu onchange="resizeECharts(event)">
+                <f:selectItem itemValue="600px" itemLabel="600px"/>
+                <f:selectItem itemValue="800px" itemLabel="800px"/>
+            </p:selectOneMenu>
+        </h:form>
         <h:form id="example">
-            <ejsf:echarts value="#{echartsController.value}" style="width: 100%; height: 600px;">
+            <ejsf:echarts value="#{echartsController.value}"
+                          style="width: 100%; height: 600px;"
+                          widgetVar="demoECharts">
                 <p:ajax listener="#{echartsController.handleClick}"
                         update=":messages"/>
             </ejsf:echarts>
@@ -33,6 +43,9 @@
             </p:tab>
             <p:tab title="API">
                 <ejsf:tagInfo library="ejsf" tag="echarts"/>
+            </p:tab>
+            <p:tab title="Client API">
+                <ejsf:highlight resource="/META-INF/resources/ejsf/echarts.js"/>
             </p:tab>
         </p:tabView>
     </ui:define>
