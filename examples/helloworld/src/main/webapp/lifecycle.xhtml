@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:metadata>
+        <f:viewParam name="param" value="#{lifecycleController.param}"/>
+        <f:viewAction action="#{lifecycleController.viewAction()}"/>
+        <f:event type="preRenderView"
+                 listener="#{lifecycleController.preRenderView()}"/>
+    </f:metadata>
+    <h:head>
+        <title>Lifecycle Demo</title>
+    </h:head>
+    <h:body>
+        <h1>Lifecycle Demo</h1>
+        <h:messages globalOnly="true"/>
+        <h:form>
+            <h:button value="GET" outcome="lifecycle">
+                <f:param name="param" value="some value"/>
+            </h:button>
+            <h:commandButton value="Postback" actionListener="#{lifecycleController.postbackListener()}" action="#{lifecycleController.postback()}"/>
+            <h:commandButton value="AJAX" action="#{lifecycleController.ajax()}">
+                <f:ajax render="@all" listener="#{lifecycleController.ajaxListener()}"/>
+            </h:commandButton>
+        </h:form>
+    </h:body>
+</html>

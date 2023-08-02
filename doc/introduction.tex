@@ -388,6 +388,52 @@ We give a description of each JSF phase.
 Not every JSF request will walk through all these phases. For example, an initial JSF request will directly jump from \textbf{Restore View} to \textbf{Render Response} as there is no input to process.
 Similarly, when a validator fails during the \textbf{Process Validations} phase, we directly jump to the \textbf{Render Response} phase as we don't want to process invalid input towards our CDI backing beans.
 
+To see how the JSF lifecycle interacts with our CDI controller, let us consider the following example page.
+\lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/lifecycle.xhtml}
+Within this page we use an \texttt{f:viewAction} and a \texttt{preRenderView} event listener.
+Further we have three buttons: one that performs a regular GET action on the page, a so-called postback button, and an AJAX-enabled button.
+The corresponding CDI controller looks as follows.
+\lstinputlisting[language=Java]{../examples/helloworld/src/main/java/be/e_contract/jsf/helloworld/LifecycleController.java}
+When directly navigating to this page,
+\begin{lstlisting}
+http://localhost:8080/helloworld-1.0.0-SNAPSHOT/lifecycle.xhtml
+\end{lstlisting}
+You get to see the following:
+\begin{lstlisting}
+@PostConstruct: param: null, isPostback: false, isAjaxRequest: false, phaseId: INVOKE_APPLICATION
+viewAction: param: null, isPostback: false, isAjaxRequest: false, phaseId: INVOKE_APPLICATION
+preRenderView: param: null, isPostback: false, isAjaxRequest: false, phaseId: RENDER_RESPONSE
+\end{lstlisting}
+Hence first our \texttt{@PostConstruct} annotated method is invoked during the creation of our CDI controller bean.
+Next our \texttt{f:viewAction} method is being invoked, and finally during the render response JSF phase our \texttt{preRenderView} event handler method is being invoked.
+
+When clicking the "GET" button, we get the following output:
+\begin{lstlisting}
+@PostConstruct: param: null, isPostback: false, isAjaxRequest: false, phaseId: PROCESS_VALIDATIONS
+viewAction: param: some value, isPostback: false, isAjaxRequest: false, phaseId: INVOKE_APPLICATION
+preRenderView: param: some value, isPostback: false, isAjaxRequest: false, phaseId: RENDER_RESPONSE
+\end{lstlisting}
+Important here is to see that the view parameter \texttt{param} is not yet available when our \texttt{@Post\allowbreak Construct} method is being invoked.
+
+When clicking the "Postback" button, we get the following as output:
+\begin{lstlisting}
+postbackListener: param: some value, isPostback: true, isAjaxRequest: false, phaseId: INVOKE_APPLICATION
+postback: param: some value, isPostback: true, isAjaxRequest: false, phaseId: INVOKE_APPLICATION
+preRenderView: param: some value, isPostback: true, isAjaxRequest: false, phaseId: RENDER_RESPONSE
+\end{lstlisting}
+As you can see, our \texttt{@PostConstruct} method is no longer invoked since our CDI controller is \texttt{@ViewScoped} and hence we keep working on the same instance. Also our \texttt{f:viewAction} method is no longer invoked as we stay on the same JSF view.
+As for the actual postback, first our \texttt{actionListener} method is invoked, and afterwards our \texttt{action} method gets invoked.
+Here we clearly see that JSF marks the JSF request as being a postback via \texttt{facesContext.isPostback()}.
+
+When clicking the "AJAX" button, we get the following as output:
+\begin{lstlisting}
+ajaxListener: param: some value, isPostback: true, isAjaxRequest: true, phaseId: INVOKE_APPLICATION
+ajax: param: some value, isPostback: true, isAjaxRequest: true, phaseId: INVOKE_APPLICATION
+preRenderView: param: some value, isPostback: true, isAjaxRequest: true, phaseId: RENDER_RESPONSE
+\end{lstlisting}
+Again here, first our \texttt{listener} gets invoked, and afterwards our \texttt{action}.
+See how JSF also marks an AJAX call as a postback, but additionally marks it as AJAX via \texttt{partialViewContext.isAjaxRequest()}.
+
 \section{Facelets Templates}
 JSF comes with a template declaration language called facelets.
 This allows us to define a common template used by all our JSF pages,
