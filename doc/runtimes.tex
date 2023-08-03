@@ -99,6 +99,25 @@ Compile and run the application via:
 \end{lstlisting}
 Press "w" to view the application in a web browser.
 
+Create a Quarkus image via:
+\begin{lstlisting}[language=bash]
+	cd examples/quarkus
+	mvn clean package
+\end{lstlisting}
+Run the Quarkus image via:
+\begin{lstlisting}[language=bash]
+	cd examples/quarkus/target/quarkus-app
+	java -jar quarkus-run.jar
+\end{lstlisting}
+Create a Quarkus native image using a Docker container via:
+\begin{lstlisting}[language=bash]
+	cd examples/quarkus
+	mvn clean package -Dquarkus.package.type=native -Dquarkus.native.container-build=true
+\end{lstlisting}
+\begin{TODO}{Native Image}
+The above does not work for somehow reason.
+\end{TODO}
+
 \subsubsection{Tag library}
 Since the default setup of a Quarkus project is to have a single Maven module,
 embedding a tag library has to be done by simply adding the tag library code and descriptors within the same Maven project as your application itself.

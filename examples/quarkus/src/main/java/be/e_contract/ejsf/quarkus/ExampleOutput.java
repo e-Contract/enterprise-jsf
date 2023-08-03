@@ -1,10 +1,10 @@
 package be.e_contract.ejsf.quarkus;
 
 import java.io.IOException;
-import javax.faces.component.FacesComponent;
-import javax.faces.component.UIOutput;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
+import jakarta.faces.component.FacesComponent;
+import jakarta.faces.component.UIOutput;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.context.ResponseWriter;
 
 @FacesComponent(ExampleOutput.COMPONENT_TYPE)
 public class ExampleOutput extends UIOutput {
