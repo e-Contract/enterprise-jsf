@@ -498,7 +498,7 @@ Our JSF component for this looks as follows.
 Via the \texttt{@ListenerFor} annotations we indicate that we want to receive \texttt{PostAddToView\allowbreak Event} events from the JSF runtime.
 These events are fired towards the \texttt{processEvent} method.
 During the \texttt{PostAddToViewEvent} event we add specific input components to the component tree within the \texttt{processEvent} method.
-We add all possible input components here,  since at this point we don't know yet which exact type will be required at render/decode time and it is of eminent importance to keep the view root component tree stable during the lifecycle of the page.
+We add all possible input components here,  since at this point we don't know yet which exact type will be required at render/decode time and it is of eminent importance to keep the view root component tree stable during the lifecycle of the page, including the postbacks.
 
 When programmatically adding JSF components to the JSF view root tree, it is important to always define a relative unique identifier for each component via the \texttt{setId} method.
 Here we let our component to implement the \texttt{NamingContainer} interface.
