@@ -222,4 +222,18 @@
     </tag>
     <!-- exampleWebComponent end -->
 
+    <!-- customVariable begin -->
+    <tag>
+        <tag-name>customVariable</tag-name>
+        <component>
+            <component-type>ejsf.customVariable</component-type>
+        </component>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+    <!-- customVariable end -->
+
 </facelet-taglib>
