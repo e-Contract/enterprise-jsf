@@ -101,11 +101,4 @@
             </plugin>
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>be.e-contract.enterprise-jsf</groupId>
-            <artifactId>ejsf-taglib</artifactId>
-            <version>1.9.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 </project>
