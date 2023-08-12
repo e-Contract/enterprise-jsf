@@ -61,7 +61,9 @@ public class CustomVariableComponent extends UIComponentBase {
         varStack.push(valueExpression);
         Application application = context.getApplication();
         ExpressionFactory expressionFactory = application.getExpressionFactory();
-        valueExpression = expressionFactory.createValueExpression(LocalDateTime.now().toString(), String.class);
+        valueExpression = expressionFactory
+                .createValueExpression(LocalDateTime.now().toString(),
+                        String.class);
         variableMapper.setVariable(var, valueExpression);
         try {
             Thread.sleep(5);

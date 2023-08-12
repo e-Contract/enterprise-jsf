@@ -554,3 +554,32 @@ This EL (expression language) function has to be defined as a public static Java
 We register this function within our \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=gcd]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 Via the \texttt{function-signature} tag we declare the signature of our custom EL function.
+
+\section{Custom Variables}
+\texttt{UIData} based components expose an EL variable named according to the value of the \texttt{var} attribute.
+Within this section we demonstrate how to expose such custom EL variable ourselves.
+Take the next example JSF page,
+\lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/custom-variable.xhtml}
+Here our \texttt{ejsf:customVariable} JSF component exposes an EL variable named \texttt{example\allowbreak Var}.
+As value of our custom EL variable we take the current date time.
+Within the body of \texttt{ejsf:custom\allowbreak Variable} this variable can be used as expected via \texttt{\#\{exampleVar\}}.
+As demonstrated within the above example, we can indeed nest \texttt{ejsf:customVariable} components.
+Hence special care must be taken to ensure proper nesting of the corresponding exposed EL variable instances.
+
+The corresponding JSF component looks as follows,
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/variable/CustomVariableComponent.java}
+To ensure that our EL variable is available during all JSF phases, we extend both the \texttt{pushComponentToEL} and \texttt{popComponentFromEL} methods.
+These two methods already take care of handling the \texttt{component} EL variable and hence are the perfect place to expose additional EL variables.
+
+Within the \texttt{pushComponentToEL} method we first call the parent method to guard the original behavior.
+We maintain a \texttt{ValueExpression} stack as (request scoped) context attribute to properly handle nesting of our component.
+Via the \texttt{VariableMapper} we retrieve a potential previous value of our EL variable and save it on our stack.
+Next we create a \texttt{ValueExpression} containing the local date time as string constant.
+Via the \texttt{VariableMapper} we expose our custom EL variable.
+We added a \texttt{Thread.sleep(5)} to have a distinct local date time value for each of our EL variable \texttt{ValueExpression} instances.
+
+Within the \texttt{popComponentFromEL} method we call the parent method to guard the original behavior.
+Next to that, we simply pop the previous \texttt{ValueExpression} for our custom EL variable (which could have been \texttt{null}) and expose it via the \texttt{VariableMapper}.
+
+We register our component within the \texttt{.taglib.xml} tag library descriptor as follows.
+\lstinputlisting[language=XML,linerange=customVariable]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
