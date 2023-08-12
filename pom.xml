@@ -143,8 +143,8 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <node.version>v18.17.0</node.version>
-        <npm.version>9.8.0</npm.version>
+        <node.version>v18.17.1</node.version>
+        <npm.version>9.8.1</npm.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -183,7 +183,7 @@
             <dependency>
                 <groupId>com.googlecode.libphonenumber</groupId>
                 <artifactId>libphonenumber</artifactId>
-                <version>8.13.17</version>
+                <version>8.13.18</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
@@ -193,7 +193,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.12.0</version>
+                <version>3.13.0</version>
             </dependency>
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
