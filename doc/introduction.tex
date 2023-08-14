@@ -5,12 +5,20 @@
 
 \chapter{Introduction}
 \label{chap:introduction}
-Within this chapter we give a brief overview of JSF \cite{JSF23}.
+Within this chapter we give a brief overview of JavaServer Faces (JSF) \cite{JSF23}.
 We will not review every feature of JSF but just enough to get you started.
 Please check out the \nameref{chap:references} on page \pageref{chap:references} if you are looking for more in-depth material.
 
-\section{Why JSF?}
+\section{Why JavaServer Faces?}
 JSF evolved quite naturally from plain servlets, over JSP and such towards where we are today.
+The primary container within the Java EE realm is the servlet container, responsible for managing the lifecycle of so-called servlets as depicted in Figure \ref{fig:servlet-container}.
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=0.8]{servlet-container}
+		\caption{Servlet container.}
+		\label{fig:servlet-container}
+	\end{center}
+\end{figure}
 Looking at the most simple servlet that can handle input and output,
 \lstinputlisting[language=Java]{../examples/helloworld/src/main/java/be/e_contract/jsf/helloworld/HelloServlet.java}
 you immediately notice that the manual construction of the HTML content from within Java itself is rather painful.
@@ -173,7 +181,14 @@ Check out the deployed application within a web browser by navigating to:
 
 \section{CDI Bean}
 
-The source code of our first CDI \cite{CDI2} bean \texttt{HelloWorldController.java} looks as follows.
+The source code of our first CDI \cite{CDI2} bean \texttt{HelloWorldController.java} looks as follows (see also Figure \ref{fig:application-container}).
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=0.7,rotate=90]{application-container}
+		\caption{Our \texttt{HelloWorldController} CDI bean within the Java EE application container.}
+		\label{fig:application-container}
+	\end{center}
+\end{figure}
 \lstinputlisting[language=Java]{../examples/helloworld/src/main/java/be/e_contract/jsf/helloworld/HelloWorldController.java}
 Via the \texttt{@Named} annotation, we make our CDI bean available within the context of our JSF web application with a default naming "\texttt{helloWorldController}".
 You can give a CDI bean an explicit name via \texttt{@Named("theNameHere")}.

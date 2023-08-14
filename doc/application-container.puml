@@ -1,0 +1,31 @@
+@startuml
+
+' Enterprise JSF project.
+'
+' Copyright 2023 e-Contract.be BV. All rights reserved.
+' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+component "Application Container" as ApplicationContainer {
+    component "Servlet Container" as ServletContainer {
+        component FacesServlet
+    }
+    component "CDI Container" as CDI {
+        component HelloWorldController
+    }
+    file "WEB-INF/faces-config.xml" as FacesConfig
+    file "page.xhtml" as Page
+    file "WEB-INF/web.xml" as WebConfig
+    file "WEB-INF/beans.xml" as CDIConfig
+}
+
+interface "port\n8080" as 8080
+
+8080 -- ServletContainer
+
+FacesServlet --> FacesConfig: configure
+FacesServlet --> Page: load
+FacesServlet --> HelloWorldController: Expression Language
+ServletContainer --> WebConfig: configure
+CDI --> CDIConfig: configure
+
+@enduml

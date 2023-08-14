@@ -1,0 +1,16 @@
+@startuml
+
+' Enterprise JSF project.
+'
+' Copyright 2023 e-Contract.be BV. All rights reserved.
+' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+component "Servlet Container" as ServletContainer {
+    component HelloServlet
+}
+
+interface "port\n8080" as 8080
+
+8080 - ServletContainer
+
+@enduml
