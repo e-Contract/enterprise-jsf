@@ -449,6 +449,59 @@ preRenderView: param: some value, isPostback: true, isAjaxRequest: true, phaseId
 Again here, first our \texttt{listener} gets invoked, and afterwards our \texttt{action}.
 See how JSF also marks an AJAX call as a postback, but additionally marks it as AJAX via \texttt{partialViewContext.isAjaxRequest()}.
 
+\section{Expression Language}
+The JavaServer Faces Expression Language implementation is well optimized.
+However, certain usage patterns should be avoided as they inflict a high evaluation cost.
+An EL expression like
+\begin{lstlisting}
+	#{1 + 1}
+\end{lstlisting}
+evaluates almost as fast as
+\begin{lstlisting}
+	#{2}
+\end{lstlisting}
+However, one has to realize that EL expressions like,
+\begin{lstlisting}
+	#{someBean.someMethod()}
+	#{someBean.someProperty}
+\end{lstlisting}
+are really expensive as they require the EL implementation to use a Java reflection based method invocation.
+Of course you cannot completely avoid reflective method invocations within EL expressions, but you can trivially minimize them.
+For example,
+\begin{lstlisting}
+	#{someBean.someMethod() + someBean.anotherMethod()}
+\end{lstlisting}
+should get replaced with:
+\begin{lstlisting}
+	#{someBean.someMethodCombinedWithAnotherMethod()}
+\end{lstlisting}
+with an implementation
+\begin{lstlisting}
+	public int someMethodCombinedWithAnotherMethod() {
+		return this.someMethod() + this.anotherMethod();
+	}
+\end{lstlisting}
+as this will yield an almost doubling of the execution performance.
+Similarly, multiple dot expressions like
+\begin{lstlisting}
+	#{someBean.someProperty.anotherProperty}
+\end{lstlisting}
+should be replaced with:
+\begin{lstlisting}
+	#{someBean.someOtherProperty}
+\end{lstlisting}
+with implementation:
+\begin{lstlisting}
+	public int getSomeOtherProperty() {
+		this.getSomeProperty().getAnotherProperty();
+	}
+\end{lstlisting}
+Good optimization candidates are most-inner loops, i.e., within \texttt{UIData} based components.
+
+The following unit test clearly demonstrates the above made statements about performance gain.
+\lstinputlisting[language=Java]{../examples/el/src/test/java/test/unit/be/e_contract/el/ExpressionLanguageTest.java}
+
+
 \section{Facelets Templates}
 JSF comes with a template declaration language called facelets.
 This allows us to define a common template used by all our JSF pages,
