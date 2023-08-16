@@ -1,0 +1,65 @@
+---
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: REST API
+paths:
+  /item/add:
+    get:
+      operationId: add
+      description: add
+      parameters:
+        - name: "name"
+          schema:
+            type: "string"
+          in: query
+        - name: "amount"
+          schema:
+            type: "number"
+          in: query
+      responses:
+        "200":
+          description: item added succesfully
+        "400":
+          description: existing item error
+  /item/remove:
+    get:
+      operationId: remove
+      description: remove
+      parameters:
+        - name: "name"
+          schema:
+            type: "string"
+          in: query
+      responses:
+        "200":
+          description: item removed succesfully
+  /item/list:
+      get:
+        operationId: list
+        description: list
+        responses:
+          "200":
+            description: the item list
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Items"
+components:
+  schemas:
+    Items:
+      type: array
+      items:
+          $ref: "#/components/schemas/Item"
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
+          description: the item name
+        amount:
+          type: number
+          description: the item amount
+      required:
+        - name
+        - amount

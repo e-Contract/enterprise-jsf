@@ -43,7 +43,25 @@ The corresponding CDI controller looks as follows:
 The Maven POM file to build our project looks as follows:
 \lstinputlisting[language=XML]{../examples/frameworks/jsf/pom.xml}
 
-\section{React}
+\section{Front-end Framework}
+No matter which front-end framework we pick, we are forced to define a REST based API.
+While we could do some ad-hoc JAX-RS API, we don't want to compromise on the "strong-typing" like we know from JSF.
+We want that our server-side API is at all times in perfect sync with the client-side.
+Hence this implies using OpenAPI and for the client-side a Typescript based framework.
+
+The OpenAPI specification file looks as follows,
+\lstinputlisting{../examples/frameworks/react/api/src/main/resources/openapi.yaml}
+
+The Maven POM file to compile the OpenAPI towards JAX-RS interfaces looks as follows,
+\lstinputlisting[language=XML]{../examples/frameworks/react/api/pom.xml}
+
+The implementation of the OpenAPI JAX-RS interface looks as follows,
+\lstinputlisting[language=Java]{../examples/frameworks/react/war/src/main/java/be/e_contract/react/ItemApiImpl.java}
+
+Our \texttt{web.xml} web deployment descriptor to activate JAX-RS looks as follows,
+\lstinputlisting[language=XML]{../examples/frameworks/react/war/src/main/webapp/WEB-INF/web.xml}
+
+\subsection{React}
 
 \begin{TODO}{Write Me}
 	Write Me
