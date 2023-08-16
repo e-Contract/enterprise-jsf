@@ -1,0 +1,50 @@
+% Enterprise JSF project.
+%
+% Copyright 2023 e-Contract.be BV. All rights reserved.
+% e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+\chapter{Front-end Frameworks}
+\begin{TODO}{Under Construction}
+	This chapter is still a work in progress.
+\end{TODO}
+Within this chapter we compare a popular Javascript front-end framework with JSF from a developer's perspective.
+To do so, we construct a simple CRUD (create-read-update-delete) application using both technologies.
+We are looking for a somehow objective reasoning whether Javascript based front-end frameworks are really that better compared to JSF web applications.
+Some metrics to compare are:
+\begin{itemize}
+	\item Easy to maintain/understand build-system.
+	\item Amount of framework API you need to have deep understanding of.
+	\item Simplicity of the constructed application.
+	\item Maintainability of the constructed application.
+\end{itemize}
+
+\section{The Model}
+Both applications should use the same model.
+Here we simply maintain a list of items.
+The front-end should be able to display all items, and to remove/add items.
+Our \texttt{Item} class looks as follows:
+\lstinputlisting[language=Java]{../examples/frameworks/model/src/main/java/be/e_contract/model/Item.java}
+Within a real production model our \texttt{Item} would of course be a JPA entity to manage its persistence.
+But to keep things simple here, we avoid introducing JPA.
+As you can see from the code, we use the \texttt{name} field somehow as a primary key.
+
+Our \texttt{Model} class looks as follows:
+\lstinputlisting[language=Java]{../examples/frameworks/model/src/main/java/be/e_contract/model/Model.java}
+Again, to keep things simple we don't bother about aspects like transactionality, concurrency, security.
+We do however introduce a "business" exception named \texttt{ExistingItem\allowbreak Exception} to be able to demonstrate proper handing of this within the front-end.
+The source code of this exception looks as follows,
+\lstinputlisting[language=Java]{../examples/frameworks/model/src/main/java/be/e_contract/model/ExistingItemException.java}
+
+\section{JSF}
+The JSF page looks as follows:
+\lstinputlisting[language=XML]{../examples/frameworks/jsf/src/main/webapp/index.xhtml}
+The corresponding CDI controller looks as follows:
+\lstinputlisting[language=Java]{../examples/frameworks/jsf/src/main/java/be/e_contract/jsf/Controller.java}
+The Maven POM file to build our project looks as follows:
+\lstinputlisting[language=XML]{../examples/frameworks/jsf/pom.xml}
+
+\section{React}
+
+\begin{TODO}{Write Me}
+	Write Me
+\end{TODO}

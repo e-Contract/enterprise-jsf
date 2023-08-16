@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>JSF CRUD Example</title>
+    </h:head>
+    <h:body>
+        <h1>JSF CRUD Example</h1>
+        <p:messages id="messages" globalOnly="true"/>
+        <h:form id="mainForm">
+            <p:dataTable id="dataTable" value="#{controller.items}"
+                         var="item">
+                <p:column headerText="Name">
+                    #{item.name}
+                </p:column>
+                <p:column headerText="Amount">
+                    #{item.amount}
+                </p:column>
+                <p:column headerText="Actions">
+                    <p:commandButton icon="pi pi-trash"
+                                     action="#{controller.selectItem(item)}"
+                                     update="removeDialog,messages">
+                        <ejsf:openDialog dialogId=":removeDialog"/>
+                    </p:commandButton>
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton icon="pi pi-plus-circle"
+                                     action="#{controller.initAdd}"
+                                     update="addDialog,messages">
+                        <ejsf:openDialog dialogId=":addDialog"/>
+                        <p:resetInput target="addDialog"/>
+                    </p:commandButton>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+
+    <p:dialog id="addDialog" header="Add Item">
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel value="Name" for="@next"/>
+                <p:inputText id="name"
+                             required="true"
+                             value="#{controller.newItem.name}"/>
+                <p:message for="@previous"/>
+
+                <p:outputLabel value="Amount" for="@next"/>
+                <p:inputText required="true"
+                             value="#{controller.newItem.amount}">
+                    <f:validateLongRange minimum="1"/>
+                </p:inputText>
+                <p:message for="@previous"/>
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                <p:commandButton value="Add"
+                                 update="@form,mainForm:dataTable,messages"
+                                 action="#{controller.add}">
+                    <ejsf:closeDialog whenCallbackParam="itemAdded"/>
+                </p:commandButton>
+                <p:commandButton value="Dismiss">
+                    <ejsf:closeDialog/>
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
+    </p:dialog>
+
+    <p:dialog id="removeDialog" header="Remove Item">
+        Do you want to remove #{controller.selectedItem.name}?
+        <h:form>
+            <h:panelGrid columns="2">
+                <p:commandButton value="Remove"
+                                 update="mainForm:dataTable,messages"
+                                 action="#{controller.removeSelectedItem}">
+                    <ejsf:closeDialog/>
+                </p:commandButton>
+                <p:commandButton value="Dismiss">
+                    <ejsf:closeDialog/>
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
+    </p:dialog>
+</html>
