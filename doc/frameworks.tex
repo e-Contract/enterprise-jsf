@@ -62,6 +62,21 @@ Our \texttt{web.xml} web deployment descriptor to activate JAX-RS looks as follo
 \lstinputlisting[language=XML]{../examples/frameworks/react/war/src/main/webapp/WEB-INF/web.xml}
 
 \subsection{React}
+The \texttt{package.json} build file looks as follows:
+\lstinputlisting{../examples/frameworks/react/war/src/main/react/package.json}
+
+The HTML file looks as follows,
+\lstinputlisting[language=XML]{../examples/frameworks/react/war/src/main/react/public/index.html}
+
+The Typescript file looks as follows,
+\lstinputlisting{../examples/frameworks/react/war/src/main/react/src/index.tsx}
+
+Run the React application via:
+\begin{lstlisting}[language=bash]
+cd examples/frameworks/react/war/src/main/react
+npm install
+npm start
+\end{lstlisting}
 
 \begin{TODO}{Write Me}
 	Write Me
