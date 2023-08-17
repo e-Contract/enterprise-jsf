@@ -8,9 +8,9 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import "primeflex/primeflex.min.css";
 import { InputText } from "primereact/inputtext";
-import { createRoot } from 'react-dom/client';
-import 'primeicons/primeicons.css';
-import { Messages } from 'primereact/messages';
+import { createRoot } from "react-dom/client";
+import "primeicons/primeicons.css";
+import { Messages } from "primereact/messages";
 
 const App = () => {
     console.log("initialization...");
@@ -18,6 +18,7 @@ const App = () => {
     const [addDialogVisible, setAddDialogVisible] = useState<boolean>(false);
     const [removeDialogVisible, setRemoveDialogVisible] = useState<boolean>(false);
     const [addDialogName, setAddDialogName] = useState<string>("");
+    const [addDialogNameClass, setAddDialogNameClass] = useState<string>("");
     const [addDialogAmount, setAddDialogAmount] = useState<string>("");
     const [removeItem, setRemoveItem] = useState<string>("");
     const messages = useRef<Messages>(null);
@@ -37,8 +38,6 @@ const App = () => {
     }
 
     function addItemOnClickListener() {
-        console.log("add item name: " + addDialogName);
-        console.log("add item amount: " + addDialogAmount);
         fetch("http://localhost:8080/react/api/item/add?name=" + addDialogName + "&amount=" + addDialogAmount, {
             method: "post"
         })
@@ -50,9 +49,12 @@ const App = () => {
                         summary: "Item " + addDialogName + " added."
                     });
                     setAddDialogName("");
+                    setAddDialogNameClass("");
                     setAddDialogAmount("");
                     setAddDialogVisible(false);
                     loadTableData();
+                } else if (response.status === 400) {
+                    setAddDialogNameClass("p-invalid");
                 }
             });
     };
@@ -77,7 +79,7 @@ const App = () => {
         return (
             <Button label="Remove" onClick={() => {
                 setRemoveItem(rowData.name);
-                setRemoveDialogVisible(true)
+                setRemoveDialogVisible(true);
             }} icon="pi pi-trash" />
         );
     }
@@ -95,17 +97,15 @@ const App = () => {
                 className="mt-2" icon="pi pi-plus-circle" />
             <Dialog header="Add Item" visible={addDialogVisible}
                 onHide={() => setAddDialogVisible(false)}>
-                <div className="field grid">
-                    <label htmlFor="name" className="col-fixed">Name</label>
-                    <div className="col">
-                        <InputText className="p-2"
+                <div className="p-fluid">
+                    <div className="p-field">
+                        <label htmlFor="name">Name</label>
+                        <InputText className={addDialogNameClass}
                             value={addDialogName}
                             onChange={(e) => setAddDialogName(e.target.value)} />
                     </div>
-                </div>
-                <div className="field grid">
-                    <label htmlFor="amount" className="col-fixed">Amount</label>
-                    <div className="col">
+                    <div className="p-field">
+                        <label htmlFor="amount">Amount</label>
                         <InputText className="p-2"
                             value={addDialogAmount}
                             onChange={(e) => setAddDialogAmount(e.target.value)} />

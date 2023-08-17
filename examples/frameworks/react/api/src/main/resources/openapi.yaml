@@ -21,7 +21,11 @@ paths:
         "204":
           description: item added succesfully
         "400":
-          description: existing item error
+          description: request errors
+          content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/AddErrors"
   /item/remove:
     post:
       operationId: remove
@@ -34,6 +38,12 @@ paths:
       responses:
         "204":
           description: item removed succesfully
+        "400":
+          description: request errors
+          content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/RemoveErrors"
   /item/list:
       get:
         operationId: list
@@ -63,3 +73,27 @@ components:
       required:
         - name
         - amount
+    AddErrors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/AddError"
+    AddError:
+      type: string
+      enum:
+        - MISSING_NAME
+        - EXISTING_NAME
+        - MISSING_AMOUNT
+    RemoveErrors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/RemoveError"
+    RemoveError:
+      type: string
+      enum:
+        - MISSING_NAME

@@ -3,6 +3,8 @@ package be.e_contract.react;
 import be.e_contract.model.ExistingItemException;
 import be.e_contract.model.Model;
 import be.e_contract.react.api.ItemApi;
+import be.e_contract.react.api.model.AddError;
+import be.e_contract.react.api.model.AddErrors;
 import be.e_contract.react.api.model.Item;
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -24,7 +26,13 @@ public class ItemApiImpl implements ItemApi {
         try {
             this.model.addItem(item);
         } catch (ExistingItemException ex) {
-            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            AddErrors addErrors = new AddErrors();
+            addErrors.addErrorsItem(AddError.EXISTING_NAME);
+            Response response = Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(addErrors)
+                    .build();
+            throw new WebApplicationException(response);
         }
     }
 
