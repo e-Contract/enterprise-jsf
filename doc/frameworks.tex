@@ -51,12 +51,31 @@ Hence this implies using OpenAPI and for the client-side a Typescript based fram
 
 The OpenAPI specification file looks as follows,
 \lstinputlisting{../examples/frameworks/react/api/src/main/resources/openapi.yaml}
+Important during the construction of the OpenAPI specification file is to pay special attention to the error handling.
+While JSF inherently provides you with server-side based input validation, here you have to take care of the proper protocol definition regarding error handling yourself.
 
 The Maven POM file to compile the OpenAPI towards JAX-RS interfaces looks as follows,
 \lstinputlisting[language=XML]{../examples/frameworks/react/api/pom.xml}
+While the \texttt{openapi-generator-maven-plugin} Maven plugin per default constructs an entire Maven project for you, I can hardly see why you would ever want that.
+We only want the generated JAX-RS interfaces (and corresponding model), just like we did like 15 years ago with JAX-WS.
+The Maven project is something we want to manage ourselves.
+Hence via some configuration we instruct the \texttt{openapi-generator-maven-plugin} Maven plugin to limit itself to just do that.
+Via some \texttt{build-helper-\allowbreak maven-plugin} magic we ensure that the generated JAX-RS interfaces actually also get compiled.
 
-The implementation of the OpenAPI JAX-RS interface looks as follows,
+The implementation of the generated OpenAPI JAX-RS interface looks as follows,
 \lstinputlisting[language=Java]{../examples/frameworks/react/war/src/main/java/be/e_contract/react/ItemApiImpl.java}
+Two things pop out here:
+\begin{itemize}
+	\item When looking at the \texttt{add} method, we indeed are stuck with adding input validation manually.
+	With JSF, this came for free.
+	\item Within the \texttt{callList} method we have lovely message passing, mapping from one type to another.
+	As Linus Torvalds once stated:
+	\begin{quote}
+		"message passing as the fundamental operation of the OS is just an exercise in computer science masturbation.
+		It may feel good, but you don’t actually get anything DONE."
+	\end{quote}
+	In JSF, we could directly use our JPA entities within the front-end.
+\end{itemize}
 
 Our \texttt{web.xml} web deployment descriptor to activate JAX-RS looks as follows,
 \lstinputlisting[language=XML]{../examples/frameworks/react/war/src/main/webapp/WEB-INF/web.xml}
@@ -67,12 +86,20 @@ We do this by means of the following \texttt{WEB-INF/undertow-handlers.conf} con
 Obviously within production, this should get disabled.
 
 \subsection{React}
+As front-end framework we selected React.
+Here we opted for a client-side rendering flavor, not a server-side rendering flavor with their so-called hydration simply because this is what JSF has been offering already for the last 20 years or so.
+
+Luckily we now have \texttt{react-scripts} that voids the need to manage like 10 build files yourself.
+So the React build system limits itself to one single \texttt{package.json} file, which is nice.
 The \texttt{package.json} build file looks as follows:
 \lstinputlisting{../examples/frameworks/react/war/src/main/react/package.json}
+It is simple and understandable.
 
 The HTML file looks as follows,
 \lstinputlisting[language=XML]{../examples/frameworks/react/war/src/main/react/public/index.html}
+Via the \texttt{app} identifier React will hook into our page at runtime.
 
+As we don't want to loose the strong-typing as we know it from JSF, we opted for Typescript to define the React components.
 The Typescript file looks as follows,
 \lstinputlisting{../examples/frameworks/react/war/src/main/react/src/index.tsx}
 

@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.StringUtils;
 
 public class ItemApiImpl implements ItemApi {
 
@@ -20,13 +21,30 @@ public class ItemApiImpl implements ItemApi {
 
     @Override
     public void add(String name, BigDecimal amount) {
+        AddErrors addErrors = new AddErrors();
+        if (StringUtils.isBlank(name)) {
+            addErrors.addErrorsItem(AddError.MISSING_NAME);
+        }
+        if (null == amount) {
+            addErrors.addErrorsItem(AddError.MISSING_AMOUNT);
+        } else {
+            if (amount.intValue() < 1) {
+                addErrors.addErrorsItem(AddError.AMOUNT_MINIMUM);
+            }
+        }
+        if (null != addErrors.getErrors()) {
+            Response response = Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(addErrors)
+                    .build();
+            throw new WebApplicationException(response);
+        }
         be.e_contract.model.Item item = new be.e_contract.model.Item();
         item.setName(name);
         item.setAmount(amount.intValue());
         try {
             this.model.addItem(item);
         } catch (ExistingItemException ex) {
-            AddErrors addErrors = new AddErrors();
             addErrors.addErrorsItem(AddError.EXISTING_NAME);
             Response response = Response
                     .status(Response.Status.BAD_REQUEST)

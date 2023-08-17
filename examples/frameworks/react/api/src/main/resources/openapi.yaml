@@ -86,6 +86,7 @@ components:
         - MISSING_NAME
         - EXISTING_NAME
         - MISSING_AMOUNT
+        - AMOUNT_MINIMUM
     RemoveErrors:
       type: object
       properties:

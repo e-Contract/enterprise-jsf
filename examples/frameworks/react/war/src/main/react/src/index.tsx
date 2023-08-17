@@ -20,6 +20,7 @@ const App = () => {
     const [addDialogName, setAddDialogName] = useState<string>("");
     const [addDialogNameClass, setAddDialogNameClass] = useState<string>("");
     const [addDialogAmount, setAddDialogAmount] = useState<string>("");
+    const [addDialogAmountClass, setAddDialogAmountClass] = useState<string>("");
     const [removeItem, setRemoveItem] = useState<string>("");
     const messages = useRef<Messages>(null);
 
@@ -51,10 +52,29 @@ const App = () => {
                     setAddDialogName("");
                     setAddDialogNameClass("");
                     setAddDialogAmount("");
+                    setAddDialogAmountClass("");
                     setAddDialogVisible(false);
                     loadTableData();
                 } else if (response.status === 400) {
+                    setAddDialogNameClass("");
+                    setAddDialogAmountClass("");
+                    response.json().then((addErrors) => {
+                        if (addErrors.errors.includes("MISSING_NAME")) {
+                            setAddDialogNameClass("p-invalid");
+                        }
+                        if (addErrors.errors.includes("EXISTING_NAME")) {
+                            setAddDialogNameClass("p-invalid");
+                        }
+                        if (addErrors.errors.includes("MISSING_AMOUNT")) {
+                            setAddDialogAmountClass("p-invalid");
+                        }
+                        if (addErrors.errors.includes("AMOUNT_MINIMUM")) {
+                            setAddDialogAmountClass("p-invalid");
+                        }
+                    });
+                } else if (response.status === 404) {
                     setAddDialogNameClass("p-invalid");
+                    setAddDialogAmountClass("p-invalid");
                 }
             });
     };
@@ -106,7 +126,7 @@ const App = () => {
                     </div>
                     <div className="p-field">
                         <label htmlFor="amount">Amount</label>
-                        <InputText className="p-2"
+                        <InputText className={addDialogAmountClass}
                             value={addDialogAmount}
                             onChange={(e) => setAddDialogAmount(e.target.value)} />
                     </div>
