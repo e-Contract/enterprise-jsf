@@ -39,10 +39,12 @@ const App = () => {
     function addItemOnClickListener() {
         console.log("add item name: " + addDialogName);
         console.log("add item amount: " + addDialogAmount);
-        fetch("http://localhost:8080/react/api/item/add?name=" + addDialogName + "&amount=" + addDialogAmount)
+        fetch("http://localhost:8080/react/api/item/add?name=" + addDialogName + "&amount=" + addDialogAmount, {
+            method: "post"
+        })
             .then((response: Response) => {
                 console.log("response status: " + response.status);
-                if (response.status === 204) { // not in line with OpenAPI 200 status code
+                if (response.status === 204) {
                     messages.current!.show({
                         severity: "info",
                         summary: "Item " + addDialogName + " added."
@@ -56,14 +58,18 @@ const App = () => {
     };
 
     function removeItemFunc() {
-        fetch("http://localhost:8080/react/api/item/remove?name=" + removeItem)
+        fetch("http://localhost:8080/react/api/item/remove?name=" + removeItem, {
+            method: "post"
+        })
             .then((response: Response) => {
-                setRemoveDialogVisible(false);
-                loadTableData();
-                messages.current!.show({
-                    severity: "info",
-                    summary: "Item " + removeItem + " removed."
-                });
+                if (response.status === 204) {
+                    setRemoveDialogVisible(false);
+                    loadTableData();
+                    messages.current!.show({
+                        severity: "info",
+                        summary: "Item " + removeItem + " removed."
+                    });
+                }
             });
     }
 
