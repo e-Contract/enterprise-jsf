@@ -61,6 +61,11 @@ The implementation of the OpenAPI JAX-RS interface looks as follows,
 Our \texttt{web.xml} web deployment descriptor to activate JAX-RS looks as follows,
 \lstinputlisting[language=XML]{../examples/frameworks/react/war/src/main/webapp/WEB-INF/web.xml}
 
+We also need to allow CORS since the WildFly application server and the (React) development server will typically run on a different port.
+We do this by means of the following \texttt{WEB-INF/undertow-handlers.conf} configuration file for the Undertow web server.
+\lstinputlisting{../examples/frameworks/react/war/src/main/webapp/WEB-INF/undertow-handlers.conf}
+Obviously within production, this should get disabled.
+
 \subsection{React}
 The \texttt{package.json} build file looks as follows:
 \lstinputlisting{../examples/frameworks/react/war/src/main/react/package.json}
