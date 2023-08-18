@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle, RefObject } from "react";
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { PrimeReactProvider } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -12,13 +12,103 @@ import { createRoot } from "react-dom/client";
 import "primeicons/primeicons.css";
 import { Messages } from "primereact/messages";
 
+type AddItemDialogHandle = {
+    show: () => void;
+};
+
+type AddItemDialogProps = {
+    onAdded: (name: string) => void;
+};
+
+const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props, ref) => {
+    const [visible, setVisible] = useState<boolean>(false);
+    const [name, setName] = useState<string>("");
+    const [nameClass, setNameClass] = useState<string>("");
+    const [amount, setAmount] = useState<string>("");
+    const [amountClass, setAmountClass] = useState<string>("");
+
+    useImperativeHandle(ref, () => {
+        return {
+            show() {
+                setName("");
+                setNameClass("");
+                setAmount("");
+                setAmountClass("");
+                setVisible(true);
+            }
+        };
+    });
+
+    function addItemOnClickListener() {
+        fetch("http://localhost:8080/react/api/item/add?name=" + name + "&amount=" + amount, {
+            method: "post"
+        })
+            .then((response: Response) => {
+                console.log("response status: " + response.status);
+                if (response.status === 204) {
+                    let nameAdded = name;
+                    setName("");
+                    setNameClass("");
+                    setAmount("");
+                    setAmountClass("");
+                    setVisible(false);
+                    props.onAdded(nameAdded);
+                } else if (response.status === 400) {
+                    setNameClass("");
+                    setAmountClass("");
+                    response.json().then((addErrors) => {
+                        if (addErrors.errors.includes("MISSING_NAME")) {
+                            setNameClass("p-invalid");
+                        }
+                        if (addErrors.errors.includes("EXISTING_NAME")) {
+                            setNameClass("p-invalid");
+                        }
+                        if (addErrors.errors.includes("MISSING_AMOUNT")) {
+                            setAmountClass("p-invalid");
+                        }
+                        if (addErrors.errors.includes("AMOUNT_MINIMUM")) {
+                            setAmountClass("p-invalid");
+                        }
+                    });
+                } else if (response.status === 404) {
+                    setNameClass("p-invalid");
+                    setAmountClass("p-invalid");
+                }
+            });
+    };
+
+    return (
+        <Dialog header="Add Item" visible={visible}
+            onHide={() => setVisible(false)}>
+            <div className="p-fluid">
+                <div className="p-field">
+                    <label htmlFor="name">Name</label>
+                    <InputText className={nameClass}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="p-field">
+                    <label htmlFor="amount">Amount</label>
+                    <InputText className={amountClass}
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)} />
+                </div>
+            </div>
+            <div style={{ marginTop: "10px" }}>
+                <Button label="Add" onClick={addItemOnClickListener}
+                    style={{ marginRight: "10px" }} icon="pi pi-plus-circle" />
+                <Button label="Dismiss" onClick={() => setVisible(false)} icon="pi pi-times" />
+            </div>
+        </Dialog>
+    );
+});
+
 type RemoveItemDialogHandle = {
-    show: (name:string) => void;
+    show: (name: string) => void;
 };
 
 type RemoveItemDialogProps = {
-    messages: RefObject<Messages>;
-    onRemoved: () => void;
+    onRemoved: (name: string) => void;
 }
 
 const RemoveItemDialog = forwardRef<RemoveItemDialogHandle, RemoveItemDialogProps>((props, ref) => {
@@ -27,7 +117,7 @@ const RemoveItemDialog = forwardRef<RemoveItemDialogHandle, RemoveItemDialogProp
 
     useImperativeHandle(ref, () => {
         return {
-            show(name:string) {
+            show(name: string) {
                 setItemName(name);
                 setVisible(true);
             }
@@ -40,11 +130,7 @@ const RemoveItemDialog = forwardRef<RemoveItemDialogHandle, RemoveItemDialogProp
             .then((response: Response) => {
                 if (response.status === 204) {
                     setVisible(false);
-                    props.onRemoved();
-                    props.messages.current!.show({
-                        severity: "info",
-                        summary: "Item " + itemName + " removed."
-                    });
+                    props.onRemoved(itemName!);
                 }
             });
     }
@@ -61,23 +147,41 @@ const RemoveItemDialog = forwardRef<RemoveItemDialogHandle, RemoveItemDialogProp
     );
 });
 
+type ItemDataTableProps = {
+    items: any;
+    removeCallback: (itemName: string) => void;
+}
+
+const ItemDataTable = (props: ItemDataTableProps) => {
+    function ItemRemoveButton(rowData) {
+        return (
+            <Button label="Remove" onClick={() => {
+                props.removeCallback(rowData.name);
+            }} icon="pi pi-trash" />
+        );
+    }
+    return (
+        <DataTable value={props.items}>
+            <Column field="name" header="Name" />
+            <Column field="amount" header="Amount" />
+            <Column header="Actions" body={ItemRemoveButton} />
+        </DataTable>
+    );
+};
+
 const App = () => {
     console.log("initialization...");
     const [items, setItems] = useState([]);
-    const [addDialogVisible, setAddDialogVisible] = useState<boolean>(false);
-    const [addDialogName, setAddDialogName] = useState<string>("");
-    const [addDialogNameClass, setAddDialogNameClass] = useState<string>("");
-    const [addDialogAmount, setAddDialogAmount] = useState<string>("");
-    const [addDialogAmountClass, setAddDialogAmountClass] = useState<string>("");
     const messages = useRef<Messages>(null);
     const removeItemDialog = useRef<RemoveItemDialogHandle>(null);
+    const addItemDialog = useRef<AddItemDialogHandle>(null);
 
     useEffect(() => {
         console.log("useEffect");
-        loadTableData();
+        loadItems();
     }, []); // []: run only once
 
-    function loadTableData() {
+    function loadItems() {
         fetch("http://localhost:8080/react/api/item/list")
             .then((response: Response) => {
                 response.json().then(data => {
@@ -86,95 +190,29 @@ const App = () => {
             });
     }
 
-    function addItemOnClickListener() {
-        fetch("http://localhost:8080/react/api/item/add?name=" + addDialogName + "&amount=" + addDialogAmount, {
-            method: "post"
-        })
-            .then((response: Response) => {
-                console.log("response status: " + response.status);
-                if (response.status === 204) {
-                    messages.current!.show({
-                        severity: "info",
-                        summary: "Item " + addDialogName + " added."
-                    });
-                    setAddDialogName("");
-                    setAddDialogNameClass("");
-                    setAddDialogAmount("");
-                    setAddDialogAmountClass("");
-                    setAddDialogVisible(false);
-                    loadTableData();
-                } else if (response.status === 400) {
-                    setAddDialogNameClass("");
-                    setAddDialogAmountClass("");
-                    response.json().then((addErrors) => {
-                        if (addErrors.errors.includes("MISSING_NAME")) {
-                            setAddDialogNameClass("p-invalid");
-                        }
-                        if (addErrors.errors.includes("EXISTING_NAME")) {
-                            setAddDialogNameClass("p-invalid");
-                        }
-                        if (addErrors.errors.includes("MISSING_AMOUNT")) {
-                            setAddDialogAmountClass("p-invalid");
-                        }
-                        if (addErrors.errors.includes("AMOUNT_MINIMUM")) {
-                            setAddDialogAmountClass("p-invalid");
-                        }
-                    });
-                } else if (response.status === 404) {
-                    setAddDialogNameClass("p-invalid");
-                    setAddDialogAmountClass("p-invalid");
-                }
-            });
-    };
-
-
-    function ItemRemoveButton(rowData) {
-        return (
-            <Button label="Remove" onClick={() => {
-                removeItemDialog.current!.show(rowData.name);
-            }} icon="pi pi-trash" />
-        );
-    }
-
     return (
         <PrimeReactProvider>
             <Messages ref={messages} />
-            <DataTable value={items}>
-                <Column field="name" header="Name" />
-                <Column field="amount" header="Amount" />
-                <Column header="Actions" body={ItemRemoveButton} />
-            </DataTable>
+            <ItemDataTable items={items}
+                removeCallback={(itemName: string) => removeItemDialog.current!.show(itemName)} />
             <Button label="Add"
-                onClick={() => setAddDialogVisible(true)}
+                onClick={() => addItemDialog.current!.show()}
                 className="mt-2" icon="pi pi-plus-circle" />
-            <Dialog header="Add Item" visible={addDialogVisible}
-                onHide={() => setAddDialogVisible(false)}>
-                <div className="p-fluid">
-                    <div className="p-field">
-                        <label htmlFor="name">Name</label>
-                        <InputText className={addDialogNameClass}
-                            value={addDialogName}
-                            onChange={(e) => setAddDialogName(e.target.value)} />
-                    </div>
-                    <div className="p-field">
-                        <label htmlFor="amount">Amount</label>
-                        <InputText className={addDialogAmountClass}
-                            value={addDialogAmount}
-                            onChange={(e) => setAddDialogAmount(e.target.value)} />
-                    </div>
-                </div>
-                <div style={{ marginTop: "10px" }}>
-                    <Button label="Add" onClick={addItemOnClickListener}
-                        style={{ marginRight: "10px" }} icon="pi pi-plus-circle" />
-                    <Button label="Dismiss" onClick={() => {
-                        setAddDialogName("");
-                        setAddDialogAmount("");
-                        setAddDialogVisible(false)
-                    }} icon="pi pi-times" />
-                </div>
-            </Dialog>
-            <RemoveItemDialog ref={removeItemDialog} messages={messages}
-                onRemoved={() => loadTableData()} />
+            <AddItemDialog ref={addItemDialog} onAdded={(name: string) => {
+                messages.current!.show({
+                    severity: "info",
+                    summary: "Item " + name + " added."
+                });
+                loadItems();
+            }} />
+            <RemoveItemDialog ref={removeItemDialog}
+                onRemoved={(name: string) => {
+                    messages.current!.show({
+                        severity: "info",
+                        summary: "Item " + name + " removed."
+                    });
+                    loadItems();
+                }} />
         </PrimeReactProvider>
     );
 };
