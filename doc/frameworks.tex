@@ -100,10 +100,27 @@ The HTML file looks as follows,
 Via the \texttt{app} identifier React will hook into our page at runtime.
 
 As we don't want to loose the strong-typing as we know it from JSF, we opted for Typescript to define the React components.
-The Typescript file looks as follows,
+The Typescript \texttt{index.tsx} file looks as follows,
 \lstinputlisting{../examples/frameworks/react/war/src/main/react/src/index.tsx}
+While using Typescript is initially a bit annoying, it quickly pays off as Visual Code can give better code completion hints.
+It took a while to come up with a clean solution for the custom \texttt{AddItemDialog} and \texttt{RemoveItemDialog} using the \texttt{forwardRef} and \texttt{useImperativeHandle} construct.
+It is often claimed that JSF has a steep learning curve, but once you start doing things beyond the React tutorials you're quickly faced with similar issues.
+Due to the fast evolution of React, a lot of online blogs/documentation about React is also dated.
 
-Run the React application via:
+As for the UI components itself, similar to JSF where we default to PrimeFaces, for React we default to PrimeReact as we don't feel like reinventing components like a data table ourselves.
+Hence from a point-of-view of look-and-feel and easy of styling, JSF is actually exactly as painful as React.
+Whether you look into the JSF renderer class, or within the React JSX sections, you have to grasp the rendering if you want to apply some custom styling.
+
+While there are probably some form based solutions out there to do the error handling within React, this is really the area where JSF is superior.
+All this comes from the fact that JSF does the messaging for you behind the scenes whereas with React this aspect is like right in your face.
+
+Compared with JSF, due to the React development server, the development cycle is drastically shorter \textbf{if} of course your REST endpoints do not require changes while developing the front-end.
+But then again, runtimes like Quarkus also provide similar "hot deployment".
+
+As for custom component development itself, this is difficult/dangerous to compare.
+JSF components also cover the server-side behavior, whereas React components are limited to the client-side only.
+
+Run the React application in development mode via:
 \begin{lstlisting}[language=bash]
 cd examples/frameworks/react/war/src/main/react
 npm install
