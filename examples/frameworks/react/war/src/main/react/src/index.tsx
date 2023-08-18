@@ -13,6 +13,26 @@ import "primeicons/primeicons.css";
 import { Messages } from "primereact/messages";
 import { Message } from "primereact/message";
 
+type ErrorMessageProps = {
+    message: string
+}
+
+const ErrorMessage = (props: ErrorMessageProps) => {
+    let style: React.CSSProperties;
+    if (props.message.length === 0) {
+        style = {
+            display: "none"
+        };
+    } else {
+        style = {
+            display: "block"
+        }
+    }
+    return (
+        <Message text={props.message} style={style} severity="error" />
+    );
+}
+
 type AddItemDialogHandle = {
     show: () => void;
 };
@@ -28,9 +48,7 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
     const [amount, setAmount] = useState<string>("");
     const [amountClass, setAmountClass] = useState<string>("");
     const [nameMessage, setNameMessage] = useState<string>("");
-    const [nameMessageStyle, setNameMessageStyle] = useState<React.CSSProperties>();
     const [amountMessage, setAmountMessage] = useState<string>("");
-    const [amountMessageStyle, setAmountMessageStyle] = useState<React.CSSProperties>();
 
     useImperativeHandle(ref, () => {
         return {
@@ -47,33 +65,21 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
     function setNameValid() {
         setNameClass("");
         setNameMessage("");
-        setNameMessageStyle({
-            display: "none"
-        });
     }
 
     function setAmountValid() {
         setAmountClass("");
         setAmountMessage("");
-        setAmountMessageStyle({
-            display: "none"
-        });
     }
 
     function setAmountInvalid(message: string) {
         setAmountClass("p-invalid");
         setAmountMessage(message);
-        setAmountMessageStyle({
-            display: "block"
-        });
     }
 
     function setNameInvalid(message: string) {
         setNameClass("p-invalid");
         setNameMessage(message);
-        setNameMessageStyle({
-            display: "block"
-        });
     }
 
     function addItemOnClickListener() {
@@ -123,14 +129,14 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
                     <InputText className={nameClass}
                         value={name}
                         onChange={(e) => setName(e.target.value)} />
-                    <Message text={nameMessage} style={nameMessageStyle} severity="error" />
+                    <ErrorMessage message={nameMessage} />
                 </div>
                 <div className="p-field">
                     <label htmlFor="amount">Amount</label>
                     <InputText className={amountClass}
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)} />
-                    <Message text={amountMessage} style={amountMessageStyle} severity="error" />
+                    <ErrorMessage message={amountMessage} />
                 </div>
             </div>
             <div style={{ marginTop: "10px" }}>
