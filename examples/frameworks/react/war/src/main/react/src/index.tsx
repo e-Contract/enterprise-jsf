@@ -11,6 +11,7 @@ import { InputText } from "primereact/inputtext";
 import { createRoot } from "react-dom/client";
 import "primeicons/primeicons.css";
 import { Messages } from "primereact/messages";
+import { Message } from "primereact/message";
 
 type AddItemDialogHandle = {
     show: () => void;
@@ -26,18 +27,54 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
     const [nameClass, setNameClass] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
     const [amountClass, setAmountClass] = useState<string>("");
+    const [nameMessage, setNameMessage] = useState<string>("");
+    const [nameMessageStyle, setNameMessageStyle] = useState<React.CSSProperties>();
+    const [amountMessage, setAmountMessage] = useState<string>("");
+    const [amountMessageStyle, setAmountMessageStyle] = useState<React.CSSProperties>();
 
     useImperativeHandle(ref, () => {
         return {
             show() {
                 setName("");
-                setNameClass("");
+                setNameValid();
                 setAmount("");
-                setAmountClass("");
+                setAmountValid();
                 setVisible(true);
             }
         };
     });
+
+    function setNameValid() {
+        setNameClass("");
+        setNameMessage("");
+        setNameMessageStyle({
+            display: "none"
+        });
+    }
+
+    function setAmountValid() {
+        setAmountClass("");
+        setAmountMessage("");
+        setAmountMessageStyle({
+            display: "none"
+        });
+    }
+
+    function setAmountInvalid(message: string) {
+        setAmountClass("p-invalid");
+        setAmountMessage(message);
+        setAmountMessageStyle({
+            display: "block"
+        });
+    }
+
+    function setNameInvalid(message: string) {
+        setNameClass("p-invalid");
+        setNameMessage(message);
+        setNameMessageStyle({
+            display: "block"
+        });
+    }
 
     function addItemOnClickListener() {
         fetch("http://localhost:8080/react/api/item/add?name=" + name + "&amount=" + amount, {
@@ -48,26 +85,26 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
                 if (response.status === 204) {
                     let nameAdded = name;
                     setName("");
-                    setNameClass("");
+                    setNameValid();
                     setAmount("");
-                    setAmountClass("");
+                    setAmountValid();
                     setVisible(false);
                     props.onAdded(nameAdded);
                 } else if (response.status === 400) {
-                    setNameClass("");
-                    setAmountClass("");
+                    setNameValid();
+                    setAmountValid();
                     response.json().then((addErrors) => {
                         if (addErrors.errors.includes("MISSING_NAME")) {
-                            setNameClass("p-invalid");
+                            setNameInvalid("Missing name");
                         }
                         if (addErrors.errors.includes("EXISTING_NAME")) {
-                            setNameClass("p-invalid");
+                            setNameInvalid("Existing name");
                         }
                         if (addErrors.errors.includes("MISSING_AMOUNT")) {
-                            setAmountClass("p-invalid");
+                            setAmountInvalid("Missing amount");
                         }
                         if (addErrors.errors.includes("AMOUNT_MINIMUM")) {
-                            setAmountClass("p-invalid");
+                            setAmountInvalid("Amount smaller than 1.");
                         }
                     });
                 } else if (response.status === 404) {
@@ -86,12 +123,14 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
                     <InputText className={nameClass}
                         value={name}
                         onChange={(e) => setName(e.target.value)} />
+                    <Message text={nameMessage} style={nameMessageStyle} severity="error" />
                 </div>
                 <div className="p-field">
                     <label htmlFor="amount">Amount</label>
                     <InputText className={amountClass}
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)} />
+                    <Message text={amountMessage} style={amountMessageStyle} severity="error" />
                 </div>
             </div>
             <div style={{ marginTop: "10px" }}>
