@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle, RefObject } from "react";
 import { PrimeReactProvider } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -12,17 +12,65 @@ import { createRoot } from "react-dom/client";
 import "primeicons/primeicons.css";
 import { Messages } from "primereact/messages";
 
+type RemoveItemDialogHandle = {
+    show: (name:string) => void;
+};
+
+type RemoveItemDialogProps = {
+    messages: RefObject<Messages>;
+    onRemoved: () => void;
+}
+
+const RemoveItemDialog = forwardRef<RemoveItemDialogHandle, RemoveItemDialogProps>((props, ref) => {
+    const [visible, setVisible] = useState<boolean>(false);
+    const [itemName, setItemName] = useState<string>();
+
+    useImperativeHandle(ref, () => {
+        return {
+            show(name:string) {
+                setItemName(name);
+                setVisible(true);
+            }
+        };
+    });
+    function removeItem() {
+        fetch("http://localhost:8080/react/api/item/remove?name=" + itemName, {
+            method: "post"
+        })
+            .then((response: Response) => {
+                if (response.status === 204) {
+                    setVisible(false);
+                    props.onRemoved();
+                    props.messages.current!.show({
+                        severity: "info",
+                        summary: "Item " + itemName + " removed."
+                    });
+                }
+            });
+    }
+    return (
+        <Dialog header="Remove Item" visible={visible} onHide={() => setVisible(false)}>
+            Do you want to remove {itemName}?
+            <div className="mt-2">
+                <Button label="Remove" onClick={removeItem}
+                    className="mr-2" icon="pi pi-trash" />
+                <Button label="Dismiss" icon="pi pi-times"
+                    onClick={() => setVisible(false)} />
+            </div>
+        </Dialog>
+    );
+});
+
 const App = () => {
     console.log("initialization...");
     const [items, setItems] = useState([]);
     const [addDialogVisible, setAddDialogVisible] = useState<boolean>(false);
-    const [removeDialogVisible, setRemoveDialogVisible] = useState<boolean>(false);
     const [addDialogName, setAddDialogName] = useState<string>("");
     const [addDialogNameClass, setAddDialogNameClass] = useState<string>("");
     const [addDialogAmount, setAddDialogAmount] = useState<string>("");
     const [addDialogAmountClass, setAddDialogAmountClass] = useState<string>("");
-    const [removeItem, setRemoveItem] = useState<string>("");
     const messages = useRef<Messages>(null);
+    const removeItemDialog = useRef<RemoveItemDialogHandle>(null);
 
     useEffect(() => {
         console.log("useEffect");
@@ -79,27 +127,11 @@ const App = () => {
             });
     };
 
-    function removeItemFunc() {
-        fetch("http://localhost:8080/react/api/item/remove?name=" + removeItem, {
-            method: "post"
-        })
-            .then((response: Response) => {
-                if (response.status === 204) {
-                    setRemoveDialogVisible(false);
-                    loadTableData();
-                    messages.current!.show({
-                        severity: "info",
-                        summary: "Item " + removeItem + " removed."
-                    });
-                }
-            });
-    }
 
     function ItemRemoveButton(rowData) {
         return (
             <Button label="Remove" onClick={() => {
-                setRemoveItem(rowData.name);
-                setRemoveDialogVisible(true);
+                removeItemDialog.current!.show(rowData.name);
             }} icon="pi pi-trash" />
         );
     }
@@ -141,17 +173,8 @@ const App = () => {
                     }} icon="pi pi-times" />
                 </div>
             </Dialog>
-            <Dialog header="Remove Item"
-                visible={removeDialogVisible}
-                onHide={() => setRemoveDialogVisible(false)}>
-                Do you want to remove {removeItem}?
-                <div className="mt-2">
-                    <Button label="Remove" onClick={removeItemFunc}
-                        className="mr-2" icon="pi pi-trash" />
-                    <Button label="Dismiss" icon="pi pi-times"
-                        onClick={() => setRemoveDialogVisible(false)} />
-                </div>
-            </Dialog>
+            <RemoveItemDialog ref={removeItemDialog} messages={messages}
+                onRemoved={() => loadTableData()} />
         </PrimeReactProvider>
     );
 };

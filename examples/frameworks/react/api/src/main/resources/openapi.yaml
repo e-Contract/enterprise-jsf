@@ -98,3 +98,4 @@ components:
       type: string
       enum:
         - MISSING_NAME
+        - UNKNOWN_NAME

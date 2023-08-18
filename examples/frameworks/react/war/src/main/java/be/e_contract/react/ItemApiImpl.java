@@ -6,6 +6,8 @@ import be.e_contract.react.api.ItemApi;
 import be.e_contract.react.api.model.AddError;
 import be.e_contract.react.api.model.AddErrors;
 import be.e_contract.react.api.model.Item;
+import be.e_contract.react.api.model.RemoveError;
+import be.e_contract.react.api.model.RemoveErrors;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,6 +71,15 @@ public class ItemApiImpl implements ItemApi {
 
     @Override
     public void remove(String name) {
+        if (StringUtils.isBlank(name)) {
+            RemoveErrors removeErrors = new RemoveErrors();
+            removeErrors.addErrorsItem(RemoveError.MISSING_NAME);
+            Response response = Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(removeErrors)
+                    .build();
+            throw new WebApplicationException(response);
+        }
         List<be.e_contract.model.Item> items = this.model.getItems();
         be.e_contract.model.Item removeItem = null;
         for (be.e_contract.model.Item item : items) {
@@ -78,7 +89,13 @@ public class ItemApiImpl implements ItemApi {
             }
         }
         if (null == removeItem) {
-            return;
+            RemoveErrors removeErrors = new RemoveErrors();
+            removeErrors.addErrorsItem(RemoveError.UNKNOWN_NAME);
+            Response response = Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(removeErrors)
+                    .build();
+            throw new WebApplicationException(response);
         }
         this.model.removeItem(removeItem);
     }
