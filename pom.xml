@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>be.e-contract</groupId>
     <artifactId>enterprise-jsf</artifactId>
-    <version>1.10.0</version>
+    <version>1.10.1-SNAPSHOT</version>
     <name>Enterprise JSF Project</name>
     <packaging>pom</packaging>
     <inceptionYear>2023</inceptionYear>
@@ -27,7 +27,7 @@
     </developers>
     <scm>
         <connection>scm:git:git@github.com:e-Contract/enterprise-jsf.git</connection>
-        <tag>enterprise-jsf-1.10.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <downloadUrl>https://www.e-contract.be/maven2/be/e-contract/enterprise-jsf/</downloadUrl>
