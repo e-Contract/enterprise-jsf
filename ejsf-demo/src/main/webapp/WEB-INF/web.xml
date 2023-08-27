@@ -26,6 +26,11 @@
         <param-value>${ejsf.viewLogs.REQUIRED_ROLE}</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>ejsf.serverScript.language</param-name>
+        <param-value>javascript</param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

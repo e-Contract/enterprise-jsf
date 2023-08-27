@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Server Script Groovy Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            #{myVariable}
+            <ejsf:serverScript language="groovy">
+                myVariable = "hello world from Groovy.";
+            </ejsf:serverScript>
+            <h:form id="dataTableForm">
+                <p:dataTable value="#{tableData}" var="item" id="dataTable">
+                    <p:column headerText="Name">
+                        #{item.name}
+                    </p:column>
+                    <p:column headerText="Actions">
+                        <p:commandButton value="Remove"
+                                         action="#{removeDataTableItem}"
+                                         update="dataTable,:messages"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <ejsf:serverScript language="groovy"
+                               scope="view"
+                               functions="addDataTableItem,removeDataTableItem"
+                               bind="facesContext">
+                import javax.faces.application.FacesMessage;
+                tableData = [];
+                class Item {
+                    String name;
+                }
+                def addDataTableItem() {
+                    Item item = new Item();
+                    item.name = new Date().toString();
+                    tableData.add(item);
+                    FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item added: " + item.name, null);
+                    facesContext.addMessage(null, facesMessage);
+                }
+                def removeDataTableItem(item) {
+                    tableData.remove(item);
+                    FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item removed: " + item.name, null);
+                    facesContext.addMessage(null, facesMessage);
+                }
+            </ejsf:serverScript>
+            <h:form>
+                <p:commandButton value="Add item" action="#{addDataTableItem}"
+                                 update="dataTableForm:dataTable,:messages"/>
+            </h:form>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

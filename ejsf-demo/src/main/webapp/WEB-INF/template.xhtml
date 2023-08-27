@@ -331,6 +331,21 @@
                                             ajax="false"
                                             onclick="selectMenuitemLink(this);"
                                             styleClass="#{menuController.getMenuitemStyleClass('memory-info')}"/>
+                                <p:menuitem value="Server Script"
+                                            action="server-script?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('server-script')}"/>
+                                <p:menuitem value="Server Script Beanshell"
+                                            action="beanshell?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('beanshell')}"/>
+                                <p:menuitem value="Server Script Groovy"
+                                            action="groovy?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('groovy')}"/>
                             </p:submenu>
                         </p:menu>
                     </h:form>

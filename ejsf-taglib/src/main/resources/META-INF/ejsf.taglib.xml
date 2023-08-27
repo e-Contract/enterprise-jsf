@@ -1379,4 +1379,37 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Server Script component.</description>
+        <tag-name>serverScript</tag-name>
+        <component>
+            <component-type>ejsf.serverScriptComponent</component-type>
+        </component>
+        <attribute>
+            <description>The script language.</description>
+            <name>language</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The scope of the script. request or view. Defaults to request.</description>
+            <name>scope</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Binds EL values to the script.</description>
+            <name>bind</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Include a script as resource.</description>
+            <name>include</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Marks the script functions.</description>
+            <name>functions</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
