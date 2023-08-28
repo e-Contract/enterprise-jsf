@@ -40,7 +40,7 @@
                     FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item added: " + item.name, null);
                     facesContext.addMessage(null, facesMessage);
                 }
-                def removeDataTableItem(item) {
+                def removeDataTableItem(Item item) {
                     tableData.remove(item);
                     FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item removed: " + item.name, null);
                     facesContext.addMessage(null, facesMessage);
