@@ -42,9 +42,6 @@ If you use Maven, refer to the e-Contract.be Maven repository via:
 <repository>
     <id>e-contract</id>
     <url>https://www.e-contract.be/maven2/</url>
-    <releases>
-        <enabled>true</enabled>
-    </releases>
 </repository>
 ```
 Add the JSF component library to your web application WAR project via:
