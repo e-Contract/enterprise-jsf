@@ -29,6 +29,21 @@
             <h:outputText value="#{clockSyncController.deltaT}"/>
         </h:panelGrid>
         <ejsf:viewLogs/>
+        <h:outputText value="#{myVariable}" id="outputVariable"/>
+        <ejsf:serverScript scope="view" functions="increaseCounter">
+            counter = 0;
+            myVariable = "";
+            function increaseCounter() {
+                counter = counter + 1;
+                myVariable = "Hello world from Javascript: " + counter;
+            }
+            increaseCounter();
+        </ejsf:serverScript>
+        <h:form>
+            <p:commandButton value="Increase Counter"
+                             action="#{increaseCounter}"
+                             update="outputVariable"/>
+        </h:form>
     </h:body>
 
 </html>

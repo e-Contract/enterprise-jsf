@@ -6,6 +6,7 @@
 
     <application>
         <resource-handler>be.e_contract.ejsf.component.viewlogs.ViewLogsResourceHandler</resource-handler>
+        <el-resolver>be.e_contract.ejsf.component.script.ScriptELResolver</el-resolver>
     </application>
 
 </faces-config>
