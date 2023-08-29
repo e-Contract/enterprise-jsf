@@ -36,6 +36,8 @@ public class SessionKeepAliveRenderer extends CoreRenderer {
         sessionMaxInactiveIntervalSeconds -= pingPeriodBeforeExpiry;
         if (sessionMaxInactiveIntervalSeconds > 0) {
             widgetBuilder.attr("SESSION_KEEP_ALIVE_PING_INTERVAL", sessionMaxInactiveIntervalSeconds * 1000);
+        } else {
+            LOGGER.warn("pingPeriodBeforeExpiry value to large: {}", pingPeriodBeforeExpiry);
         }
         widgetBuilder.finish();
     }

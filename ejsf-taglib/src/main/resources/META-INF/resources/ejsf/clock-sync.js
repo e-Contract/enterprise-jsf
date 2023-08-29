@@ -143,7 +143,7 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
             source: this.id,
             process: this.id,
             async: true,
-            global: false,
+            global: true,
             event: "keepAlive"
         };
         PrimeFaces.ajax.Request.handle(ajaxRequestOptions);

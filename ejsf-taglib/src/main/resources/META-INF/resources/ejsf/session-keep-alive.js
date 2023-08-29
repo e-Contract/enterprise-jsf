@@ -32,7 +32,7 @@ PrimeFaces.widget.EJSFSessionKeepAlive = PrimeFaces.widget.BaseWidget.extend({
             source: this.id,
             process: this.id,
             async: true,
-            global: false
+            global: true
         };
         PrimeFaces.ajax.Request.handle(ajaxRequestOptions);
     }
