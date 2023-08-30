@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface shortDescription="Displays metrics."
+                             componentType="ejsf.metrics">
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                <p:panel header="Metrics" id="panel">
+                    <f:facet name="options">
+                        <p:menu>
+                            <p:submenu label="Settings">
+                                <p:menuitem value="Refresh" icon="pi pi-refresh"
+                                            action="#{cc.refresh()}" update="panel"/>
+                            </p:submenu>
+                        </p:menu>
+                    </f:facet>
+                    <p:dataList var="metric" value="#{cc.metrics}" type="definition">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="#{metric.name}:" style="font-weight: bold;"/>
+                            <h:outputText value="#{metric.value}" style="font-weight: bold;"/>
+                        </h:panelGrid>
+                        <f:facet name="description">
+                            #{metric.description}
+                        </f:facet>
+                    </p:dataList>
+                </p:panel>
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>

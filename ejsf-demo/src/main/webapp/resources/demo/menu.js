@@ -14,7 +14,8 @@ $(document).ready(function () {
     let activeStateMenuItemElements = $("#menuForm\\:mainMenuList").find(".ui-state-active");
     if (activeStateMenuItemElements.length === 1) {
         activeStateMenuItemElements[0].scrollIntoView({
-            behavior: "instant"
+            behavior: "instant",
+            block: "center"
         });
     }
     let headerElements = $("#header");
