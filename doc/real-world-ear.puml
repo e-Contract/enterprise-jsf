@@ -1,0 +1,41 @@
+@startuml
+
+' Enterprise JSF project.
+'
+' Copyright 2023 e-Contract.be BV. All rights reserved.
+' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+allow_mixing
+hide empty methods
+hide empty fields
+
+component "Application"<<EAR>> {
+    component "model" <<EJB>> as Model {
+        class "Message Consumer" as MessageConsumer <<MDB>>
+    }
+    component "end-user portal" <<WAR>> as EndUserPortal
+    component "admin portal" <<WAR>> as AdminPortal
+    component "web service portal" <<WAR>> as WebServicePortal {
+        file OpenAPI
+        file WSDL
+        node "JAX-RS"
+        node "JAX-WS"
+    }
+}
+
+database "Database" as DB
+queue "JMS queue" as JMS
+
+EndUserPortal -d-> Model
+AdminPortal -d-> Model
+WebServicePortal -d-> Model
+
+Model --> DB: JPA
+Model --> JMS
+JMS -u-> MessageConsumer
+
+actor "Integrator" as Integrator
+Integrator --> OpenAPI
+Integrator --> WSDL
+
+@enduml

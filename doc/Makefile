@@ -7,7 +7,7 @@
 
 FIGS =
 PUML = life-cycle.puml ear.puml helloworld-structure.puml ear-structure.puml jsf-classes.puml \
-servlet-container.puml application-container.puml
+servlet-container.puml application-container.puml real-world-ear.puml cdi.puml cdi-war.puml
 TEX_INCLUDES = preface.tex references.tex copyright.tex introduction.tex testing.tex production.tex \
 security.tex runtimes.tex jakarta.tex frameworks.tex
 SVG = e-contract-logoFINAL.svg

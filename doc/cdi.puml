@@ -1,0 +1,25 @@
+@startuml
+
+' Enterprise JSF project.
+'
+' Copyright 2023 e-Contract.be BV. All rights reserved.
+' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+component "WAR 1" as WAR1 {
+    component "taglib" as taglib1
+}
+
+component "WAR 2" as WAR2 {
+    component "taglib" as taglib2
+}
+
+component "CDI JAR" as CDIJAR
+
+taglib1 --> CDIJAR
+taglib2 --> CDIJAR
+
+component "Model" <<EJB/CDI>> as Model
+
+Model --> CDIJAR
+
+@enduml

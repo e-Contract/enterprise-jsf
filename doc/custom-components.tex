@@ -583,3 +583,62 @@ Next to that, we simply pop the previous \texttt{ValueExpression} for our custom
 
 We register our component within the \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=customVariable]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+
+\section{CDI enabled JSF tag libraries}
+At a certain point you will want to take advantage of CDI within your custom JSF tag library to get things done.
+For example, you could have some metrics JSF component that fires a CDI event to collect metrics within your application from whatever component that \texttt{@Observes} the corresponding CDI event.
+Special attention is required here to allow such construct to correctly function.
+To be able to address the potential problems here, let us analyse a real-world application setup as depicted in Figure \ref{fig:real-world-ear}.
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=0.65, rotate=90]{real-world-ear}
+		\caption{A real-world EAR.}
+		\label{fig:real-world-ear}
+	\end{center}
+\end{figure}
+Most applications have multiple portals:
+\begin{itemize}
+	\item An end-user portal facing the public internet.
+	\item An administrator portal to be able to manage the application.
+	\item Probably also a web service portal to allow for third-party integrations with your platform.
+	Here we can throw in buzz words like SOA or microservices, whatever you want to name it.
+	While you can define ad-hoc REST endpoints, for big applications this is a really bad idea.
+	You want to use OpenAPI here to guarantee that your consumers are always in sync with your (JAX-RS) endpoint definitions.
+	This also voids the need to write endless, and almost always out-of-sync, documentation for your endpoints; you can simply add the documentation directly within your OpenAPI specifications file which you can publish alongside your endpoints.
+	Back in the days, we had WSDL-first within the context of JAX-WS SOAP based web services.
+\end{itemize}
+While you could of course combine all of these within a single WAR this is in general a bad idea from a security point-of-view.
+Hence a real-world application will most likely have multiple portals.
+Given the effort that it takes to construct a JSF tag library, you will want to use the same tag library within multiple portals of your application.
+Obviously all portals use the same EJB/CDI model which contains your actual business logic and JPA based data model.
+This is also the place where your MDB JMS message consumers live to handle the asynchronous (background) tasks.
+While EJB offers \texttt{@Asynchronous}  business methods, this in generally should be avoided:
+\begin{itemize}
+	\item They are not part of the XA transaction.
+	\item When they fail, there is no JMS retry semantics, not dead letter queue to be able to replay the method invocations later on.
+\end{itemize}
+Hence for background tasks that are manageable within real-world scenarios, you definitely have to use a persistent messaging system like JMS that integrates with the overall XA based transaction manager.
+
+Now to come back to CDI enabled JSF tag libraries, these are best structured as depicted in Figure \ref{fig:cdi}.
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=0.7]{cdi}
+		\caption{A JSF tag library that uses CDI.}
+		\label{fig:cdi}
+	\end{center}
+\end{figure}
+The problem arises from the fact that your JSF tag library could be used within multiple WARs all living within the same EAR.
+You cannot simply put your JSF tag library within the \texttt{lib/} directory of your EAR since such library really needs to be activated within the context of a servlet container in order to function correctly.
+If you start defining \texttt{@Named} CDI beans within the JSF tag library itself, your application server will most likely start complaining that your named CDI bean has been defined multiple times within the, let's call it, CDI namespace.
+Hence the best/most portable construct, that also works on all Java EE application servers, is to have a separate CDI JAR that can be used by your JSF tag library via an EL based lookup.
+Also, if you want to let your EJB/CDI model to reference a certain API exposed by your JSF tag library you cannot get around the construct to have an isolated API JAR.
+Keep in mind that you should avoid using the JSF API within this CDI JAR, since consumers like your EJB/CDI model will normally not have access to the JSF API as it is meant to be used only within the context of a servlet container.
+
+Notice that the above construct also works for simple WARs, where the CDI JAR is included within the WAR itself as depicted in Figure \ref{fig:cdi-war}.
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=0.7]{cdi-war}
+		\caption{A JSF tag library that uses CDI within a WAR.}
+		\label{fig:cdi-war}
+	\end{center}
+\end{figure}
