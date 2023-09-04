@@ -55,12 +55,12 @@
                 <p:message for="@previous"/>
             </h:panelGrid>
             <h:panelGrid columns="2">
-                <p:commandButton value="Add"
+                <p:commandButton value="Add" icon="pi pi-plus-circle"
                                  update="@form,mainForm:dataTable,messages"
                                  action="#{controller.add}">
                     <ejsf:closeDialog whenCallbackParam="itemAdded"/>
                 </p:commandButton>
-                <p:commandButton value="Dismiss">
+                <p:commandButton value="Dismiss" icon="pi pi-times">
                     <ejsf:closeDialog/>
                 </p:commandButton>
             </h:panelGrid>
@@ -71,12 +71,12 @@
         Do you want to remove #{controller.selectedItem.name}?
         <h:form>
             <h:panelGrid columns="2">
-                <p:commandButton value="Remove"
+                <p:commandButton value="Remove" icon="pi pi-trash"
                                  update="mainForm:dataTable,messages"
                                  action="#{controller.removeSelectedItem}">
                     <ejsf:closeDialog/>
                 </p:commandButton>
-                <p:commandButton value="Dismiss">
+                <p:commandButton value="Dismiss" icon="pi pi-times">
                     <ejsf:closeDialog/>
                 </p:commandButton>
             </h:panelGrid>

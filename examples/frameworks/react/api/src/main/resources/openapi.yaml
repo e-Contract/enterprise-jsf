@@ -80,6 +80,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/AddError"
+      required:
+        - errors
     AddError:
       type: string
       enum:
@@ -94,6 +96,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/RemoveError"
+      required:
+        - errors
     RemoveError:
       type: string
       enum:

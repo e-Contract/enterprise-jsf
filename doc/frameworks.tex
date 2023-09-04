@@ -4,9 +4,6 @@
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Front-end Frameworks}
-\begin{TODO}{Under Construction}
-	This chapter is still a work in progress.
-\end{TODO}
 Within this chapter we compare a popular Javascript front-end framework with JSF from a developer's perspective.
 To do so, we construct a simple CRUD (create-read-update-delete) application using both technologies.
 We are looking for a somehow objective reasoning whether Javascript based front-end frameworks are really that better compared to JSF web applications.
@@ -38,8 +35,14 @@ The source code of this exception looks as follows,
 \section{JSF}
 The JSF page looks as follows:
 \lstinputlisting[language=XML]{../examples/frameworks/jsf/src/main/webapp/index.xhtml}
+Notice the usage of our own Enterprise JSF tag library to ease opening and closing of the PrimeFaces dialogs.
+
 The corresponding CDI controller looks as follows:
 \lstinputlisting[language=Java]{../examples/frameworks/jsf/src/main/java/be/e_contract/jsf/Controller.java}
+The implementation of our \texttt{@ViewScoped} CDI controller is straightforward.
+During \texttt{@PostConstruct} we load the list of items from our model.
+Our \texttt{add} and \texttt{removeSelected\allowbreak Item} JSF action methods do exactly as their names suggest.
+
 The Maven POM file to build our project looks as follows:
 \lstinputlisting[language=XML]{../examples/frameworks/jsf/pom.xml}
 
@@ -47,7 +50,7 @@ The Maven POM file to build our project looks as follows:
 No matter which front-end framework we pick, we are forced to define a REST based API.
 While we could do some ad-hoc JAX-RS API, we don't want to compromise on the "strong-typing" like we know from JSF.
 We want that our server-side API is at all times in perfect sync with the client-side.
-Hence this implies using OpenAPI and for the client-side a Typescript based framework.
+Hence this implies using OpenAPI \cite{openapi} and for the client-side a Typescript based framework.
 
 The OpenAPI specification file looks as follows,
 \lstinputlisting{../examples/frameworks/react/api/src/main/resources/openapi.yaml}
@@ -59,14 +62,14 @@ The Maven POM file to compile the OpenAPI towards JAX-RS interfaces looks as fol
 While the \texttt{openapi-generator-maven-plugin} Maven plugin per default constructs an entire Maven project for you, I can hardly see why you would ever want that.
 We only want the generated JAX-RS interfaces (and corresponding model), just like we did like 15 years ago with JAX-WS.
 The Maven project is something we want to manage ourselves.
-Hence via some configuration we instruct the \texttt{openapi-generator-maven-plugin} Maven plugin to limit itself to just do that.
+Hence via some configuration we instruct the \texttt{openapi-generator-maven-plugin} Maven plugin to limit itself to do just that.
 Via some \texttt{build-helper-\allowbreak maven-plugin} magic we ensure that the generated JAX-RS interfaces actually also get compiled.
 
 The implementation of the generated OpenAPI JAX-RS interface looks as follows,
 \lstinputlisting[language=Java]{../examples/frameworks/react/war/src/main/java/be/e_contract/react/ItemApiImpl.java}
 Two things pop out here:
 \begin{itemize}
-	\item When looking at the \texttt{add} method, we indeed are stuck with adding input validation manually.
+	\item When looking at the \texttt{add} method implementation, we indeed are stuck with adding input validation manually.
 	With JSF, this came for free.
 	\item Within the \texttt{callList} method we have lovely message passing, mapping from one type to another.
 	As Linus Torvalds once stated:
@@ -92,12 +95,13 @@ Here we opted for a client-side rendering flavor, not a server-side rendering fl
 Luckily we now have \texttt{react-scripts} that voids the need to manage like 10 build files yourself.
 So the React build system limits itself to one single \texttt{package.json} file, which is nice.
 The \texttt{package.json} build file looks as follows:
-\lstinputlisting{../examples/frameworks/react/war/src/main/react/package.json}
+\lstinputlisting[language=JSON]{../examples/frameworks/react/war/src/main/react/package.json}
 It is simple and understandable.
+Notice here the mandatory \texttt{browserslist} option, as a gentle reminder that the generated Javascript code still requires web browser specific workarounds.
 
 The HTML file looks as follows,
 \lstinputlisting[language=XML]{../examples/frameworks/react/war/src/main/react/public/index.html}
-Via the \texttt{app} identifier React will hook into our page at runtime.
+Via the \texttt{app} identifier on the \texttt{div} element, React will hook into our page at runtime.
 
 As we don't want to loose the strong-typing as we know it from JSF, we opted for Typescript to define the React components.
 The Typescript \texttt{index.tsx} file looks as follows,
@@ -116,6 +120,7 @@ All this comes from the fact that JSF does the messaging for you behind the scen
 
 Compared with JSF, due to the React development server, the development cycle is drastically shorter \textbf{if} of course your REST endpoints do not require changes while developing the front-end.
 But then again, runtimes like Quarkus also provide similar "hot deployment".
+Keep in mind here that we went from one compilation step for JSF to three compilation steps: OpenAPI, REST API web application, and React compilation.
 
 As for custom component development itself, this is difficult/dangerous to compare.
 JSF components also cover the server-side behavior, whereas React components are limited to the client-side only.
@@ -127,6 +132,21 @@ npm install
 npm start
 \end{lstlisting}
 
-\begin{TODO}{Write Me}
-	Write Me
-\end{TODO}
+An argument that often pops up in the "JSF versus JS framework" discussions is that JSF does not scale well.
+Indeed with JSF the view state is handled at the server-side whereas JS frameworks handle their state at the client-side.
+However, unless your company is named Facebook or Google, I hardly see why this ever can be a valid argument.
+Especially given the ever growing server-side CPU power and available memory, JSF can handle sufficient concurrent users way beyond most application's needs.
+
+A way more important aspect for most companies is scalability in terms of added application functionality, let us call this functional scaling.
+Does your framework scale well when adding another 50 data tables to your business model, accompanied with an additional 50 CRUD pages?
+This is where, in my view, JS frameworks go into full mental breakdown.
+By now all JS frameworks offer some kind of server-side rendering to be able to cope with functional scaling up to the point where they are basically replicating JSF.
+The big difference here is that they drag along yet another NodeJS based server-side rendering runtime, which further complicates the management of application deployments.
+Unless you are willing to rewrite your entire business logic in Typescript, with its corresponding callback hell because of async-is-better, you thus end up with two server-side runtimes: Java and NodeJS.
+The big question here is to what benefit this serves besides the big cloud providers that try to cram as much paying customers on a given cloud infrastructure to keep the multi-billion golden cow alive for as long as possible.
+Keep in mind that it is those very same big cloud providers that launched all of these JS frameworks in the first place.
+
+In the meanwhile the poor average developer is fighting a technology stack with endless and ever increasing complexity, and to what purpose exactly?
+To be able to put the latest new framework on their CV?
+Where did we go wrong and gave in into this hype-driven development?
+Is this maybe due to those same big cloud providers, that also happen to run the biggest social networks out there, that their constant plugging has killed of basic critical thinking?

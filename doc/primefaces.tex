@@ -135,7 +135,7 @@ With the CDI controller as follows:
 To bundle the Javascript code of Apache EChart within our JSF library, we use some specific Maven build instructions as indicated in the following \texttt{pom.xml}.
 \lstinputlisting[language=XML]{../examples/helloworld-primefaces/taglib/pom.xml}
 With the \texttt{src/main/node/package.json} file containing:
-\lstinputlisting[language=XML]{../examples/helloworld-primefaces/taglib/src/main/node/package.json}
+\lstinputlisting[language=JSON]{../examples/helloworld-primefaces/taglib/src/main/node/package.json}
 Hence we use \texttt{node} and \texttt{npm} to retrieve the ECharts Javascript package.
 
 Via the \texttt{maven-resources-plugin} we selectively pick what we need out of the downloaded \texttt{echarts} node module as was retrieved by the \texttt{frontend-maven-plugin} Maven plugin.

@@ -17,7 +17,7 @@ type ErrorMessageProps = {
     message: string
 }
 
-const ErrorMessage = (props: ErrorMessageProps) => {
+const ErrorMessage = (props: ErrorMessageProps): React.JSX.Element => {
     let style: React.CSSProperties;
     if (props.message.length === 0) {
         style = {
@@ -28,9 +28,9 @@ const ErrorMessage = (props: ErrorMessageProps) => {
             display: "block"
         }
     }
-    return (
+    return <>
         <Message text={props.message} style={style} severity="error" />
-    );
+    </>;
 }
 
 type AddItemDialogHandle = {
@@ -38,10 +38,10 @@ type AddItemDialogHandle = {
 };
 
 type AddItemDialogProps = {
-    onAdded: (name: string) => void;
+    onAdded: (itemName: string) => void;
 };
 
-const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props, ref) => {
+const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props: AddItemDialogProps, ref: React.ForwardedRef<AddItemDialogHandle>): React.JSX.Element => {
     const [visible, setVisible] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
     const [nameClass, setNameClass] = useState<string>("");
@@ -50,9 +50,9 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
     const [nameMessage, setNameMessage] = useState<string>("");
     const [amountMessage, setAmountMessage] = useState<string>("");
 
-    useImperativeHandle(ref, () => {
+    useImperativeHandle(ref, (): AddItemDialogHandle => {
         return {
-            show() {
+            show(): void {
                 setName("");
                 setNameValid();
                 setAmount("");
@@ -62,32 +62,31 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
         };
     });
 
-    function setNameValid() {
+    function setNameValid(): void {
         setNameClass("");
         setNameMessage("");
     }
 
-    function setAmountValid() {
+    function setAmountValid(): void {
         setAmountClass("");
         setAmountMessage("");
     }
 
-    function setAmountInvalid(message: string) {
+    function setAmountInvalid(message: string): void {
         setAmountClass("p-invalid");
         setAmountMessage(message);
     }
 
-    function setNameInvalid(message: string) {
+    function setNameInvalid(message: string): void {
         setNameClass("p-invalid");
         setNameMessage(message);
     }
 
-    function addItemOnClickListener() {
+    function addItemOnClickListener(): void {
         fetch("http://localhost:8080/react/api/item/add?name=" + name + "&amount=" + amount, {
             method: "post"
         })
             .then((response: Response) => {
-                console.log("response status: " + response.status);
                 if (response.status === 204) {
                     let nameAdded = name;
                     setName("");
@@ -120,7 +119,7 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
             });
     };
 
-    return (
+    return <>
         <Dialog header="Add Item" visible={visible}
             onHide={() => setVisible(false)}>
             <div className="p-fluid">
@@ -128,14 +127,14 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
                     <label htmlFor="name">Name</label>
                     <InputText className={nameClass}
                         value={name}
-                        onChange={(e) => setName(e.target.value)} />
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
                     <ErrorMessage message={nameMessage} />
                 </div>
                 <div className="p-field">
                     <label htmlFor="amount">Amount</label>
                     <InputText className={amountClass}
                         value={amount}
-                        onChange={(e) => setAmount(e.target.value)} />
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)} />
                     <ErrorMessage message={amountMessage} />
                 </div>
             </div>
@@ -145,30 +144,31 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
                 <Button label="Dismiss" onClick={() => setVisible(false)} icon="pi pi-times" />
             </div>
         </Dialog>
-    );
+    </>;
 });
 
 type RemoveItemDialogHandle = {
-    show: (name: string) => void;
+    show: (itemName: string) => void;
 };
 
 type RemoveItemDialogProps = {
-    onRemoved: (name: string) => void;
+    onRemoved: (itemName: string) => void;
 }
 
-const RemoveItemDialog = forwardRef<RemoveItemDialogHandle, RemoveItemDialogProps>((props, ref) => {
+const RemoveItemDialog = forwardRef<RemoveItemDialogHandle, RemoveItemDialogProps>((props: RemoveItemDialogProps, ref: React.ForwardedRef<RemoveItemDialogHandle>): React.JSX.Element => {
     const [visible, setVisible] = useState<boolean>(false);
     const [itemName, setItemName] = useState<string>();
 
-    useImperativeHandle(ref, () => {
+    useImperativeHandle(ref, (): RemoveItemDialogHandle => {
         return {
-            show(name: string) {
+            show(name: string): void {
                 setItemName(name);
                 setVisible(true);
             }
         };
     });
-    function removeItem() {
+
+    function removeItem(): void {
         fetch("http://localhost:8080/react/api/item/remove?name=" + itemName, {
             method: "post"
         })
@@ -179,7 +179,8 @@ const RemoveItemDialog = forwardRef<RemoveItemDialogHandle, RemoveItemDialogProp
                 }
             });
     }
-    return (
+
+    return <>
         <Dialog header="Remove Item" visible={visible} onHide={() => setVisible(false)}>
             Do you want to remove {itemName}?
             <div className="mt-2">
@@ -189,44 +190,50 @@ const RemoveItemDialog = forwardRef<RemoveItemDialogHandle, RemoveItemDialogProp
                     onClick={() => setVisible(false)} />
             </div>
         </Dialog>
-    );
+    </>;
 });
 
 type ItemDataTableProps = {
     items: any;
     removeCallback: (itemName: string) => void;
+    addCallback: () => void;
 }
 
-const ItemDataTable = (props: ItemDataTableProps) => {
-    function ItemRemoveButton(rowData) {
-        return (
-            <Button label="Remove" onClick={() => {
-                props.removeCallback(rowData.name);
-            }} icon="pi pi-trash" />
-        );
+const ItemDataTable = (props: ItemDataTableProps): React.JSX.Element => {
+    function ItemRemoveButton(rowData): React.JSX.Element {
+        return <>
+            <Button onClick={() => props.removeCallback(rowData.name)}
+                icon="pi pi-trash" />
+        </>;
     }
-    return (
-        <DataTable value={props.items}>
+
+    function ItemAddButton(): React.JSX.Element {
+        return <>
+            <Button onClick={() => props.addCallback()}
+                icon="pi pi-plus-circle" />
+        </>;
+    }
+
+    return <>
+        <DataTable value={props.items} footer={ItemAddButton}>
             <Column field="name" header="Name" />
             <Column field="amount" header="Amount" />
             <Column header="Actions" body={ItemRemoveButton} />
         </DataTable>
-    );
+    </>;
 };
 
-const App = () => {
-    console.log("initialization...");
+const App = (): React.JSX.Element => {
     const [items, setItems] = useState([]);
     const messages = useRef<Messages>(null);
     const removeItemDialog = useRef<RemoveItemDialogHandle>(null);
     const addItemDialog = useRef<AddItemDialogHandle>(null);
 
-    useEffect(() => {
-        console.log("useEffect");
+    useEffect((): void => {
         loadItems();
     }, []); // []: run only once
 
-    function loadItems() {
+    function loadItems(): void {
         fetch("http://localhost:8080/react/api/item/list")
             .then((response: Response) => {
                 response.json().then(data => {
@@ -235,15 +242,13 @@ const App = () => {
             });
     }
 
-    return (
+    return <>
         <PrimeReactProvider>
             <Messages ref={messages} />
             <ItemDataTable items={items}
-                removeCallback={(itemName: string) => removeItemDialog.current!.show(itemName)} />
-            <Button label="Add"
-                onClick={() => addItemDialog.current!.show()}
-                className="mt-2" icon="pi pi-plus-circle" />
-            <AddItemDialog ref={addItemDialog} onAdded={(name: string) => {
+                addCallback={(): void => addItemDialog.current!.show()}
+                removeCallback={(itemName: string): void => removeItemDialog.current!.show(itemName)} />
+            <AddItemDialog ref={addItemDialog} onAdded={(name: string): void => {
                 messages.current!.show({
                     severity: "info",
                     summary: "Item " + name + " added."
@@ -251,7 +256,7 @@ const App = () => {
                 loadItems();
             }} />
             <RemoveItemDialog ref={removeItemDialog}
-                onRemoved={(name: string) => {
+                onRemoved={(name: string): void => {
                     messages.current!.show({
                         severity: "info",
                         summary: "Item " + name + " removed."
@@ -259,7 +264,7 @@ const App = () => {
                     loadItems();
                 }} />
         </PrimeReactProvider>
-    );
+    </>;
 };
 
 let container: HTMLElement = document.getElementById("app") as HTMLElement;

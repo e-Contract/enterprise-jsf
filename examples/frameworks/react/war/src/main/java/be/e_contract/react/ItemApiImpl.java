@@ -34,7 +34,9 @@ public class ItemApiImpl implements ItemApi {
                 addErrors.addErrorsItem(AddError.AMOUNT_MINIMUM);
             }
         }
-        if (null != addErrors.getErrors()) {
+        // openapi-generator-maven-plugin 6.6.0 also requires
+        // !addErrors.getErrors().isEmpty()
+        if (null != addErrors.getErrors() && !addErrors.getErrors().isEmpty()) {
             Response response = Response
                     .status(Response.Status.BAD_REQUEST)
                     .entity(addErrors)
