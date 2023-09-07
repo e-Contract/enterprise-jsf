@@ -93,6 +93,13 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
                     <version>3.5.0</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.yupiik.maven</groupId>
+                            <artifactId>maven-shade-transformers</artifactId>
+                            <version>0.0.4</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -130,6 +137,11 @@
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
                     <version>3.8.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>properties-maven-plugin</artifactId>
+                    <version>1.2.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

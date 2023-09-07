@@ -31,6 +31,18 @@
             <artifactId>ejsf-taglib</artifactId>
             <version>1.11.1-SNAPSHOT</version>
             <classifier>jakarta</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>be.e-contract.enterprise-jsf</groupId>
+                    <artifactId>ejsf-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-api</artifactId>
+            <version>1.11.1-SNAPSHOT</version>
+            <classifier>jakarta</classifier>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -68,7 +80,6 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>properties-maven-plugin</artifactId>
-                        <version>1.2.0</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -126,7 +137,6 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>properties-maven-plugin</artifactId>
-                        <version>1.2.0</version>
                         <executions>
                             <execution>
                                 <goals>

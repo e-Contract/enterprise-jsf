@@ -55,13 +55,6 @@
                         </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>io.yupiik.maven</groupId>
-                        <artifactId>maven-shade-transformers</artifactId>
-                        <version>0.0.4</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
