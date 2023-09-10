@@ -4,6 +4,6 @@
            xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee https://www.jboss.org/j2ee/schema/jboss-web_7_2.xsd"
            version="7.2">
 
-    <context-root>/react</context-root>
+    <context-root>/websocket-demo</context-root>
 
 </jboss-web>
