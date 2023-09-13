@@ -82,7 +82,7 @@
                 <plugin>
                     <groupId>com.github.eirslett</groupId>
                     <artifactId>frontend-maven-plugin</artifactId>
-                    <version>1.13.4</version>
+                    <version>1.14.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -175,7 +175,7 @@
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
-                <version>13.0.0</version>
+                <version>13.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
