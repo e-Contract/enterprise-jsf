@@ -6,7 +6,7 @@
  */
 package test.unit.be.e_contract.ejsf.validator;
 
-import be.e_contract.ejsf.validator.AgeValidator;
+import be.e_contract.ejsf.validator.TrimValidator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -18,13 +18,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AgeValidatorTest {
+public class TrimValidatorTest {
 
-    private AgeValidator testedInstance;
+    private TrimValidator testedInstance;
 
     @BeforeEach
     public void setUp() {
-        this.testedInstance = new AgeValidator();
+        this.testedInstance = new TrimValidator();
     }
 
     @Test
@@ -33,9 +33,12 @@ public class AgeValidatorTest {
     }
 
     @Test
-    public void testAgeValidationTooYoung() throws Exception {
-        this.testedInstance.setMinimumAge(18);
+    public void testNormalPasses() throws Exception {
+        this.testedInstance.validate(null, null, "https://service.provider/end-point");
+    }
 
+    @Test
+    public void testLeadingTrailingWhiteSpaces() throws Exception {
         FacesContext mockFacesContext = EasyMock.mock(FacesContext.class);
         Application mockApplication = EasyMock.mock(Application.class);
         EasyMock.expect(mockFacesContext.getApplication()).andReturn(mockApplication);
@@ -45,9 +48,9 @@ public class AgeValidatorTest {
         EasyMock.replay(mockFacesContext, mockApplication);
 
         ValidatorException exception = Assertions.assertThrows(ValidatorException.class,
-                () -> this.testedInstance.validate(mockFacesContext, null, new Date())
+                () -> this.testedInstance.validate(mockFacesContext, null, " https://service.provider/end-point")
         );
-        Assertions.assertTrue(exception.getFacesMessage().getSummary().contains("18"));
+        Assertions.assertTrue(exception.getFacesMessage().getSummary().contains("white spaces"));
 
         EasyMock.verify(mockFacesContext, mockApplication);
     }

@@ -7,6 +7,7 @@
 package test.unit.be.e_contract.ejsf.validator;
 
 import be.e_contract.ejsf.validator.EmailValidator;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
@@ -47,7 +48,7 @@ public class EmailValidatorTest {
         FacesContext mockFacesContext = EasyMock.mock(FacesContext.class);
         Application mockApplication = EasyMock.mock(Application.class);
         EasyMock.expect(mockFacesContext.getApplication()).andReturn(mockApplication);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("be.e_contract.ejsf.Messages");
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("be.e_contract.ejsf.Messages", Locale.ENGLISH);
         EasyMock.expect(mockApplication.getResourceBundle(mockFacesContext, "ejsfMessages")).andReturn(resourceBundle);
 
         EasyMock.replay(mockFacesContext, mockApplication);
@@ -64,7 +65,7 @@ public class EmailValidatorTest {
         FacesContext mockFacesContext = EasyMock.mock(FacesContext.class);
         Application mockApplication = EasyMock.mock(Application.class);
         EasyMock.expect(mockFacesContext.getApplication()).andReturn(mockApplication);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("be.e_contract.ejsf.Messages");
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("be.e_contract.ejsf.Messages", Locale.ENGLISH);
         EasyMock.expect(mockApplication.getResourceBundle(mockFacesContext, "ejsfMessages")).andReturn(resourceBundle);
 
         EasyMock.replay(mockFacesContext, mockApplication);

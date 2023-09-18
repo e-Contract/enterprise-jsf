@@ -1412,4 +1412,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Leading/trailing white spaces validator.
+        </description>
+        <tag-name>trimValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.trimValidator</validator-id>
+        </validator>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
