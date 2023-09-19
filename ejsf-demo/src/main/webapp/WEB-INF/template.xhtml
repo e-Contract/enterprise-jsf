@@ -227,6 +227,14 @@
                                             styleClass="#{menuController.getMenuitemStyleClass('trim-validator')}"/>
                             </p:submenu>
                             <p:separator/>
+                            <p:submenu label="Converters">
+                                <p:menuitem value="Trim"
+                                            action="trim-converter?faces-redirect=true"
+                                            ajax="false"
+                                            onclick="selectMenuitemLink(this);"
+                                            styleClass="#{menuController.getMenuitemStyleClass('trim-converter')}"/>
+                            </p:submenu>
+                            <p:separator/>
                             <p:submenu label="Client Behavior">
                                 <p:menuitem value="Open Dialog"
                                             action="open-dialog?faces-redirect=true"

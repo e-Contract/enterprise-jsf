@@ -1427,4 +1427,12 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>String trimming converter.</description>
+        <tag-name>trimConverter</tag-name>
+        <converter>
+            <converter-id>ejsf.trimConverter</converter-id>
+        </converter>
+    </tag>
+
 </facelet-taglib>
