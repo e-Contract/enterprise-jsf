@@ -55,3 +55,27 @@ body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-me
 body .ui-menu .ui-menu-list .ui-menuitem > .ui-state-active .ui-menuitem-text {
     color: #ffffff;
 }
+
+#overlayMenu {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin-right: 15px;
+    margin-top: 15px;
+    display: none;
+}
+
+@media (max-width: 1400px) {
+    #menu {
+        display: none;
+    }
+    #content {
+        width: 100%;
+    }
+    #header h1 {
+        width: 100%;
+    }
+    #overlayMenu {
+        display: block;
+    }
+}
