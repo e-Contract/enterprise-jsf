@@ -8,13 +8,13 @@ package be.e_contract.ejsf.quarkus;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Query;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Query;
+import jakarta.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 

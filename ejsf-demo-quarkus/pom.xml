@@ -14,7 +14,7 @@
             <dependency>
                 <groupId>io.quarkus.platform</groupId>
                 <artifactId>quarkus-bom</artifactId>
-                <version>2.16.11.Final</version>
+                <version>3.4.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -24,16 +24,19 @@
         <dependency>
             <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
             <artifactId>myfaces-quarkus</artifactId>
-            <version>2.3-next-M8</version>
+            <version>4.0.1</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib</artifactId>
             <version>1.11.1-SNAPSHOT</version>
+            <classifier>jakarta</classifier>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
+            <version>13.0.1</version>
+            <classifier>jakarta</classifier>
         </dependency>
         <dependency>
             <groupId>commons-validator</groupId>
@@ -72,7 +75,7 @@
             <plugin>
                 <groupId>io.quarkus.platform</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
-                <version>2.16.11.Final</version>
+                <version>3.4.1</version>
                 <extensions>true</extensions>
                 <executions>
                     <execution>

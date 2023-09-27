@@ -92,7 +92,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.5.1</version>
                     <dependencies>
                         <dependency>
                             <groupId>io.yupiik.maven</groupId>
@@ -118,7 +118,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.6.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.eclipse.jetty</groupId>
@@ -155,8 +155,8 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <node.version>v18.17.1</node.version>
-        <npm.version>9.8.1</npm.version>
+        <node.version>v18.18.0</node.version>
+        <npm.version>10.1.0</npm.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -195,7 +195,7 @@
             <dependency>
                 <groupId>com.googlecode.libphonenumber</groupId>
                 <artifactId>libphonenumber</artifactId>
-                <version>8.13.20</version>
+                <version>8.13.21</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
@@ -215,7 +215,7 @@
             <dependency>
                 <groupId>org.passay</groupId>
                 <artifactId>passay</artifactId>
-                <version>1.6.3</version>
+                <version>1.6.4</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -260,7 +260,7 @@
             <dependency>
                 <groupId>org.apache.groovy</groupId>
                 <artifactId>groovy-jsr223</artifactId>
-                <version>4.0.14</version>
+                <version>4.0.15</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
