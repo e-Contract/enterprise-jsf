@@ -27,6 +27,11 @@
     </context-param>
 
     <context-param>
+        <param-name>ejsf.serverScript.enabled</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>ejsf.serverScript.language</param-name>
         <param-value>javascript</param-value>
     </context-param>

@@ -11,6 +11,11 @@
         <param-value>Development</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>ejsf.serverScript.enabled</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>

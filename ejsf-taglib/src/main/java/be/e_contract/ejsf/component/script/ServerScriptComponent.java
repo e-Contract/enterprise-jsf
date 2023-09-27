@@ -26,6 +26,7 @@ import javax.faces.component.UIInput;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.PostAddToViewEvent;
 import javax.faces.event.SystemEvent;
@@ -52,6 +53,8 @@ public class ServerScriptComponent extends UIComponentBase implements SystemEven
 
     private static final String LANGUAGE_CONTEXT_PARAM = "ejsf.serverScript.language";
 
+    private static final String ENABLED_CONTEXT_PARAM = "ejsf.serverScript.enabled";
+
     public ServerScriptComponent() {
         setRendererType(null);
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -72,60 +75,76 @@ public class ServerScriptComponent extends UIComponentBase implements SystemEven
     @Override
     public void processEvent(SystemEvent event) throws AbortProcessingException {
         LOGGER.debug("processEvent: {}", event);
-        if (event instanceof PostAddToViewEvent) {
-            String scope = getScope();
-            FacesContext facesContext = getFacesContext();
-            String functions = getFunctions();
-            if (scope.equals("request")) {
-                Map<Object, Object> attributes = facesContext.getAttributes();
+        if (!(event instanceof PostAddToViewEvent)) {
+            return;
+        }
+        if (!isEnabled()) {
+            LOGGER.warn("serverScript not enabled");
+            return;
+        }
+        String scope = getScope();
+        FacesContext facesContext = getFacesContext();
+        String functions = getFunctions();
+        if (scope.equals("request")) {
+            Map<Object, Object> attributes = facesContext.getAttributes();
+            if (null != functions) {
+                StringTokenizer functionTokens = new StringTokenizer(functions, ",");
+                Set<String> functionSet = (Set<String>) attributes.get(FUNCTIONS_ATTRIBUTE);
+                if (null == functionSet) {
+                    functionSet = new HashSet<>();
+                    attributes.put(FUNCTIONS_ATTRIBUTE, functionSet);
+                }
+                while (functionTokens.hasMoreTokens()) {
+                    String function = functionTokens.nextToken();
+                    functionSet.add(function);
+                }
+            }
+            ScriptEngine scriptEngine = (ScriptEngine) attributes.get(SCRIPT_ENGINE_ATTRIBUTE);
+            if (null == scriptEngine) {
+                scriptEngine = createScriptEngine();
+                attributes.put(SCRIPT_ENGINE_ATTRIBUTE, scriptEngine);
+            }
+            applyBinding(facesContext, scriptEngine);
+            evalScript(scriptEngine);
+        } else if (scope.equals("view")) {
+            UIViewRoot viewRoot = facesContext.getViewRoot();
+            Map<String, Object> viewMap = viewRoot.getViewMap();
+            ScriptEngine scriptEngine = (ScriptEngine) viewMap.get(SCRIPT_ENGINE_ATTRIBUTE);
+            if (null == scriptEngine) {
+                LOGGER.debug("creating view ScriptEngine");
+                scriptEngine = createScriptEngine();
+                viewMap.put(SCRIPT_ENGINE_ATTRIBUTE, scriptEngine);
+            }
+            applyBinding(facesContext, scriptEngine);
+            if (!facesContext.isPostback()) {
                 if (null != functions) {
                     StringTokenizer functionTokens = new StringTokenizer(functions, ",");
-                    Set<String> functionSet = (Set<String>) attributes.get(FUNCTIONS_ATTRIBUTE);
+                    Set<String> functionSet = (Set<String>) viewMap.get(FUNCTIONS_ATTRIBUTE);
                     if (null == functionSet) {
                         functionSet = new HashSet<>();
-                        attributes.put(FUNCTIONS_ATTRIBUTE, functionSet);
+                        viewMap.put(FUNCTIONS_ATTRIBUTE, functionSet);
                     }
                     while (functionTokens.hasMoreTokens()) {
                         String function = functionTokens.nextToken();
                         functionSet.add(function);
                     }
                 }
-                ScriptEngine scriptEngine = (ScriptEngine) attributes.get(SCRIPT_ENGINE_ATTRIBUTE);
-                if (null == scriptEngine) {
-                    scriptEngine = createScriptEngine();
-                    attributes.put(SCRIPT_ENGINE_ATTRIBUTE, scriptEngine);
-                }
-                applyBinding(facesContext, scriptEngine);
                 evalScript(scriptEngine);
-            } else if (scope.equals("view")) {
-                UIViewRoot viewRoot = facesContext.getViewRoot();
-                Map<String, Object> viewMap = viewRoot.getViewMap();
-                ScriptEngine scriptEngine = (ScriptEngine) viewMap.get(SCRIPT_ENGINE_ATTRIBUTE);
-                if (null == scriptEngine) {
-                    LOGGER.debug("creating view ScriptEngine");
-                    scriptEngine = createScriptEngine();
-                    viewMap.put(SCRIPT_ENGINE_ATTRIBUTE, scriptEngine);
-                }
-                applyBinding(facesContext, scriptEngine);
-                if (!facesContext.isPostback()) {
-                    if (null != functions) {
-                        StringTokenizer functionTokens = new StringTokenizer(functions, ",");
-                        Set<String> functionSet = (Set<String>) viewMap.get(FUNCTIONS_ATTRIBUTE);
-                        if (null == functionSet) {
-                            functionSet = new HashSet<>();
-                            viewMap.put(FUNCTIONS_ATTRIBUTE, functionSet);
-                        }
-                        while (functionTokens.hasMoreTokens()) {
-                            String function = functionTokens.nextToken();
-                            functionSet.add(function);
-                        }
-                    }
-                    evalScript(scriptEngine);
-                }
-            } else {
-                LOGGER.error("unsupported scope: {}", scope);
             }
+        } else {
+            LOGGER.error("unsupported scope: {}", scope);
         }
+    }
+
+    private boolean isEnabled() {
+        FacesContext facesContext = getFacesContext();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        String enabledInitParam = externalContext.getInitParameter(ENABLED_CONTEXT_PARAM);
+        if (UIInput.isEmpty(enabledInitParam)) {
+            return false;
+        }
+        boolean enabled = Boolean.parseBoolean(enabledInitParam);
+        return enabled;
     }
 
     public enum PropertyKeys {
@@ -265,7 +284,15 @@ public class ServerScriptComponent extends UIComponentBase implements SystemEven
 
     @Override
     public void encodeChildren(FacesContext context) throws IOException {
-        // empty
+        if (!isEnabled()) {
+            ResponseWriter responseWriter = context.getResponseWriter();
+            String clientId = this.getClientId();
+            responseWriter.startElement("div", this);
+            responseWriter.writeAttribute("id", clientId, "id");
+            responseWriter.writeAttribute("style", "color: red;", null);
+            responseWriter.writeText("ejsf:serverScript not enabled.", null);
+            responseWriter.endElement("div");
+        }
     }
 
     public String getScript() {
