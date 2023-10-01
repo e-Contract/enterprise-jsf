@@ -12,11 +12,15 @@
         </h:form>
         <p:spacer height="20px"/>
         <h:form>
+            <ejsf:jmsInfo queue="DLQ" removeAction="true"/>
+        </h:form>
+        <p:spacer height="20px"/>
+        <h:form>
             <ejsf:jmsInfo queue="foobar"/>
         </h:form>
         <p:spacer height="20px"/>
         <h:form id="example">
-            <ejsf:jmsInfo queue="DLQ" replayQueue="DLQ">
+            <ejsf:jmsInfo queue="DLQ" replayQueue="DLQ" removeAction="true">
                 <p:ajax listener="#{jmsInfoController.handleReplay}" update=":messages"/>
                 <p:ajax event="remove" listener="#{jmsInfoController.handleRemove}" update=":messages"/>
             </ejsf:jmsInfo>

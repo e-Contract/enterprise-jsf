@@ -296,9 +296,27 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
         getStateHelper().put(PropertyKeys.jmsMessages, jmsMessages);
     }
 
-    public boolean isReplay() {
+    public boolean isActionsRendered() {
+        if (isReplayRendered()) {
+            return true;
+        }
+        if (isRemoveRendered()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isReplayRendered() {
         boolean replay = getAttributes().containsKey("replayQueue");
         return replay;
+    }
+
+    public boolean isRemoveRendered() {
+        Boolean removeAction = (Boolean) getAttributes().get("removeAction");
+        if (null == removeAction) {
+            return false;
+        }
+        return removeAction;
     }
 
     public void replayMessage(JmsMessage jmsMessage) {

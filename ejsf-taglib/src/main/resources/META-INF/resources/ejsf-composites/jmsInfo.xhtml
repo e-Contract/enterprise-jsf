@@ -21,6 +21,9 @@
             <composite:attribute name="requiredRole"
                                  shortDescription="The optional required RBAC role."
                                  type="java.lang.String"/>
+            <composite:attribute name="removeAction"
+                                 shortDescription="Set to true to show the remove message button."
+                                 type="java.lang.Boolean"/>
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
@@ -57,8 +60,8 @@
                                 <h:outputText value="Queue address:"/>
                                 <h:outputText value="#{cc.queueAddress}"/>
 
-                                <h:outputText value="Replay queue:" rendered="#{cc.replay}"/>
-                                <h:outputText value="#{cc.attrs.replayQueue}" rendered="#{cc.replay}"/>
+                                <h:outputText value="Replay queue:" rendered="#{cc.replayRendered}"/>
+                                <h:outputText value="#{cc.attrs.replayQueue}" rendered="#{cc.replayRendered}"/>
                             </h:panelGrid>
                             <p:message for="jmsMessagesTable" id="jmsMessagesTableMessage" style="width: 100%;"/>
                             <p:dataTable value="#{cc.jmsMessages}" var="jmsMessage"
@@ -75,13 +78,14 @@
                                         <f:convertDateTime type="both" timeStyle="full" />
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Actions" rendered="#{cc.replay}">
+                                <p:column headerText="Actions" rendered="#{cc.actionsRendered}">
                                     <p:commandButton id="replayButton"
                                                      icon="pi pi-replay"
                                                      styleClass="rounded-button ui-button-flat"
                                                      update=":#{cc.clientId}:jmsMessagesTable,:#{cc.clientId}:jmsMessagesTableMessage,:#{cc.clientId}:infoPanel"
                                                      action="#{cc.replayMessage(jmsMessage)}"
-                                                     binding="#{cc.replayButton}"/>
+                                                     binding="#{cc.replayButton}"
+                                                     rendered="#{cc.replayRendered}"/>
                                     <p:tooltip for="@previous" value="Replay JMS message."/>
 
                                     <p:commandButton id="removeButton"
@@ -89,7 +93,8 @@
                                                      styleClass="rounded-button ui-button-flat"
                                                      update=":#{cc.clientId}:jmsMessagesTable,:#{cc.clientId}:jmsMessagesTableMessage,:#{cc.clientId}:infoPanel"
                                                      action="#{cc.removeMessage(jmsMessage)}"
-                                                     binding="#{cc.removeButton}"/>
+                                                     binding="#{cc.removeButton}"
+                                                     rendered="#{cc.removeRendered}"/>
                                     <p:tooltip for="@previous" value="Remove JMS message."/>
                                 </p:column>
                             </p:dataTable>
