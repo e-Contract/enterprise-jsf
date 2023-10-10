@@ -82,7 +82,7 @@
                         <p:message for="@previous"/>
                     </h:panelGrid>
                     <p:commandButton value="Register" update="@form">
-                        <ejsf:webAuthnRegister for=":webAuthnForm:webAuthn"/>
+                        <ejsf:webAuthnRegister/>
                     </p:commandButton>
                 </h:form>
             </p:fieldset>
@@ -99,7 +99,7 @@
                         <p:message for="@previous"/>
                     </h:panelGrid>
                     <p:commandButton value="Authenticate" update="@form">
-                        <ejsf:webAuthnAuthenticate for=":webAuthnForm:webAuthn"/>
+                        <ejsf:webAuthnAuthenticate/>
                     </p:commandButton>
                 </h:form>
             </p:fieldset>

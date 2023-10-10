@@ -32,7 +32,12 @@ public class WebAuthnRegisterTagHandler extends TagHandler {
         }
         if (parent instanceof ActionSource2) {
             ActionSource2 parentActionSource = (ActionSource2) parent;
-            String forValue = this.forAttribute.getValue(context);
+            String forValue;
+            if (null != this.forAttribute) {
+                forValue = this.forAttribute.getValue(context);
+            } else {
+                forValue = null;
+            }
             WebAuthnRegisterActionListener actionListener = new WebAuthnRegisterActionListener(forValue);
             parentActionSource.addActionListener(actionListener);
             return;

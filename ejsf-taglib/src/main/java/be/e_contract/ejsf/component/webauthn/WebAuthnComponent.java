@@ -29,16 +29,23 @@ import com.yubico.webauthn.exception.RegistrationFailedException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.el.ELContext;
 import javax.el.ValueExpression;
+import javax.faces.FacesException;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIViewRoot;
 import javax.faces.component.behavior.ClientBehaviorHolder;
+import javax.faces.component.visit.VisitContext;
+import javax.faces.component.visit.VisitResult;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -332,5 +339,26 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
             }
         }
         super.queueEvent(facesEvent);
+    }
+
+    public static WebAuthnComponent getWebAuthnComponent(FacesContext facesContext) {
+        UIViewRoot viewRoot = facesContext.getViewRoot();
+        VisitContext visitContext = VisitContext.createVisitContext(facesContext);
+        List<WebAuthnComponent> webAuthnComponents = new LinkedList<>();
+        viewRoot.visitTree(visitContext, (VisitContext context, UIComponent target) -> {
+            if (target instanceof WebAuthnComponent) {
+                WebAuthnComponent webAuthnComponent = (WebAuthnComponent) target;
+                webAuthnComponents.add(webAuthnComponent);
+                return VisitResult.REJECT;
+            }
+            return VisitResult.ACCEPT;
+        });
+        if (webAuthnComponents.isEmpty()) {
+            throw new FacesException("missing WebAuthn component");
+        }
+        if (webAuthnComponents.size() > 1) {
+            throw new FacesException("multiple WebAuthn components");
+        }
+        return webAuthnComponents.get(0);
     }
 }

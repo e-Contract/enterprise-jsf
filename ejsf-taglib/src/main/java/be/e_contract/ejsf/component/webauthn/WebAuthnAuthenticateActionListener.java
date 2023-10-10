@@ -36,12 +36,17 @@ public class WebAuthnAuthenticateActionListener implements ActionListener, State
     public void processAction(ActionEvent event) throws AbortProcessingException {
         LOGGER.debug("processAction");
         UIComponent component = event.getComponent();
-        WebAuthnComponent webAuthnComponent = (WebAuthnComponent) component.findComponent(this.forAttribute);
-        if (null == webAuthnComponent) {
-            LOGGER.warn("WebAuthn component not found");
-            return;
-        }
         FacesContext facesContext = event.getFacesContext();
+        WebAuthnComponent webAuthnComponent;
+        if (null != this.forAttribute) {
+            webAuthnComponent = (WebAuthnComponent) component.findComponent(this.forAttribute);
+            if (null == webAuthnComponent) {
+                LOGGER.warn("WebAuthn component not found");
+                return;
+            }
+        } else {
+            webAuthnComponent = WebAuthnComponent.getWebAuthnComponent(facesContext);
+        }
         String widgetVar = webAuthnComponent.resolveWidgetVar(facesContext);
         PrimeFaces primeFaces = PrimeFaces.current();
         primeFaces.executeScript("PF('" + widgetVar + "').webAuthnAuthentication();");
