@@ -1,0 +1,6 @@
+{
+    "name": "taglib",
+    "dependencies": {
+        "@github/webauthn-json": "2.1.1"
+    }
+}

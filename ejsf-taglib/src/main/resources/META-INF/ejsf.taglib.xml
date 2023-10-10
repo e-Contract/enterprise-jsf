@@ -1435,4 +1435,161 @@
         </converter>
     </tag>
 
+    <tag>
+        <description>WebAuthn Registration action.</description>
+        <tag-name>webAuthnRegister</tag-name>
+        <handler-class>be.e_contract.ejsf.component.webauthn.WebAuthnRegisterTagHandler</handler-class>
+        <attribute>
+            <description>The optional webAuthn component.</description>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>The WebAuthn component.</description>
+        <tag-name>webAuthn</tag-name>
+        <component>
+            <component-type>ejsf.webAuthnComponent</component-type>
+            <renderer-type>ejsf.webAuthnRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The CredentialRepository.</description>
+            <name>credentialRepository</name>
+            <required>true</required>
+            <type>com.yubico.webauthn.CredentialRepository</type>
+        </attribute>
+        <attribute>
+            <description>The relying party identifier.</description>
+            <name>relyingPartyId</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The relying party name.</description>
+            <name>relyingPartyName</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The username.</description>
+            <name>username</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>WebAuthn Authenticate action.</description>
+        <tag-name>webAuthnAuthenticate</tag-name>
+        <handler-class>be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticateTagHandler</handler-class>
+        <attribute>
+            <description>The optional webAuthn component.</description>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            WebAuthn Username Validator.
+        </description>
+        <tag-name>webAuthnUsernameValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.webAuthnUsernameValidator</validator-id>
+            <handler-class>be.e_contract.ejsf.component.webauthn.WebAuthnUsernameValidatorTagHandler</handler-class>
+        </validator>
+        <attribute>
+            <description>Validation mode. "registration" or "authentication"</description>
+            <name>mode</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The CredentialRepository.</description>
+            <name>credentialRepository</name>
+            <required>true</required>
+            <type>com.yubico.webauthn.CredentialRepository</type>
+        </attribute>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>WebAuthn registration AJAX behavior.</description>
+        <tag-name>webAuthnRegistration</tag-name>
+        <handler-class>be.e_contract.ejsf.component.webauthn.WebAuthnRegistrationTagHandler</handler-class>
+        <attribute>
+            <description>Components to update.</description>
+            <name>update</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Method to invoke after registration.</description>
+            <name>listener</name>
+            <required>true</required>
+            <method-signature>void listener(be.e_contract.ejsf.component.webauthn.WebAuthnRegisteredEvent)</method-signature>
+        </attribute>
+        <attribute>
+            <description>The optional userId as byte[]. If none is provided, a userId gets generated.</description>
+            <name>userId</name>
+            <type>byte[]</type>
+        </attribute>
+        <attribute>
+            <description>The optional user display name. If none is provided, we use the username instead.</description>
+            <name>userDisplayName</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>User verification requirements. "required", "preferred", or "discouraged".</description>
+            <name>userVerification</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The WebAuthn timeout in milliseconds.</description>
+            <name>timeout</name>
+            <type>java.lang.Long</type>
+        </attribute>
+        <attribute>
+            <description>Authenticator attachment. "platform" or "cross-platform".</description>
+            <name>authenticatorAttachment</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Resident key requirements. "required", "preferred", or "discouraged".</description>
+            <name>residentKey</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>WebAuthn authentication AJAX behavior.</description>
+        <tag-name>webAuthnAuthentication</tag-name>
+        <handler-class>be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticationTagHandler</handler-class>
+        <attribute>
+            <description>Components to update.</description>
+            <name>update</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Method to invoke after authentication.</description>
+            <name>listener</name>
+            <required>true</required>
+            <method-signature>void listener(be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticatedEvent)</method-signature>
+        </attribute>
+        <attribute>
+            <description>User verification requirements. "required", "preferred", or "discouraged".</description>
+            <name>userVerification</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The WebAuthn timeout in milliseconds.</description>
+            <name>timeout</name>
+            <type>java.lang.Long</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

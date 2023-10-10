@@ -56,7 +56,8 @@
                         </h:panelGrid>
                         <p:dataTable value="#{tag.requiredAttributes}" var="attribute"
                                      rendered="#{not empty tag.requiredAttributes}"
-                                     style="margin-bottom: 10px;">
+                                     style="margin-bottom: 10px;"
+                                     tableStyle="table-layout: auto !important;">
                             <f:facet  name="header">
                                 Required Attributes
                             </f:facet>
@@ -73,7 +74,8 @@
 
                         <p:dataTable value="#{tag.optionalAttributes}" var="attribute"
                                      rendered="#{not empty tag.optionalAttributes}"
-                                     style="margin-bottom: 10px;">
+                                     style="margin-bottom: 10px;"
+                                     tableStyle="table-layout: auto !important;">
                             <f:facet  name="header">
                                 Optional Attributes
                             </f:facet>

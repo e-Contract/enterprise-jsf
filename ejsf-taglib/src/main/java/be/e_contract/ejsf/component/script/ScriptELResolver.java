@@ -26,7 +26,7 @@ public class ScriptELResolver extends ELResolver {
 
     @Override
     public Object getValue(ELContext context, Object base, Object property) {
-        LOGGER.debug("getValue: {} {}", base, property);
+        LOGGER.trace("getValue: {} {}", base, property);
         if (base == null) {
             ScriptEngine scriptEngine = ServerScriptComponent.findScriptEngine();
             if (scriptEngine != null) {
@@ -87,7 +87,7 @@ public class ScriptELResolver extends ELResolver {
                 }
             }
         } else {
-            LOGGER.debug("base type: {}", base.getClass().getName());
+            LOGGER.trace("base type: {}", base.getClass().getName());
             if (base instanceof AbstractMap.SimpleImmutableEntry) {
                 AbstractMap.SimpleImmutableEntry baseEntry = (AbstractMap.SimpleImmutableEntry) base;
                 Object baseEntryValue = baseEntry.getValue();
@@ -107,13 +107,13 @@ public class ScriptELResolver extends ELResolver {
 
     @Override
     public Object convertToType(ELContext context, Object obj, Class<?> targetType) {
-        LOGGER.debug("convertToType: {} {}", obj, targetType);
+        LOGGER.trace("convertToType: {} {}", obj, targetType);
         return null;
     }
 
     @Override
     public Object invoke(ELContext context, Object base, Object method, Class<?>[] paramTypes, Object[] params) {
-        LOGGER.debug("invoke: {} {}", base, method);
+        LOGGER.trace("invoke: {} {}", base, method);
         if (base instanceof Bindings) {
             LOGGER.debug("script method invocation");
             ScriptEngine scriptEngine = (ScriptEngine) context.getContext(ScriptEngine.class);
@@ -132,30 +132,30 @@ public class ScriptELResolver extends ELResolver {
 
     @Override
     public Class<?> getType(ELContext context, Object base, Object property) {
-        LOGGER.debug("getType: {} {}", base, property);
+        LOGGER.trace("getType: {} {}", base, property);
         return null;
     }
 
     @Override
     public void setValue(ELContext context, Object base, Object property, Object value) {
-        LOGGER.debug("setValue: {} {}", base, property);
+        LOGGER.trace("setValue: {} {}", base, property);
     }
 
     @Override
     public boolean isReadOnly(ELContext context, Object base, Object property) {
-        LOGGER.debug("isReadOnly: {}", base, property);
+        LOGGER.trace("isReadOnly: {}", base, property);
         return true;
     }
 
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object base) {
-        LOGGER.debug("getFeatureDescriptors: {}", base);
+        LOGGER.trace("getFeatureDescriptors: {}", base);
         return null;
     }
 
     @Override
     public Class<?> getCommonPropertyType(ELContext context, Object base) {
-        LOGGER.debug("getCommonPropertyType: {}", base);
+        LOGGER.trace("getCommonPropertyType: {}", base);
         return null;
     }
 }

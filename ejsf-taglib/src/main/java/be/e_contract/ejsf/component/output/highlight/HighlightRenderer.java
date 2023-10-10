@@ -101,6 +101,7 @@ public class HighlightRenderer extends CoreRenderer {
         String clientId = highlightComponent.getClientId();
         ResponseWriter responseWriter = facesContext.getResponseWriter();
         responseWriter.startElement("pre", component);
+        responseWriter.writeAttribute("class", "ejsf-highlight", null);
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.startElement("code", null);
         if (null != language) {

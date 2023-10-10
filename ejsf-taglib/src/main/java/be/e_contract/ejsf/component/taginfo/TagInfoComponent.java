@@ -119,7 +119,7 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         setNamespace(namespace);
         String tagName = (String) getAttributes().get("tag");
         NodeList tagNodeList = taglibDocument.getElementsByTagNameNS("*", "tag");
-        LOGGER.debug("number of tags: {}", tagNodeList.getLength());
+        LOGGER.trace("number of tags: {}", tagNodeList.getLength());
         for (int tagIdx = 0; tagIdx < tagNodeList.getLength(); tagIdx++) {
             Element tagElement = (Element) tagNodeList.item(tagIdx);
             String thisTagName = tagElement.getElementsByTagNameNS("*", "tag-name").item(0).getTextContent();
