@@ -15,6 +15,9 @@ import com.yubico.webauthn.FinishRegistrationOptions;
 import com.yubico.webauthn.RegisteredCredential;
 import com.yubico.webauthn.RegistrationResult;
 import com.yubico.webauthn.RelyingParty;
+import com.yubico.webauthn.attestation.AttestationTrustSource;
+import com.yubico.webauthn.data.AttestationConveyancePreference;
+import com.yubico.webauthn.data.AttestationObject;
 import com.yubico.webauthn.data.AuthenticatorAssertionResponse;
 import com.yubico.webauthn.data.AuthenticatorAttestationResponse;
 import com.yubico.webauthn.data.AuthenticatorTransport;
@@ -27,11 +30,13 @@ import com.yubico.webauthn.data.UserIdentity;
 import com.yubico.webauthn.exception.AssertionFailedException;
 import com.yubico.webauthn.exception.RegistrationFailedException;
 import java.io.IOException;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.el.ELContext;
@@ -42,6 +47,7 @@ import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIInput;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.component.visit.VisitContext;
@@ -83,8 +89,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
     public enum PropertyKeys {
         relyingPartyId,
         relyingPartyName,
-        PublicKeyCredentialCreationOptions,
-        AssertionRequest,
+        publicKeyCredentialCreationOptions,
+        assertionRequest,
         username,
         userId,
         userDisplayName,
@@ -92,6 +98,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         timeout,
         authenticatorAttachment,
         residentKey,
+        attestationTrustSource,
+        attestationConveyance,
     }
 
     public String getRelyingPartyId() {
@@ -111,23 +119,23 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
     }
 
     public void setPublicKeyCredentialCreationOptions(String creationOptions) {
-        getStateHelper().put(PropertyKeys.PublicKeyCredentialCreationOptions, creationOptions);
+        getStateHelper().put(PropertyKeys.publicKeyCredentialCreationOptions, creationOptions);
     }
 
     public PublicKeyCredentialCreationOptions getPublicKeyCredentialCreationOptions() throws JsonProcessingException {
-        PublicKeyCredentialCreationOptions options = PublicKeyCredentialCreationOptions.fromJson((String) getStateHelper().get(PropertyKeys.PublicKeyCredentialCreationOptions));
+        PublicKeyCredentialCreationOptions options = PublicKeyCredentialCreationOptions.fromJson((String) getStateHelper().get(PropertyKeys.publicKeyCredentialCreationOptions));
         // consume only once
-        getStateHelper().put(PropertyKeys.PublicKeyCredentialCreationOptions, null);
+        getStateHelper().put(PropertyKeys.publicKeyCredentialCreationOptions, null);
         return options;
     }
 
     public void setAssertionRequest(String assertionRequest) {
-        getStateHelper().put(PropertyKeys.AssertionRequest, assertionRequest);
+        getStateHelper().put(PropertyKeys.assertionRequest, assertionRequest);
     }
 
     public AssertionRequest getAssertionRequest() throws JsonProcessingException {
-        AssertionRequest assertionRequest = AssertionRequest.fromJson((String) getStateHelper().get(PropertyKeys.AssertionRequest));
-        getStateHelper().put(PropertyKeys.AssertionRequest, null);
+        AssertionRequest assertionRequest = AssertionRequest.fromJson((String) getStateHelper().get(PropertyKeys.assertionRequest));
+        getStateHelper().put(PropertyKeys.assertionRequest, null);
         return assertionRequest;
     }
 
@@ -187,6 +195,14 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         return (String) getStateHelper().eval(PropertyKeys.residentKey);
     }
 
+    public void setAttestationConveyance(String attestationConveyance) {
+        getStateHelper().put(PropertyKeys.attestationConveyance, attestationConveyance);
+    }
+
+    public String getAttestationConveyance() {
+        return (String) getStateHelper().eval(PropertyKeys.attestationConveyance);
+    }
+
     @Override
     public void setValueExpression(String name, ValueExpression binding) {
         LOGGER.debug("setValueExpression: {}", name);
@@ -200,14 +216,28 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         return (CredentialRepository) valueExpression.getValue(elContext);
     }
 
+    public AttestationTrustSource getAttestationTrustSource() {
+        ValueExpression valueExpression = getValueExpression(PropertyKeys.attestationTrustSource.name());
+        if (null == valueExpression) {
+            return null;
+        }
+        FacesContext facesContext = getFacesContext();
+        ELContext elContext = facesContext.getELContext();
+        return (AttestationTrustSource) valueExpression.getValue(elContext);
+    }
+
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(WebAuthnRegisteredEvent.NAME, WebAuthnAuthenticatedEvent.NAME, WebAuthnErrorEvent.NAME);
+        return Arrays.asList(
+                WebAuthnRegisteredEvent.NAME,
+                WebAuthnAuthenticatedEvent.NAME,
+                WebAuthnErrorEvent.NAME
+        );
     }
 
     @Override
     public String getDefaultEventName() {
-        return WebAuthnRegisteredEvent.NAME;
+        return WebAuthnErrorEvent.NAME;
     }
 
     public RelyingParty getRelyingParty() {
@@ -218,10 +248,21 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 .name(relyingPartyName)
                 .build();
         CredentialRepository credentialRepository = getCredentialRepository();
-        RelyingParty relyingParty = RelyingParty.builder()
+        RelyingParty.RelyingPartyBuilder relyingPartyBuilder = RelyingParty.builder()
                 .identity(relyingPartyIdentity)
-                .credentialRepository(credentialRepository)
-                .build();
+                .credentialRepository(credentialRepository);
+        AttestationTrustSource attestationTrustSource = getAttestationTrustSource();
+        if (null != attestationTrustSource) {
+            LOGGER.debug("setting attestation trust source");
+            relyingPartyBuilder.attestationTrustSource(attestationTrustSource);
+        }
+        String attestationConveyance = getAttestationConveyance();
+        if (!UIInput.isEmpty(attestationConveyance)) {
+            LOGGER.debug("attestation conveyance: {}", attestationConveyance);
+            relyingPartyBuilder.attestationConveyancePreference(
+                    AttestationConveyancePreference.valueOf(attestationConveyance.toUpperCase()));
+        }
+        RelyingParty relyingParty = relyingPartyBuilder.build();
         return relyingParty;
     }
 
@@ -263,6 +304,10 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                     LOGGER.error("I/O error: " + ex.getMessage(), ex);
                     return;
                 }
+                AuthenticatorAttestationResponse authenticatorAttestationResponse = publicKeyCredential.getResponse();
+                AttestationObject attestationObject = authenticatorAttestationResponse.getAttestation();
+                String attestationFormat = attestationObject.getFormat();
+                LOGGER.debug("attestation format: {}", attestationFormat);
                 FinishRegistrationOptions finishRegistrationOptions = FinishRegistrationOptions.builder()
                         .request(publicKeyCredentialCreationOptions)
                         .response(publicKeyCredential)
@@ -278,6 +323,16 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 SortedSet<AuthenticatorTransport> authenticatorTransports
                         = registrationResult.getKeyId().getTransports().orElseGet(TreeSet::new);
                 LOGGER.debug("user verified: {}", registrationResult.isUserVerified());
+                LOGGER.debug("attestation trusted: {}", registrationResult.isAttestationTrusted());
+                LOGGER.debug("attestation type: {}", registrationResult.getAttestationType());
+                Optional<List<X509Certificate>> optionalAttestationTrustPath = registrationResult.getAttestationTrustPath();
+                if (optionalAttestationTrustPath.isPresent()) {
+                    List<X509Certificate> attestationTrustPath = optionalAttestationTrustPath.get();
+                    if (!attestationTrustPath.isEmpty()) {
+                        X509Certificate certificate = attestationTrustPath.get(0);
+                        LOGGER.debug("certificate subject: {}", certificate.getSubjectX500Principal());
+                    }
+                }
                 RegisteredCredential registeredCredential = RegisteredCredential.builder()
                         .credentialId(registrationResult.getKeyId().getId())
                         .userHandle(userIdentity.getId())

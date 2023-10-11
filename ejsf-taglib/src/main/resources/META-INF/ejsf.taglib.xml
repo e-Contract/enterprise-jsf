@@ -1563,6 +1563,16 @@
             <name>residentKey</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The Attestation Trust Store.</description>
+            <name>attestationTrustSource</name>
+            <type>com.yubico.webauthn.attestation.AttestationTrustSource</type>
+        </attribute>
+        <attribute>
+            <description>The Attestation Conveyance Preference. "none", "indirect", "direct", or "enterprise".</description>
+            <name>attestationConveyance</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

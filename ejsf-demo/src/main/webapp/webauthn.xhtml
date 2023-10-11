@@ -29,7 +29,9 @@
                                                userId="#{webAuthnController.userId}"
                                                userVerification="#{webAuthnController.userVerification}"
                                                authenticatorAttachment="#{webAuthnController.authenticatorAttachment}"
-                                               residentKey="#{webAuthnController.residentKey}"/>
+                                               residentKey="#{webAuthnController.residentKey}"
+                                               attestationConveyance="#{webAuthnController.attestationConveyance}"
+                                               attestationTrustSource="#{webAuthnAttestationTrustSource}"/>
                     <ejsf:webAuthnAuthentication update=":messages"
                                                  listener="#{webAuthnController.authenticatedListener}"
                                                  userVerification="#{webAuthnController.userVerification}"/>
@@ -67,6 +69,16 @@
                             <f:selectItem itemLabel="required" itemValue="required"/>
                             <f:selectItem itemLabel="preferred" itemValue="preferred"/>
                             <f:selectItem itemLabel="discouraged" itemValue="discouraged"/>
+                            <p:ajax event="change"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="@next" value="Attestation Conveyance:"/>
+                        <p:selectOneMenu value="#{webAuthnController.attestationConveyance}">
+                            <f:selectItem itemLabel="-none-" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="none" itemValue="none"/>
+                            <f:selectItem itemLabel="indirect" itemValue="indirect"/>
+                            <f:selectItem itemLabel="direct" itemValue="direct"/>
+                            <f:selectItem itemLabel="enterprise" itemValue="enterprise"/>
                             <p:ajax event="change"/>
                         </p:selectOneMenu>
                     </h:panelGrid>
@@ -112,12 +124,16 @@
                     #{user}
                 </p:column>
                 <p:column headerText="Actions">
-                    <p:commandButton icon="pi pi-trash" action="#{webAuthnCredentialRepository.remove(user)}" update="users"/>
+                    <p:commandButton icon="pi pi-trash"
+                                     action="#{webAuthnCredentialRepository.remove(user)}"
+                                     update="users"/>
                 </p:column>
             </p:dataTable>
             <h:panelGrid columns="2">
                 <p:commandButton value="Refresh" update="users"/>
-                <p:commandButton value="Remove all" action="#{webAuthnCredentialRepository.removeAll}" update="users"/>
+                <p:commandButton value="Remove all"
+                                 action="#{webAuthnCredentialRepository.removeAll}"
+                                 update="users"/>
             </h:panelGrid>
         </h:form>
         <p:tabView>

@@ -9,10 +9,15 @@ package be.e_contract.demo;
 import be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticatedEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnErrorEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnRegisteredEvent;
+import com.yubico.fido.metadata.FidoMetadataDownloader;
+import com.yubico.fido.metadata.FidoMetadataService;
 import com.yubico.webauthn.AssertionResult;
 import com.yubico.webauthn.RegisteredCredential;
+import com.yubico.webauthn.attestation.AttestationTrustSource;
 import com.yubico.webauthn.data.AuthenticatorTransport;
 import com.yubico.webauthn.data.UserIdentity;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import javax.faces.application.FacesMessage;
@@ -21,6 +26,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Set;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.context.ExternalContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +48,8 @@ public class WebAuthnController implements Serializable {
     private String authenticatorAttachment;
 
     private String residentKey;
+
+    private String attestationConveyance;
 
     public String getUsername() {
         return this.username;
@@ -72,6 +81,14 @@ public class WebAuthnController implements Serializable {
 
     public void setResidentKey(String residentKey) {
         this.residentKey = residentKey;
+    }
+
+    public String getAttestationConveyance() {
+        return this.attestationConveyance;
+    }
+
+    public void setAttestationConveyance(String attestationConveyance) {
+        this.attestationConveyance = attestationConveyance;
     }
 
     public void registeredListener(WebAuthnRegisteredEvent event) {
@@ -125,5 +142,43 @@ public class WebAuthnController implements Serializable {
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.nextBytes(userId);
         return userId;
+    }
+
+    @Produces
+    @ApplicationScoped
+    @Named("webAuthnAttestationTrustSource")
+    public AttestationTrustSource createAttestationTrustSource() {
+        LOGGER.debug("creating AttestationTrustSource");
+        System.setProperty("com.sun.security.enableCRLDP", "true");
+        File trustRootCacheFile;
+        File blobCacheFile;
+        try {
+            trustRootCacheFile = File.createTempFile("fido-mds-trust-root-", ".bin");
+            blobCacheFile = File.createTempFile("fido-mds-blob-", ".bin");
+        } catch (IOException ex) {
+            LOGGER.error("I/O error: " + ex.getMessage(), ex);
+            return null;
+        }
+        FidoMetadataDownloader downloader = FidoMetadataDownloader.builder()
+                .expectLegalHeader("Retrieval and use of this BLOB indicates acceptance of the appropriate agreement located at https://fidoalliance.org/metadata/metadata-legal-terms/")
+                .useDefaultTrustRoot()
+                .useTrustRootCacheFile(trustRootCacheFile)
+                .useDefaultBlob()
+                .useBlobCacheFile(blobCacheFile)
+                .verifyDownloadsOnly(true)
+                .build();
+
+        FidoMetadataService mds;
+        try {
+            mds = FidoMetadataService.builder()
+                    .useBlob(downloader.loadCachedBlob())
+                    .build();
+        } catch (Exception ex) {
+            LOGGER.error("error: " + ex.getMessage(), ex);
+            return null;
+        }
+        LOGGER.debug("trust root cache file: {}", trustRootCacheFile.getAbsolutePath());
+        LOGGER.debug("blob cache file: {}", blobCacheFile.getAbsolutePath());
+        return mds;
     }
 }

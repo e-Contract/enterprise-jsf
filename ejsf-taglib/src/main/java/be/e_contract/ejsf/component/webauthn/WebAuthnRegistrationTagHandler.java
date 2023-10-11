@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.component.webauthn;
 
+import com.yubico.webauthn.attestation.AttestationTrustSource;
 import java.io.IOException;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
@@ -87,6 +88,18 @@ public class WebAuthnRegistrationTagHandler extends TagHandler {
         if (null != residentKeyTagAttribute) {
             ValueExpression residentKeyValueExpression = residentKeyTagAttribute.getValueExpression(context, String.class);
             webAuthnComponent.setValueExpression(WebAuthnComponent.PropertyKeys.residentKey.name(), residentKeyValueExpression);
+        }
+
+        TagAttribute attestationTrustSourceTagAttribute = getAttribute(WebAuthnComponent.PropertyKeys.attestationTrustSource.name());
+        if (null != attestationTrustSourceTagAttribute) {
+            ValueExpression attestationTrustSourceValueExpression = attestationTrustSourceTagAttribute.getValueExpression(context, AttestationTrustSource.class);
+            webAuthnComponent.setValueExpression(WebAuthnComponent.PropertyKeys.attestationTrustSource.name(), attestationTrustSourceValueExpression);
+        }
+
+        TagAttribute attestationConveyanceTagAttribute = getAttribute(WebAuthnComponent.PropertyKeys.attestationConveyance.name());
+        if (null != attestationConveyanceTagAttribute) {
+            ValueExpression attestationConveyanceValueExpression = attestationConveyanceTagAttribute.getValueExpression(context, String.class);
+            webAuthnComponent.setValueExpression(WebAuthnComponent.PropertyKeys.attestationConveyance.name(), attestationConveyanceValueExpression);
         }
 
         TagAttribute listenerTagAttribute = getRequiredAttribute("listener");
