@@ -10,17 +10,25 @@ import be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticatedEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnErrorEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnRegisteredEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnRegistrationError;
+import com.yubico.fido.metadata.AAGUID;
 import com.yubico.fido.metadata.FidoMetadataDownloader;
 import com.yubico.fido.metadata.FidoMetadataService;
+import com.yubico.fido.metadata.MetadataBLOB;
 import com.yubico.webauthn.AssertionResult;
 import com.yubico.webauthn.RegisteredCredential;
 import com.yubico.webauthn.attestation.AttestationTrustSource;
+import com.yubico.webauthn.data.AttestationObject;
+import com.yubico.webauthn.data.AttestedCredentialData;
+import com.yubico.webauthn.data.AuthenticatorAttestationResponse;
+import com.yubico.webauthn.data.AuthenticatorData;
 import com.yubico.webauthn.data.AuthenticatorTransport;
+import com.yubico.webauthn.data.ByteArray;
 import com.yubico.webauthn.data.UserIdentity;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.SecureRandom;
+import java.util.Optional;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -43,6 +51,9 @@ public class WebAuthnController implements Serializable {
 
     @Inject
     private WebAuthnCredentialRepository credentialRepository;
+
+    @Inject
+    private AAGUIDRepository aaguidRepository;
 
     private String username;
 
@@ -116,11 +127,27 @@ public class WebAuthnController implements Serializable {
         UserIdentity userIdentity = event.getUserIdentity();
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "Registered " + username, null));
+                "Registered: " + username, null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "User ID " + userIdentity.getId().getHex(), null));
+                "User ID: " + userIdentity.getId().getHex(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "Credential ID " + registeredCredential.getCredentialId().getHex(), null));
+                "Credential ID: " + registeredCredential.getCredentialId().getHex(), null));
+        AuthenticatorAttestationResponse authenticatorAttestationResponse = event.getAuthenticatorAttestationResponse();
+        AttestationObject attestationObject = authenticatorAttestationResponse.getAttestation();
+        AuthenticatorData authenticatorData = attestationObject.getAuthenticatorData();
+        Optional<AttestedCredentialData> attestedCredentialDataOptional = authenticatorData.getAttestedCredentialData();
+        if (attestedCredentialDataOptional.isPresent()) {
+            AttestedCredentialData attestedCredentialData = attestedCredentialDataOptional.get();
+            ByteArray aaguidByteArray = attestedCredentialData.getAaguid();
+            AAGUID aaguid = new AAGUID(aaguidByteArray);
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "AAGUID: " + aaguid.asGuidString(), null));
+            String authenticatorName = this.aaguidRepository.findName(aaguid.asGuidString());
+            if (null != authenticatorName) {
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Authenticator: " + authenticatorName, null));
+            }
+        }
         this.credentialRepository.addRegistration(username, registeredCredential, authenticatorTransports, userIdentity);
     }
 
@@ -128,11 +155,11 @@ public class WebAuthnController implements Serializable {
         AssertionResult assertionResult = event.getAssertionResult();
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "Authenticated " + assertionResult.getUsername(), null));
+                "Authenticated: " + assertionResult.getUsername(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "User ID " + assertionResult.getCredential().getUserHandle().getHex(), null));
+                "User ID: " + assertionResult.getCredential().getUserHandle().getHex(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "Credential ID " + assertionResult.getCredential().getCredentialId().getHex(), null));
+                "Credential ID: " + assertionResult.getCredential().getCredentialId().getHex(), null));
     }
 
     public void errorListener(WebAuthnErrorEvent event) {
@@ -197,8 +224,9 @@ public class WebAuthnController implements Serializable {
 
         FidoMetadataService mds;
         try {
+            MetadataBLOB metadataBlob = downloader.loadCachedBlob();
             mds = FidoMetadataService.builder()
-                    .useBlob(downloader.loadCachedBlob())
+                    .useBlob(metadataBlob)
                     .build();
         } catch (Exception ex) {
             LOGGER.error("error: " + ex.getMessage(), ex);

@@ -7,6 +7,7 @@
 package be.e_contract.ejsf.component.webauthn;
 
 import com.yubico.webauthn.RegisteredCredential;
+import com.yubico.webauthn.data.AuthenticatorAttestationResponse;
 import com.yubico.webauthn.data.AuthenticatorTransport;
 import com.yubico.webauthn.data.UserIdentity;
 import java.util.Set;
@@ -26,15 +27,19 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
 
     private final UserIdentity userIdentity;
 
+    private final AuthenticatorAttestationResponse authenticatorAttestationResponse;
+
     public WebAuthnRegisteredEvent(UIComponent component, Behavior behavior, String username,
             RegisteredCredential registeredCredential,
             Set<AuthenticatorTransport> authenticatorTransports,
-            UserIdentity userIdentity) {
+            UserIdentity userIdentity,
+            AuthenticatorAttestationResponse authenticatorAttestationResponse) {
         super(component, behavior);
         this.username = username;
         this.registeredCredential = registeredCredential;
         this.authenticatorTransports = authenticatorTransports;
         this.userIdentity = userIdentity;
+        this.authenticatorAttestationResponse = authenticatorAttestationResponse;
     }
 
     public String getUsername() {
@@ -51,5 +56,9 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
 
     public UserIdentity getUserIdentity() {
         return this.userIdentity;
+    }
+
+    public AuthenticatorAttestationResponse getAuthenticatorAttestationResponse() {
+        return this.authenticatorAttestationResponse;
     }
 }

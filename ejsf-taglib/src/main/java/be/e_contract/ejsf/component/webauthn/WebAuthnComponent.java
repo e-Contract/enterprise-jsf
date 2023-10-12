@@ -366,7 +366,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                         .build();
                 WebAuthnRegisteredEvent authnRegisteredEvent
                         = new WebAuthnRegisteredEvent(this, behaviorEvent.getBehavior(), username,
-                                registeredCredential, authenticatorTransports, userIdentity);
+                                registeredCredential, authenticatorTransports, userIdentity, authenticatorAttestationResponse);
                 authnRegisteredEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(authnRegisteredEvent);
                 return;
