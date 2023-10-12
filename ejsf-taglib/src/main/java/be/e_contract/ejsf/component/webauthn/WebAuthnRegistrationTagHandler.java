@@ -102,6 +102,12 @@ public class WebAuthnRegistrationTagHandler extends TagHandler {
             webAuthnComponent.setValueExpression(WebAuthnComponent.PropertyKeys.attestationConveyance.name(), attestationConveyanceValueExpression);
         }
 
+        TagAttribute allowUntrustedAttestationTagAttribute = getAttribute(WebAuthnComponent.PropertyKeys.allowUntrustedAttestation.name());
+        if (null != allowUntrustedAttestationTagAttribute) {
+            ValueExpression allowUntrustedAttestationValueExpression = allowUntrustedAttestationTagAttribute.getValueExpression(context, Boolean.class);
+            webAuthnComponent.setValueExpression(WebAuthnComponent.PropertyKeys.allowUntrustedAttestation.name(), allowUntrustedAttestationValueExpression);
+        }
+
         TagAttribute listenerTagAttribute = getRequiredAttribute("listener");
         MethodExpression listenerMethodExpression = listenerTagAttribute.getMethodExpression(context, void.class, new Class[]{
             WebAuthnRegisteredEvent.class

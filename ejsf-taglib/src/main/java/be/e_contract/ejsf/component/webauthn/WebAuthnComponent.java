@@ -100,6 +100,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         residentKey,
         attestationTrustSource,
         attestationConveyance,
+        allowUntrustedAttestation,
+        credentialRepository
     }
 
     public String getRelyingPartyId() {
@@ -203,14 +205,16 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         return (String) getStateHelper().eval(PropertyKeys.attestationConveyance);
     }
 
-    @Override
-    public void setValueExpression(String name, ValueExpression binding) {
-        LOGGER.debug("setValueExpression: {}", name);
-        super.setValueExpression(name, binding);
+    public void setAllowUntrustedAttestation(boolean allowUntrustedAttestation) {
+        getStateHelper().put(PropertyKeys.allowUntrustedAttestation, allowUntrustedAttestation);
+    }
+
+    public boolean isAllowUntrustedAttestation() {
+        return (boolean) getStateHelper().eval(PropertyKeys.allowUntrustedAttestation, true);
     }
 
     public CredentialRepository getCredentialRepository() {
-        ValueExpression valueExpression = getValueExpression("credentialRepository");
+        ValueExpression valueExpression = getValueExpression(PropertyKeys.credentialRepository.name());
         FacesContext facesContext = getFacesContext();
         ELContext elContext = facesContext.getELContext();
         return (CredentialRepository) valueExpression.getValue(elContext);
@@ -256,6 +260,9 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
             LOGGER.debug("setting attestation trust source");
             relyingPartyBuilder.attestationTrustSource(attestationTrustSource);
         }
+        boolean allowUntrustedAttestation = isAllowUntrustedAttestation();
+        LOGGER.debug("allow untrusted attestation: {}", allowUntrustedAttestation);
+        relyingPartyBuilder.allowUntrustedAttestation(allowUntrustedAttestation);
         String attestationConveyance = getAttestationConveyance();
         if (!UIInput.isEmpty(attestationConveyance)) {
             LOGGER.debug("attestation conveyance: {}", attestationConveyance);

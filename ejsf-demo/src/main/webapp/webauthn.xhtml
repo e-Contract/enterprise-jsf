@@ -31,7 +31,8 @@
                                                authenticatorAttachment="#{webAuthnController.authenticatorAttachment}"
                                                residentKey="#{webAuthnController.residentKey}"
                                                attestationConveyance="#{webAuthnController.attestationConveyance}"
-                                               attestationTrustSource="#{webAuthnAttestationTrustSource}"/>
+                                               attestationTrustSource="#{webAuthnAttestationTrustSource}"
+                                               allowUntrustedAttestation="#{webAuthnController.allowUntrustedAttestation}"/>
                     <ejsf:webAuthnAuthentication update=":messages"
                                                  listener="#{webAuthnController.authenticatedListener}"
                                                  userVerification="#{webAuthnController.userVerification}"/>
@@ -81,6 +82,11 @@
                             <f:selectItem itemLabel="enterprise" itemValue="enterprise"/>
                             <p:ajax event="change"/>
                         </p:selectOneMenu>
+
+                        <p:outputLabel for="@next" value="Allow Untrusted Attestation:"/>
+                        <p:toggleSwitch value="#{webAuthnController.allowUntrustedAttestation}">
+                            <p:ajax/>
+                        </p:toggleSwitch>
                     </h:panelGrid>
                 </h:form>
                 <h:form>

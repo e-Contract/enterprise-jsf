@@ -26,6 +26,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.ExternalContext;
@@ -50,6 +51,8 @@ public class WebAuthnController implements Serializable {
     private String residentKey;
 
     private String attestationConveyance;
+
+    private boolean allowUntrustedAttestation;
 
     public String getUsername() {
         return this.username;
@@ -89,6 +92,19 @@ public class WebAuthnController implements Serializable {
 
     public void setAttestationConveyance(String attestationConveyance) {
         this.attestationConveyance = attestationConveyance;
+    }
+
+    public boolean isAllowUntrustedAttestation() {
+        return this.allowUntrustedAttestation;
+    }
+
+    public void setAllowUntrustedAttestation(boolean allowUntrustedAttestation) {
+        this.allowUntrustedAttestation = allowUntrustedAttestation;
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        this.allowUntrustedAttestation = true;
     }
 
     public void registeredListener(WebAuthnRegisteredEvent event) {

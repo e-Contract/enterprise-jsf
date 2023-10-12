@@ -1573,6 +1573,11 @@
             <name>attestationConveyance</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Allow for untrusted attestations. Defaults to true.</description>
+            <name>allowUntrustedAttestation</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
     <tag>
