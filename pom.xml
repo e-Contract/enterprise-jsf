@@ -123,7 +123,7 @@
                 <plugin>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>9.4.52.v20230823</version>
+                    <version>9.4.53.v20231009</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -136,7 +136,7 @@
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>3.8.2</version>
+                    <version>3.9</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -155,8 +155,11 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <node.version>v18.18.0</node.version>
-        <npm.version>10.1.0</npm.version>
+        <node.version>v18.18.1</node.version>
+        <npm.version>10.2.0</npm.version>
+        <jackson.version>2.15.2</jackson.version>
+        <webauthn-server.version>2.5.0</webauthn-server.version>
+        <webauthn4j.version>0.21.7.RELEASE</webauthn4j.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -175,12 +178,12 @@
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
-                <version>13.0.1</version>
+                <version>13.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>2.0.9</version>
+                <version>1.7.36</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -195,7 +198,7 @@
             <dependency>
                 <groupId>com.googlecode.libphonenumber</groupId>
                 <artifactId>libphonenumber</artifactId>
-                <version>8.13.22</version>
+                <version>8.13.23</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
@@ -265,27 +268,42 @@
             <dependency>
                 <groupId>com.yubico</groupId>
                 <artifactId>webauthn-server-core</artifactId>
-                <version>2.5.0</version>
+                <version>${webauthn-server.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.yubico</groupId>
                 <artifactId>webauthn-server-attestation</artifactId>
-                <version>2.5.0</version>
+                <version>${webauthn-server.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>2.15.2</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.15.2</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-cbor</artifactId>
-                <version>2.15.2</version>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.webauthn4j</groupId>
+                <artifactId>webauthn4j-core</artifactId>
+                <version>${webauthn4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.webauthn4j</groupId>
+                <artifactId>webauthn4j-metadata</artifactId>
+                <version>${webauthn4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.webauthn4j</groupId>
+                <artifactId>webauthn4j-device-check</artifactId>
+                <version>${webauthn4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
