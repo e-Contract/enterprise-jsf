@@ -32,7 +32,8 @@
                                                residentKey="#{webAuthnController.residentKey}"
                                                attestationConveyance="#{webAuthnController.attestationConveyance}"
                                                attestationTrustSource="#{webAuthnAttestationTrustSource}"
-                                               allowUntrustedAttestation="#{webAuthnController.allowUntrustedAttestation}"/>
+                                               allowUntrustedAttestation="#{webAuthnController.allowUntrustedAttestation}"
+                                               errorListener="#{webAuthnController.registrationErrorListener}"/>
                     <ejsf:webAuthnAuthentication update=":messages"
                                                  listener="#{webAuthnController.authenticatedListener}"
                                                  userVerification="#{webAuthnController.userVerification}"/>

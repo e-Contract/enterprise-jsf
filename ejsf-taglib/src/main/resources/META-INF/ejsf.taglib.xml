@@ -1578,6 +1578,11 @@
             <name>allowUntrustedAttestation</name>
             <type>java.lang.Boolean</type>
         </attribute>
+        <attribute>
+            <description>Method to invoke upon registration error.</description>
+            <name>errorListener</name>
+            <method-signature>void errorListener(be.e_contract.ejsf.component.webauthn.WebAuthnRegistrationError)</method-signature>
+        </attribute>
     </tag>
 
     <tag>

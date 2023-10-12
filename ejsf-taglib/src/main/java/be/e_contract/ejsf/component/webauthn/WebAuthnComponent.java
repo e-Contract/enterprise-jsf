@@ -40,6 +40,7 @@ import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.el.ELContext;
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.application.ResourceDependencies;
@@ -101,7 +102,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         attestationTrustSource,
         attestationConveyance,
         allowUntrustedAttestation,
-        credentialRepository
+        credentialRepository,
+        registrationErrorListener,
     }
 
     public String getRelyingPartyId() {
@@ -211,6 +213,20 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
 
     public boolean isAllowUntrustedAttestation() {
         return (boolean) getStateHelper().eval(PropertyKeys.allowUntrustedAttestation, true);
+    }
+
+    public void setRegistrationErrorListener(MethodExpression registrationErrorListener) {
+        getStateHelper().put(PropertyKeys.registrationErrorListener, registrationErrorListener);
+    }
+
+    private void invokeRegistrationErrorListener(WebAuthnRegistrationError error) {
+        MethodExpression methodExpression = (MethodExpression) getStateHelper().get(PropertyKeys.registrationErrorListener);
+        if (null == methodExpression) {
+            return;
+        }
+        FacesContext facesContext = getFacesContext();
+        ELContext elContext = facesContext.getELContext();
+        methodExpression.invoke(elContext, new Object[]{error});
     }
 
     public CredentialRepository getCredentialRepository() {
@@ -325,6 +341,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                     registrationResult = relyingParty.finishRegistration(finishRegistrationOptions);
                 } catch (RegistrationFailedException ex) {
                     LOGGER.error("registration error: " + ex.getMessage(), ex);
+                    WebAuthnRegistrationError error = new WebAuthnRegistrationError(ex.getMessage());
+                    invokeRegistrationErrorListener(error);
                     return;
                 }
                 SortedSet<AuthenticatorTransport> authenticatorTransports

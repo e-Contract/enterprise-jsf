@@ -9,6 +9,7 @@ package be.e_contract.demo;
 import be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticatedEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnErrorEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnRegisteredEvent;
+import be.e_contract.ejsf.component.webauthn.WebAuthnRegistrationError;
 import com.yubico.fido.metadata.FidoMetadataDownloader;
 import com.yubico.fido.metadata.FidoMetadataService;
 import com.yubico.webauthn.AssertionResult;
@@ -30,6 +31,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.ExternalContext;
+import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,6 +141,15 @@ public class WebAuthnController implements Serializable {
         String message = "WebAuthn error: " + errorMessage;
         FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null);
         facesContext.addMessage(null, facesMessage);
+    }
+
+    public void registrationErrorListener(WebAuthnRegistrationError error) {
+        String message = "WebAuthn error: " + error.getErrorMessage();
+        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.addMessage(null, facesMessage);
+        PrimeFaces primeFaces = PrimeFaces.current();
+        primeFaces.ajax().update(":messages");
     }
 
     public String getRelyingPartyId() {
