@@ -6,7 +6,6 @@
  */
 package be.e_contract.ejsf.component.webauthn;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yubico.webauthn.AssertionRequest;
 import com.yubico.webauthn.RelyingParty;
 import com.yubico.webauthn.StartRegistrationOptions;
@@ -116,12 +115,8 @@ public class WebAuthnRenderer extends CoreRenderer {
             }
             StartRegistrationOptions startRegistrationOptions = startRegistrationOptionsBuilder.build();
             PublicKeyCredentialCreationOptions publicKeyCredentialCreationOptions = relyingParty.startRegistration(startRegistrationOptions);
-            String request;
-            try {
-                request = publicKeyCredentialCreationOptions.toJson();
-                LOGGER.debug("request: {}", request);
-            } catch (JsonProcessingException ex) {
-                LOGGER.error("JSON error: " + ex.getMessage(), ex);
+            String request = WebAuthnUtils.toJson(publicKeyCredentialCreationOptions);
+            if (null == request) {
                 return;
             }
             webAuthnComponent.setPublicKeyCredentialCreationOptions(request);
@@ -149,18 +144,18 @@ public class WebAuthnRenderer extends CoreRenderer {
             StartAssertionOptions startAssertionOptions = startAssertionOptionsBuilder
                     .build();
             AssertionRequest assertionRequest = relyingParty.startAssertion(startAssertionOptions);
-            String request;
-            try {
-                request = assertionRequest.toCredentialsGetJson();
-                webAuthnComponent.setAssertionRequest(assertionRequest.toJson());
-            } catch (JsonProcessingException ex) {
-                LOGGER.error("JSON error: " + ex.getMessage(), ex);
+            String credentialsRequest = WebAuthnUtils.toCredentialsJson(assertionRequest);
+            if (null == credentialsRequest) {
                 return;
             }
-            LOGGER.debug("authentication request: {}", request);
+            String assertionRequestJson = WebAuthnUtils.toJson(assertionRequest);
+            if (null == assertionRequestJson) {
+                return;
+            }
+            webAuthnComponent.setAssertionRequest(assertionRequestJson);
             PrimeFaces primeFaces = PrimeFaces.current();
             PrimeFaces.Ajax ajax = primeFaces.ajax();
-            ajax.addCallbackParam("publicKeyCredentialRequestOptions", request);
+            ajax.addCallbackParam("publicKeyCredentialRequestOptions", credentialsRequest);
             context.renderResponse();
         }
     }

@@ -642,3 +642,9 @@ Notice that the above construct also works for simple WARs, where the CDI JAR is
 		\label{fig:cdi-war}
 	\end{center}
 \end{figure}
+
+\section{JSF runtime class loading}
+The components within your JSF tag library might require third-party dependencies as some point.
+Special attention is required if you want to avoid having to include those third-party dependencies even when the corresponding JSF tags are not used within your web application.
+When the JSF runtime analyses your JSF tag library descriptor at startup, it will sometimes want to load a little bit too much.
+If you encounter such class loading issues, you can always isolate the usage of those third-party dependencies within separate utility classes, preventing the JSF runtime of loading too much at startup.
