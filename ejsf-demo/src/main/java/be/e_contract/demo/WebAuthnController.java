@@ -148,6 +148,10 @@ public class WebAuthnController implements Serializable {
                         "Authenticator: " + authenticatorName, null));
             }
         }
+        if (null != event.getResidentKey()) {
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Resident key: " + event.getResidentKey(), null));
+        }
         this.credentialRepository.addRegistration(username, registeredCredential, authenticatorTransports, userIdentity);
     }
 

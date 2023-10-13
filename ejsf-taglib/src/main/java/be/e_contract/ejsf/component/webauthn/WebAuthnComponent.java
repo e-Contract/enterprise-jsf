@@ -23,6 +23,7 @@ import com.yubico.webauthn.data.AuthenticatorAttestationResponse;
 import com.yubico.webauthn.data.AuthenticatorTransport;
 import com.yubico.webauthn.data.ClientAssertionExtensionOutputs;
 import com.yubico.webauthn.data.ClientRegistrationExtensionOutputs;
+import com.yubico.webauthn.data.Extensions;
 import com.yubico.webauthn.data.PublicKeyCredential;
 import com.yubico.webauthn.data.PublicKeyCredentialCreationOptions;
 import com.yubico.webauthn.data.RelyingPartyIdentity;
@@ -358,6 +359,16 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                         LOGGER.debug("certificate subject: {}", certificate.getSubjectX500Principal());
                     }
                 }
+                Boolean residentKey = null;
+                Optional<ClientRegistrationExtensionOutputs> clientRegExtensionOutputsOptional = registrationResult.getClientExtensionOutputs();
+                if (clientRegExtensionOutputsOptional.isPresent()) {
+                    ClientRegistrationExtensionOutputs clientRegistrationExtensionOutputs = clientRegExtensionOutputsOptional.get();
+                    Optional<Extensions.CredentialProperties.CredentialPropertiesOutput> credPropsOptional = clientRegistrationExtensionOutputs.getCredProps();
+                    if (credPropsOptional.isPresent()) {
+                        Extensions.CredentialProperties.CredentialPropertiesOutput credProps = credPropsOptional.get();
+                        residentKey = credProps.getRk().orElse(null); // :)
+                    }
+                }
                 RegisteredCredential registeredCredential = RegisteredCredential.builder()
                         .credentialId(registrationResult.getKeyId().getId())
                         .userHandle(userIdentity.getId())
@@ -366,7 +377,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                         .build();
                 WebAuthnRegisteredEvent authnRegisteredEvent
                         = new WebAuthnRegisteredEvent(this, behaviorEvent.getBehavior(), username,
-                                registeredCredential, authenticatorTransports, userIdentity, authenticatorAttestationResponse);
+                                registeredCredential, authenticatorTransports, userIdentity,
+                                authenticatorAttestationResponse, residentKey);
                 authnRegisteredEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(authnRegisteredEvent);
                 return;

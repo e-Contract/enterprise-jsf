@@ -29,17 +29,21 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
 
     private final AuthenticatorAttestationResponse authenticatorAttestationResponse;
 
+    private final Boolean residentKey;
+
     public WebAuthnRegisteredEvent(UIComponent component, Behavior behavior, String username,
             RegisteredCredential registeredCredential,
             Set<AuthenticatorTransport> authenticatorTransports,
             UserIdentity userIdentity,
-            AuthenticatorAttestationResponse authenticatorAttestationResponse) {
+            AuthenticatorAttestationResponse authenticatorAttestationResponse,
+            Boolean residentKey) {
         super(component, behavior);
         this.username = username;
         this.registeredCredential = registeredCredential;
         this.authenticatorTransports = authenticatorTransports;
         this.userIdentity = userIdentity;
         this.authenticatorAttestationResponse = authenticatorAttestationResponse;
+        this.residentKey = residentKey;
     }
 
     public String getUsername() {
@@ -60,5 +64,9 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
 
     public AuthenticatorAttestationResponse getAuthenticatorAttestationResponse() {
         return this.authenticatorAttestationResponse;
+    }
+
+    public Boolean getResidentKey() {
+        return this.residentKey;
     }
 }

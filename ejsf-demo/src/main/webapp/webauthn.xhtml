@@ -94,7 +94,7 @@
                     <h:panelGrid columns="3">
                         <p:outputLabel for="@next" value="Username:"/>
                         <p:inputText value="#{webAuthnController.username}"
-                                     required="true">
+                                     required="true" autocomplete="username webauthn">
                             <ejsf:webAuthnUsernameValidator mode="registration"
                                                             credentialRepository="#{webAuthnCredentialRepository}"/>
                         </p:inputText>
@@ -111,7 +111,7 @@
                     <h:panelGrid columns="3">
                         <p:outputLabel for="@next" value="Username:"/>
                         <p:inputText value="#{webAuthnController.username}"
-                                     required="true">
+                                     required="true" autocomplete="username webauthn">
                             <ejsf:webAuthnUsernameValidator mode="authentication"
                                                             credentialRepository="#{webAuthnCredentialRepository}"/>
                         </p:inputText>
