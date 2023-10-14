@@ -17,8 +17,9 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
     },
 
     webAuthnRegistration: function () {
+        let $this = this;
         console.log("initiating WebAuthn registration...");
-        if (!window.PublicKeyCredential) {
+        if (!webauthnJSON.supported()) {
             let options = {
                 params: [
                     {
@@ -30,7 +31,51 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
             this.callBehavior("error", options);
             return;
         }
-        let $this = this;
+        console.log(webauthnJSON.schema);
+        webauthnJSON.schema.credentialCreationOptions.publicKey.schema.extensions.schema.prf = {
+            required: false,
+            schema: {
+                eval: {
+                    required: false,
+                    schema: {
+                        first: {
+                            required: true,
+                            schema: "convert"
+                        }
+                    }
+                },
+                evalByCredential: {
+                    required: false,
+                    schema: "copy",
+                    derive: function (input) {
+                        console.log("derive");
+                        console.log(input);
+                        let evalByCredentialObject = input.evalByCredential;
+                        if (!(evalByCredentialObject instanceof Object)) {
+                            return;
+                        }
+                        for (const [key, value] of Object.entries(evalByCredentialObject)) {
+                            console.log("first: " + value.first);
+                            value.first = $this.base64urlToBuffer(value.first);
+                        }
+                        return evalByCredentialObject;
+                    }
+                }
+            }
+        };
+        webauthnJSON.schema.credentialCreationOptions.publicKey.schema.extensions.schema.uvm = {
+            required: false,
+            schema: "copy"
+        };
+        webauthnJSON.schema.publicKeyCredentialWithAttestation.clientExtensionResults.schema.prf = {
+            required: false,
+            schema: "copy"
+        };
+        webauthnJSON.schema.publicKeyCredentialWithAttestation.clientExtensionResults.schema.uvm = {
+            required: false,
+            schema: "copy"
+        };
+        console.log(webauthnJSON.schema);
         let createAjaxRequestOptions = {
             source: this.id,
             process: this.id,
@@ -81,7 +126,7 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
 
     webAuthnAuthentication: function () {
         console.log("authenticate");
-        if (!window.PublicKeyCredential) {
+        if (!webauthnJSON.supported()) {
             let options = {
                 params: [
                     {
@@ -138,5 +183,17 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
             }
         };
         PrimeFaces.ajax.Request.handle(getAjaxRequestOptions);
+    },
+
+    base64urlToBuffer: function (baseurl64String) {
+        const padding = "==".slice(0, (4 - baseurl64String.length % 4) % 4);
+        const base64String = baseurl64String.replace(/-/g, "+").replace(/_/g, "/") + padding;
+        const str = atob(base64String);
+        const buffer = new ArrayBuffer(str.length);
+        const byteView = new Uint8Array(buffer);
+        for (let i = 0; i < str.length; i++) {
+            byteView[i] = str.charCodeAt(i);
+        }
+        return buffer;
     }
 });

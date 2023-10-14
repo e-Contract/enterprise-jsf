@@ -1610,6 +1610,11 @@
             <name>timeout</name>
             <type>java.lang.Long</type>
         </attribute>
+        <attribute>
+            <description>Method to invoke for PRF functionality.</description>
+            <name>prfListener</name>
+            <method-signature>com.yubico.webauthn.data.ByteArray prfListener(com.yubico.webauthn.data.ByteArray)</method-signature>
+        </attribute>
     </tag>
 
 </facelet-taglib>

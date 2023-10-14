@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.Optional;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -152,6 +153,11 @@ public class WebAuthnController implements Serializable {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Resident key: " + event.getResidentKey(), null));
         }
+        if (null != event.getAttestationCertificate()) {
+            X509Certificate attestationCertificate = event.getAttestationCertificate();
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Attestation certificate: " + attestationCertificate.getSubjectX500Principal(), null));
+        }
         this.credentialRepository.addRegistration(username, registeredCredential, authenticatorTransports, userIdentity);
     }
 
@@ -181,6 +187,15 @@ public class WebAuthnController implements Serializable {
         facesContext.addMessage(null, facesMessage);
         PrimeFaces primeFaces = PrimeFaces.current();
         primeFaces.ajax().update(":messages");
+    }
+
+    public ByteArray prfListener(ByteArray credentialId) {
+        LOGGER.debug("PRF listener: {}", credentialId.getHex());
+        byte[] seed = new byte[32];
+        // I know...
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextBytes(seed);
+        return new ByteArray(seed);
     }
 
     public String getRelyingPartyId() {

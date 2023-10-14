@@ -12,9 +12,11 @@ import com.yubico.webauthn.StartRegistrationOptions;
 import com.yubico.webauthn.data.ByteArray;
 import com.yubico.webauthn.data.UserIdentity;
 import com.yubico.webauthn.StartAssertionOptions;
+import com.yubico.webauthn.data.AssertionExtensionInputs;
 import com.yubico.webauthn.data.AuthenticatorAttachment;
 import com.yubico.webauthn.data.AuthenticatorSelectionCriteria;
 import com.yubico.webauthn.data.PublicKeyCredentialCreationOptions;
+import com.yubico.webauthn.data.RegistrationExtensionInputs;
 import com.yubico.webauthn.data.ResidentKeyRequirement;
 import com.yubico.webauthn.data.UserVerificationRequirement;
 import java.io.IOException;
@@ -113,11 +115,17 @@ public class WebAuthnRenderer extends CoreRenderer {
             if (null != timeout) {
                 startRegistrationOptionsBuilder.timeout(timeout);
             }
+            RegistrationExtensionInputs extensions = RegistrationExtensionInputs.builder().credProps().uvm().build();
+            startRegistrationOptionsBuilder.extensions(extensions);
             StartRegistrationOptions startRegistrationOptions = startRegistrationOptionsBuilder.build();
             PublicKeyCredentialCreationOptions publicKeyCredentialCreationOptions = relyingParty.startRegistration(startRegistrationOptions);
             String request = WebAuthnUtils.toJson(publicKeyCredentialCreationOptions);
             if (null == request) {
                 return;
+            }
+            if (webAuthnComponent.hasPRFListener()) {
+                request = WebAuthnUtils.addRegistrationPRF(request);
+                LOGGER.debug("creation request with PRF extension: {}", request);
             }
             webAuthnComponent.setPublicKeyCredentialCreationOptions(request);
             PrimeFaces primeFaces = PrimeFaces.current();
@@ -141,12 +149,22 @@ public class WebAuthnRenderer extends CoreRenderer {
             if (null != timeout) {
                 startAssertionOptionsBuilder.timeout(timeout);
             }
+            AssertionExtensionInputs extensions = AssertionExtensionInputs.builder().uvm().build();
+            startAssertionOptionsBuilder.extensions(extensions);
             StartAssertionOptions startAssertionOptions = startAssertionOptionsBuilder
                     .build();
             AssertionRequest assertionRequest = relyingParty.startAssertion(startAssertionOptions);
             String credentialsRequest = WebAuthnUtils.toCredentialsJson(assertionRequest);
             if (null == credentialsRequest) {
                 return;
+            }
+            LOGGER.debug("authentication request: {}", credentialsRequest);
+            if (webAuthnComponent.hasPRFListener()) {
+                credentialsRequest = WebAuthnUtils.addAuthenticationPRF(credentialsRequest,
+                        (ByteArray credentialId) -> {
+                            return webAuthnComponent.getPRFSalt(credentialId);
+                        });
+                LOGGER.debug("authentication request with PRF extension: {}", credentialsRequest);
             }
             String assertionRequestJson = WebAuthnUtils.toJson(assertionRequest);
             if (null == assertionRequestJson) {

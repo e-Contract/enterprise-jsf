@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.component.webauthn;
 
+import com.yubico.webauthn.data.ByteArray;
 import java.io.IOException;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
@@ -63,6 +64,14 @@ public class WebAuthnAuthenticationTagHandler extends TagHandler {
             webAuthnComponent.setValueExpression(WebAuthnComponent.PropertyKeys.timeout.name(), timeoutValueExpression);
         } else {
             webAuthnComponent.setValueExpression(WebAuthnComponent.PropertyKeys.timeout.name(), null);
+        }
+
+        TagAttribute prfListenerTagHandler = getAttribute(WebAuthnComponent.PropertyKeys.prfListener.name());
+        if (null != prfListenerTagHandler) {
+            MethodExpression prfListenerMethodExpression = prfListenerTagHandler.getMethodExpression(context, ByteArray.class, new Class[]{
+                ByteArray.class
+            });
+            webAuthnComponent.setPRFListener(prfListenerMethodExpression);
         }
 
         TagAttribute listenerTagAttribute = getRequiredAttribute("listener");

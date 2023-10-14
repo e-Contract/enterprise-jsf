@@ -10,6 +10,7 @@ import com.yubico.webauthn.RegisteredCredential;
 import com.yubico.webauthn.data.AuthenticatorAttestationResponse;
 import com.yubico.webauthn.data.AuthenticatorTransport;
 import com.yubico.webauthn.data.UserIdentity;
+import java.security.cert.X509Certificate;
 import java.util.Set;
 import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.Behavior;
@@ -31,12 +32,14 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
 
     private final Boolean residentKey;
 
+    private final X509Certificate attestationCertificate;
+
     public WebAuthnRegisteredEvent(UIComponent component, Behavior behavior, String username,
             RegisteredCredential registeredCredential,
             Set<AuthenticatorTransport> authenticatorTransports,
             UserIdentity userIdentity,
             AuthenticatorAttestationResponse authenticatorAttestationResponse,
-            Boolean residentKey) {
+            Boolean residentKey, X509Certificate attestationCertificate) {
         super(component, behavior);
         this.username = username;
         this.registeredCredential = registeredCredential;
@@ -44,6 +47,7 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
         this.userIdentity = userIdentity;
         this.authenticatorAttestationResponse = authenticatorAttestationResponse;
         this.residentKey = residentKey;
+        this.attestationCertificate = attestationCertificate;
     }
 
     public String getUsername() {
@@ -68,5 +72,9 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
 
     public Boolean getResidentKey() {
         return this.residentKey;
+    }
+
+    public X509Certificate getAttestationCertificate() {
+        return this.attestationCertificate;
     }
 }

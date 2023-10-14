@@ -7,8 +7,16 @@
 package be.e_contract.ejsf.component.webauthn;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.yubico.webauthn.AssertionRequest;
+import com.yubico.webauthn.data.ByteArray;
 import com.yubico.webauthn.data.PublicKeyCredentialCreationOptions;
+import com.yubico.webauthn.data.exception.Base64UrlException;
+import java.security.SecureRandom;
+import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,5 +62,70 @@ public class WebAuthnUtils {
             return null;
         }
         return json;
+    }
+
+    public static JsonNode toJsonNode(String json) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode;
+        try {
+            jsonNode = objectMapper.readTree(json);
+        } catch (JsonProcessingException ex) {
+            LOGGER.error("JSON error: " + ex.getMessage(), ex);
+            return null;
+        }
+        return jsonNode;
+    }
+
+    public static String addAuthenticationPRF(String publicKeyCredentialRequestOptions,
+            Function<ByteArray, ByteArray> salter) {
+        JsonNode jsonNode = toJsonNode(publicKeyCredentialRequestOptions);
+        ObjectNode extensions = (ObjectNode) jsonNode.findValue("extensions");
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode prf = objectMapper.createObjectNode();
+        extensions.set("prf", prf);
+        ObjectNode evalByCredential = objectMapper.createObjectNode();
+        prf.set("evalByCredential", evalByCredential);
+        ArrayNode allowCredentials = (ArrayNode) jsonNode.findValue("allowCredentials");
+        for (JsonNode allowCredential : allowCredentials) {
+            String credentialId = allowCredential.findValue("id").asText();
+            ByteArray credentialIdByteArray;
+            try {
+                credentialIdByteArray = ByteArray.fromBase64Url(credentialId);
+            } catch (Base64UrlException ex) {
+                LOGGER.error("base64 error: " + ex.getMessage(), ex);
+                return null;
+            }
+            ByteArray saltByteArray = salter.apply(credentialIdByteArray);
+            ObjectNode prfValues = objectMapper.createObjectNode();
+            prfValues.put("first", saltByteArray.getBase64Url());
+            evalByCredential.set(credentialId, prfValues);
+        }
+        try {
+            return objectMapper.writeValueAsString(jsonNode);
+        } catch (JsonProcessingException ex) {
+            LOGGER.error("JSON error: " + ex.getMessage(), ex);
+            return null;
+        }
+    }
+
+    public static String addRegistrationPRF(String publicKeyCredentialCreationOptions) {
+        JsonNode jsonNode = toJsonNode(publicKeyCredentialCreationOptions);
+        ObjectNode extensions = (ObjectNode) jsonNode.findValue("extensions");
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode prf = objectMapper.createObjectNode();
+        extensions.set("prf", prf);
+        ObjectNode eval = objectMapper.createObjectNode();
+        prf.set("eval", eval);
+        byte[] salt = new byte[32];
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextBytes(salt);
+        ByteArray saltByteArray = new ByteArray(salt);
+        eval.put("first", saltByteArray.getBase64Url());
+        try {
+            return objectMapper.writeValueAsString(jsonNode);
+        } catch (JsonProcessingException ex) {
+            LOGGER.error("JSON error: " + ex.getMessage(), ex);
+            return null;
+        }
     }
 }

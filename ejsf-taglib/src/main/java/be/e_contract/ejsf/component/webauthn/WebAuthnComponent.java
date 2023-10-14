@@ -21,6 +21,7 @@ import com.yubico.webauthn.data.AttestationObject;
 import com.yubico.webauthn.data.AuthenticatorAssertionResponse;
 import com.yubico.webauthn.data.AuthenticatorAttestationResponse;
 import com.yubico.webauthn.data.AuthenticatorTransport;
+import com.yubico.webauthn.data.ByteArray;
 import com.yubico.webauthn.data.ClientAssertionExtensionOutputs;
 import com.yubico.webauthn.data.ClientRegistrationExtensionOutputs;
 import com.yubico.webauthn.data.Extensions;
@@ -105,6 +106,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         allowUntrustedAttestation,
         credentialRepository,
         registrationErrorListener,
+        prfListener,
     }
 
     public String getRelyingPartyId() {
@@ -230,6 +232,26 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         methodExpression.invoke(elContext, new Object[]{error});
     }
 
+    public void setPRFListener(MethodExpression prfListener) {
+        getStateHelper().put(PropertyKeys.prfListener, prfListener);
+    }
+
+    public boolean hasPRFListener() {
+        MethodExpression methodExpression = (MethodExpression) getStateHelper().get(PropertyKeys.prfListener);
+        return null != methodExpression;
+    }
+
+    public ByteArray getPRFSalt(ByteArray credentialId) {
+        MethodExpression methodExpression = (MethodExpression) getStateHelper().get(PropertyKeys.prfListener);
+        if (null == methodExpression) {
+            return null;
+        }
+        FacesContext facesContext = getFacesContext();
+        ELContext elContext = facesContext.getELContext();
+        ByteArray salt = (ByteArray) methodExpression.invoke(elContext, new Object[]{credentialId});
+        return salt;
+    }
+
     public CredentialRepository getCredentialRepository() {
         ValueExpression valueExpression = getValueExpression(PropertyKeys.credentialRepository.name());
         FacesContext facesContext = getFacesContext();
@@ -351,12 +373,13 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 LOGGER.debug("user verified: {}", registrationResult.isUserVerified());
                 LOGGER.debug("attestation trusted: {}", registrationResult.isAttestationTrusted());
                 LOGGER.debug("attestation type: {}", registrationResult.getAttestationType());
+                X509Certificate attestationCertificate = null;
                 Optional<List<X509Certificate>> optionalAttestationTrustPath = registrationResult.getAttestationTrustPath();
                 if (optionalAttestationTrustPath.isPresent()) {
                     List<X509Certificate> attestationTrustPath = optionalAttestationTrustPath.get();
                     if (!attestationTrustPath.isEmpty()) {
-                        X509Certificate certificate = attestationTrustPath.get(0);
-                        LOGGER.debug("certificate subject: {}", certificate.getSubjectX500Principal());
+                        attestationCertificate = attestationTrustPath.get(0);
+                        LOGGER.debug("attestation certificate subject: {}", attestationCertificate.getSubjectX500Principal());
                     }
                 }
                 Boolean residentKey = null;
@@ -378,7 +401,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 WebAuthnRegisteredEvent authnRegisteredEvent
                         = new WebAuthnRegisteredEvent(this, behaviorEvent.getBehavior(), username,
                                 registeredCredential, authenticatorTransports, userIdentity,
-                                authenticatorAttestationResponse, residentKey);
+                                authenticatorAttestationResponse, residentKey, attestationCertificate);
                 authnRegisteredEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(authnRegisteredEvent);
                 return;
