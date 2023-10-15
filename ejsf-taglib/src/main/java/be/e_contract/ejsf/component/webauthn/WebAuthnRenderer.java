@@ -20,6 +20,7 @@ import com.yubico.webauthn.data.RegistrationExtensionInputs;
 import com.yubico.webauthn.data.ResidentKeyRequirement;
 import com.yubico.webauthn.data.UserVerificationRequirement;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Map;
 import javax.faces.component.UIComponent;
@@ -39,6 +40,20 @@ public class WebAuthnRenderer extends CoreRenderer {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebAuthnRenderer.class);
 
     public static final String RENDERER_TYPE = "ejsf.webAuthnRenderer";
+
+    private static final SecureRandom SECURE_RANDOM;
+
+    static {
+        SecureRandom secureRandom;
+        try {
+            secureRandom = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException ex) {
+            LOGGER.error("could not get strong secure random");
+            secureRandom = new SecureRandom();
+        }
+        secureRandom.setSeed(System.currentTimeMillis());
+        SECURE_RANDOM = secureRandom;
+    }
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
@@ -68,8 +83,17 @@ public class WebAuthnRenderer extends CoreRenderer {
             if (null == userIdData) {
                 LOGGER.debug("we generate userId");
                 userIdData = new byte[32];
-                SecureRandom secureRandom = new SecureRandom();
-                secureRandom.nextBytes(userIdData);
+                SECURE_RANDOM.setSeed(System.currentTimeMillis());
+                SECURE_RANDOM.nextBytes(userIdData);
+            } else {
+                if (userIdData.length < 32) {
+                    LOGGER.error("userId should be at least 32 bytes");
+                    return;
+                }
+                if (userIdData.length > 64) {
+                    LOGGER.error("userId maximum size is 64 bytes");
+                    return;
+                }
             }
             ByteArray userId = new ByteArray(userIdData);
             LOGGER.debug("userId: {}", userId);

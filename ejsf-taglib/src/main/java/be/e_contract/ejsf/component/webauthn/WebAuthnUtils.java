@@ -96,6 +96,15 @@ public class WebAuthnUtils {
                 return null;
             }
             ByteArray saltByteArray = salter.apply(credentialIdByteArray);
+            if (null == saltByteArray) {
+                LOGGER.error("no salt for credential: {}", credentialIdByteArray.getHex());
+                return null;
+            }
+            if (saltByteArray.size() < 32) {
+                LOGGER.error("salt should be at least 32 bytes in length for credential: {}",
+                        credentialIdByteArray.getHex());
+                return null;
+            }
             ObjectNode prfValues = objectMapper.createObjectNode();
             prfValues.put("first", saltByteArray.getBase64Url());
             evalByCredential.set(credentialId, prfValues);
