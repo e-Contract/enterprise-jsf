@@ -332,6 +332,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
             if (WebAuthnRegisteredEvent.NAME.equals(eventName)) {
                 String createResponse = requestParameterMap.get(clientId + "_registration_response");
                 LOGGER.debug("create response: {}", createResponse);
+                Boolean prf = WebAuthnUtils.hasPRF(createResponse);
                 PublicKeyCredentialCreationOptions publicKeyCredentialCreationOptions;
                 try {
                     publicKeyCredentialCreationOptions = getPublicKeyCredentialCreationOptions();
@@ -401,14 +402,17 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 WebAuthnRegisteredEvent authnRegisteredEvent
                         = new WebAuthnRegisteredEvent(this, behaviorEvent.getBehavior(), username,
                                 registeredCredential, authenticatorTransports, userIdentity,
-                                authenticatorAttestationResponse, residentKey, attestationCertificate);
+                                authenticatorAttestationResponse, residentKey, attestationCertificate,
+                                prf);
                 authnRegisteredEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(authnRegisteredEvent);
                 return;
             }
             if (WebAuthnAuthenticatedEvent.NAME.equals(eventName)) {
                 String getResponse = requestParameterMap.get(clientId + "_authentication_response");
-                LOGGER.debug("authentication response: {}", getResponse);
+                // DO NOT LOG PRF RESULTS
+                //LOGGER.debug("authentication response: {}", getResponse);
+                ByteArray prf = WebAuthnUtils.getPRFResults(getResponse);
                 RelyingParty relyingParty = getRelyingParty();
                 PublicKeyCredential<AuthenticatorAssertionResponse, ClientAssertionExtensionOutputs> pubicKeyCredential;
                 try {
@@ -437,7 +441,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 LOGGER.debug("assertion result: {}", result);
                 if (result.isSuccess()) {
                     WebAuthnAuthenticatedEvent authnAuthenticatedEvent
-                            = new WebAuthnAuthenticatedEvent(this, behaviorEvent.getBehavior(), result);
+                            = new WebAuthnAuthenticatedEvent(this, behaviorEvent.getBehavior(), result, prf);
                     authnAuthenticatedEvent.setPhaseId(facesEvent.getPhaseId());
                     super.queueEvent(authnAuthenticatedEvent);
                 } else {

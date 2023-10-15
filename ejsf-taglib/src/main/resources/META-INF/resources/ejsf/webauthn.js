@@ -18,7 +18,6 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
 
     webAuthnRegistration: function () {
         let $this = this;
-        console.log("initiating WebAuthn registration...");
         if (!webauthnJSON.supported()) {
             let options = {
                 params: [
@@ -31,7 +30,6 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
             this.callBehavior("error", options);
             return;
         }
-        console.log(webauthnJSON.schema);
         webauthnJSON.schema.credentialCreationOptions.publicKey.schema.extensions.schema.prf = {
             required: false,
             schema: {
@@ -48,14 +46,11 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                     required: false,
                     schema: "copy",
                     derive: function (input) {
-                        console.log("derive");
-                        console.log(input);
                         let evalByCredentialObject = input.evalByCredential;
                         if (!(evalByCredentialObject instanceof Object)) {
                             return;
                         }
                         for (const [key, value] of Object.entries(evalByCredentialObject)) {
-                            console.log("first: " + value.first);
                             value.first = $this.base64urlToBuffer(value.first);
                         }
                         return evalByCredentialObject;
@@ -69,13 +64,26 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
         };
         webauthnJSON.schema.publicKeyCredentialWithAttestation.clientExtensionResults.schema.prf = {
             required: false,
-            schema: "copy"
+            schema: {
+                enabled: {
+                    required: false,
+                    schema: "copy"
+                },
+                results: {
+                    required: false,
+                    schema: {
+                        first: {
+                            required: true,
+                            schema: "convert"
+                        }
+                    }
+                }
+            }
         };
         webauthnJSON.schema.publicKeyCredentialWithAttestation.clientExtensionResults.schema.uvm = {
             required: false,
             schema: "copy"
         };
-        console.log(webauthnJSON.schema);
         let createAjaxRequestOptions = {
             source: this.id,
             process: this.id,
@@ -88,14 +96,11 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                 }
             ],
             oncomplete: function (xhr, status, args, data) {
-                console.log("oncomplete");
                 let publicKeyCredentialCreationOptions = JSON.parse(args.publicKeyCredentialCreationOptions);
                 console.log(publicKeyCredentialCreationOptions);
                 webauthnJSON.create({
                     publicKey: publicKeyCredentialCreationOptions
                 }).then((credential) => {
-                    console.log("credential received");
-                    console.log(credential);
                     let options = {
                         params: [
                             {
@@ -125,7 +130,6 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
     },
 
     webAuthnAuthentication: function () {
-        console.log("authenticate");
         if (!webauthnJSON.supported()) {
             let options = {
                 params: [
@@ -151,12 +155,9 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                 }
             ],
             oncomplete: function (xhr, status, args, data) {
-                console.log("oncomplete");
                 let publicKeyCredentialRequestOptions = JSON.parse(args.publicKeyCredentialRequestOptions);
                 console.log(publicKeyCredentialRequestOptions);
                 webauthnJSON.get(publicKeyCredentialRequestOptions).then((credential) => {
-                    console.log("credential received");
-                    console.log(credential);
                     let options = {
                         params: [
                             {

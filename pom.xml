@@ -305,6 +305,16 @@
                 <artifactId>webauthn4j-device-check</artifactId>
                 <version>${webauthn4j.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>4.14.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.bonigarcia</groupId>
+                <artifactId>webdrivermanager</artifactId>
+                <version>5.5.3</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
@@ -319,6 +329,7 @@
         <module>ejsf-taglib-visnetwork</module>
         <module>ejsf-taglib-mermaid</module>
         <module>ejsf-taglib-webauthn</module>
+        <module>ejsf-tests</module>
     </modules>
     <profiles>
         <profile>

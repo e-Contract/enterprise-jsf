@@ -128,4 +128,47 @@ public class WebAuthnUtils {
             return null;
         }
     }
+
+    public static Boolean hasPRF(String createResponse) {
+        JsonNode jsonNode = toJsonNode(createResponse);
+        JsonNode clientExtensionResultsJsonNode = jsonNode.get("clientExtensionResults");
+        if (null == clientExtensionResultsJsonNode) {
+            return null;
+        }
+        JsonNode prfJsonNode = clientExtensionResultsJsonNode.get("prf");
+        if (null == prfJsonNode) {
+            return null;
+        }
+        JsonNode enabledJsonNode = prfJsonNode.get("enabled");
+        if (null == enabledJsonNode) {
+            return null;
+        }
+        return enabledJsonNode.asBoolean();
+    }
+
+    public static ByteArray getPRFResults(String assertionResponse) {
+        JsonNode jsonNode = toJsonNode(assertionResponse);
+        JsonNode clientExtensionResultsJsonNode = jsonNode.get("clientExtensionResults");
+        if (null == clientExtensionResultsJsonNode) {
+            return null;
+        }
+        JsonNode prfJsonNode = clientExtensionResultsJsonNode.get("prf");
+        if (null == prfJsonNode) {
+            return null;
+        }
+        JsonNode resultsJsonNode = prfJsonNode.get("results");
+        if (null == resultsJsonNode) {
+            return null;
+        }
+        JsonNode firstJsonNode = resultsJsonNode.get("first");
+        if (null == firstJsonNode) {
+            return null;
+        }
+        try {
+            return ByteArray.fromBase64Url(firstJsonNode.asText());
+        } catch (Base64UrlException ex) {
+            LOGGER.error("base64 error: " + ex.getMessage(), ex);
+            return null;
+        }
+    }
 }

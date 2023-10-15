@@ -119,6 +119,10 @@ public class WebAuthnController implements Serializable {
     @PostConstruct
     public void postConstruct() {
         this.allowUntrustedAttestation = true;
+        this.userVerification = "preferred";
+        this.authenticatorAttachment = "cross-platform";
+        this.residentKey = "preferred";
+        this.attestationConveyance = "direct";
     }
 
     public void registeredListener(WebAuthnRegisteredEvent event) {
@@ -158,6 +162,13 @@ public class WebAuthnController implements Serializable {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Attestation certificate: " + attestationCertificate.getSubjectX500Principal(), null));
         }
+        if (null != event.getPrf()) {
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "PRF enabled: " + event.getPrf(), null));
+        } else {
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "PRF not supported", null));
+        }
         this.credentialRepository.addRegistration(username, registeredCredential, authenticatorTransports, userIdentity);
     }
 
@@ -170,6 +181,11 @@ public class WebAuthnController implements Serializable {
                 "User ID: " + assertionResult.getCredential().getUserHandle().getHex(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "Credential ID: " + assertionResult.getCredential().getCredentialId().getHex(), null));
+        ByteArray prf = event.getPrf();
+        if (null != prf) {
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "PRF: " + prf.getHex(), null));
+        }
     }
 
     public void errorListener(WebAuthnErrorEvent event) {
@@ -191,11 +207,9 @@ public class WebAuthnController implements Serializable {
 
     public ByteArray prfListener(ByteArray credentialId) {
         LOGGER.debug("PRF listener: {}", credentialId.getHex());
-        byte[] seed = new byte[32];
-        // I know...
-        SecureRandom secureRandom = new SecureRandom();
-        secureRandom.nextBytes(seed);
-        return new ByteArray(seed);
+        // of course you don't do this in production
+        // just want to verify a deterministic PRF result here
+        return credentialId;
     }
 
     public String getRelyingPartyId() {
