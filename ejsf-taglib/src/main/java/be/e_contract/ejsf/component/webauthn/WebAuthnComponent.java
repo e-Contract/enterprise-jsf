@@ -372,7 +372,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 SortedSet<AuthenticatorTransport> authenticatorTransports
                         = registrationResult.getKeyId().getTransports().orElseGet(TreeSet::new);
                 LOGGER.debug("user verified: {}", registrationResult.isUserVerified());
-                LOGGER.debug("attestation trusted: {}", registrationResult.isAttestationTrusted());
+                boolean attestationTrusted = registrationResult.isAttestationTrusted();
+                LOGGER.debug("attestation trusted: {}", attestationTrusted);
                 LOGGER.debug("attestation type: {}", registrationResult.getAttestationType());
                 X509Certificate attestationCertificate = null;
                 Optional<List<X509Certificate>> optionalAttestationTrustPath = registrationResult.getAttestationTrustPath();
@@ -403,7 +404,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                         = new WebAuthnRegisteredEvent(this, behaviorEvent.getBehavior(), username,
                                 registeredCredential, authenticatorTransports, userIdentity,
                                 authenticatorAttestationResponse, residentKey, attestationCertificate,
-                                prf);
+                                prf, attestationTrusted);
                 authnRegisteredEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(authnRegisteredEvent);
                 return;
@@ -411,7 +412,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
             if (WebAuthnAuthenticatedEvent.NAME.equals(eventName)) {
                 String getResponse = requestParameterMap.get(clientId + "_authentication_response");
                 // DO NOT LOG PRF RESULTS
-                //LOGGER.debug("authentication response: {}", getResponse);
+                //LOGGER.error("authentication response: {}", getResponse);
                 ByteArray prf = WebAuthnUtils.getPRFResults(getResponse);
                 RelyingParty relyingParty = getRelyingParty();
                 PublicKeyCredential<AuthenticatorAssertionResponse, ClientAssertionExtensionOutputs> pubicKeyCredential;

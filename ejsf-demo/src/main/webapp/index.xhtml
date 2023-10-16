@@ -3,7 +3,8 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
     <ui:define name="title">Welcome</ui:define>
     <ui:define name="body">
         <p>
@@ -21,5 +22,15 @@
                             label="Github issue tracker"
                             newTab="true"/>.
         </p>
+        <h3>
+            <span>
+                New Components
+            </span>
+        </h3>
+        <h:form>
+            <p>
+                Check out our new <p:commandLink value="WebAuthn Component" action="webauthn?faces-redirect=true" ajax="false"/>.
+            </p>
+        </h:form>
     </ui:define>
 </ui:composition>

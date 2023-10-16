@@ -13,13 +13,21 @@ body {
     background-position: bottom 10px right 20px;
 }
 
-h1 {
-    color: gray;
+h1 span {
+    background: linear-gradient(270deg, #02f7ff, #0109fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 h2 {
     color: #2196F3;
     font-size: large;
+}
+
+h3 span {
+    background: linear-gradient(270deg, #02f7ff, #0109fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 #header h1 {

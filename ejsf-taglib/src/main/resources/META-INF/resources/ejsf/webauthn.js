@@ -14,22 +14,7 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
      */
     init: function (cfg) {
         this._super(cfg);
-    },
-
-    webAuthnRegistration: function () {
         let $this = this;
-        if (!webauthnJSON.supported()) {
-            let options = {
-                params: [
-                    {
-                        name: $this.id + "_error",
-                        value: "WebAuthn not supported."
-                    }
-                ]
-            };
-            this.callBehavior("error", options);
-            return;
-        }
         webauthnJSON.schema.credentialCreationOptions.publicKey.schema.extensions.schema.prf = {
             required: false,
             schema: {
@@ -84,6 +69,22 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
             required: false,
             schema: "copy"
         };
+    },
+
+    webAuthnRegistration: function () {
+        let $this = this;
+        if (!webauthnJSON.supported()) {
+            let options = {
+                params: [
+                    {
+                        name: $this.id + "_error",
+                        value: "WebAuthn not supported."
+                    }
+                ]
+            };
+            this.callBehavior("error", options);
+            return;
+        }
         let createAjaxRequestOptions = {
             source: this.id,
             process: this.id,
@@ -130,6 +131,7 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
     },
 
     webAuthnAuthentication: function () {
+        let $this = this;
         if (!webauthnJSON.supported()) {
             let options = {
                 params: [
@@ -142,7 +144,6 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
             this.callBehavior("error", options);
             return;
         }
-        let $this = this;
         let getAjaxRequestOptions = {
             source: this.id,
             process: this.id,

@@ -6,6 +6,7 @@
  */
 package be.e_contract.demo;
 
+import com.yubico.webauthn.AssertionResult;
 import com.yubico.webauthn.CredentialRepository;
 import com.yubico.webauthn.RegisteredCredential;
 import com.yubico.webauthn.data.AuthenticatorTransport;
@@ -33,7 +34,7 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
 
     private static class Credential {
 
-        private final RegisteredCredential registeredCredential;
+        private RegisteredCredential registeredCredential;
         private final Set<AuthenticatorTransport> authenticatorTransports;
         private final UserIdentity userIdentity;
 
@@ -129,6 +130,32 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
         }
         Credential credential = new Credential(registeredCredential, authenticatorTransports, userIdentity);
         credentials.add(credential);
+    }
+
+    public void updateSignatureCount(AssertionResult result) {
+        String username = result.getUsername();
+        ByteArray credentialId = result.getCredential().getCredentialId();
+        Set<Credential> credentials = this.usernameCredentials.get(username);
+        if (null == credentials) {
+            LOGGER.warn("unknown username: {}", username);
+            return;
+        }
+        Credential foundCredential = null;
+        for (Credential credential : credentials) {
+            RegisteredCredential registeredCredential = credential.registeredCredential;
+            if (registeredCredential.getCredentialId().equals(credentialId)) {
+                foundCredential = credential;
+                break;
+            }
+        }
+        if (null == foundCredential) {
+            LOGGER.warn("unknown credential {} for user {}", credentialId.getHex(), username);
+            return;
+        }
+        foundCredential.registeredCredential = foundCredential.registeredCredential
+                .toBuilder()
+                .signatureCount(result.getSignatureCount())
+                .build();
     }
 
     public Set<String> getUsers() {

@@ -157,6 +157,8 @@ public class WebAuthnController implements Serializable {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Resident key: " + event.getResidentKey(), null));
         }
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Attestation trusted: " + event.isAttestationTrusted(), null));
         if (null != event.getAttestationCertificate()) {
             X509Certificate attestationCertificate = event.getAttestationCertificate();
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -186,6 +188,7 @@ public class WebAuthnController implements Serializable {
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "PRF: " + prf.getHex(), null));
         }
+        this.credentialRepository.updateSignatureCount(assertionResult);
     }
 
     public void errorListener(WebAuthnErrorEvent event) {

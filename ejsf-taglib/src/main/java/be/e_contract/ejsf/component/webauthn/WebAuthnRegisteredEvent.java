@@ -36,13 +36,15 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
 
     private final Boolean prf;
 
+    private final boolean attestationTrusted;
+
     public WebAuthnRegisteredEvent(UIComponent component, Behavior behavior, String username,
             RegisteredCredential registeredCredential,
             Set<AuthenticatorTransport> authenticatorTransports,
             UserIdentity userIdentity,
             AuthenticatorAttestationResponse authenticatorAttestationResponse,
             Boolean residentKey, X509Certificate attestationCertificate,
-            Boolean prf) {
+            Boolean prf, boolean attestationTrusted) {
         super(component, behavior);
         this.username = username;
         this.registeredCredential = registeredCredential;
@@ -52,6 +54,7 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
         this.residentKey = residentKey;
         this.attestationCertificate = attestationCertificate;
         this.prf = prf;
+        this.attestationTrusted = attestationTrusted;
     }
 
     public String getUsername() {
@@ -84,5 +87,9 @@ public class WebAuthnRegisteredEvent extends AbstractAjaxBehaviorEvent {
 
     public Boolean getPrf() {
         return this.prf;
+    }
+
+    public boolean isAttestationTrusted() {
+        return this.attestationTrusted;
     }
 }
