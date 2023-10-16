@@ -14,7 +14,7 @@
             <dependency>
                 <groupId>io.quarkus.platform</groupId>
                 <artifactId>quarkus-bom</artifactId>
-                <version>3.4.2</version>
+                <version>3.4.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>io.quarkus.platform</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
-                <version>3.4.2</version>
+                <version>3.4.3</version>
                 <extensions>true</extensions>
                 <executions>
                     <execution>
