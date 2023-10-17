@@ -47,4 +47,3 @@ PrimeFaces.widget.EJSFDictionary = PrimeFaces.widget.BaseWidget.extend({
         return message;
     }
 });
-

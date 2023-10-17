@@ -24,6 +24,10 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                         first: {
                             required: true,
                             schema: "convert"
+                        },
+                        second: {
+                            required: false,
+                            schema: "convert"
                         }
                     }
                 },
@@ -37,6 +41,9 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                         }
                         for (const [key, value] of Object.entries(evalByCredentialObject)) {
                             value.first = $this.base64urlToBuffer(value.first);
+                            if (typeof value.second !== "undefined") {
+                                value.second = $this.base64urlToBuffer(value.second);
+                            }
                         }
                         return evalByCredentialObject;
                     }
@@ -60,6 +67,10 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                         first: {
                             required: true,
                             schema: "convert"
+                        },
+                        second: {
+                            required: false,
+                            schema: "convert"
                         }
                     }
                 }
@@ -72,19 +83,11 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
     },
 
     webAuthnRegistration: function () {
-        let $this = this;
         if (!webauthnJSON.supported()) {
-            let options = {
-                params: [
-                    {
-                        name: $this.id + "_error",
-                        value: "WebAuthn not supported."
-                    }
-                ]
-            };
-            this.callBehavior("error", options);
+            this.sendError("WebAuthn not supported.");
             return;
         }
+        let $this = this;
         let createAjaxRequestOptions = {
             source: this.id,
             process: this.id,
@@ -97,6 +100,10 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                 }
             ],
             oncomplete: function (xhr, status, args, data) {
+                if (typeof args.publicKeyCredentialCreationOptions === "undefined") {
+                    $this.sendError("Internal error.");
+                    return;
+                }
                 let publicKeyCredentialCreationOptions = JSON.parse(args.publicKeyCredentialCreationOptions);
                 console.log(publicKeyCredentialCreationOptions);
                 webauthnJSON.create({
@@ -113,17 +120,7 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                     $this.callBehavior("registered", options);
                 }).catch((error) => {
                     console.log("error on creating credential");
-                    console.log(error);
-                    console.log("error: " + error);
-                    let options = {
-                        params: [
-                            {
-                                name: $this.id + "_error",
-                                value: error
-                            }
-                        ]
-                    };
-                    $this.callBehavior("error", options);
+                    $this.sendError(error);
                 });
             }
         };
@@ -131,19 +128,11 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
     },
 
     webAuthnAuthentication: function () {
-        let $this = this;
         if (!webauthnJSON.supported()) {
-            let options = {
-                params: [
-                    {
-                        name: $this.id + "_error",
-                        value: "WebAuthn not supported."
-                    }
-                ]
-            };
-            this.callBehavior("error", options);
+            this.sendError("WebAuthn not supported.");
             return;
         }
+        let $this = this;
         let getAjaxRequestOptions = {
             source: this.id,
             process: this.id,
@@ -156,8 +145,11 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                 }
             ],
             oncomplete: function (xhr, status, args, data) {
+                if (typeof args.publicKeyCredentialRequestOptions === "undefined") {
+                    $this.sendError("Internal error.");
+                    return;
+                }
                 let publicKeyCredentialRequestOptions = JSON.parse(args.publicKeyCredentialRequestOptions);
-                console.log(publicKeyCredentialRequestOptions);
                 webauthnJSON.get(publicKeyCredentialRequestOptions).then((credential) => {
                     let options = {
                         params: [
@@ -170,21 +162,26 @@ PrimeFaces.widget.EJSFWebAuthn = PrimeFaces.widget.BaseWidget.extend({
                     $this.callBehavior("authenticated", options);
                 }).catch((error) => {
                     console.log("error on creating credential");
-                    console.log(error);
-                    console.log("error: " + error);
-                    let options = {
-                        params: [
-                            {
-                                name: $this.id + "_error",
-                                value: error
-                            }
-                        ]
-                    };
-                    $this.callBehavior("error", options);
+                    $this.sendError(error);
                 });
             }
         };
         PrimeFaces.ajax.Request.handle(getAjaxRequestOptions);
+    },
+
+    sendError: function (error) {
+        console.log(error);
+        console.log("error: " + error);
+        console.log("error type: " + typeof error);
+        let options = {
+            params: [
+                {
+                    name: this.id + "_error",
+                    value: error
+                }
+            ]
+        };
+        this.callBehavior("error", options);
     },
 
     base64urlToBuffer: function (baseurl64String) {
