@@ -96,7 +96,7 @@ public class WebAuthnRenderer extends CoreRenderer {
                 }
             }
             ByteArray userId = new ByteArray(userIdData);
-            LOGGER.debug("userId: {}", userId);
+            LOGGER.debug("userId: {}", userId.getHex());
             String username = webAuthnComponent.getUsername();
             LOGGER.debug("username: {}", username);
             String userDisplayName = webAuthnComponent.getUserDisplayName();

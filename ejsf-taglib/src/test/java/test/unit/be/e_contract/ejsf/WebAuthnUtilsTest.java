@@ -38,4 +38,12 @@ public class WebAuthnUtilsTest {
         String result = WebAuthnUtils.addRegistrationPRF(request);
         LOGGER.debug("result: {}", result);
     }
+
+    @Test
+    public void testSafariFix() throws Exception {
+        String response = IOUtils.toString(WebAuthnUtilsTest.class.getResourceAsStream("/safari-authn-response.json"), "UTF-8");
+        LOGGER.debug("response: {}", response);
+        String fix = WebAuthnUtils.fixAuthenticationResponse(response);
+        LOGGER.debug("result: {}", fix);
+    }
 }

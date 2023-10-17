@@ -426,6 +426,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
             }
             if (WebAuthnAuthenticatedEvent.NAME.equals(eventName)) {
                 String getResponse = requestParameterMap.get(clientId + "_authentication_response");
+                getResponse = WebAuthnUtils.fixAuthenticationResponse(getResponse);
                 // DO NOT LOG PRF RESULTS
                 //LOGGER.error("authentication response: {}", getResponse);
                 ByteArray prf = WebAuthnUtils.getPRFResults(getResponse);

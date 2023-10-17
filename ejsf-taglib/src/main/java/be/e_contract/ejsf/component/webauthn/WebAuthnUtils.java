@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.yubico.webauthn.AssertionRequest;
 import com.yubico.webauthn.data.ByteArray;
@@ -179,5 +180,38 @@ public class WebAuthnUtils {
             LOGGER.error("base64 error: " + ex.getMessage(), ex);
             return null;
         }
+    }
+
+    /**
+     * Fix for Safari userHandle: "" in case of non-resident keys. See also:
+     * https://bugs.webkit.org/show_bug.cgi?id=239737
+     *
+     * @param authenticationResponse
+     * @return
+     */
+    public static String fixAuthenticationResponse(String authenticationResponse) {
+        JsonNode jsonNode = toJsonNode(authenticationResponse);
+        ObjectNode responseJsonNode = (ObjectNode) jsonNode.get("response");
+        if (null == responseJsonNode) {
+            return authenticationResponse;
+        }
+        JsonNode userHandleJsonNode = responseJsonNode.get("userHandle");
+        if (null == userHandleJsonNode) {
+            return authenticationResponse;
+        }
+        if (userHandleJsonNode instanceof NullNode) {
+            return authenticationResponse;
+        }
+        if (userHandleJsonNode.asText().isEmpty()) {
+            responseJsonNode.putNull("userHandle");
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                return objectMapper.writeValueAsString(jsonNode);
+            } catch (JsonProcessingException ex) {
+                LOGGER.error("JSON error: " + ex.getMessage(), ex);
+                return null;
+            }
+        }
+        return authenticationResponse;
     }
 }

@@ -56,9 +56,11 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
         Set<PublicKeyCredentialDescriptor> result = new HashSet<>();
         for (Credential credential : credentials) {
             RegisteredCredential registeredCredential = credential.registeredCredential;
+            ByteArray credentialId = registeredCredential.getCredentialId();
+            LOGGER.debug("credential id: {}", credentialId.getHex());
             Set<AuthenticatorTransport> authenticatorTransports = credential.authenticatorTransports;
             PublicKeyCredentialDescriptor descriptor = PublicKeyCredentialDescriptor.builder()
-                    .id(registeredCredential.getCredentialId())
+                    .id(credentialId)
                     .transports(authenticatorTransports)
                     .build();
             result.add(descriptor);
@@ -75,6 +77,7 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
         }
         for (Credential credential : credentials) {
             ByteArray userHandle = credential.userIdentity.getId();
+            LOGGER.debug("user handle: {}", userHandle.getHex());
             return Optional.of(userHandle);
         }
         return Optional.empty();
@@ -82,11 +85,13 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
 
     @Override
     public Optional<String> getUsernameForUserHandle(ByteArray userHandle) {
-        LOGGER.debug("getUsernameForUserHandle");
+        LOGGER.debug("getUsernameForUserHandle: {}", userHandle.getHex());
         for (Set<Credential> credentials : this.usernameCredentials.values()) {
             for (Credential credential : credentials) {
                 if (credential.userIdentity.getId().equals(userHandle)) {
-                    return Optional.of(credential.userIdentity.getName());
+                    String username = credential.userIdentity.getName();
+                    LOGGER.debug("username: {}", username);
+                    return Optional.of(username);
                 }
             }
         }
@@ -96,10 +101,21 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
     @Override
     public Optional<RegisteredCredential> lookup(ByteArray credentialId, ByteArray userHandle) {
         LOGGER.debug("lookup");
+        LOGGER.debug("credential id: {}", credentialId.getHex());
+        LOGGER.debug("user handle: {}", userHandle.getHex());
         for (Set<Credential> credentials : this.usernameCredentials.values()) {
             for (Credential credential : credentials) {
                 if (credential.registeredCredential.getCredentialId().equals(credentialId)) {
-                    return Optional.of(credential.registeredCredential);
+                    if (credential.registeredCredential.getUserHandle().equals(userHandle)) {
+                        RegisteredCredential registeredCredential
+                                = RegisteredCredential.builder()
+                                        .credentialId(credential.registeredCredential.getCredentialId())
+                                        .userHandle(credential.userIdentity.getId())
+                                        .publicKeyCose(credential.registeredCredential.getPublicKeyCose())
+                                        .signatureCount(credential.registeredCredential.getSignatureCount())
+                                        .build();
+                        return Optional.of(registeredCredential);
+                    }
                 }
             }
         }
@@ -108,12 +124,17 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
 
     @Override
     public Set<RegisteredCredential> lookupAll(ByteArray credentialId) {
-        LOGGER.debug("lookupAll: {}", credentialId);
+        LOGGER.debug("lookupAll: {}", credentialId.getHex());
         Set<RegisteredCredential> result = new HashSet<>();
         for (Set<Credential> credentials : this.usernameCredentials.values()) {
             for (Credential credential : credentials) {
-                RegisteredCredential registeredCredential = credential.registeredCredential;
-                if (registeredCredential.getCredentialId().equals(credentialId)) {
+                if (credential.registeredCredential.getCredentialId().equals(credentialId)) {
+                    RegisteredCredential registeredCredential = RegisteredCredential.builder()
+                            .credentialId(credential.registeredCredential.getCredentialId())
+                            .userHandle(credential.userIdentity.getId())
+                            .publicKeyCose(credential.registeredCredential.getPublicKeyCose())
+                            .signatureCount(credential.registeredCredential.getSignatureCount())
+                            .build();
                     result.add(registeredCredential);
                 }
             }
@@ -123,6 +144,10 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
 
     public void addRegistration(String username, RegisteredCredential registeredCredential, Set<AuthenticatorTransport> authenticatorTransports,
             UserIdentity userIdentity) {
+        LOGGER.debug("add registration for user {}", username);
+        LOGGER.debug("user id: {}", userIdentity.getId().getHex());
+        LOGGER.debug("user handle: {}", registeredCredential.getUserHandle().getHex());
+        LOGGER.debug("credential id: {}", registeredCredential.getCredentialId().getHex());
         Set<Credential> credentials = this.usernameCredentials.get(username);
         if (null == credentials) {
             credentials = new HashSet<>();
