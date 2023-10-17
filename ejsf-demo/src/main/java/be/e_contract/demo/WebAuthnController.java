@@ -27,6 +27,8 @@ import com.yubico.webauthn.data.UserIdentity;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.Optional;
@@ -212,7 +214,16 @@ public class WebAuthnController implements Serializable {
         LOGGER.debug("PRF listener: {}", credentialId.getHex());
         // of course you don't do this in production
         // just want to verify a deterministic PRF result here
-        return credentialId;
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException ex) {
+            LOGGER.error("algo error: " + ex.getMessage(), ex);
+            return credentialId;
+        }
+        // make sure we return at least 32 bytes
+        byte[] salt = messageDigest.digest(credentialId.getBytes());
+        return new ByteArray(salt);
     }
 
     public String getRelyingPartyId() {
