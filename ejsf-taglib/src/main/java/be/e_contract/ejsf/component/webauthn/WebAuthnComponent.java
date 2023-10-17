@@ -107,6 +107,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         credentialRepository,
         registrationErrorListener,
         prfListener,
+        authenticationErrorListener,
     }
 
     public String getRelyingPartyId() {
@@ -224,6 +225,20 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
 
     private void invokeRegistrationErrorListener(WebAuthnRegistrationError error) {
         MethodExpression methodExpression = (MethodExpression) getStateHelper().get(PropertyKeys.registrationErrorListener);
+        if (null == methodExpression) {
+            return;
+        }
+        FacesContext facesContext = getFacesContext();
+        ELContext elContext = facesContext.getELContext();
+        methodExpression.invoke(elContext, new Object[]{error});
+    }
+
+    public void setAuthenticationErrorListener(MethodExpression authenticationErrorListener) {
+        getStateHelper().put(PropertyKeys.authenticationErrorListener, authenticationErrorListener);
+    }
+
+    private void invokeAuthenticationErrorListener(WebAuthnAuthenticationError error) {
+        MethodExpression methodExpression = (MethodExpression) getStateHelper().get(PropertyKeys.authenticationErrorListener);
         if (null == methodExpression) {
             return;
         }
@@ -437,6 +452,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                     result = relyingParty.finishAssertion(finishAssertionOptions);
                 } catch (AssertionFailedException ex) {
                     LOGGER.error("assertion failed: " + ex.getMessage(), ex);
+                    WebAuthnAuthenticationError error = new WebAuthnAuthenticationError(ex.getMessage());
+                    invokeAuthenticationErrorListener(error);
                     return;
                 }
                 LOGGER.debug("assertion result: {}", result);
@@ -447,6 +464,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                     super.queueEvent(authnAuthenticatedEvent);
                 } else {
                     LOGGER.warn("assertion failed");
+                    WebAuthnAuthenticationError error = new WebAuthnAuthenticationError("Assertion invalid.");
+                    invokeAuthenticationErrorListener(error);
                 }
                 return;
             }

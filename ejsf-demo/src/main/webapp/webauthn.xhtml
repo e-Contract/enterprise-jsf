@@ -41,7 +41,8 @@
                     <ejsf:webAuthnAuthentication update=":messages"
                                                  listener="#{webAuthnController.authenticatedListener}"
                                                  userVerification="#{webAuthnController.userVerification}"
-                                                 prfListener="#{webAuthnController.prfListener}"/>
+                                                 prfListener="#{webAuthnController.prfListener}"
+                                                 errorListener="#{webAuthnController.authenticationErrorListener}"/>
                     <p:ajax event="error" update=":messages"
                             listener="#{webAuthnController.errorListener}"/>
                 </ejsf:webAuthn>

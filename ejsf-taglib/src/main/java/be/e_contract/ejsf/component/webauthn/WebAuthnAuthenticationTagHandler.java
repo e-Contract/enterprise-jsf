@@ -74,6 +74,14 @@ public class WebAuthnAuthenticationTagHandler extends TagHandler {
             webAuthnComponent.setPRFListener(prfListenerMethodExpression);
         }
 
+        TagAttribute errorListenerTagAttribute = getAttribute("errorListener");
+        if (null != errorListenerTagAttribute) {
+            MethodExpression errorListenerMethodExpression = errorListenerTagAttribute.getMethodExpression(context, void.class, new Class[]{
+                WebAuthnAuthenticationError.class
+            });
+            webAuthnComponent.setAuthenticationErrorListener(errorListenerMethodExpression);
+        }
+
         TagAttribute listenerTagAttribute = getRequiredAttribute("listener");
         MethodExpression listenerMethodExpression = listenerTagAttribute.getMethodExpression(context, void.class, new Class[]{
             WebAuthnAuthenticatedEvent.class

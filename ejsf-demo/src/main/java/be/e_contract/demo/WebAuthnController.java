@@ -7,6 +7,7 @@
 package be.e_contract.demo;
 
 import be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticatedEvent;
+import be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticationError;
 import be.e_contract.ejsf.component.webauthn.WebAuthnErrorEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnRegisteredEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnRegistrationError;
@@ -202,6 +203,15 @@ public class WebAuthnController implements Serializable {
     }
 
     public void registrationErrorListener(WebAuthnRegistrationError error) {
+        String message = "WebAuthn error: " + error.getErrorMessage();
+        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.addMessage(null, facesMessage);
+        PrimeFaces primeFaces = PrimeFaces.current();
+        primeFaces.ajax().update(":messages");
+    }
+
+    public void authenticationErrorListener(WebAuthnAuthenticationError error) {
         String message = "WebAuthn error: " + error.getErrorMessage();
         FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null);
         FacesContext facesContext = FacesContext.getCurrentInstance();

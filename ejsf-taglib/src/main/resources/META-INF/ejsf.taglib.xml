@@ -1615,6 +1615,11 @@
             <name>prfListener</name>
             <method-signature>com.yubico.webauthn.data.ByteArray prfListener(com.yubico.webauthn.data.ByteArray)</method-signature>
         </attribute>
+        <attribute>
+            <description>Method to invoke upon authentication error.</description>
+            <name>errorListener</name>
+            <method-signature>void errorListener(be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticationError)</method-signature>
+        </attribute>
     </tag>
 
 </facelet-taglib>
