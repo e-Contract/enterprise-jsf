@@ -1583,6 +1583,11 @@
             <name>errorListener</name>
             <method-signature>void errorListener(be.e_contract.ejsf.component.webauthn.WebAuthnRegistrationError)</method-signature>
         </attribute>
+        <attribute>
+            <description>Registration message interceptor.</description>
+            <name>messageInterceptor</name>
+            <method-signature>java.lang.String messageInterceptor(java.lang.String,java.lang.String)</method-signature>
+        </attribute>
     </tag>
 
     <tag>
@@ -1619,6 +1624,11 @@
             <description>Method to invoke upon authentication error.</description>
             <name>errorListener</name>
             <method-signature>void errorListener(be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticationError)</method-signature>
+        </attribute>
+        <attribute>
+            <description>Authentication message interceptor.</description>
+            <name>messageInterceptor</name>
+            <method-signature>java.lang.String messageInterceptor(java.lang.String,java.lang.String)</method-signature>
         </attribute>
     </tag>
 

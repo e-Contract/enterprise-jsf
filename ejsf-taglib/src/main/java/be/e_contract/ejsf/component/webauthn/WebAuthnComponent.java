@@ -48,6 +48,7 @@ import javax.faces.FacesException;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIInput;
@@ -93,6 +94,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         relyingPartyId,
         relyingPartyName,
         publicKeyCredentialCreationOptions,
+        credentialsRequest,
         assertionRequest,
         username,
         userId,
@@ -108,6 +110,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         registrationErrorListener,
         prfListener,
         authenticationErrorListener,
+        registrationMessageInterceptor,
+        authenticationMessageInterceptor,
     }
 
     public String getRelyingPartyId() {
@@ -137,8 +141,14 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         return options;
     }
 
-    public void setAssertionRequest(String assertionRequest) {
-        getStateHelper().put(PropertyKeys.assertionRequest, assertionRequest);
+    public void setAssertionRequest(String assertionRequest, String credentialsRequest) {
+        StateHelper stateHelper = getStateHelper();
+        stateHelper.put(PropertyKeys.assertionRequest, assertionRequest);
+        stateHelper.put(PropertyKeys.credentialsRequest, credentialsRequest);
+    }
+
+    public String getCredentialsRequest() {
+        return (String) getStateHelper().get(PropertyKeys.credentialsRequest);
     }
 
     public AssertionRequest getAssertionRequest() throws JsonProcessingException {
@@ -284,6 +294,36 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         return (AttestationTrustSource) valueExpression.getValue(elContext);
     }
 
+    public void setRegistrationMessageInterceptor(MethodExpression registrationMessageInterceptor) {
+        getStateHelper().put(PropertyKeys.registrationMessageInterceptor, registrationMessageInterceptor);
+    }
+
+    public String invokeRegistrationMessageInterceptor(String registrationRequest, String registrationResponse) {
+        MethodExpression methodExpression = (MethodExpression) getStateHelper().get(PropertyKeys.registrationMessageInterceptor);
+        if (null == methodExpression) {
+            return registrationResponse;
+        }
+        FacesContext facesContext = getFacesContext();
+        ELContext elContext = facesContext.getELContext();
+        String newRegistrationResponse = (String) methodExpression.invoke(elContext, new Object[]{registrationRequest, registrationResponse});
+        return newRegistrationResponse;
+    }
+
+    public void setAuthenticationMessageInterceptor(MethodExpression authenticationMessageInterceptor) {
+        getStateHelper().put(PropertyKeys.authenticationMessageInterceptor, authenticationMessageInterceptor);
+    }
+
+    public String invokeAuthenticationMessageInterceptor(String authenticationRequest, String autheticationResponse) {
+        MethodExpression methodExpression = (MethodExpression) getStateHelper().get(PropertyKeys.authenticationMessageInterceptor);
+        if (null == methodExpression) {
+            return autheticationResponse;
+        }
+        FacesContext facesContext = getFacesContext();
+        ELContext elContext = facesContext.getELContext();
+        String newAuthenticationResponse = (String) methodExpression.invoke(elContext, new Object[]{authenticationRequest, autheticationResponse});
+        return newAuthenticationResponse;
+    }
+
     @Override
     public Collection<String> getEventNames() {
         return Arrays.asList(
@@ -347,7 +387,6 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
             if (WebAuthnRegisteredEvent.NAME.equals(eventName)) {
                 String createResponse = requestParameterMap.get(clientId + "_registration_response");
                 LOGGER.debug("create response: {}", createResponse);
-                Boolean prf = WebAuthnUtils.hasPRF(createResponse);
                 PublicKeyCredentialCreationOptions publicKeyCredentialCreationOptions;
                 try {
                     publicKeyCredentialCreationOptions = getPublicKeyCredentialCreationOptions();
@@ -355,6 +394,15 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                     LOGGER.error("JSON error: " + ex.getMessage(), ex);
                     return;
                 }
+                String createRequest;
+                try {
+                    createRequest = publicKeyCredentialCreationOptions.toJson();
+                } catch (JsonProcessingException ex) {
+                    LOGGER.error("JSON error: " + ex.getMessage(), ex);
+                    return;
+                }
+                createResponse = invokeRegistrationMessageInterceptor(createRequest, createResponse);
+                Boolean prf = WebAuthnUtils.hasPRF(createResponse);
                 UserIdentity userIdentity = publicKeyCredentialCreationOptions.getUser();
                 String username = userIdentity.getName();
                 LOGGER.debug("username: {}", username);
@@ -429,6 +477,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 getResponse = WebAuthnUtils.fixAuthenticationResponse(getResponse);
                 // DO NOT LOG PRF RESULTS
                 //LOGGER.error("authentication response: {}", getResponse);
+                String getRequest = getCredentialsRequest();
+                getResponse = invokeAuthenticationMessageInterceptor(getRequest, getResponse);
                 ByteArray prf = WebAuthnUtils.getPRFResults(getResponse);
                 RelyingParty relyingParty = getRelyingParty();
                 PublicKeyCredential<AuthenticatorAssertionResponse, ClientAssertionExtensionOutputs> pubicKeyCredential;

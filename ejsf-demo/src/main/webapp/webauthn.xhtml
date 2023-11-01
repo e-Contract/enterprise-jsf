@@ -37,12 +37,14 @@
                                                attestationConveyance="#{webAuthnController.attestationConveyance}"
                                                attestationTrustSource="#{webAuthnAttestationTrustSource}"
                                                allowUntrustedAttestation="#{webAuthnController.allowUntrustedAttestation}"
-                                               errorListener="#{webAuthnController.registrationErrorListener}"/>
+                                               errorListener="#{webAuthnController.registrationErrorListener}"
+                                               messageInterceptor="#{webAuthnController.registrationMessageInterceptor}"/>
                     <ejsf:webAuthnAuthentication update=":messages"
                                                  listener="#{webAuthnController.authenticatedListener}"
                                                  userVerification="#{webAuthnController.userVerification}"
                                                  prfListener="#{webAuthnController.prfListener}"
-                                                 errorListener="#{webAuthnController.authenticationErrorListener}"/>
+                                                 errorListener="#{webAuthnController.authenticationErrorListener}"
+                                                 messageInterceptor="#{webAuthnController.authenticationMessageInterceptor}"/>
                     <p:ajax event="error" update=":messages"
                             listener="#{webAuthnController.errorListener}"/>
                 </ejsf:webAuthn>

@@ -293,4 +293,16 @@ public class WebAuthnController implements Serializable {
         LOGGER.debug("blob cache file: {}", blobCacheFile.getAbsolutePath());
         return mds;
     }
+
+    public String registrationMessageInterceptor(String request, String response) {
+        LOGGER.debug("registration request: {}", request);
+        LOGGER.debug("registration response: {}", response);
+        return response;
+    }
+
+    public String authenticationMessageInterceptor(String request, String response) {
+        LOGGER.debug("authentication request: {}", request);
+        LOGGER.debug("authentication response: {}", response);
+        return response;
+    }
 }

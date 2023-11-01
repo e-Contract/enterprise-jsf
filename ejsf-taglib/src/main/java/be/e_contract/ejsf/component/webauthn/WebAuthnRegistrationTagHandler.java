@@ -116,6 +116,14 @@ public class WebAuthnRegistrationTagHandler extends TagHandler {
             webAuthnComponent.setRegistrationErrorListener(errorListenerMethodExpression);
         }
 
+        TagAttribute messageInterceptorTagAttribute = getAttribute("messageInterceptor");
+        if (null != messageInterceptorTagAttribute) {
+            MethodExpression messageInterceptorMethodExpression = messageInterceptorTagAttribute.getMethodExpression(context, String.class, new Class[]{
+                String.class, String.class
+            });
+            webAuthnComponent.setRegistrationMessageInterceptor(messageInterceptorMethodExpression);
+        }
+
         TagAttribute listenerTagAttribute = getRequiredAttribute("listener");
         MethodExpression listenerMethodExpression = listenerTagAttribute.getMethodExpression(context, void.class, new Class[]{
             WebAuthnRegisteredEvent.class

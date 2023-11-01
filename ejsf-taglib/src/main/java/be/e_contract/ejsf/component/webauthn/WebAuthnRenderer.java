@@ -194,7 +194,7 @@ public class WebAuthnRenderer extends CoreRenderer {
             if (null == assertionRequestJson) {
                 return;
             }
-            webAuthnComponent.setAssertionRequest(assertionRequestJson);
+            webAuthnComponent.setAssertionRequest(assertionRequestJson, credentialsRequest);
             PrimeFaces primeFaces = PrimeFaces.current();
             PrimeFaces.Ajax ajax = primeFaces.ajax();
             ajax.addCallbackParam("publicKeyCredentialRequestOptions", credentialsRequest);
