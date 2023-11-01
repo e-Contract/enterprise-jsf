@@ -6,6 +6,15 @@
  */
 package be.e_contract.demo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.Base64Variants;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.yubico.webauthn.AssertionResult;
 import com.yubico.webauthn.CredentialRepository;
 import com.yubico.webauthn.RegisteredCredential;
@@ -13,6 +22,9 @@ import com.yubico.webauthn.data.AuthenticatorTransport;
 import com.yubico.webauthn.data.ByteArray;
 import com.yubico.webauthn.data.PublicKeyCredentialDescriptor;
 import com.yubico.webauthn.data.UserIdentity;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,13 +42,23 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebAuthnCredentialRepository.class);
 
-    private final Map<String, Set<Credential>> usernameCredentials = new HashMap<>();
+    // username, List of JSON encoded Credentials
+    private final Map<String, Set<String>> usernameCredentials = new HashMap<>();
 
     private static class Credential {
 
+        @JsonProperty("registeredCredential")
         private RegisteredCredential registeredCredential;
-        private final Set<AuthenticatorTransport> authenticatorTransports;
-        private final UserIdentity userIdentity;
+
+        @JsonProperty("authenticatorTransports")
+        private Set<AuthenticatorTransport> authenticatorTransports;
+
+        @JsonProperty("userIdentity")
+        private UserIdentity userIdentity;
+
+        public Credential() {
+            super();
+        }
 
         public Credential(RegisteredCredential registeredCredential, Set<AuthenticatorTransport> authenticatorTransports,
                 UserIdentity userIdentity) {
@@ -44,15 +66,59 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
             this.authenticatorTransports = authenticatorTransports;
             this.userIdentity = userIdentity;
         }
+
+        private static ObjectMapper createObjectMapper() {
+            ObjectMapper objectMapper = JsonMapper.builder()
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
+                    .serializationInclusion(JsonInclude.Include.NON_ABSENT)
+                    .defaultBase64Variant(Base64Variants.MODIFIED_FOR_URL)
+                    .addModule(new Jdk8Module())
+                    .addModule(new JavaTimeModule())
+                    .build();
+            return objectMapper;
+        }
+
+        public String toJSON() {
+            ObjectMapper objectMapper = createObjectMapper();
+            StringWriter stringWriter = new StringWriter();
+            try {
+                objectMapper.writeValue(stringWriter, this);
+            } catch (IOException ex) {
+                LOGGER.error("I/O error: " + ex.getMessage(), ex);
+            }
+            LOGGER.debug("JSON credential: {}", stringWriter);
+            LOGGER.debug("JSON credential size: {} bytes", stringWriter.toString().length());
+            return stringWriter.toString();
+        }
+
+        public static Credential fromJSON(String json) {
+            ObjectMapper objectMapper = createObjectMapper();
+            try {
+                return objectMapper.readValue(json, Credential.class);
+            } catch (JsonProcessingException ex) {
+                LOGGER.error("JSON error: " + ex.getMessage(), ex);
+            }
+            return null;
+        }
+
+        public static Set<Credential> fromJSON(Set<String> jsonCredentials) {
+            Set<Credential> credentials = new HashSet<>();
+            for (String jsonCredential : jsonCredentials) {
+                Credential credential = Credential.fromJSON(jsonCredential);
+                credentials.add(credential);
+            }
+            return credentials;
+        }
     }
 
     @Override
     public Set<PublicKeyCredentialDescriptor> getCredentialIdsForUsername(String username) {
         LOGGER.debug("getCredentialIdsForUsername: {}", username);
-        Set<Credential> credentials = usernameCredentials.get(username);
-        if (null == credentials) {
+        Set<String> jsonCredentials = usernameCredentials.get(username);
+        if (null == jsonCredentials) {
             return Collections.EMPTY_SET;
         }
+        Set<Credential> credentials = Credential.fromJSON(jsonCredentials);
         Set<PublicKeyCredentialDescriptor> result = new HashSet<>();
         for (Credential credential : credentials) {
             RegisteredCredential registeredCredential = credential.registeredCredential;
@@ -71,10 +137,11 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
     @Override
     public Optional<ByteArray> getUserHandleForUsername(String username) {
         LOGGER.debug("getUserHandleForUsername: {}", username);
-        Set<Credential> credentials = this.usernameCredentials.get(username);
-        if (null == credentials) {
+        Set<String> jsonCredentials = this.usernameCredentials.get(username);
+        if (null == jsonCredentials) {
             return Optional.empty();
         }
+        Set<Credential> credentials = Credential.fromJSON(jsonCredentials);
         for (Credential credential : credentials) {
             ByteArray userHandle = credential.userIdentity.getId();
             LOGGER.debug("user handle: {}", userHandle.getHex());
@@ -86,7 +153,9 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
     @Override
     public Optional<String> getUsernameForUserHandle(ByteArray userHandle) {
         LOGGER.debug("getUsernameForUserHandle: {}", userHandle.getHex());
-        for (Set<Credential> credentials : this.usernameCredentials.values()) {
+        Collection<Set<String>> allJsonCredentials = this.usernameCredentials.values();
+        for (Set<String> jsonCredentials : allJsonCredentials) {
+            Set<Credential> credentials = Credential.fromJSON(jsonCredentials);
             for (Credential credential : credentials) {
                 if (credential.userIdentity.getId().equals(userHandle)) {
                     String username = credential.userIdentity.getName();
@@ -103,7 +172,9 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
         LOGGER.debug("lookup");
         LOGGER.debug("credential id: {}", credentialId.getHex());
         LOGGER.debug("user handle: {}", userHandle.getHex());
-        for (Set<Credential> credentials : this.usernameCredentials.values()) {
+        Collection<Set<String>> allJsonCredentials = this.usernameCredentials.values();
+        for (Set<String> jsonCredentials : allJsonCredentials) {
+            Set<Credential> credentials = Credential.fromJSON(jsonCredentials);
             for (Credential credential : credentials) {
                 if (credential.registeredCredential.getCredentialId().equals(credentialId)) {
                     if (credential.registeredCredential.getUserHandle().equals(userHandle)) {
@@ -126,7 +197,9 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
     public Set<RegisteredCredential> lookupAll(ByteArray credentialId) {
         LOGGER.debug("lookupAll: {}", credentialId.getHex());
         Set<RegisteredCredential> result = new HashSet<>();
-        for (Set<Credential> credentials : this.usernameCredentials.values()) {
+        Collection<Set<String>> allJsonCredentials = this.usernameCredentials.values();
+        for (Set<String> jsonCredentials : allJsonCredentials) {
+            Set<Credential> credentials = Credential.fromJSON(jsonCredentials);
             for (Credential credential : credentials) {
                 if (credential.registeredCredential.getCredentialId().equals(credentialId)) {
                     RegisteredCredential registeredCredential = RegisteredCredential.builder()
@@ -148,24 +221,26 @@ public class WebAuthnCredentialRepository implements CredentialRepository {
         LOGGER.debug("user id: {}", userIdentity.getId().getHex());
         LOGGER.debug("user handle: {}", registeredCredential.getUserHandle().getHex());
         LOGGER.debug("credential id: {}", registeredCredential.getCredentialId().getHex());
-        Set<Credential> credentials = this.usernameCredentials.get(username);
-        if (null == credentials) {
-            credentials = new HashSet<>();
-            this.usernameCredentials.put(username, credentials);
+        Set<String> jsoncredentials = this.usernameCredentials.get(username);
+        if (null == jsoncredentials) {
+            jsoncredentials = new HashSet<>();
+            this.usernameCredentials.put(username, jsoncredentials);
         }
         Credential credential = new Credential(registeredCredential, authenticatorTransports, userIdentity);
-        credentials.add(credential);
+
+        jsoncredentials.add(credential.toJSON());
     }
 
     public void updateSignatureCount(AssertionResult result) {
         String username = result.getUsername();
         ByteArray credentialId = result.getCredential().getCredentialId();
-        Set<Credential> credentials = this.usernameCredentials.get(username);
-        if (null == credentials) {
+        Set<String> jsonCredentials = this.usernameCredentials.get(username);
+        if (null == jsonCredentials) {
             LOGGER.warn("unknown username: {}", username);
             return;
         }
         Credential foundCredential = null;
+        Set<Credential> credentials = Credential.fromJSON(jsonCredentials);
         for (Credential credential : credentials) {
             RegisteredCredential registeredCredential = credential.registeredCredential;
             if (registeredCredential.getCredentialId().equals(credentialId)) {
