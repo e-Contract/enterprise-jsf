@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="demo">
+
+    <featureManager>
+        <feature>servlet-4.0</feature>
+        <feature>jsf-2.3</feature>
+        <feature>cdi-2.0</feature>
+        <feature>ejb-3.2</feature>
+        <feature>jaspic-1.1</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint" httpPort="8080" />
+
+    <httpSession useContextRootAsCookiePath="true"
+                 invalidateOnUnauthorizedSessionRequestException="true" />
+
+    <webAppSecurity useAuthenticationDataForUnprotectedResource="false" />
+
+</server>
