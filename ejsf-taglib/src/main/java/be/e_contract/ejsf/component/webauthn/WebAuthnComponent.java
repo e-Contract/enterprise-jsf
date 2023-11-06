@@ -29,7 +29,6 @@ import com.yubico.webauthn.data.PublicKeyCredential;
 import com.yubico.webauthn.data.PublicKeyCredentialCreationOptions;
 import com.yubico.webauthn.data.RelyingPartyIdentity;
 import com.yubico.webauthn.data.UserIdentity;
-import com.yubico.webauthn.exception.AssertionFailedException;
 import com.yubico.webauthn.exception.RegistrationFailedException;
 import java.io.IOException;
 import java.security.cert.X509Certificate;
@@ -501,7 +500,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 AssertionResult result;
                 try {
                     result = relyingParty.finishAssertion(finishAssertionOptions);
-                } catch (AssertionFailedException ex) {
+                } catch (Exception ex) { // catch all: also catch signature validation exceptions and such
                     LOGGER.error("assertion failed: " + ex.getMessage(), ex);
                     WebAuthnAuthenticationError error = new WebAuthnAuthenticationError(ex.getMessage());
                     invokeAuthenticationErrorListener(error);
