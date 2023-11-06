@@ -4,6 +4,7 @@ This example demonstrates how to integrate JASPIC 1.1 within a JSF web applicati
 
 The example works on different application servers.
 
+
 ## JBoss EAP/WildFly
 
 Deploy on a local running JBoss EAP/WildFly via:
@@ -11,12 +12,16 @@ Deploy on a local running JBoss EAP/WildFly via:
 mvn clean wildfly:deploy
 ```
 
+The demo web application should be available at: http://localhost:8080/security/
+
+
 ## Open Liberty
 
 Run on Open Liberty via:
 ```
 mvn clean package liberty:run
 ```
+
 
 ## Payara
 

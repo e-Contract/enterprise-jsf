@@ -32,11 +32,14 @@ public class DemoServerAuthModule implements ServerAuthModule {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoServerAuthModule.class);
 
-    public static final String USERNAME_SESSION_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".username";
-    public static final String USERNAME_REQUEST_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".username";
-    public static final String PASSWORD_REQUEST_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".password";
-    public static final String TARGET_URI_SESSION_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".targetUri";
-    public static final String ROLES_SESSION_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".roles";
+    private static final String USERNAME_SESSION_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".username";
+    private static final String USERNAME_REQUEST_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".username";
+    private static final String PASSWORD_REQUEST_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".password";
+    private static final String TARGET_URI_SESSION_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".targetUri";
+    private static final String ROLES_SESSION_ATTRIBUTE = DemoServerAuthModule.class.getName() + ".roles";
+
+    private static final String IS_MANDATORY = "javax.security.auth.message.MessagePolicy.isMandatory";
+    private static final String REGISTER_SESSION = "javax.servlet.http.registerSession";
 
     private CallbackHandler handler;
 
@@ -52,7 +55,7 @@ public class DemoServerAuthModule implements ServerAuthModule {
         return new Class[]{HttpServletRequest.class, HttpServletResponse.class};
     }
 
-    private void addPrincipalsToSubject(MessageInfo messageInfo, HttpSession httpSession, Subject clientSubject) {
+    private void addPrincipalsToSubject(HttpSession httpSession, Subject clientSubject) {
         String username = (String) httpSession.getAttribute(USERNAME_SESSION_ATTRIBUTE);
         String[] roles = (String[]) httpSession.getAttribute(ROLES_SESSION_ATTRIBUTE);
         CallerPrincipalCallback callerPrincipalCallback
@@ -88,14 +91,19 @@ public class DemoServerAuthModule implements ServerAuthModule {
             }
             return AuthStatus.SUCCESS;
         }
+        boolean mandatory = Boolean.parseBoolean((String) messageInfo.getMap().get(IS_MANDATORY));
+        LOGGER.debug("mandatory: {}", mandatory);
+        if (!mandatory) {
+            return AuthStatus.SUCCESS;
+        }
         HttpServletResponse httpServletResponse = (HttpServletResponse) messageInfo.getResponseMessage();
         String requestUri = httpServletRequest.getRequestURI();
         LOGGER.debug("request URI: {}", requestUri);
         String username = (String) httpSession.getAttribute(USERNAME_SESSION_ATTRIBUTE);
         if (null != username) {
             LOGGER.debug("user already authenticated");
-            addPrincipalsToSubject(messageInfo, httpSession, clientSubject);
-            messageInfo.getMap().put("javax.servlet.http.registerSession", Boolean.TRUE.toString());
+            addPrincipalsToSubject(httpSession, clientSubject);
+            messageInfo.getMap().put(REGISTER_SESSION, Boolean.TRUE.toString());
             return AuthStatus.SUCCESS;
         }
         username = (String) httpServletRequest.getAttribute(USERNAME_REQUEST_ATTRIBUTE);
@@ -120,7 +128,7 @@ public class DemoServerAuthModule implements ServerAuthModule {
         LOGGER.debug("successful login for user: {}", username);
         httpSession.setAttribute(USERNAME_SESSION_ATTRIBUTE, username);
         httpSession.setAttribute(ROLES_SESSION_ATTRIBUTE, roles.toArray(new String[0]));
-        addPrincipalsToSubject(messageInfo, httpSession, clientSubject);
+        addPrincipalsToSubject(httpSession, clientSubject);
         gotoTargetUri(httpServletRequest, httpServletResponse);
         return AuthStatus.SUCCESS;
 

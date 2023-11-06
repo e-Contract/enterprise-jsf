@@ -18,8 +18,6 @@ public class DemoServerAuthContext implements ServerAuthContext {
 
     private final ServerAuthModule serverAuthModule;
 
-    private static final String IS_MANDATORY = "javax.security.auth.message.MessagePolicy.isMandatory";
-
     public DemoServerAuthContext(CallbackHandler handler) throws AuthException {
         this.serverAuthModule = new DemoServerAuthModule();
         this.serverAuthModule.initialize(null, null, handler, Collections.emptyMap());
@@ -31,11 +29,6 @@ public class DemoServerAuthContext implements ServerAuthContext {
         HttpServletRequest httpServletRequest = (HttpServletRequest) messageInfo.getRequestMessage();
         String requestUri = httpServletRequest.getRequestURI();
         LOGGER.debug("request URI: {}", requestUri);
-        boolean mandatory = Boolean.parseBoolean((String) messageInfo.getMap().get(IS_MANDATORY));
-        LOGGER.debug("mandatory: {}", mandatory);
-        if (!mandatory) {
-            return AuthStatus.SUCCESS;
-        }
         return this.serverAuthModule.validateRequest(messageInfo, clientSubject,
                 serviceSubject);
     }

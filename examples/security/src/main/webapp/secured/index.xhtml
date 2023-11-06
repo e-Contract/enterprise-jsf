@@ -19,13 +19,15 @@
             Principal: #{request.userPrincipal.name}
         </p>
         <h:form>
-            <h:commandButton value="Logout" action="#{securedController.logout()}">
-                <f:ajax/>
-            </h:commandButton>
-            <h:commandButton value="Invoke" action="#{securedController.securedMethod()}">
-                <f:ajax render=":messages"/>
-            </h:commandButton>
-            <h:commandButton value="Home" action="/index?faces-redirect=true"/>
+            <h:panelGrid columns="3">
+                <h:commandButton value="Logout" action="#{securedController.logout()}">
+                    <f:ajax/>
+                </h:commandButton>
+                <h:commandButton value="Invoke" action="#{securedController.securedMethod()}">
+                    <f:ajax render=":messages"/>
+                </h:commandButton>
+                <h:commandButton value="Home" action="/index?faces-redirect=true"/>
+            </h:panelGrid>
         </h:form>
     </h:body>
 </html>
