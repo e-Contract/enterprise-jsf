@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>13.0.2</version>
+            <version>13.0.3</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
@@ -99,7 +99,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.17</version>
+                        <version>11.0.18</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -112,7 +112,7 @@
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>jakarta.faces</artifactId>
-                    <version>4.0.4</version>
+                    <version>4.0.5</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
@@ -156,7 +156,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.17</version>
+                        <version>11.0.18</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
