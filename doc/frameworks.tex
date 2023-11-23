@@ -92,12 +92,24 @@ Obviously within production, this should get disabled.
 As front-end framework we selected React.
 Here we opted for a client-side rendering flavor, not a server-side rendering flavor with their so-called hydration simply because this is what JSF has been offering already for the last 20 years or so.
 
-Luckily we now have \texttt{react-scripts} that voids the need to manage like 10 build files yourself.
-So the React build system limits itself to one single \texttt{package.json} file, which is nice.
+The build systems within the Javascript ecosystem are popping up like mushrooms.
+However, since it seems like \texttt{esbuild} is for the moment in favor, we use this build system for our React application.
+Central is the \texttt{package.json} file, which basically defines the dependencies of our project.
 The \texttt{package.json} build file looks as follows:
 \lstinputlisting[language=JSON]{../examples/frameworks/react/war/src/main/react/package.json}
 It is simple and understandable.
-Notice here the mandatory \texttt{browserslist} option, as a gentle reminder that the generated Javascript code still requires web browser specific workarounds.
+On the one hand we have the \texttt{dependencies} for our React application itself.
+And next to that we have the \texttt{devDependencies} for our build system.
+
+The \texttt{esbuild} build script itself looks as follows:
+\lstinputlisting[language=JavaScript]{../examples/frameworks/react/war/src/main/react/esbuild.config.mjs}
+While you could invoke \texttt{esbuild} directly using its CLI,
+we prefer using an ES Module script as this gives you maximum freedom on what to do.
+We defined two modes:
+\begin{itemize}
+	\item \texttt{build} to simply build the project.
+	\item \texttt{dev} to run the React application on a simple localhost dev server, with hot rebuilding enabled (watch).
+\end{itemize}
 
 The HTML file looks as follows,
 \lstinputlisting[language=XML]{../examples/frameworks/react/war/src/main/react/public/index.html}
