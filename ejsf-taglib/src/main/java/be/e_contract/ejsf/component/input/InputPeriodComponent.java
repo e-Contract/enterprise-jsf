@@ -8,6 +8,12 @@ package be.e_contract.ejsf.component.input;
 
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.MINUTES;
+import static java.time.temporal.ChronoUnit.MONTHS;
+import static java.time.temporal.ChronoUnit.SECONDS;
+import static java.time.temporal.ChronoUnit.YEARS;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -174,20 +180,96 @@ public class InputPeriodComponent extends UIInput implements NamingContainer {
             inputsStream.forEach(input -> input.setValue(0));
         } else {
             LOGGER.debug("total seconds: {}", totalSeconds);
-            int secondsValue = totalSeconds % 60;
-            int minutesLeft = totalSeconds / 60;
+            int secondsValue;
+            int minutesValue;
+            int hoursValue;
+            int daysValue;
+            int monthsValue;
+            int yearsValue;
+            ChronoUnit maxUnit = getMaxUnit();
+            switch (maxUnit) {
+                case YEARS: {
+                    secondsValue = totalSeconds % 60;
+                    int minutesLeft = totalSeconds / 60;
 
-            int minutesValue = minutesLeft % 60;
-            int hoursLeft = minutesLeft / 60;
+                    minutesValue = minutesLeft % 60;
+                    int hoursLeft = minutesLeft / 60;
 
-            int hoursValue = hoursLeft % 24;
-            int daysLeft = hoursLeft / 24;
+                    hoursValue = hoursLeft % 24;
+                    int daysLeft = hoursLeft / 24;
 
-            int daysValue = daysLeft % 30;
-            int monthsLeft = daysLeft / 30;
+                    daysValue = daysLeft % 30;
+                    int monthsLeft = daysLeft / 30;
 
-            int monthsValue = monthsLeft % 12;
-            int yearsValue = monthsLeft / 12;
+                    monthsValue = monthsLeft % 12;
+                    yearsValue = monthsLeft / 12;
+                }
+                break;
+                case MONTHS: {
+                    secondsValue = totalSeconds % 60;
+                    int minutesLeft = totalSeconds / 60;
+
+                    minutesValue = minutesLeft % 60;
+                    int hoursLeft = minutesLeft / 60;
+
+                    hoursValue = hoursLeft % 24;
+                    int daysLeft = hoursLeft / 24;
+
+                    daysValue = daysLeft % 30;
+                    monthsValue = daysLeft / 30;
+
+                    yearsValue = 0;
+                }
+                break;
+                case DAYS: {
+                    secondsValue = totalSeconds % 60;
+                    int minutesLeft = totalSeconds / 60;
+
+                    minutesValue = minutesLeft % 60;
+                    int hoursLeft = minutesLeft / 60;
+
+                    hoursValue = hoursLeft % 24;
+                    daysValue = hoursLeft / 24;
+
+                    monthsValue = 0;
+                    yearsValue = 0;
+                }
+                break;
+                case HOURS: {
+                    secondsValue = totalSeconds % 60;
+                    int minutesLeft = totalSeconds / 60;
+
+                    minutesValue = minutesLeft % 60;
+                    hoursValue = minutesLeft / 60;
+
+                    daysValue = 0;
+                    monthsValue = 0;
+                    yearsValue = 0;
+                }
+                break;
+                case MINUTES: {
+                    secondsValue = totalSeconds % 60;
+                    minutesValue = totalSeconds / 60;
+
+                    hoursValue = 0;
+                    daysValue = 0;
+                    monthsValue = 0;
+                    yearsValue = 0;
+                }
+                break;
+                case SECONDS: {
+                    secondsValue = totalSeconds;
+
+                    minutesValue = 0;
+                    hoursValue = 0;
+                    daysValue = 0;
+                    monthsValue = 0;
+                    yearsValue = 0;
+                }
+                break;
+                default:
+                    throw new IOException("unsupported max unit: " + maxUnit);
+            }
 
             if (isAllValid()) {
                 this.seconds.setValue(secondsValue);
