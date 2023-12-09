@@ -265,9 +265,15 @@
             <component-type>ejsf.outputMonth</component-type>
         </component>
         <attribute>
+            <description>The month, ranging 1 to 12.</description>
             <name>value</name>
             <required>true</required>
             <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>Set to true to omit the month number.</description>
+            <name>omitMonthNumber</name>
+            <type>java.lang.Boolean</type>
         </attribute>
     </tag>
 

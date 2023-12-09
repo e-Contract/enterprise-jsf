@@ -37,6 +37,18 @@ public class OutputMonthComponent extends UIOutput {
         return COMPONENT_FAMILY;
     }
 
+    enum PropertyKeys {
+        omitMonthNumber,
+    }
+
+    public void setOmitMonthNumber(boolean omitMonthNumber) {
+        getStateHelper().put(PropertyKeys.omitMonthNumber, omitMonthNumber);
+    }
+
+    public boolean isOmitMonthNumber() {
+        return (Boolean) getStateHelper().eval(PropertyKeys.omitMonthNumber, false);
+    }
+
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         Object value = getValue();
@@ -62,7 +74,11 @@ public class OutputMonthComponent extends UIOutput {
 
         String monthStr;
         try {
-            monthStr = Month.of(month).getDisplayName(TextStyle.FULL, locale) + " (" + month + ")";
+            monthStr = Month.of(month).getDisplayName(TextStyle.FULL, locale);
+            boolean omitMonthNumber = isOmitMonthNumber();
+            if (!omitMonthNumber) {
+                monthStr += " (" + month + ")";
+            }
         } catch (DateTimeException ex) {
             monthStr = "invalid month: " + month;
         }
