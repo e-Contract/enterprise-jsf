@@ -108,6 +108,7 @@
             <component-type>ejsf.outputBoolean</component-type>
         </component>
         <attribute>
+            <description>The boolean value to output.</description>
             <name>value</name>
             <required>true</required>
             <type>java.lang.Boolean</type>
@@ -173,6 +174,7 @@
             <component-type>ejsf.outputTextEditorHtml</component-type>
         </component>
         <attribute>
+            <description>The PrimeFaces TextEditor text value to display.</description>
             <name>value</name>
             <required>true</required>
             <type>java.lang.String</type>
@@ -198,6 +200,7 @@
             <component-type>ejsf.outputBytes</component-type>
         </component>
         <attribute>
+            <description>The bytes number to output.</description>
             <name>value</name>
             <required>true</required>
             <type>java.lang.Long</type>
@@ -223,6 +226,7 @@
             <component-type>ejsf.outputLanguage</component-type>
         </component>
         <attribute>
+            <description>The language to output. For example: en</description>
             <name>value</name>
             <required>true</required>
             <type>java.lang.String</type>
@@ -366,6 +370,7 @@
             <component-type>ejsf.outputDayOfWeek</component-type>
         </component>
         <attribute>
+            <description>The day of the week to output.</description>
             <name>value</name>
             <required>true</required>
             <type>java.time.DayOfWeek</type>
@@ -429,6 +434,7 @@
             <renderer-type>ejsf.outputTextRenderer</renderer-type>
         </component>
         <attribute>
+            <description>The text value to output.</description>
             <name>value</name>
             <type>java.lang.String</type>
         </attribute>
@@ -622,6 +628,7 @@
             <component-type>ejsf.outputEnum</component-type>
         </component>
         <attribute>
+            <description>The enumeration value to output.</description>
             <name>value</name>
             <required>true</required>
             <type>java.lang.Enum</type>
