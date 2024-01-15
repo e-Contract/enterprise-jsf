@@ -40,17 +40,17 @@
                         <f:convertDateTime type="both" timeStyle="full" />
                     </h:outputText>
 
-                    <h:outputText value="Days left:"/>
+                    <h:outputText value="#{ejsfMessages.certificateDaysLeft}:"/>
                     <h:outputText value="#{cc.daysLeft}"
                                   style="#{cc.notAfterStyle}"/>
 
                     <h:outputText value="#{ejsfMessages.certificateSerialNumber}:"/>
                     <h:outputText value="#{cc.attrs.value.serialNumber}"/>
 
-                    <h:outputText value="Algorithm:"/>
+                    <h:outputText value="#{ejsfMessages.certificateAlgorithm}:"/>
                     <h:outputText value="#{cc.attrs.value.publicKey.algorithm}"/>
 
-                    <h:outputText value="Key size:"/>
+                    <h:outputText value="#{ejsfMessages.certificateKeySize}:"/>
                     <h:outputText value="#{cc.keySize} bit"/>
 
                     <h:outputText value="Fingerprint (SHA-1):"/>
