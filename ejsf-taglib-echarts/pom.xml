@@ -37,7 +37,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/META-INF/resources/echarts</outputDirectory>
+                            <outputDirectory>${basedir}/target/classes/META-INF/resources/ejsf/echarts</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/target/node_modules/echarts/dist</directory>

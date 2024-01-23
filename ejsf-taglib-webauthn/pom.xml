@@ -37,7 +37,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/META-INF/resources/webauthn</outputDirectory>
+                            <outputDirectory>${basedir}/target/classes/META-INF/resources/ejsf/webauthn</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/target/node_modules/@github/webauthn-json/dist/browser-global</directory>

@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output.d3;
@@ -18,7 +18,7 @@ import org.primefaces.component.api.Widget;
     @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
     @ResourceDependency(library = "primefaces", name = "core.js"),
     @ResourceDependency(library = "primefaces", name = "components.js"),
-    @ResourceDependency(library = "d3", name = "d3.min.js"),
+    @ResourceDependency(library = "ejsf", name = "d3/d3.min.js"),
     @ResourceDependency(library = "ejsf", name = "d3.js")
 })
 public class D3Component extends UIOutput implements Widget {

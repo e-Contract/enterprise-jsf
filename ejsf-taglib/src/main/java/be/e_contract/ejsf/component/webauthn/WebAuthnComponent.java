@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.webauthn;
@@ -69,7 +69,7 @@ import org.slf4j.LoggerFactory;
     @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
     @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
     @ResourceDependency(library = "primefaces", name = "core.js"),
-    @ResourceDependency(library = "webauthn", name = "webauthn-json.browser-global.js"),
+    @ResourceDependency(library = "ejsf", name = "webauthn/webauthn-json.browser-global.js"),
     @ResourceDependency(library = "ejsf", name = "webauthn.js")
 })
 public class WebAuthnComponent extends UIComponentBase implements Widget, ClientBehaviorHolder {

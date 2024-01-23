@@ -1,6 +1,6 @@
 % Enterprise JSF project.
 %
-% Copyright 2022-2023 e-Contract.be BV. All rights reserved.
+% Copyright 2022-2024 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Custom Components}
@@ -178,13 +178,16 @@ Having a separate \texttt{Renderer} has several advantages.
 \begin{itemize}
 	\item It keeps the code of the component itself clean.
 	\item The \texttt{Renderer} implementation focuses purely on the rendering (and decoding).
-	\item Some frameworks provide a nice base class to implement a \texttt{Renderer}, which automatically forces you to have a separate rendering.
+	\item Some frameworks provide a nice base class to implement a \texttt{Renderer}, which automatically forces you to have a separate rendering class.
 \end{itemize}
 Within our component we explicitly set the renderer type within the constructor via \texttt{setRendererType}.
 This is actually only required to make \texttt{createComponent} to work without too much trouble.
 If we don't do this, components created via \texttt{createComponent} can have the wrong renderer assigned.
 See also Section \ref{sec:dynamic-components} \nameref{sec:dynamic-components} on page \pageref{sec:dynamic-components}.
 Furthermore it is good practice to define the \texttt{COMPONENT\_TYPE} constant on each JSF component to ease component creation via the \texttt{createComponent} method.
+
+Notice how we reference our CSS style sheet resource via the \texttt{@ResourceDependency} annotation.
+Important here is a correct usage of the \texttt{library} attribute to clearly indicate to which web application or tag library the corresponding resource belongs.
 
 The implementation of the \texttt{Renderer} looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleStyledOutputRenderer.java}

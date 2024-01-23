@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output.visnetwork;
@@ -30,9 +30,9 @@ import org.slf4j.LoggerFactory;
     @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
     @ResourceDependency(library = "primefaces", name = "core.js"),
     @ResourceDependency(library = "primefaces", name = "components.js"),
-    @ResourceDependency(library = "vis-network", name = "vis-data.min.js"),
-    @ResourceDependency(library = "vis-network", name = "vis-network.min.js"),
-    @ResourceDependency(library = "vis-network", name = "vis-network.min.css"),
+    @ResourceDependency(library = "ejsf", name = "vis-network/vis-data.min.js"),
+    @ResourceDependency(library = "ejsf", name = "vis-network/vis-network.min.js"),
+    @ResourceDependency(library = "ejsf", name = "vis-network/vis-network.min.css"),
     @ResourceDependency(library = "ejsf", name = "vis-network.js")
 })
 public class VisNetworkComponent extends UIOutput implements Widget, ClientBehaviorHolder {

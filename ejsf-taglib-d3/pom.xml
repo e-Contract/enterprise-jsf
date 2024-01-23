@@ -37,7 +37,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/META-INF/resources/d3</outputDirectory>
+                            <outputDirectory>${basedir}/target/classes/META-INF/resources/ejsf/d3</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/target/node_modules/d3/dist</directory>

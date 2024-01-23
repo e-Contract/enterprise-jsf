@@ -37,7 +37,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/META-INF/resources/vis-network</outputDirectory>
+                            <outputDirectory>${basedir}/target/classes/META-INF/resources/ejsf/vis-network</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/target/node_modules/vis-data/peer/umd</directory>
