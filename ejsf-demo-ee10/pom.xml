@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>13.0.3</version>
+            <version>13.0.5</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
@@ -99,7 +99,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.18</version>
+                        <version>11.0.19</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -156,7 +156,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.18</version>
+                        <version>11.0.19</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
