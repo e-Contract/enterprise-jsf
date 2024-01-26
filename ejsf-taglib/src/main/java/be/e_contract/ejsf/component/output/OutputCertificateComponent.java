@@ -1,13 +1,14 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.security.PublicKey;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
@@ -131,5 +132,14 @@ public class OutputCertificateComponent extends UIOutput implements NamingContai
         }
         long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         return days;
+    }
+
+    public String getSerialNumber() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return "";
+        }
+        BigInteger serialNumber = certificate.getSerialNumber();
+        return serialNumber.toString(16).toUpperCase();
     }
 }
