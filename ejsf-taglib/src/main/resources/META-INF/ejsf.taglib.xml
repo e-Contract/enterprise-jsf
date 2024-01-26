@@ -985,6 +985,11 @@
             <name>spacing</name>
             <type>java.lang.Boolean</type>
         </attribute>
+        <attribute>
+            <description>The optional separator. Defaults to a white space.</description>
+            <name>separator</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
