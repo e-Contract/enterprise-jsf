@@ -1,11 +1,12 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component;
 
+import java.util.ArrayList;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.StateHelper;
@@ -41,7 +42,11 @@ public class MemoryInfoComponent extends UIComponentBase implements NamingContai
     }
 
     private void updateMetrics() {
-        MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
+        ArrayList<MBeanServer> mBeanServers = MBeanServerFactory.findMBeanServer(null);
+        if (mBeanServers.isEmpty()) {
+            return;
+        }
+        MBeanServer mBeanServer = (MBeanServer) mBeanServers.get(0);
         CompositeDataSupport compositeDataSupport;
         try {
             compositeDataSupport = (CompositeDataSupport) mBeanServer.getAttribute(new ObjectName("java.lang:type=Memory"), "HeapMemoryUsage");
@@ -55,7 +60,7 @@ public class MemoryInfoComponent extends UIComponentBase implements NamingContai
         stateHelper.put(PropertyKeys.maxMemory, maxMemory);
     }
 
-    public long getUsedMemory() {
+    public Long getUsedMemory() {
         StateHelper stateHelper = getStateHelper();
         Long usedMemory = (Long) stateHelper.get(PropertyKeys.usedMemory);
         if (null == usedMemory) {
@@ -64,7 +69,7 @@ public class MemoryInfoComponent extends UIComponentBase implements NamingContai
         return (Long) stateHelper.get(PropertyKeys.usedMemory);
     }
 
-    public long getMaxMemory() {
+    public Long getMaxMemory() {
         StateHelper stateHelper = getStateHelper();
         Long maxMemory = (Long) stateHelper.get(PropertyKeys.maxMemory);
         if (null == maxMemory) {
@@ -80,7 +85,11 @@ public class MemoryInfoComponent extends UIComponentBase implements NamingContai
 
     public void gc() {
         LOGGER.debug("gc");
-        MBeanServer mBeanServer = (MBeanServer) MBeanServerFactory.findMBeanServer(null).get(0);
+        ArrayList<MBeanServer> mBeanServers = MBeanServerFactory.findMBeanServer(null);
+        if (mBeanServers.isEmpty()) {
+            return;
+        }
+        MBeanServer mBeanServer = (MBeanServer) mBeanServers.get(0);
         try {
             mBeanServer.invoke(new ObjectName("java.lang:type=Memory"), "gc", null, null);
         } catch (MalformedObjectNameException | InstanceNotFoundException | MBeanException | ReflectionException ex) {
