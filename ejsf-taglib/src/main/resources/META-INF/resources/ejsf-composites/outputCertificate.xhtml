@@ -9,7 +9,7 @@
         <title>This content will not be displayed</title>
     </h:head>
     <h:body>
-        <composite:interface shortDescription="Outputs an X509 certificate."
+        <composite:interface shortDescription="Outputs an X509 certificate. Child elements get rendered within the table structure per pair."
                              componentType="ejsf.outputCertificate">
             <composite:attribute name="value"
                                  required="true"
@@ -58,6 +58,8 @@
 
                     <h:outputText value="Fingerprint (SHA-256):"/>
                     <ejsf:outputFingerprint value="#{cc.certificateData}" algo="SHA-256"/>
+
+                    <composite:insertChildren/>
                 </h:panelGrid>
                 <p:commandButton rendered="#{cc.attrs.download}" ajax="false"
                                  icon="pi pi-arrow-down" styleClass="rounded-button ui-button-flat">

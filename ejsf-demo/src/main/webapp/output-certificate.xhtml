@@ -13,7 +13,13 @@
                                     value="#{outputCertificateController.certificate}"/>
             <ejsf:outputCertificate id="example"
                                     value="#{outputCertificateController.certificate}"
-                                    download="true"/>
+                                    download="true">
+                <h:outputText value="Some extra field:"/>
+                <h:outputText value="and its value"/>
+
+                <h:outputText value="Some extra second field:"/>
+                <h:outputText value="and its value"/>
+            </ejsf:outputCertificate>
         </h:form>
         <p:tabView>
             <p:tab title="XHTML">
