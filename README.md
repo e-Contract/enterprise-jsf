@@ -51,6 +51,11 @@ Add the JSF component library to your web application WAR project via:
     <artifactId>ejsf-taglib</artifactId>
     <version>1.12.5</version>
 </dependency>
+<dependency>
+    <groupId>org.primefaces</groupId>
+    <artifactId>primefaces</artifactId>
+    <version>13.0.5</version>
+</dependency>
 ```
 Within you JSF pages, use the following JSF namespace declaration:
 ```
@@ -73,12 +78,18 @@ For Jakarta EE 10 runtimes, use the following dependency:
             <artifactId>ejsf-api</artifactId>
         </exclusion>
     </exclusions>
-    <dependency>
-        <groupId>be.e-contract.enterprise-jsf</groupId>
-        <artifactId>ejsf-api</artifactId>
-        <version>1.12.5</version>
-        <classifier>jakarta</classifier>
-    </dependency>
+</dependency>
+<dependency>
+    <groupId>be.e-contract.enterprise-jsf</groupId>
+    <artifactId>ejsf-api</artifactId>
+    <version>1.12.5</version>
+    <classifier>jakarta</classifier>
+</dependency>
+<dependency>
+    <groupId>org.primefaces</groupId>
+    <artifactId>primefaces</artifactId>
+    <version>13.0.5</version>
+    <classifier>jakarta</classifier>
 </dependency>
 ```
 

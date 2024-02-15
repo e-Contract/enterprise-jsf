@@ -203,7 +203,7 @@
             <dependency>
                 <groupId>com.googlecode.libphonenumber</groupId>
                 <artifactId>libphonenumber</artifactId>
-                <version>8.13.28</version>
+                <version>8.13.30</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
@@ -233,7 +233,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.16.0</version>
+                <version>1.16.1</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
@@ -243,7 +243,7 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.10.1</version>
+                <version>5.10.2</version>
             </dependency>
             <dependency>
                 <groupId>org.easymock</groupId>
@@ -323,7 +323,7 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
-                <version>4.16.1</version>
+                <version>4.17.0</version>
             </dependency>
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
