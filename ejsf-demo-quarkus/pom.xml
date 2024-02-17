@@ -14,7 +14,7 @@
             <dependency>
                 <groupId>io.quarkus.platform</groupId>
                 <artifactId>quarkus-bom</artifactId>
-                <version>3.6.5</version>
+                <version>3.6.9</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
             <artifactId>myfaces-quarkus</artifactId>
-            <version>4.0.1</version>
+            <version>4.0.2</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>io.quarkus.platform</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
-                <version>3.6.5</version>
+                <version>3.6.9</version>
                 <extensions>true</extensions>
                 <executions>
                     <execution>

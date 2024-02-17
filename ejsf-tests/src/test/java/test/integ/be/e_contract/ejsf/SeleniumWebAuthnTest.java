@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package test.integ.be.e_contract.ejsf;
@@ -16,12 +16,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v118.webauthn.WebAuthn;
-import org.openqa.selenium.devtools.v118.webauthn.model.AuthenticatorId;
-import org.openqa.selenium.devtools.v118.webauthn.model.AuthenticatorProtocol;
-import org.openqa.selenium.devtools.v118.webauthn.model.AuthenticatorTransport;
-import org.openqa.selenium.devtools.v118.webauthn.model.Ctap2Version;
-import org.openqa.selenium.devtools.v118.webauthn.model.VirtualAuthenticatorOptions;
+import org.openqa.selenium.devtools.v121.webauthn.WebAuthn;
+import org.openqa.selenium.devtools.v121.webauthn.model.AuthenticatorId;
+import org.openqa.selenium.devtools.v121.webauthn.model.AuthenticatorProtocol;
+import org.openqa.selenium.devtools.v121.webauthn.model.AuthenticatorTransport;
+import org.openqa.selenium.devtools.v121.webauthn.model.Ctap2Version;
+import org.openqa.selenium.devtools.v121.webauthn.model.VirtualAuthenticatorOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +50,8 @@ public class SeleniumWebAuthnTest {
                 = new VirtualAuthenticatorOptions(AuthenticatorProtocol.CTAP2,
                         Optional.of(Ctap2Version.CTAP2_1),
                         AuthenticatorTransport.NFC,
+                        Optional.of(true),
+                        Optional.of(true),
                         Optional.of(true),
                         Optional.of(true),
                         Optional.of(true),

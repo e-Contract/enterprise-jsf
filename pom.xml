@@ -160,7 +160,7 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <node.version>v20.11.0</node.version>
+        <node.version>v20.11.1</node.version>
         <npm.version>10.2.4</npm.version>
         <jackson.version>2.16.1</jackson.version>
         <webauthn-server.version>2.5.0</webauthn-server.version>
