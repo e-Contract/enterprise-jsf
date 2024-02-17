@@ -990,6 +990,11 @@
             <name>separator</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Set to true to output the fingerprint in lowercase. Defaults to false, hence uppercase.</description>
+            <name>lowercase</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
     <tag>

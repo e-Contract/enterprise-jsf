@@ -38,7 +38,8 @@ public class OutputFingerprintComponent extends UIOutput {
     enum PropertyKeys {
         algo,
         spacing,
-        separator
+        separator,
+        lowercase,
     }
 
     public boolean isSpacing() {
@@ -65,6 +66,14 @@ public class OutputFingerprintComponent extends UIOutput {
         return (String) getStateHelper().eval(PropertyKeys.separator, " ");
     }
 
+    public boolean isLowercase() {
+        return (Boolean) getStateHelper().eval(PropertyKeys.lowercase, false);
+    }
+
+    public void setLowercase(boolean lowercase) {
+        getStateHelper().put(PropertyKeys.lowercase, lowercase);
+    }
+
     @Override
     public void encodeEnd(FacesContext context) throws IOException {
         ResponseWriter responseWriter = context.getResponseWriter();
@@ -84,7 +93,11 @@ public class OutputFingerprintComponent extends UIOutput {
                 return;
             }
             byte[] digestValue = messageDigest.digest(data);
-            String fingerprint = Hex.encodeHexString(digestValue).toUpperCase();
+            String fingerprint = Hex.encodeHexString(digestValue);
+            boolean lowercase = isLowercase();
+            if (!lowercase) {
+                fingerprint = fingerprint.toUpperCase();
+            }
             boolean spacing = isSpacing();
             if (spacing) {
                 String separator = getSeparator();
