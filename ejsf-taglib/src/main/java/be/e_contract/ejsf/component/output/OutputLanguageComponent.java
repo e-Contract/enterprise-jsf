@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2021-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2021-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output;
@@ -40,7 +40,7 @@ public class OutputLanguageComponent extends UIOutput {
 
         String language = (String) getValue();
         if (!UIInput.isEmpty(language)) {
-            Locale locale = new Locale(language);
+            Locale locale = new Locale.Builder().setLanguage(language).build();
             String displayLanguage = locale.getDisplayLanguage(locale);
             responseWriter.write(displayLanguage);
         }

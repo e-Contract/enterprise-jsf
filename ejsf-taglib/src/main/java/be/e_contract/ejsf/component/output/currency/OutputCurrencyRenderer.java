@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2014-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2014-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output.currency;
@@ -51,7 +51,7 @@ public class OutputCurrencyRenderer extends CoreRenderer {
         Object localeAttr = outputCurrencyComponent.getLocale();
         if (null != localeAttr) {
             if (localeAttr instanceof String) {
-                locale = new Locale((String) localeAttr);
+                locale = new Locale.Builder().setLanguage((String) localeAttr).build();
             }
             if (localeAttr instanceof Locale) {
                 locale = (Locale) localeAttr;
