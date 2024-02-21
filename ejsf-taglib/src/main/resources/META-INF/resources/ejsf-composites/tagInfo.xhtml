@@ -92,15 +92,12 @@
 
                         <p:dataTable value="#{tag.clientBehaviorEventNames}" var="eventName"
                                      rendered="#{not empty tag.clientBehaviorEventNames}">
-                            <f:facet  name="header">
-                                Client behavior events
-                            </f:facet>
-                            <p:column headerText="Name">
+                            <p:column headerText="Client behavior events">
                                 #{eventName}
                             </p:column>
                             <f:facet name="footer">
                                 <h:outputText rendered="#{not empty tag.clientBehaviorDefaultEventName}"
-                                              value="Default event name: #{tag.clientBehaviorDefaultEventName}"/>
+                                              value="Default event: #{tag.clientBehaviorDefaultEventName}"/>
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
