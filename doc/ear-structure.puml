@@ -1,41 +1,25 @@
-@startsalt
+@startfiles
 
 ' Enterprise JSF project.
 '
-' Copyright 2021-2023 e-Contract.be BV. All rights reserved.
+' Copyright 2021-2024 e-Contract.be BV. All rights reserved.
 ' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
-{
-    {T
-        + Maven EAR project
-            ++ pom.xml
-            ++ taglib
-                +++ pom.xml
-                +++ src/main
-                    ++++ resources/META-INF
-                        +++++ ejsf.taglib.xml
-                        +++++ beans.xml
-                        +++++ faces-config.xml
-                        +++++ web-fragment.xml
-                        +++++ resources
-                            ++++++ ...
-                    ++++ java
-                        +++++ ...
-            ++ war
-                +++ pom.xml
-                +++ src/main
-                    ++++ webapp
-                        +++++ index.xhtml
-                        +++++ ...
-                        +++++ WEB-INF
-                            ++++++ web.xml
-                            ++++++ faces-config.xml
-                            ++++++ beans.xml
-                    ++++ java
-                        +++++ ...
-            ++ ear
-                +++ pom.xml
-    }
-}
+/pom.xml
+/taglib/pom.xml
+/taglib/src/main/resources/META-INF/ejsf.taglib.xml
+/taglib/src/main/resources/META-INF/beans.xml
+/taglib/src/main/resources/META-INF/faces-config.xml
+/taglib/src/main/resources/META-INF/web-fragment.xml
+/taglib/src/main/resources/META-INF/resources/...
+/taglib/src/main/java/...
+/war/pom.xml
+/war/src/main/webapp/index.xhtml
+/war/src/main/webapp/...
+/war/src/main/webapp/WEB-INF/web.xml
+/war/src/main/webapp/WEB-INF/faces-config.xml
+/war/src/main/webapp/WEB-INF/beans.xml
+/war/src/main/java/...
+/ear/pom.xml
 
-@endsalt
+@endfiles
