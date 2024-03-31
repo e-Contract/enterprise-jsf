@@ -74,7 +74,7 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.15.3</version>
+            <version>2.15.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
