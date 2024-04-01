@@ -11,9 +11,9 @@ import be.e_contract.react.api.model.RemoveErrors;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
-import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 
 public class ItemApiImpl implements ItemApi {
@@ -101,5 +101,4 @@ public class ItemApiImpl implements ItemApi {
         }
         this.model.removeItem(removeItem);
     }
-
 }

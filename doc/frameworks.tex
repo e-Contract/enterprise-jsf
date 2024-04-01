@@ -1,6 +1,6 @@
 % Enterprise JSF project.
 %
-% Copyright 2023 e-Contract.be BV. All rights reserved.
+% Copyright 2023-2024 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Front-end Frameworks}
@@ -14,6 +14,8 @@ Some metrics to compare are:
 	\item Simplicity of the constructed application.
 	\item Maintainability of the constructed application.
 \end{itemize}
+We construct the application using Jakarta EE 10 to be able to run it on the latest WildFly application server.
+
 
 \section{The Model}
 Both applications should use the same model.
@@ -64,6 +66,7 @@ We only want the generated JAX-RS interfaces (and corresponding model), just lik
 The Maven project is something we want to manage ourselves.
 Hence via some configuration we instruct the \texttt{openapi-generator-maven-plugin} Maven plugin to limit itself to do just that.
 Via some \texttt{build-helper-\allowbreak maven-plugin} magic we ensure that the generated JAX-RS interfaces actually also get compiled.
+We also configure the \texttt{maven-jar-plugin} to exclude some generated classes to allow us to define the REST API context path at the application level instead.
 
 The implementation of the generated OpenAPI JAX-RS interface looks as follows,
 \lstinputlisting[language=Java]{../examples/frameworks/react/war/src/main/java/be/e_contract/react/ItemApiImpl.java}
@@ -82,15 +85,16 @@ Two things pop out here:
 
 Our \texttt{web.xml} web deployment descriptor to activate JAX-RS looks as follows,
 \lstinputlisting[language=XML]{../examples/frameworks/react/war/src/main/webapp/WEB-INF/web.xml}
+We configure \texttt{resteasy.preferJacksonOverJsonB} to prevent a warning when deploying on WildFly.
 
 We also need to allow CORS since the WildFly application server and the (React) development server will typically run on a different port.
 We do this by means of the following \texttt{WEB-INF/undertow-handlers.conf} configuration file for the Undertow web server.
 \lstinputlisting{../examples/frameworks/react/war/src/main/webapp/WEB-INF/undertow-handlers.conf}
-Obviously within production, this should get disabled.
+Obviously within production, this configuration should get disabled.
 
 \subsection{React}
 As front-end framework we selected React.
-Here we opted for a client-side rendering flavor, not a server-side rendering flavor with their so-called hydration simply because this is what JSF has been offering already for the last 20 years or so.
+Here we opted for a client-side rendered flavor, not a server-side rendered flavor with their so-called hydration simply because this is what JSF has been offering already for the last 20 years or so.
 
 The build systems within the Javascript ecosystem are popping up like mushrooms.
 However, since it seems like \texttt{esbuild} is for the moment in favor, we use this build system for our React application.

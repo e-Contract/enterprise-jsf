@@ -2,7 +2,7 @@ package be.e_contract.model;
 
 import java.util.LinkedList;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class Model {

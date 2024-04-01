@@ -6,12 +6,12 @@ import be.e_contract.model.Item;
 import be.e_contract.model.Model;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.primefaces.PrimeFaces;
 
 @Named("controller")
@@ -59,7 +59,8 @@ public class Controller implements Serializable {
         facesContext.addMessage(null, facesMessage);
         this.newItem = null;
         PrimeFaces primeFaces = PrimeFaces.current();
-        primeFaces.ajax().addCallbackParam("itemAdded", true);
+        PrimeFaces.Ajax ajax = primeFaces.ajax();
+        ajax.addCallbackParam("itemAdded", true);
     }
 
     private Item selectedItem;
