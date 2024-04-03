@@ -20,9 +20,87 @@ Hence what are the potential holes within your application?
 Organizations like OWASP already did a good job at defining this by means of their Top 10 vulnerability list.
 So let us translate this list to JSF parlance.
 
+
+\section{RBAC}
+Properly securing a web application always poses a challenge,
+balancing between do-it-yourself, with the risk of messing up,
+and playing along with the security features provided out-of-the-box by your selected application runtime.
+Among all possible security policies,
+role-based access control (RBAC) is the most viable and commonly used within a commercial context.
+When enriched with content-based access control (CBAC) one can cover almost every (ab)use case.
+Hence Java EE is equiped with RBAC support at various container boundaries.
+Once a user has been authenticated and has different roles assigned,
+we can use this metadata within our Java EE application to enforce our targeted security policy.
+
+\subsection{EJB Container}
+For example, within the context of the EJB container, we can have the following.
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/SecuredBean.java}
+Here we use the \texttt{@RolesAllowed} annotation to enforce RBAC on the methods of our \texttt{@Stateless} EJB bean.
+Via the injected \texttt{SessionContext} resource we can explicitly query for caller principal and role assignments.
+
+\subsection{Servlet Container}
+Within the front-end servlet container, one can incorporate RBAC as shown in the following example.
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/SecuredServlet.java}
+Via the \texttt{@ServletSecurity} annotation we can define various security aspects like the allowed user roles.
+Always keep in mind that this can also be configured via the \texttt{web.xml} web XML descriptor.
+On the \texttt{HttpServletRequest} parameter we can again explicitly query for user principal and role assignments.
+
+\subsection{CDI}
+To secure our CDI beans, we unfortunately cannot use the \texttt{@RolesAllowed} annotation.
+We have to cook up something ourselves here.
+First of all we define a custom annotation.
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/RoleAllowed.java}
+This custom annotation can now be used as demonstrated in the following example.
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/SecuredController.java}
+The following CDI interceptor provides the actual implementation of the \texttt{@RoleAllowed} annotation expected behavior.
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/RoleAllowedInterceptor.java}
+As can be seen within the code of the \texttt{verifyRoleAllowed} method,
+we can use the \texttt{@RoleAllowed} annotation on both the method level and the class level.
+For the actual role verification we simply use the servlet container request object.
+Notice that one has to explicitly enable this CDI interceptor via the following \texttt{beans.xml} configuration.
+\lstinputlisting[language=XML]{../examples/security/src/main/webapp/WEB-INF/beans.xml}
+
+\section{JASPIC}
+Now that we have demonstrated how to use caller principal and the assigned roles,
+we of course need a way to be able to set this metadata upon user authentication.
+Up until Java EE 6 the way to do so has been rather application server vendor specific,
+allowing for a nice vendor locking using the common security FUD.
+For example, for JBoss/WildFly this used to be via some Java Authentication and Authorization Service (JAAS) \cite{jaas} construct.
+Only really starting from Java EE 8, we have some generic means to express the authentication process in a vendor agnostic manner.
+There are two Java EE APIs here that come into play:
+\begin{itemize}
+	\item Java Authentication Service Provider Interface for Containers (JASPIC) \cite{jaspic}, later renamed to Jakarta Authentication API.
+	\item Java EE Security API \cite{security-api}, which provides a higher-level (I refrain from putting easier here) API to secure a web application.
+\end{itemize}
+Where JAAS indeed allows you to establish the user identity,
+ it lacked the means to express the required protocol flow, like for example a redirect to a login page,
+or a redirect to some identity provider via SAML or OpenID Connect.
+The \texttt{login()} method of a JAAS login module, implementing \texttt{javax.security.auth.spi.LoginModule}, is limited to returning either \texttt{true} or \texttt{false} indicating a successful authentication or not.
+This is exactly where JASPIC makes a difference.
+It provides a means to guide the (user) interaction towards completing the authentication process.
+The \texttt{ServerAuthModule} JASPIC interface methods \texttt{validateRequest} and \texttt{secureResponse} both return an \texttt{AuthStatus} that allows you to guide the authentication process at a protocol/messaging level.
+Via a \texttt{AuthStatus.SEND\_CONTINUE} return value one can indicate that the authentication process requires some additional messaging/protocol flow.
+
+When start using JASPIC it is important to realize that this is a very generic API.
+Hence within the JASPIC specification \cite{jaspic} they profiled towards different environments: servlet containers and SOAP.
+This comes however with one minor drawback: we have to fight with a lot of factories to setup the authentication process.
+
 \begin{TODO}{TODO}
 	Write me.
 \end{TODO}
 
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/DemoAuthConfigProvider.java}
 
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/DemoServerAuthConfig.java}
 
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/DemoServerAuthContext.java}
+
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/DemoServerAuthModule.java}
+
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/SecurityBean.java}
+
+\lstinputlisting[language=XML]{../examples/security/src/main/webapp/login.xhtml}
+
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/LoginController.java}
+
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/SecurityServletContextListener.java}

@@ -6,6 +6,7 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,12 +22,15 @@ public class RoleAllowedInterceptor implements Serializable {
     @AroundInvoke
     public Object verifyRoleAllowed(InvocationContext invocationContext) throws Exception {
         LOGGER.debug("verifyRoleAllowed");
-        RoleAllowed roleAllowedAnnotation = invocationContext.getMethod().getAnnotation(RoleAllowed.class);
+        RoleAllowed roleAllowedAnnotation = invocationContext.getMethod()
+                .getAnnotation(RoleAllowed.class);
         if (null != roleAllowedAnnotation) {
             String role = roleAllowedAnnotation.value();
             verifyRole(role);
         } else {
-            roleAllowedAnnotation = invocationContext.getTarget().getClass().getAnnotation(RoleAllowed.class);
+            roleAllowedAnnotation = invocationContext.getTarget()
+                    .getClass()
+                    .getAnnotation(RoleAllowed.class);
             if (null != roleAllowedAnnotation) {
                 String role = roleAllowedAnnotation.value();
                 verifyRole(role);

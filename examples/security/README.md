@@ -19,8 +19,19 @@ JBoss EAP 7.4 already has the following definition under `subsystem` `urn:jboss:
 </security-domain>
 ```
 
-Configuration for WildFly version 26.1.2.
-
+Configure WildFly version 26.1.3 as follows.
+Under the `urn:wildfly:elytron:15.1` subsystem, add the following security domain:
+```xml
+<security-domain name="JASPICDomain"/>
+```
+Under the `urn:jboss:domain:undertow:12.0` subsystem, add the following application security domain:
+```xml
+<application-security-domain name="jaspitest" security-domain="JASPICDomain" integrated-jaspi="false"/>
+```
+Under the `urn:jboss:domain:ejb3:9.0` subsystem, add the following application security domain:
+```xml
+<application-security-domain name="jaspitest" security-domain="JASPICDomain"/>
+```
 
 Deploy on a local running JBoss EAP/WildFly via:
 ```
