@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+    <h:head>
+        <title>Secured Section</title>
+    </h:head>
+    <h:body>
+        <h1>Secured Section</h1>
+        <h:messages id="messages" globalOnly="true"/>
+        #{securedController.value}
+        <p>
+            User in role foobar: #{request.isUserInRole("foobar")}
+        </p>
+        <p>
+            User in role my-role: #{request.isUserInRole("my-role")}
+        </p>
+        <p>
+            Principal: #{request.userPrincipal.name}
+        </p>
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:commandButton value="Logout" action="#{securedController.logout()}">
+                    <f:ajax/>
+                </h:commandButton>
+                <h:commandButton value="Invoke" action="#{securedController.securedMethod()}">
+                    <f:ajax render=":messages"/>
+                </h:commandButton>
+                <h:commandButton value="Home" action="/index?faces-redirect=true"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
