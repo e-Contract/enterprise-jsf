@@ -1,0 +1,43 @@
+@startuml
+
+' Enterprise JSF project.
+'
+' Copyright 2024 e-Contract.be BV. All rights reserved.
+' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+hide empty members
+
+class AuthConfigFactory
+interface AuthConfig
+interface AuthConfigProvider
+interface ServerAuthConfig
+interface ClientAuthConfig
+interface ServerAuthContext
+interface ServerAuthModule
+interface ServerAuth {
+    AuthStatus validateRequest(MessageInfo, Subject, Subject)
+    AuthStatus secureResponse(MessageInfo, Subject)
+    void cleanSubject(MessageInfo, Subject)
+}
+interface ClientAuthContext
+interface ClientAuth {
+    AuthStatus secureRequest(MessageInfo, Subject)
+    AuthStatus validateResponse(MessageInfo, Subject, Subject)
+    void cleanSubject(MessageInfo, Subject)
+}
+interface ClientAuthModule
+
+ServerAuthConfig ---|> AuthConfig
+ClientAuthConfig ---|> AuthConfig
+AuthConfigProvider ...|> ServerAuthConfig: provides
+AuthConfigProvider ...|> ClientAuthConfig: provides
+ServerAuthConfig ...|> ServerAuthContext: provides
+ServerAuthContext ...|> ServerAuthModule: uses
+ServerAuthContext ---|> ServerAuth
+ServerAuthModule ---|> ServerAuth
+ClientAuthConfig ...|> ClientAuthContext: provides
+ClientAuthContext ---|> ClientAuth
+ClientAuthContext ...|> ClientAuthModule: uses
+ClientAuthModule ---|> ClientAuth
+
+@enduml

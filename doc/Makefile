@@ -1,13 +1,14 @@
 #
 # Enterprise JSF project.
 #
-# Copyright 2022-2023 e-Contract.be BV. All rights reserved.
+# Copyright 2022-2024 e-Contract.be BV. All rights reserved.
 # e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 #
 
 FIGS =
 PUML = life-cycle.puml ear.puml helloworld-structure.puml ear-structure.puml jsf-classes.puml \
-servlet-container.puml application-container.puml real-world-ear.puml cdi.puml cdi-war.puml
+servlet-container.puml application-container.puml real-world-ear.puml cdi.puml cdi-war.puml \
+jaspic.puml
 TEX_INCLUDES = preface.tex references.tex copyright.tex introduction.tex testing.tex production.tex \
 security.tex runtimes.tex jakarta.tex frameworks.tex
 SVG = e-contract-logoFINAL.svg

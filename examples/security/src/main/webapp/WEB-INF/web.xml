@@ -24,6 +24,7 @@ https://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_4_0.xsd"
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
 
+    <!-- security begin -->
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Secured Section</web-resource-name>
@@ -37,5 +38,6 @@ https://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_4_0.xsd"
     <security-role>
         <role-name>my-role</role-name>
     </security-role>
+    <!-- security end -->
 
 </web-app>
