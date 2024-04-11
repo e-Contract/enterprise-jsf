@@ -38,7 +38,7 @@
         </h:form>
     </h:body>
 
-    <p:dialog id="addDialog" header="Add Item">
+    <p:dialog id="addDialog" header="Add Item" modal="true">
         <h:form>
             <h:panelGrid columns="3">
                 <p:outputLabel value="Name" for="@next"/>
@@ -67,7 +67,7 @@
         </h:form>
     </p:dialog>
 
-    <p:dialog id="removeDialog" header="Remove Item">
+    <p:dialog id="removeDialog" header="Remove Item" modal="true">
         Do you want to remove #{controller.selectedItem.name}?
         <h:form>
             <h:panelGrid columns="2">

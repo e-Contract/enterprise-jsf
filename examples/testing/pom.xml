@@ -65,22 +65,22 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
-                <version>4.19.0</version>
+                <version>4.19.1</version>
             </dependency>
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
                 <artifactId>webdrivermanager</artifactId>
-                <version>5.7.0</version>
+                <version>5.8.0</version>
             </dependency>
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces-selenium-core</artifactId>
-                <version>13.0.7</version>
+                <version>13.0.8</version>
             </dependency>
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces-selenium-components</artifactId>
-                <version>13.0.7</version>
+                <version>13.0.8</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>

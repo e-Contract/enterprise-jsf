@@ -8,7 +8,7 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import "primeflex/primeflex.min.css";
 import { InputText } from "primereact/inputtext";
-import { createRoot } from "react-dom/client";
+import { Root, createRoot } from "react-dom/client";
 import "primeicons/primeicons.css";
 import { Messages } from "primereact/messages";
 import { Message } from "primereact/message";
@@ -268,5 +268,5 @@ const App = (): React.JSX.Element => {
 };
 
 let container: HTMLElement = document.getElementById("app") as HTMLElement;
-let root = createRoot(container);
+let root: Root = createRoot(container);
 root.render(<App />);
