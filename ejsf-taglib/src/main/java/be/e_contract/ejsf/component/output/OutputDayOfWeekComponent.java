@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2021-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2021-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output;
@@ -31,7 +31,8 @@ public class OutputDayOfWeekComponent extends UIOutput {
 
     enum PropertyKeys {
         styleClass,
-        style
+        style,
+        emptyMessage
     }
 
     @Override
@@ -53,6 +54,14 @@ public class OutputDayOfWeekComponent extends UIOutput {
 
     public void setStyle(String style) {
         getStateHelper().put(PropertyKeys.style, style);
+    }
+
+    public String getEmptyMessage() {
+        return (String) getStateHelper().eval(PropertyKeys.emptyMessage, "");
+    }
+
+    public void setEmptyMessage(String emptyMessage) {
+        getStateHelper().put(PropertyKeys.emptyMessage, emptyMessage);
     }
 
     @Override
@@ -80,7 +89,8 @@ public class OutputDayOfWeekComponent extends UIOutput {
 
     private String localizeDay(DayOfWeek dayOfWeek) {
         if (null == dayOfWeek) {
-            return "";
+            String emptyMessage = getEmptyMessage();
+            return emptyMessage;
         }
         Locale locale = getFacesContext().getViewRoot().getLocale();
         if (null == locale) {

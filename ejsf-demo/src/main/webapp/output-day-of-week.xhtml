@@ -8,7 +8,7 @@
     <ui:define name="title">Output Day Of Week Demo</ui:define>
     <ui:define name="body">
         <ui:repeat id="example" value="#{outputDayOfWeekController.dayOfWeekList}" var="dayOfWeek">
-            <ejsf:outputDayOfWeek value="#{dayOfWeek}"/><br/>
+            <ejsf:outputDayOfWeek value="#{dayOfWeek}" emptyMessage="unknown day of week"/><br/>
         </ui:repeat>
         <ejsf:outputDayOfWeek value="#{outputDayOfWeekController.dayOfWeekList.get(0)}" rendered="false"/>
         <p:tabView>

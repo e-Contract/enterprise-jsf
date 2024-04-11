@@ -385,6 +385,11 @@
             <name>style</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The optional message to output in case of null value.</description>
+            <name>emptyMessage</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

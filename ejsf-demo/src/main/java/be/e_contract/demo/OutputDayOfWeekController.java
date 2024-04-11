@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.demo;
@@ -18,6 +18,7 @@ public class OutputDayOfWeekController {
     public List<DayOfWeek> getDayOfWeekList() {
         List<DayOfWeek> result = new LinkedList<>();
         result.addAll(Arrays.asList(DayOfWeek.values()));
+        result.add(null);
         return result;
     }
 }
