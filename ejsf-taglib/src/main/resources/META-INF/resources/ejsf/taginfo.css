@@ -1,0 +1,14 @@
+/*
+ * Enterprise JSF project.
+ *
+ * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+ */
+
+.ejsf-taginfo-toc-anchor {
+    color: inherit;
+}
+
+.ejsf-taginfo-toc-anchor:visited {
+    color: inherit;
+}

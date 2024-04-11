@@ -20,6 +20,7 @@
                                  type="java.lang.String"/>
         </composite:interface>
         <composite:implementation>
+            <h:outputStylesheet library="ejsf" name="taginfo.css" />
             <div id="#{cc.clientId}">
                 <p:panel rendered="#{cc.tags.size() > 1}"
                          header="#{cc.namespace} JSF tag library"
@@ -33,8 +34,17 @@
                     <p>
                         Namespace: #{cc.namespace}
                     </p>
+                    <ul>
+                        <ui:repeat value="#{cc.tags}" var="tag">
+                            <li>
+                                <a href="#ejsf-tagInfo-#{tag.tagName}"
+                                   class="ejsf-taginfo-toc-anchor">#{tag.tagName}</a>
+                            </li>
+                        </ui:repeat>
+                    </ul>
                 </p:panel>
                 <ui:repeat value="#{cc.tags}" var="tag">
+                    <span id="ejsf-tagInfo-#{tag.tagName}"></span>
                     <p:panel header="#{tag.tagName}"
                              style="margin-bottom: 10px;">
                         <p>
