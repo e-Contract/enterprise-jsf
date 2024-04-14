@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.taginfo;
@@ -64,7 +64,8 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
     public enum PropertyKeys {
         namespace,
         description,
-        version
+        version,
+        tags
     }
 
     public String getNamespace() {
@@ -92,7 +93,14 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
     }
 
     public List<TagInfo> getTags() {
-        List<TagInfo> tags = new LinkedList<>();
+        LOGGER.debug("getTags");
+        List<TagInfo> tags = (List<TagInfo>) getStateHelper().get(PropertyKeys.tags);
+        if (null != tags) {
+            LOGGER.debug("using cached tags");
+            return tags;
+        }
+        tags = new LinkedList<>();
+        getStateHelper().put(PropertyKeys.tags, tags);
         String library = (String) getAttributes().get("library");
         if (null == library) {
             return tags;
