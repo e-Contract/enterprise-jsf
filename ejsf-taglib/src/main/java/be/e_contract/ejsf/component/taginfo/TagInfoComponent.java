@@ -65,7 +65,8 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         namespace,
         description,
         version,
-        tags
+        tags,
+        functions
     }
 
     public String getNamespace() {
@@ -92,6 +93,12 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         getStateHelper().put(PropertyKeys.version, version);
     }
 
+    public List<FunctionInfo> getFunctions() {
+        getTags(); // parse
+        List<FunctionInfo> functions = (List<FunctionInfo>) getStateHelper().get(PropertyKeys.functions);
+        return functions;
+    }
+
     public List<TagInfo> getTags() {
         LOGGER.debug("getTags");
         List<TagInfo> tags = (List<TagInfo>) getStateHelper().get(PropertyKeys.tags);
@@ -101,6 +108,8 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         }
         tags = new LinkedList<>();
         getStateHelper().put(PropertyKeys.tags, tags);
+        List<FunctionInfo> functions = new LinkedList<>();
+        getStateHelper().put(PropertyKeys.functions, functions);
         String library = (String) getAttributes().get("library");
         if (null == library) {
             return tags;
@@ -208,6 +217,22 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
             return tags;
         }
         tags.sort((tag1, tag2) -> tag1.getTagName().compareTo(tag2.getTagName()));
+        NodeList functionNodeList = taglibDocument.getElementsByTagNameNS("*", "function");
+        for (int functionIdx = 0; functionIdx < functionNodeList.getLength(); functionIdx++) {
+            Element functionElement = (Element) functionNodeList.item(functionIdx);
+            String functionName = functionElement.getElementsByTagNameNS("*", "function-name").item(0).getTextContent();
+            String functionClass = functionElement.getElementsByTagNameNS("*", "function-class").item(0).getTextContent();
+            String functionSignature = functionElement.getElementsByTagNameNS("*", "function-signature").item(0).getTextContent();
+            String functionDescription;
+            NodeList functionDescriptionNodeList = functionElement.getElementsByTagNameNS("*", "description");
+            if (functionDescriptionNodeList.getLength() > 0) {
+                functionDescription = functionDescriptionNodeList.item(0).getTextContent();
+            } else {
+                functionDescription = null;
+            }
+            FunctionInfo functionInfo = new FunctionInfo(functionName, functionClass, functionSignature, functionDescription);
+            functions.add(functionInfo);
+        }
         NodeList compositeLibraryNameNodeList = taglibDocument.getElementsByTagNameNS("*", "composite-library-name");
         if (compositeLibraryNameNodeList.getLength() == 0) {
             return tags;

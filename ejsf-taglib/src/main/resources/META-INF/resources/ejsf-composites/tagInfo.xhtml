@@ -37,14 +37,29 @@
                     <ul>
                         <ui:repeat value="#{cc.tags}" var="tag">
                             <li>
-                                <a href="#ejsf-tagInfo-#{tag.tagName}"
-                                   class="ejsf-taginfo-toc-anchor">#{tag.tagName}</a>
+                                <a href="#ejsf-tagInfo-tag-#{tag.tagName}"
+                                   class="ejsf-taginfo-toc-anchor">
+                                    #{tag.tagName}
+                                </a>
                             </li>
                         </ui:repeat>
                     </ul>
+                    <ui:fragment rendered="#{cc.functions.size() > 0}">
+                        <span>Functions</span>
+                        <ul>
+                            <ui:repeat value="#{cc.functions}" var="function">
+                                <li>
+                                    <a href="#ejsf-tagInfo-function-#{function.name}"
+                                       class="ejsf-taginfo-toc-anchor">
+                                        #{function.name}
+                                    </a>
+                                </li>
+                            </ui:repeat>
+                        </ul>
+                    </ui:fragment>
                 </p:panel>
                 <ui:repeat value="#{cc.tags}" var="tag">
-                    <span id="ejsf-tagInfo-#{tag.tagName}"></span>
+                    <span id="ejsf-tagInfo-tag-#{tag.tagName}"></span>
                     <p:panel header="#{tag.tagName}"
                              style="margin-bottom: 10px;">
                         <p>
@@ -112,6 +127,28 @@
                         </p:dataTable>
                     </p:panel>
                 </ui:repeat>
+                <p:panel rendered="#{cc.functions.size() > 0}"
+                         header="Functions">
+                    <ui:repeat value="#{cc.functions}" var="function">
+                        <span id="ejsf-tagInfo-function-#{function.name}"></span>
+                        <p:panel header="#{function.name}"
+                                 style="margin-bottom: 10px;">
+                            <p>
+                                #{function.description}
+                            </p>
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Name:"/>
+                                <h:outputText value="#{function.name}"/>
+
+                                <h:outputText value="Class:"/>
+                                <h:outputText value="#{function.functionClass}"/>
+
+                                <h:outputText value="Signature:"/>
+                                <h:outputText value="#{function.signature}"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </ui:repeat>
+                </p:panel>
             </div>
         </composite:implementation>
     </h:body>
