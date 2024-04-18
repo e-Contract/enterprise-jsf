@@ -1660,4 +1660,38 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Outputs a LocalDateTime as last reviewed.</description>
+        <tag-name>lastReviewed</tag-name>
+        <component>
+            <component-type>ejsf.lastReviewed</component-type>
+        </component>
+        <attribute>
+            <description>The last review LocalDateTime value.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.time.LocalDateTime</type>
+        </attribute>
+        <attribute>
+            <description>The message to display in case of a missing last reviewed value. Defaults to "Unknown".</description>
+            <name>unknownMessage</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The DateTimeFormatter pattern to use for formatting the value. Defaults to "dd/MM/yyyy HH:mm".</description>
+            <name>pattern</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The maximum age period after which to mark the last review LocalDateTime value as warning. Defaults to "P3M".</description>
+            <name>maxAgeWarning</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The maximum age period after which to mark the last review LocalDateTime value as error. Defaults to "P6M".</description>
+            <name>maxAgeError</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
