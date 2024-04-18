@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2021-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2021-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output;
@@ -53,12 +53,14 @@ public class OutputBytesComponent extends UIOutput {
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         Long value = (Long) getValue();
-        if (null == value) {
-            return;
+        String formattedBytes;
+        if (null != value) {
+            // next is to also make it work on commons-io < 2.12.0
+            long longValue = value;
+            formattedBytes = FileUtils.byteCountToDisplaySize(longValue);
+        } else {
+            formattedBytes = "";
         }
-        // next is to also make it work on commons-io < 2.12.0
-        long longValue = value;
-        String formattedBytes = FileUtils.byteCountToDisplaySize(longValue);
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);

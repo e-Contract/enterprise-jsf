@@ -52,36 +52,37 @@ public class OutputMonthComponent extends UIOutput {
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         Object value = getValue();
-        if (null == value) {
-            return;
-        }
-        int month;
-        if (value instanceof Integer) {
-            month = (Integer) value;
-        } else if (value instanceof Long) {
-            month = ((Long) value).intValue();
+        String monthStr;
+        if (value != null) {
+            int month;
+            if (value instanceof Integer) {
+                month = (Integer) value;
+            } else if (value instanceof Long) {
+                month = ((Long) value).intValue();
+            } else {
+                LOGGER.error("unsupported type: {}", value.getClass().getName());
+                return;
+            }
+            UIViewRoot viewRoot = context.getViewRoot();
+            Locale locale = viewRoot.getLocale();
+            try {
+                monthStr = Month.of(month).getDisplayName(TextStyle.FULL, locale);
+                boolean omitMonthNumber = isOmitMonthNumber();
+                if (!omitMonthNumber) {
+                    monthStr += " (" + month + ")";
+                }
+            } catch (DateTimeException ex) {
+                monthStr = "invalid month: " + month;
+            }
         } else {
-            LOGGER.error("unsupported type: {}", value.getClass().getName());
-            return;
+            monthStr = "";
         }
+
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
 
-        UIViewRoot viewRoot = context.getViewRoot();
-        Locale locale = viewRoot.getLocale();
-
-        String monthStr;
-        try {
-            monthStr = Month.of(month).getDisplayName(TextStyle.FULL, locale);
-            boolean omitMonthNumber = isOmitMonthNumber();
-            if (!omitMonthNumber) {
-                monthStr += " (" + month + ")";
-            }
-        } catch (DateTimeException ex) {
-            monthStr = "invalid month: " + month;
-        }
         responseWriter.write(monthStr);
 
         responseWriter.endElement("span");

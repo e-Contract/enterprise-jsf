@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2014-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2014-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output;
@@ -50,24 +50,29 @@ public class OutputBooleanComponent extends UIOutput {
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         Boolean value = (Boolean) getValue();
-        if (null == value) {
-            return;
-        }
-        Application application = context.getApplication();
-        ResourceBundle resourceBundle = application.getResourceBundle(context, "ejsfMessages");
-        boolean reverse = isReverse();
         String output;
-        String classValue = "ejsf-output-boolean ejsf-output-boolean-" + Boolean.toString(value ^ reverse);
-        if (value) {
-            output = resourceBundle.getString("yes");
+        String classValue;
+        if (null != value) {
+            Application application = context.getApplication();
+            ResourceBundle resourceBundle = application.getResourceBundle(context, "ejsfMessages");
+            if (value) {
+                output = resourceBundle.getString("yes");
+            } else {
+                output = resourceBundle.getString("no");
+            }
+            boolean reverse = isReverse();
+            classValue = "ejsf-output-boolean ejsf-output-boolean-" + Boolean.toString(value ^ reverse);
         } else {
-            output = resourceBundle.getString("no");
+            output = "";
+            classValue = null;
         }
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
-        responseWriter.writeAttribute("class", classValue, null);
+        if (null != classValue) {
+            responseWriter.writeAttribute("class", classValue, null);
+        }
         responseWriter.write(output);
         responseWriter.endElement("span");
     }
