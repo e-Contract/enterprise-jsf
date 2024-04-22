@@ -118,6 +118,9 @@ The \texttt{saveState} and \texttt{restoreState} methods take care of preserving
 We register this custom validator within our \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=parameterValidator]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 Obviously, every attribute that we define on our validator requires corresponding setters and getters on the validator class implementation.
+Notice that the attribute named \texttt{parameter} is marked as required.
+Hence when using the validator, you must provide the \texttt{parameter} attribute.
+Realize here that although the attribute is required, its value can be \texttt{null}.
 
 An example usage of our custom validator is given below.
 \lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/validation-parameter.xhtml}
@@ -141,6 +144,7 @@ The source code of our custom output JSF component is given below.
 As we are constructing an output component, we inherit from the \texttt{UIOutput} class.
 Important here is to set the \texttt{id} attribute on our \texttt{span} HTML element to the value of client id.
 This is required so that the JSF AJAX Javascript code can find our JSF component during response updates within the rendered HTML.
+Hence even if the value is \texttt{null}, it is important to render the HTML with correct client id so that future AJAX updates can succeed.
 
 We explicitly set the renderer type to \texttt{null} to prevent a warning when using Apache MyFaces \cite{myfaces} as JSF implementation.
 
@@ -645,6 +649,46 @@ Notice that the above construct also works for simple WARs, where the CDI JAR is
 		\label{fig:cdi-war}
 	\end{center}
 \end{figure}
+\begin{ClownComputing}{An EAR? Really?}
+Now it is true that in the beginning when CDI was introduced,
+there were some problems within the context of EAR based deployments.
+However, a modular EAR monolith is still a very good option.
+By now, these problems have well-known workarounds and can thus be avoided.
+If you browse a bit online, you will probably encounter that \textit{they} want to phase out EAR deployments or at least don't give it much attention anymore.
+\textit{They} don't like EAR deployments.
+It is important here to realize who \textit{they} are.
+We are talking the people who drive the Jakarta EE specifications,
+who coincidentally also happen to be paid by the big cloud providers.
+Of course an EAR deployment is not interesting for a cloud provider.
+When you package your application as an EAR,
+there is only one thing to deploy, and hence only one thing to invoice for the cloud provider.
+Much more interesting for a cloud provider is to shove the microservices bullshit down the throat of every developer,
+which is very easy these days via the various social networks,
+so the cloud provider can invoice 4 or 5 container/VM instances instead of one.
+Also funny, in case of an application error,
+you can start logging in into 5 consoles to dig through all the different logs instead of one single log.
+Unless of course you find a log aggregator, in the form of a SaaS provider of course, which gives you yet another invoice to be paid.
+
+Also, since every method invocation now is a REST call,
+the application gets slower and slower as features are being added and the required interconnection between the different components becomes larger.
+Of course the golden solution here is to cluster up your application,
+which again triggers extra container/VM instances that can be invoiced by the said cloud provider.
+After a while you burn so much money on your cloud provider, that for this price you can basically buy a new server yourself every few months.
+If you find yourself in this situation, congrats, you fell into the clown computing trap.
+
+Besides the pleasure of ranting about it,
+of course under the right circumstances a SOA/microservices architecture makes sense (just like it did 20 years ago).
+But you should never go black or white here, reality is gray.
+Introduce SOA/microservices when \textbf{YOU} see a clear advantage to it:
+\begin{itemize}
+	\item Some part of your code/business model can be reused by multiple other applications.
+	\item This part requires not too much interaction on its own with other subsystems.
+	\item This part has entities with a certain persistent life-cycle and hence cannot be just isolated within for example a Java library or so.
+\end{itemize}
+If you cannot give a rational objective argumentation to do so,
+then don't.
+Argumentations like: "I read this online", or "this is what the cloud provider proposes", should go straight to the thrash can.
+\end{ClownComputing}
 
 \section{JSF runtime class loading}
 The components within your JSF tag library might require third-party dependencies as some point.

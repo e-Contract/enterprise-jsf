@@ -11,6 +11,46 @@ Next we investigate how to configure these JSF implementations within different 
 \section{JSF implementations}
 
 \section{Alternative Runtime Environments}
+Next to Java/Jakarta EE application servers,
+one can also target other runtimes like Spring or Quarkus.
+Interesting here is to highlight the differences between Java/Jakarta EE runtimes and those alternatives.
+While the development pace and feature sets of runtimes like Spring and Quarkus seems to be better compared to a classical Java/Jakarta EE runtime, one should be careful here as to where you are about to jump into.
+Java/Jakarta EE comes with some very important characteristics:
+\begin{itemize}
+	\item There is a disconnect between the specification on the one hand, and the underlying implementation on the other hand.
+	\item Each specification has been reached in consensus between 10 or more participants of different vendors.
+	This results in specifications where people really though about it, tried things out, had discussions about.
+	A side-effect of this is that Java/Jakarta EE specifications tend to progress slower.
+	This is a good thing.
+	You don't want half baked specifications and half baked implementations on which your application will depend.
+	\item Most Java/Jakarta EE specifications have multiple independent implementations by different vendors.
+	Each of those implementations are tested via some common TCK (Technology Compatibility Kit) to verify conformity with the corresponding specification.
+	\item The different Java EE specification are aligned with each other.
+	For example, there is CDI as a spec, and also how CDI is enabled within Servlet containers, JSF runtimes, etc.
+	\item The most important one maybe, the Java EE top-level specification defines a set of underlying specs which an application server implementation should provide.
+	Hence you don't have to start selecting different layers/extensions, whatever they might call it, yourself with the risk of runtime incompatibilities.
+	While the YAGNI (You aren't gonna need it) principle should be applied to your application itself, there is absolutely no reason to try to apply it to the selected application runtime at all.
+	Most business applications in the end will use almost every Java EE feature available, so you might as well directly start with a fully featured Java EE runtime.
+\end{itemize}
+All of this results in very mature specifications and well tested implementations.
+Hence it gives you stable application runtimes.
+This is especially true if you stick with a "current Java/Jakarta EE version minus one" strategy for production deployment as it comes to the selected application server.
+This gives you an application runtime that had sufficient time to harden out,
+allowing you to focus on implementing your business use cases instead of chasing after bugs in somebody else's code (or getting stuck in the support contract treadmill).
+You like to find yourself at the leading edge, not the bleeding edge here.
+
+The major disadvantage of course is that your developers cannot put the latest kid on the block on their CV.
+The easiest way to tackle this,
+is to tell them that they can go and choose for a "more modern" runtime if they also commit to waking up at 3 o'clock in the night in case that the application runtime explodes.
+Been there, done that, no thanks.
+Most of them end the discussion at that point.
+People like to sleep at night, including CTO's and CEO's.
+
+Of course there are clear advantages to alternative runtimes like Spring or Quarkus.
+But as usual an objective rational argumentation should be found.
+Just because it is "cool" or "everybody else is using it" can never be a sufficient argument.
+
+Within the next sections, we demonstrate Spring and Quarkus as alternative application runtimes.
 
 \subsection{Spring}
 

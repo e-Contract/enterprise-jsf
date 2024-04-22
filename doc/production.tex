@@ -1,6 +1,6 @@
 % Enterprise JSF project.
 %
-% Copyright 2022-2023 e-Contract.be BV. All rights reserved.
+% Copyright 2022-2024 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Moving towards production}
@@ -69,7 +69,7 @@ while PrimeFaces resources are referenced via:
 </script>
 \end{lstlisting}
 The PrimeFaces resources are versioned via \texttt{v=13.0.0} as part of the JSF resource URL.
-This is important to ensure that the web browser correctly loads new versions of the corresponding resource as they become available.
+This is important to ensure that the web browser correctly loads new versions of the corresponding resource as they become available with every release of your web application.
 Hence we also want such versioning on our own JSF resources.
 
 Given all the above arguments, it should be clear that we cannot place a JSF web application in production without an appropriate configuration.
