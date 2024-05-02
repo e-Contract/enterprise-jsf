@@ -1,6 +1,6 @@
 {
     "name": "taglib",
     "dependencies": {
-        "echarts": "5.4.3"
+        "echarts": "5.5.0"
     }
 }

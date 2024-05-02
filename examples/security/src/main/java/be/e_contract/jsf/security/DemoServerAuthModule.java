@@ -55,7 +55,7 @@ public class DemoServerAuthModule implements ServerAuthModule {
         return new Class[]{HttpServletRequest.class, HttpServletResponse.class};
     }
 
-    private void addPrincipalsToSubject(HttpSession httpSession, Subject clientSubject) {
+    private boolean addPrincipalsToSubject(HttpSession httpSession, Subject clientSubject) {
         String username = (String) httpSession.getAttribute(USERNAME_SESSION_ATTRIBUTE);
         String[] roles = (String[]) httpSession.getAttribute(ROLES_SESSION_ATTRIBUTE);
         CallerPrincipalCallback callerPrincipalCallback
@@ -70,7 +70,9 @@ public class DemoServerAuthModule implements ServerAuthModule {
             this.handler.handle(callbacks);
         } catch (IOException | UnsupportedCallbackException e) {
             LOGGER.error("error: " + e.getMessage(), e);
+            return false;
         }
+        return true;
     }
 
     @Override
@@ -102,7 +104,9 @@ public class DemoServerAuthModule implements ServerAuthModule {
         String username = (String) httpSession.getAttribute(USERNAME_SESSION_ATTRIBUTE);
         if (null != username) {
             LOGGER.debug("user already authenticated");
-            addPrincipalsToSubject(httpSession, clientSubject);
+            if (!addPrincipalsToSubject(httpSession, clientSubject)) {
+                return AuthStatus.FAILURE;
+            }
             messageInfo.getMap().put(REGISTER_SESSION, Boolean.TRUE.toString());
             return AuthStatus.SUCCESS;
         }
@@ -128,7 +132,9 @@ public class DemoServerAuthModule implements ServerAuthModule {
         LOGGER.debug("successful login for user: {}", username);
         httpSession.setAttribute(USERNAME_SESSION_ATTRIBUTE, username);
         httpSession.setAttribute(ROLES_SESSION_ATTRIBUTE, roles.toArray(new String[0]));
-        addPrincipalsToSubject(httpSession, clientSubject);
+        if (!addPrincipalsToSubject(httpSession, clientSubject)) {
+            return AuthStatus.FAILURE;
+        }
         gotoTargetUri(httpServletRequest, httpServletResponse);
         return AuthStatus.SUCCESS;
 

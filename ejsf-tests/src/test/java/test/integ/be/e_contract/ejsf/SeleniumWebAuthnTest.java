@@ -16,12 +16,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v121.webauthn.WebAuthn;
-import org.openqa.selenium.devtools.v121.webauthn.model.AuthenticatorId;
-import org.openqa.selenium.devtools.v121.webauthn.model.AuthenticatorProtocol;
-import org.openqa.selenium.devtools.v121.webauthn.model.AuthenticatorTransport;
-import org.openqa.selenium.devtools.v121.webauthn.model.Ctap2Version;
-import org.openqa.selenium.devtools.v121.webauthn.model.VirtualAuthenticatorOptions;
+import org.openqa.selenium.devtools.v124.webauthn.WebAuthn;
+import org.openqa.selenium.devtools.v124.webauthn.model.AuthenticatorId;
+import org.openqa.selenium.devtools.v124.webauthn.model.AuthenticatorProtocol;
+import org.openqa.selenium.devtools.v124.webauthn.model.AuthenticatorTransport;
+import org.openqa.selenium.devtools.v124.webauthn.model.Ctap2Version;
+import org.openqa.selenium.devtools.v124.webauthn.model.VirtualAuthenticatorOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
