@@ -36,6 +36,15 @@ https://texstudio.org
 
 ## The JSF component library
 
+The Enterprise JSF library provides various JSF components.
+An overview of all JSF tags is available at:
+https://demo.e-contract.be/ejsf-demo/api.xhtml
+
+The library is compatible with the following versions of Primefaces:
+* 12
+* 13
+* 14
+
 The JSF component library is available within the e-Contract.be public Maven repository.
 If you use Maven, refer to the e-Contract.be Maven repository via:
 ```xml
