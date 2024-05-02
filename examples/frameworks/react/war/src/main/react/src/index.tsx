@@ -49,6 +49,7 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
     const [amountClass, setAmountClass] = useState<string>("");
     const [nameMessage, setNameMessage] = useState<string>("");
     const [amountMessage, setAmountMessage] = useState<string>("");
+    const nameInputText = useRef<HTMLInputElement>(null);
 
     useImperativeHandle(ref, (): AddItemDialogHandle => {
         return {
@@ -121,12 +122,13 @@ const AddItemDialog = forwardRef<AddItemDialogHandle, AddItemDialogProps>((props
 
     return <>
         <Dialog header="Add Item" visible={visible}
-            onHide={() => setVisible(false)}>
+            onHide={() => setVisible(false)}
+            onShow={() => { nameInputText.current?.focus() }}>
             <div className="p-fluid">
                 <div className="p-field">
                     <label htmlFor="name">Name</label>
                     <InputText className={nameClass}
-                        value={name}
+                        value={name} ref={nameInputText}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
                     <ErrorMessage message={nameMessage} />
                 </div>
