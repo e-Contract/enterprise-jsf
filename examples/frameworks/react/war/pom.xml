@@ -72,8 +72,8 @@
                                     <goal>install-node-and-npm</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v20.12.2</nodeVersion>
-                                    <npmVersion>10.5.0</npmVersion>
+                                    <nodeVersion>v20.13.1</nodeVersion>
+                                    <npmVersion>10.5.2</npmVersion>
                                 </configuration>
                             </execution>
                             <execution>
