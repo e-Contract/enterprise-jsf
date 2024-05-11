@@ -1699,4 +1699,29 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Leaflet component.</description>
+        <tag-name>leaflet</tag-name>
+        <component>
+            <component-type>ejsf.leafletComponent</component-type>
+            <renderer-type>ejsf.leafletRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The initial latitude and longitude for the map.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>be.e_contract.ejsf.component.leaflet.LatLng</type>
+        </attribute>
+        <attribute>
+            <description>The height if the map. Defaults to "200px".</description>
+            <name>height</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

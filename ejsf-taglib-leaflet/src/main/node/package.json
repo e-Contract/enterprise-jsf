@@ -1,0 +1,6 @@
+{
+    "name": "taglib",
+    "dependencies": {
+        "leaflet": "1.9.4"
+    }
+}

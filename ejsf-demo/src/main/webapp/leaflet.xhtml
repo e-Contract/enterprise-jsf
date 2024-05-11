@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Leaflet Demo</ui:define>
+    <ui:define name="body">
+        <div>
+            <h:form>
+                <ejsf:leaflet height="300px" id="example" value="#{leafletController.position}"/>
+                <ejsf:geolocation widgetVar="geolocation" enableHighAccuracy="true" maximumAge="#{1000 * 60}">
+                    <p:ajax listener="#{leafletController.handleEvent}" update="example"/>
+                    <p:ajax event="error" update=":messages" listener="#{leafletController.handleErrorEvent}"/>
+                </ejsf:geolocation>
+            </h:form>
+            <h:panelGrid columns="1">
+                <p:button onclick="PF('geolocation').currentPosition(); return false;" value="Move to current position"/>
+            </h:panelGrid>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="LeafletController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/LeafletController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="leaflet"/>
+            </p:tab>
+            <p:tab title="Client API">
+                <ejsf:highlight resource="/META-INF/resources/ejsf/leaflet.js"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

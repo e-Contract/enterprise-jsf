@@ -344,6 +344,7 @@
         <module>ejsf-taglib-visnetwork</module>
         <module>ejsf-taglib-mermaid</module>
         <module>ejsf-taglib-webauthn</module>
+        <module>ejsf-taglib-leaflet</module>
         <module>ejsf-tests</module>
     </modules>
     <profiles>
