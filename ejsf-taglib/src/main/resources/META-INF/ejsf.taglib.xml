@@ -344,6 +344,11 @@
             <name>whenValid</name>
             <type>java.lang.Boolean</type>
         </attribute>
+        <attribute>
+            <description>Comma separated list of the dialog widget identifiers to close.</description>
+            <name>target</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

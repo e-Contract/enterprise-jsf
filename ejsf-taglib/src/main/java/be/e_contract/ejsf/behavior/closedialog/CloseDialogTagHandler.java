@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.behavior.closedialog;
@@ -34,6 +34,7 @@ public class CloseDialogTagHandler extends TagHandler {
         if (!(parent instanceof ClientBehaviorHolder)) {
             throw new TagException(this.tag, "parent must be ClientBehaviorHolder.");
         }
+
         String whenCallbackParam;
         TagAttribute whenCallbackParamTagAttribute = getAttribute("whenCallbackParam");
         if (null != whenCallbackParamTagAttribute) {
@@ -41,6 +42,7 @@ public class CloseDialogTagHandler extends TagHandler {
         } else {
             whenCallbackParam = null;
         }
+
         String whenCallbackParamValue;
         TagAttribute whenCallbackParamValueTagAttribute = getAttribute("whenCallbackParamValue");
         if (null != whenCallbackParamValueTagAttribute) {
@@ -51,6 +53,7 @@ public class CloseDialogTagHandler extends TagHandler {
         if (null != whenCallbackParamValue && whenCallbackParam == null) {
             throw new TagException(this.tag, "missing whenCallbackParam");
         }
+
         Boolean whenValid;
         TagAttribute whenValidTagAttribute = getAttribute("whenValid");
         if (null != whenValidTagAttribute) {
@@ -58,6 +61,15 @@ public class CloseDialogTagHandler extends TagHandler {
         } else {
             whenValid = null;
         }
+
+        String target;
+        TagAttribute targetTagAttribute = getAttribute("target");
+        if (null != targetTagAttribute) {
+            target = targetTagAttribute.getValue();
+        } else {
+            target = null;
+        }
+
         if (null != whenCallbackParam || null != whenValid) {
             String onCompleteScript = "ejsf.handleDialogOnComplete(event, status, xhr.pfArgs, '"
                     + whenCallbackParam + "','" + whenCallbackParamValue + "','" + whenValid + "')";
@@ -78,6 +90,7 @@ public class CloseDialogTagHandler extends TagHandler {
                 = (CloseDialogClientBehavior) application.createBehavior(CloseDialogClientBehavior.BEHAVIOR_ID);
         closeDialogClientBehavior.setWhenCallbackParam(whenCallbackParam);
         closeDialogClientBehavior.setWhenValid(whenValid);
+        closeDialogClientBehavior.setTarget(target);
         clientBehaviorHolder.addClientBehavior("click", closeDialogClientBehavior);
     }
 }

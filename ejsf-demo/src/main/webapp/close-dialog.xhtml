@@ -11,7 +11,15 @@
         <h:form>
             <p:commandButton value="Open Dialog" update="example">
                 <p:resetInput target=":demoDialogForm"/>
-                <ejsf:openDialog dialog="demoDialog"/>
+                <ejsf:openDialog dialogId=":example"/>
+            </p:commandButton>
+        </h:form>
+
+        <p:spacer height="10px"/>
+
+        <h:form>
+            <p:commandButton value="Open Dialog">
+                <ejsf:openDialog dialog="example2"/>
             </p:commandButton>
         </h:form>
 
@@ -27,7 +35,7 @@
             </p:tab>
         </p:tabView>
 
-        <p:dialog widgetVar="demoDialog" header="Demo Dialog" id="example">
+        <p:dialog header="Demo Dialog" id="example">
             <h:form id="demoDialogForm">
                 <p>
                     This is a demo dialog.
@@ -71,5 +79,27 @@
                 </h:panelGrid>
             </h:form>
         </p:dialog>
+
+        <p:dialog widgetVar="example2" header="Demo Dialog" modal="true">
+            <h:form>
+                <p:commandButton value="Open Another Dialog">
+                    <ejsf:openDialog dialog="example3"/>
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="example3" header="Demo Dialog 2" modal="true">
+            <h:form>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Close">
+                        <ejsf:closeDialog />
+                    </p:commandButton>
+                    <p:commandButton value="Close All">
+                        <ejsf:closeDialog target="example2,example3"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
     </ui:define>
 </ui:composition>

@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2021-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2021-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.behavior.closedialog;
@@ -16,6 +16,7 @@ public class CloseDialogClientBehavior extends ClientBehaviorBase {
 
     private String whenCallbackParam;
     private Boolean whenValid;
+    private String target;
 
     public String getWhenCallbackParam() {
         return this.whenCallbackParam;
@@ -31,6 +32,14 @@ public class CloseDialogClientBehavior extends ClientBehaviorBase {
 
     public void setWhenValid(Boolean whenValid) {
         this.whenValid = whenValid;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public String getTarget() {
+        return this.target;
     }
 
     @Override

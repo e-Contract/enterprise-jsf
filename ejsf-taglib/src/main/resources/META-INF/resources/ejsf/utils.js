@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2021-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2021-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 
@@ -30,7 +30,7 @@ var ejsf = ejsf || {};
             console.error("cannot close the dialog");
             return;
         }
-        PF(dialogWidgetVar).hide();
+        dialogWidgetVar.split(",").forEach((dialogWidget) => PF(dialogWidget).hide());
     };
 
     ejsf.openDialog = function (dialogWidgetVar, status, args, whenCallbackParam, whenCallbackParamValue) {
@@ -59,7 +59,7 @@ var ejsf = ejsf || {};
     };
 
     ejsf.storeDialog = function (event, dialogWidgetVar) {
-        event.target.setAttribute('data-dialog', dialogWidgetVar);
+        event.target.setAttribute("data-dialog", dialogWidgetVar);
     };
 
     ejsf.handleDialogOnComplete = function (event, status, args, whenCallbackParam, whenCallbackParamValue, whenValid) {
@@ -90,7 +90,7 @@ var ejsf = ejsf || {};
             console.error("cannot close the dialog");
             return;
         }
-        PF(dialogWidgetVar).hide();
+        dialogWidgetVar.split(",").forEach((dialogWidget) => PF(dialogWidget).hide());
     };
 
     ejsf.copyToClipboard = function (value) {
