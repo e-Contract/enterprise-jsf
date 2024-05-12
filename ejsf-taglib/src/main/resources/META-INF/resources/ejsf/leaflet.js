@@ -21,5 +21,13 @@ PrimeFaces.widget.EJSFLeaflet = PrimeFaces.widget.BaseWidget.extend({
             maxZoom: 19,
             attribution: "&copy; <a href='http://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a>"
         }).addTo(leafletMap);
+        let $this = this;
+        L.Icon.Default.prototype._getIconUrl = function(name) {
+            console.log("_getIconUrl: " + name);
+            let iconUrl = $this.cfg[name + "_request_path"];
+            console.log("result: " + iconUrl);
+            return iconUrl;
+        };
+        L.marker([latitude, longitude]).addTo(leafletMap);
     }
 });

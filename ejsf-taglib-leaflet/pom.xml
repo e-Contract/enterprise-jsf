@@ -44,6 +44,7 @@
                                     <includes>
                                         <include>leaflet.js</include>
                                         <include>leaflet.css</include>
+                                        <include>images/</include>
                                     </includes>
                                 </resource>
                             </resources>
