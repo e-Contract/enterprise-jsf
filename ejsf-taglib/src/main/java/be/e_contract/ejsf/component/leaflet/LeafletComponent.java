@@ -40,6 +40,7 @@ public class LeafletComponent extends UIOutput implements Widget {
     enum PropertyKeys {
         widgetVar,
         height,
+        width,
     }
 
     public String getWidgetVar() {
@@ -56,5 +57,13 @@ public class LeafletComponent extends UIOutput implements Widget {
 
     public String getHeight() {
         return (String) getStateHelper().eval(PropertyKeys.height, "200px");
+    }
+
+    public void setWidth(String width) {
+        getStateHelper().put(PropertyKeys.width, width);
+    }
+
+    public String getWidth() {
+        return (String) getStateHelper().eval(PropertyKeys.width);
     }
 }

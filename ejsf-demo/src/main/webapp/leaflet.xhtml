@@ -9,7 +9,7 @@
     <ui:define name="body">
         <div>
             <h:form>
-                <ejsf:leaflet height="300px" id="example" value="#{leafletController.position}"/>
+                <ejsf:leaflet height="300px" width="500px" id="example" value="#{leafletController.position}"/>
                 <ejsf:geolocation widgetVar="geolocation" enableHighAccuracy="true" maximumAge="#{1000 * 60}">
                     <p:ajax listener="#{leafletController.handleEvent}" update="example"/>
                     <p:ajax event="error" update=":messages" listener="#{leafletController.handleErrorEvent}"/>

@@ -7,7 +7,6 @@
 package be.e_contract.ejsf.component.leaflet;
 
 import java.io.IOException;
-import java.net.URL;
 import javax.faces.application.Application;
 import javax.faces.application.Resource;
 import javax.faces.application.ResourceHandler;
@@ -38,7 +37,12 @@ public class LeafletRenderer extends CoreRenderer {
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.writeAttribute("class", "ejsf-leaflet", null);
         String height = leafletComponent.getHeight();
-        responseWriter.writeAttribute("style", "height: " + height, null);
+        String style = "height: " + height;
+        String width = leafletComponent.getWidth();
+        if (null != width) {
+            style += "; width:" + width;
+        }
+        responseWriter.writeAttribute("style", style, null);
 
         responseWriter.endElement("div");
 
