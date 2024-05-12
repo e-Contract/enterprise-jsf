@@ -59,12 +59,15 @@ public class LeafletRenderer extends CoreRenderer {
         Resource shadowResource = resourceHandler.createResource("leaflet/images/marker-shadow.png", "ejsf", "image/png");
         String shadowRequestPath = shadowResource.getRequestPath();
 
+        boolean zoomControl = leafletComponent.isZoomControl();
+
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
         widgetBuilder.init("EJSFLeaflet", leafletComponent);
         widgetBuilder.attr("latitude", latitude);
         widgetBuilder.attr("longitude", longitude);
         widgetBuilder.attr("icon_request_path", iconRequestPath);
         widgetBuilder.attr("shadow_request_path", shadowRequestPath);
+        widgetBuilder.attr("zoomControl", zoomControl);
         widgetBuilder.finish();
     }
 }

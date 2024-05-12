@@ -41,6 +41,7 @@ public class LeafletComponent extends UIOutput implements Widget {
         widgetVar,
         height,
         width,
+        zoomControl,
     }
 
     public String getWidgetVar() {
@@ -65,5 +66,13 @@ public class LeafletComponent extends UIOutput implements Widget {
 
     public String getWidth() {
         return (String) getStateHelper().eval(PropertyKeys.width);
+    }
+
+    public void setZoomControl(boolean zoomControl) {
+        getStateHelper().put(PropertyKeys.zoomControl, zoomControl);
+    }
+
+    public boolean isZoomControl() {
+        return (Boolean) getStateHelper().eval(PropertyKeys.zoomControl, true);
     }
 }
