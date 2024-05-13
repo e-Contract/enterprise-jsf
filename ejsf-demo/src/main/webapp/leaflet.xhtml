@@ -12,7 +12,8 @@
                 <ejsf:leaflet height="300px" width="500px"
                               id="example"
                               value="#{leafletController.position}"
-                              zoomControl="true"/>
+                              zoomControl="true"
+                              zoom="16" minZoom="10" maxZoom="19"/>
                 <ejsf:geolocation widgetVar="geolocation" enableHighAccuracy="true" maximumAge="#{1000 * 60}">
                     <p:ajax listener="#{leafletController.handleEvent}" update="example"/>
                     <p:ajax event="error" update=":messages" listener="#{leafletController.handleErrorEvent}"/>

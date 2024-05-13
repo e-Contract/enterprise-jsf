@@ -1732,6 +1732,21 @@
             <name>zoomControl</name>
             <type>java.lang.Boolean</type>
         </attribute>
+        <attribute>
+            <description>Initial zoom level. Default to 13.</description>
+            <name>zoom</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>Minimum zoom level. Default to 1.</description>
+            <name>minZoom</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>Maximum zoom level. Default to 19.</description>
+            <name>maxZoom</name>
+            <type>java.lang.Integer</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>

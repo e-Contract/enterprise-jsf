@@ -18,16 +18,17 @@ PrimeFaces.widget.EJSFLeaflet = PrimeFaces.widget.BaseWidget.extend({
         let longitude = this.cfg.longitude;
         let leafletMap = L.map(this.id, {
             zoomControl: this.cfg.zoomControl
-        }).setView([latitude, longitude], 13);
+        }).setView([latitude, longitude], this.cfg.zoom);
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
+            maxZoom: this.cfg.maxZoom,
+            minZoom: this.cfg.minZoom,
             attribution: "&copy; <a href='http://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a>"
         }).addTo(leafletMap);
         let $this = this;
         L.Icon.Default.prototype._getIconUrl = function (name) {
             console.log("_getIconUrl: " + name);
             let iconUrl = $this.cfg[name + "_request_path"];
-            console.log("result: " + iconUrl);
+            console.log("icon url: " + iconUrl);
             return iconUrl;
         };
         L.marker([latitude, longitude]).addTo(leafletMap);

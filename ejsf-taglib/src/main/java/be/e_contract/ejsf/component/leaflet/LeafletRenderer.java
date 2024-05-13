@@ -60,6 +60,9 @@ public class LeafletRenderer extends CoreRenderer {
         String shadowRequestPath = shadowResource.getRequestPath();
 
         boolean zoomControl = leafletComponent.isZoomControl();
+        int zoom = leafletComponent.getZoom();
+        int minZoom = leafletComponent.getMinZoom();
+        int maxZoom = leafletComponent.getMaxZoom();
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
         widgetBuilder.init("EJSFLeaflet", leafletComponent);
@@ -68,6 +71,9 @@ public class LeafletRenderer extends CoreRenderer {
         widgetBuilder.attr("icon_request_path", iconRequestPath);
         widgetBuilder.attr("shadow_request_path", shadowRequestPath);
         widgetBuilder.attr("zoomControl", zoomControl);
+        widgetBuilder.attr("zoom", zoom);
+        widgetBuilder.attr("minZoom", minZoom);
+        widgetBuilder.attr("maxZoom", maxZoom);
         widgetBuilder.finish();
     }
 }
