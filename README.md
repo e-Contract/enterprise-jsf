@@ -63,7 +63,7 @@ Add the JSF component library to your web application WAR project via:
 <dependency>
     <groupId>org.primefaces</groupId>
     <artifactId>primefaces</artifactId>
-    <version>13.0.9</version>
+    <version>13.0.10</version>
 </dependency>
 ```
 Within you JSF pages, use the following JSF namespace declaration:
@@ -97,7 +97,7 @@ For Jakarta EE 10 runtimes, use the following dependency:
 <dependency>
     <groupId>org.primefaces</groupId>
     <artifactId>primefaces</artifactId>
-    <version>13.0.9</version>
+    <version>13.0.10</version>
     <classifier>jakarta</classifier>
 </dependency>
 ```

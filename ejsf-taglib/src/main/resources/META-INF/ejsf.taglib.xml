@@ -1713,12 +1713,12 @@
             <type>be.e_contract.ejsf.component.leaflet.LatLng</type>
         </attribute>
         <attribute>
-            <description>The optional height if the map. Defaults to "200px".</description>
+            <description>The optional height of the map. Defaults to "200px".</description>
             <name>height</name>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>The optional width if the map.</description>
+            <description>The optional width of the map.</description>
             <name>width</name>
             <type>java.lang.String</type>
         </attribute>
@@ -1728,22 +1728,22 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>Makes the zoom control present or not. Default to "true".</description>
+            <description>Makes the zoom control present or not. Defaults to "true".</description>
             <name>zoomControl</name>
             <type>java.lang.Boolean</type>
         </attribute>
         <attribute>
-            <description>Initial zoom level. Default to 13.</description>
+            <description>Initial zoom level. Defaults to 13.</description>
             <name>zoom</name>
             <type>java.lang.Integer</type>
         </attribute>
         <attribute>
-            <description>Minimum zoom level. Default to 1.</description>
+            <description>Minimum zoom level. Defaults to 1.</description>
             <name>minZoom</name>
             <type>java.lang.Integer</type>
         </attribute>
         <attribute>
-            <description>Maximum zoom level. Default to 19.</description>
+            <description>Maximum zoom level. Defaults to 19.</description>
             <name>maxZoom</name>
             <type>java.lang.Integer</type>
         </attribute>
