@@ -1749,4 +1749,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Makes all HTML elements embedding this component of the same height.
+        </description>
+        <tag-name>sameHeight</tag-name>
+        <component>
+            <component-type>ejsf.sameHeightComponent</component-type>
+        </component>
+        <attribute>
+            <description>The group name of the elements that should have the same height. Defaults to "default".</description>
+            <name>name</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
