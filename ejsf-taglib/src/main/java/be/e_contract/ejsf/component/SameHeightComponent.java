@@ -26,7 +26,7 @@ public class SameHeightComponent extends UIComponentBase {
     public static final String COMPONENT_FAMILY = "ejsf";
 
     enum PropertyKeys {
-        name,
+        group,
     }
 
     public SameHeightComponent() {
@@ -38,12 +38,12 @@ public class SameHeightComponent extends UIComponentBase {
         return COMPONENT_FAMILY;
     }
 
-    public String getName() {
-        return (String) getStateHelper().eval(PropertyKeys.name, "default");
+    public String getGroup() {
+        return (String) getStateHelper().eval(PropertyKeys.group, "default");
     }
 
-    public void setName(String name) {
-        getStateHelper().put(PropertyKeys.name, name);
+    public void setGroup(String group) {
+        getStateHelper().put(PropertyKeys.group, group);
     }
 
     @Override
@@ -52,8 +52,8 @@ public class SameHeightComponent extends UIComponentBase {
         responseWriter.startElement("span", this);
         String clientId = getClientId(context);
         responseWriter.writeAttribute("id", clientId, "id");
-        String name = getName();
-        responseWriter.writeAttribute("data-ejsf-same-height", name, "name");
+        String groupName = getGroup();
+        responseWriter.writeAttribute("data-ejsf-same-height", groupName, "group");
         responseWriter.endElement("span");
     }
 }

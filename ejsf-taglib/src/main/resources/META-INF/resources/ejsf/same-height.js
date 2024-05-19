@@ -6,8 +6,8 @@
  */
 
 $(document).ready(function () {
-    function sameHeight(name) {
-        let sameHeightElements = $("[data-ejsf-same-height='" + name + "']");
+    function sameHeight(groupName) {
+        let sameHeightElements = $("[data-ejsf-same-height='" + groupName + "']");
         let maxHeight = 0;
         sameHeightElements.each(function () {
             let sameHeightElement = $(this);
@@ -25,13 +25,13 @@ $(document).ready(function () {
     }
 
     let sameHeightElements = $("[data-ejsf-same-height]");
-    let names = new Set();
+    let groupNames = new Set();
     sameHeightElements.each(function () {
         let sameHeightElement = $(this);
-        let name = sameHeightElement.data("ejsf-same-height");
-        names.add(name);
+        let groupName = sameHeightElement.data("ejsf-same-height");
+        groupNames.add(groupName);
     });
-    for (const name of names) {
-        sameHeight(name);
+    for (const groupName of groupNames) {
+        sameHeight(groupName);
     }
 });

@@ -1759,7 +1759,7 @@
         </component>
         <attribute>
             <description>The group name of the elements that should have the same height. Defaults to "default".</description>
-            <name>name</name>
+            <name>group</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
