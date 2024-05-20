@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Inline Translation Demo</ui:define>
+    <ui:define name="body">
+        <ejsf:inlineTranslation id="example">
+            <ejsf:translation language="en">
+                My inline translation comes here.
+            </ejsf:translation>
+            <ejsf:translation language="nl">
+                Kan ik snel vertalen op deze manier.
+            </ejsf:translation>
+        </ejsf:inlineTranslation>
+        <ejsf:inlineTranslation rendered="false">
+            <ejsf:translation language="en">
+                My inline translation comes here.
+            </ejsf:translation>
+            <ejsf:translation language="nl">
+                Kan ik snel vertalen op deze manier.
+            </ejsf:translation>
+        </ejsf:inlineTranslation>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="inlineTranslation"/>
+                <ejsf:tagInfo library="ejsf" tag="translation"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

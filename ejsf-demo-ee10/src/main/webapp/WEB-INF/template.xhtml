@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <h:outputStylesheet library="demo" name="style.css" />
+        <h:outputScript library="demo" name="menu.js"/>
+        <title>Enterprise JSF Demo</title>
+    </h:head>
+
+    <h:body>
+        <div id="header">
+            <h1>
+                <span>
+                    Enterprise JSF Demo
+                </span>
+            </h1>
+            <div id="overlayMenu">
+                <h:form>
+                    <p:commandButton id="menuButton" type="button" icon="pi pi-bars"/>
+                    <p:menu overlay="true" trigger="menuButton" my="left top"
+                            style="max-height: 90% !important; overflow: auto !important;">
+                        <ui:include src="/WEB-INF/menu-content.xhtml"/>
+                    </p:menu>
+                </h:form>
+            </div>
+        </div>
+
+        <div style="position: relative;">
+
+            <div id="content">
+                <h2>
+                    <ui:insert name="title">Default Title</ui:insert>
+                </h2>
+                <p:messages id="messages" globalOnly="true" />
+                <ui:insert name="body">
+                    <p>Default Body</p>
+                </ui:insert>
+            </div>
+
+            <div id="menu">
+                <div id="menuPanel">
+                    <h:form id="menuForm">
+                        <p:menu id="mainMenuList" style="overflow-y: auto; max-height: 90vh;">
+                            <ui:include src="/WEB-INF/menu-content.xhtml"/>
+                        </p:menu>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+    </h:body>
+</html>

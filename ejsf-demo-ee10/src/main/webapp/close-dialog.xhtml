@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="jakarta.faces.core">
+    <ui:define name="title">Close Dialog Demo</ui:define>
+    <ui:define name="body">
+        <h:form>
+            <p:commandButton value="Open Dialog" update="example">
+                <p:resetInput target=":demoDialogForm"/>
+                <ejsf:openDialog dialogId=":example"/>
+            </p:commandButton>
+        </h:form>
+
+        <p:spacer height="10px"/>
+
+        <h:form>
+            <p:commandButton value="Open Dialog">
+                <ejsf:openDialog dialog="example2"/>
+            </p:commandButton>
+        </h:form>
+
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="CloseDialogController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/CloseDialogController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="closeDialog"/>
+            </p:tab>
+        </p:tabView>
+
+        <p:dialog header="Demo Dialog" id="example">
+            <h:form id="demoDialogForm">
+                <p>
+                    This is a demo dialog.
+                </p>
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="value" value="Value:"/>
+                    <p:inputText id="value" required="true"/>
+                    <p:message for="value"/>
+                </h:panelGrid>
+                <h:panelGrid columns="1">
+                    <p:commandButton value="Close without condition" update="@form">
+                        <ejsf:closeDialog/>
+                    </p:commandButton>
+                    <p:commandButton value="Close with unmet condition" update="@form">
+                        <ejsf:closeDialog whenCallbackParam="unmetCondition"/>
+                    </p:commandButton>
+                    <p:commandButton value="Close with met condition"
+                                     action="#{closeDialogController.actionWithCallbackParameter('whatever','some value')}"
+                                     update="@form">
+                        <ejsf:closeDialog whenCallbackParam="whatever"/>
+                    </p:commandButton>
+                    <p:commandButton value="Close with unmet value"
+                                     action="#{closeDialogController.actionWithCallbackParameter('whatever','some value')}"
+                                     update="@form">
+                        <ejsf:closeDialog whenCallbackParam="whatever" whenCallbackParamValue="foobar"/>
+                    </p:commandButton>
+                    <p:commandButton value="Close with met value"
+                                     action="#{closeDialogController.actionWithCallbackParameter('whatever','some value')}"
+                                     update="@form">
+                        <ejsf:closeDialog whenCallbackParam="whatever" whenCallbackParamValue="some value"/>
+                    </p:commandButton>
+                    <p:commandButton value="Close when valid" update="@form">
+                        <ejsf:closeDialog whenValid="true"/>
+                    </p:commandButton>
+                    <p:commandLink value="Close without condition" update="@form">
+                        <ejsf:closeDialog/>
+                    </p:commandLink>
+                    <p:commandLink value="Close when valid" update="@form">
+                        <ejsf:closeDialog whenValid="true"/>
+                    </p:commandLink>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="example2" header="Demo Dialog" modal="true">
+            <h:form>
+                <p:commandButton value="Open Another Dialog">
+                    <ejsf:openDialog dialog="example3"/>
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="example3" header="Demo Dialog 2" modal="true">
+            <h:form>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Close">
+                        <ejsf:closeDialog />
+                    </p:commandButton>
+                    <p:commandButton value="Close All">
+                        <ejsf:closeDialog target="example2,example3"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

@@ -1,52 +1,44 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ejsf="urn:be:e-contract:ejsf">
-
-    <h:head>
-        <title>Enterprise JSF Demo - Jakarta EE 10</title>
-    </h:head>
-
-    <h:body>
-        <h1>Enterprise JSF Demo - Jakarta EE 10</h1>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Welcome</ui:define>
+    <ui:define name="body">
         <p>
-            This web application demonstrates the Enterprise JSF component library.
+            This web application demonstrates the Enterprise JSF component library version ${project.version}.
         </p>
-        <p:messages globalOnly="true" id="messages"/>
-        <ejsf:outputBoolean value="#{true}"/>
+        <p>
+            The source code of this project is available at
+            <ejsf:outputUrl value="https://github.com/e-Contract/enterprise-jsf"
+                            label="Github"
+                            newTab="true"/>.
+        </p>
+        <p>
+            Issues can be reported at the
+            <ejsf:outputUrl value="https://github.com/e-Contract/enterprise-jsf/issues"
+                            label="Github issue tracker"
+                            newTab="true"/>.
+        </p>
+        <h3>
+            <span>
+                New Components
+            </span>
+        </h3>
         <h:form>
-            <ejsf:clockSync clockLocation="clock">
-                <p:ajax listener="#{clockSyncController.clockSynchronized}"
-                        update=":messages,:results"/>
-            </ejsf:clockSync>
+            <ul>
+                <li>
+                    <p:commandLink value="WebAuthn Component" action="webauthn?faces-redirect=true" ajax="false"/>
+                </li>
+                <li>
+                    <p:commandLink value="Leaflet Component" action="leaflet?faces-redirect=true" ajax="false"/>
+                </li>
+                <li>
+                    <p:commandLink value="Same Height Component" action="same-height?faces-redirect=true" ajax="false"/>
+                </li>
+            </ul>
         </h:form>
-        <h:panelGrid columns="2" id="results">
-            <h:outputText value="Best round trip delay:"/>
-            <h:outputText value="#{clockSyncController.bestRoundTripDelay}"/>
-
-            <h:outputText value="Delta T:"/>
-            <h:outputText value="#{clockSyncController.deltaT}"/>
-        </h:panelGrid>
-        <ejsf:viewLogs/>
-        <h:outputText value="#{myVariable}" id="outputVariable"/>
-        <ejsf:serverScript scope="view" functions="increaseCounter">
-            counter = 0;
-            myVariable = "";
-            function increaseCounter() {
-                counter = counter + 1;
-                myVariable = "Hello world from Javascript: " + counter;
-            }
-            increaseCounter();
-        </ejsf:serverScript>
-        <h:form>
-            <p:commandButton value="Increase Counter"
-                             action="#{increaseCounter}"
-                             update="outputVariable"/>
-        </h:form>
-        <h:form>
-            <ejsf:metrics/>
-        </h:form>
-    </h:body>
-
-</html>
+    </ui:define>
+</ui:composition>

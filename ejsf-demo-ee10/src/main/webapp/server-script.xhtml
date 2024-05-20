@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Server Script Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            <div>
+                <h:outputText value="#{myVariable}"/>
+                <ejsf:serverScript language="javascript">
+                    myVariable = "hello world from Javascript!";
+                </ejsf:serverScript>
+            </div>
+
+            <div>
+                <h:outputText value="#{mySecondVariable}"/>
+                <ejsf:serverScript language="javascript">
+                    mySecondVariable = "hello world from Javascript!";
+                </ejsf:serverScript>
+                <ejsf:serverScript language="javascript">
+                    mySecondVariable = "Can I overwrite this variable?";
+                </ejsf:serverScript>
+            </div>
+
+            <div>
+                <h:outputText id="outputActionVariable" value="#{actionVariable}"/>
+                <h:form>
+                    <p:commandButton value="Click me" action="#{someMethod}"
+                                     update="outputActionVariable"/>
+                </h:form>
+                <ejsf:serverScript language="javascript" functions="someMethod">
+                    actionVariable = "initial value";
+
+                    function someMethod() {
+                        actionVariable = "clicked";
+                    }
+                </ejsf:serverScript>
+            </div>
+
+            <div>
+                <h:outputText id="counterOutput" value="#{counter}"/>
+                <h:form>
+                    <p:commandButton value="Increase"
+                                     action="#{increaseCounter}"
+                                     update="counterOutput"/>
+                </h:form>
+                <ejsf:serverScript scope="view"
+                                   functions="increaseCounter">
+                    counter = 0;
+
+                    function increaseCounter() {
+                        counter = counter + 1;
+                    }
+                </ejsf:serverScript>
+            </div>
+
+            <div>
+                <h:outputText value="#{cdiValue}"/>
+                <ejsf:serverScript language="javascript" bind="scriptController">
+                    cdiValue = scriptController.getValue();
+                </ejsf:serverScript>
+            </div>
+
+            <div>
+                <h:outputText value="#{includeVariable}"/>
+                <ejsf:serverScript language="javascript" include="/include.js"/>
+            </div>
+
+            <div>
+                <h:outputText value="#{obj.variable}" id="variableOutput"/>
+                <h:outputText value="#{obj.getVariable()}" id="getVariable"/>
+                <h:form>
+                    <p:commandButton value="Click me"
+                                     action="#{changeVariable}"
+                                     update="variableOutput,getVariable"/>
+                </h:form>
+                <ejsf:serverScript language="javascript"
+                                   scope="view"
+                                   functions="changeVariable">
+                    obj = {};
+                    obj.variable = 1;
+
+                    function changeVariable() {
+                        obj.variable = obj.variable + 1;
+                    }
+
+                    obj.getVariable = function() {
+                        return this.variable;
+                    };
+                </ejsf:serverScript>
+            </div>
+
+            <h:form id="dataTableForm">
+                <p:dataTable value="#{tableData}" var="item" id="dataTable">
+                    <p:column headerText="Name">
+                        #{item.name}
+                    </p:column>
+                    <p:column headerText="Actions">
+                        <p:commandButton value="Remove"
+                                         action="#{removeDataTableItem}"
+                                         update="dataTable"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <ejsf:serverScript scope="view"
+                               functions="addDataTableItem,removeDataTableItem">
+                tableData = [];
+                function Item(name) {
+                    this.name = name;
+                }
+                function addDataTableItem() {
+                    var itemName = new Date().toString();
+                    tableData.push(new Item(itemName));
+                }
+                function removeDataTableItem(item) {
+                    tableData = tableData.filter(function (it) {
+                        return it.name != item.name;
+                    });
+                }
+            </ejsf:serverScript>
+            <h:form>
+                <p:commandButton value="Add item" action="#{addDataTableItem}"
+                                 update="dataTableForm:dataTable"/>
+            </h:form>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="ScriptController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/ScriptController.java"/>
+            </p:tab>
+            <p:tab title="include.js">
+                <ejsf:highlight resource="/include.js"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="serverScript"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

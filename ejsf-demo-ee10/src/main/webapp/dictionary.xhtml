@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Dictionary Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            <ejsf:dictionary widgetVar="dictionary">
+                <ejsf:dictionaryEntry key="label1" value="Some message {0}."/>
+            </ejsf:dictionary>
+            <ejsf:outputText widgetVar="outputText"/>
+            <p:button onclick="PF('outputText').setValue(PF('dictionary').getFormattedMessage('label1', 'hello world')); return false;"
+                      value="Client-side API call"/>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="dictionary"/>
+                <ejsf:tagInfo library="ejsf" tag="dictionaryEntry"/>
+            </p:tab>
+            <p:tab title="Client API">
+                <ejsf:highlight resource="/META-INF/resources/ejsf/dictionary.js"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Same Height Demo</ui:define>
+    <ui:define name="body">
+        <h:panelGrid columns="3" id="example">
+            <p:fieldset legend="Fieldset 1" id="fieldset1">
+                <ui:repeat value="#{sameHeightController.lines}"
+                           var="line">
+                    #{line}<br/>
+                </ui:repeat>
+                <ejsf:sameHeight/>
+            </p:fieldset>
+            <p:fieldset legend="Fieldset 2">
+                Some content.<br/>
+                Second line.<br/>
+                Third line.
+                <ejsf:sameHeight/>
+            </p:fieldset>
+            <p:fieldset legend="Fieldset 3">
+                Some content.<br/>
+                Second line.
+                <ejsf:sameHeight/>
+            </p:fieldset>
+        </h:panelGrid>
+        <h:form>
+            <p:commandButton value="Add line"
+                             action="#{sameHeightController.addLine()}"
+                             update="fieldset1"/>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="SameHeightController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/SameHeightController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="sameHeight"/>
+            </p:tab>
+            <p:tab title="Client API">
+                <ejsf:highlight resource="/META-INF/resources/ejsf/same-height.js"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

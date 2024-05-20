@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Console Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            <ejsf:console widgetVar="console" timestamp="true"/>
+            <h:panelGrid columns="2">
+                <p:button value="Add info message"
+                          onclick="PF('console').info('some info message'); return false;"/>
+                <p:button value="Add error message"
+                          onclick="PF('console').error('some error message'); return false;"/>
+            </h:panelGrid>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="console"/>
+            </p:tab>
+            <p:tab title="Client API">
+                <ejsf:highlight resource="/META-INF/resources/ejsf/console.js"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

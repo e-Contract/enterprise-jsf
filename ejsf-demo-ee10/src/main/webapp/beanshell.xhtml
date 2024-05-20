@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Server Script Beanshell Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            #{myVariable}
+            <ejsf:serverScript language="beanshell">
+                String myVariable = "hello world from beanshell.";
+            </ejsf:serverScript>
+            <h:form id="dataTableForm">
+                <p:dataTable value="#{tableData}" var="item" id="dataTable">
+                    <p:column headerText="Name">
+                        #{item.name}
+                    </p:column>
+                    <p:column headerText="Actions">
+                        <p:commandButton value="Remove"
+                                         action="#{removeDataTableItem}"
+                                         update="dataTable,:messages"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <ejsf:serverScript language="beanshell"
+                               scope="view"
+                               functions="addDataTableItem,removeDataTableItem"
+                               bind="facesContext">
+                import java.util.List;
+                import java.util.LinkedList;
+                import java.util.Date;
+                import javax.faces.application.FacesMessage;
+
+                List tableData = new LinkedList();
+
+                class Item {
+                    String name;
+                    public String getName() {
+                        return this.name;
+                    }
+                }
+
+                public static void addDataTableItem() {
+                    Item item = new Item();
+                    String itemName = new Date().toString();
+                    item.name = itemName;
+                    tableData.add(item);
+                    FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item added: " + item.name, null);
+                    facesContext.addMessage(null, facesMessage);
+                }
+
+                public static void removeDataTableItem(Item item) {
+                    tableData.remove(item);
+                    FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item removed: " + item.name, null);
+                    facesContext.addMessage(null, facesMessage);
+                }
+            </ejsf:serverScript>
+            <h:form>
+                <p:commandButton value="Add item" action="#{addDataTableItem}"
+                                 update="dataTableForm:dataTable,:messages"/>
+            </h:form>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

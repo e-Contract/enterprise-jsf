@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="jakarta.faces.html">
+    <ui:define name="title">Output Fingerprint Demo</ui:define>
+    <ui:define name="body">
+        <h:panelGrid columns="1">
+            <ejsf:outputFingerprint id="example"
+                                    value="#{outputFingerprintController.data}"
+                                    algo="SHA-1"
+                                    spacing="true"/>
+            <ejsf:outputFingerprint value="#{outputFingerprintController.data}"
+                                    algo="SHA-256"/>
+            <ejsf:outputFingerprint value="#{outputFingerprintController.data}"
+                                    algo="SHA-256"
+                                    lowercase="true"/>
+            <ejsf:outputFingerprint value="#{outputFingerprintController.data}"
+                                    algo="SHA-256"
+                                    spacing="true"
+                                    separator=":"/>
+            <ejsf:outputFingerprint value="#{outputFingerprintController.data}"
+                                    algo="SHA-256"
+                                    spacing="true"
+                                    separator=":"
+                                    lowercase="true"/>
+            <ejsf:outputFingerprint value="#{null}"/>
+        </h:panelGrid>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="OutputFingerprintController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/OutputFingerprintController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="outputFingerprint"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

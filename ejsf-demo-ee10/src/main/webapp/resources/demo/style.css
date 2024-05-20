@@ -1,0 +1,93 @@
+/*
+ * Enterprise JSF project.
+ *
+ * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+ */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url("#{resource['demo/logo.svg']}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: bottom 10px right 20px;
+}
+
+h1 span {
+    background: linear-gradient(270deg, #02f7ff, #0109fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h2 {
+    color: #2196F3;
+    font-size: large;
+}
+
+h3 span {
+    background: linear-gradient(270deg, #02f7ff, #0109fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#header h1 {
+    width: 70%;
+    margin: 0 auto;
+}
+
+#content {
+    width: 70%;
+    margin: 0 auto;
+    color: #303030;
+}
+
+#menu {
+    width: 15%;
+    position: absolute;
+    top: 0%;
+}
+
+#menuPanel {
+    margin-left: 1px;
+    margin-right: 10px;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem > .ui-state-active {
+    background-color: #2196F3;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover {
+    background-color: lightgrey;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-menuitem-text {
+    color: #ffffff;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem > .ui-state-active .ui-menuitem-text {
+    color: #ffffff;
+}
+
+#overlayMenu {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin-right: 15px;
+    margin-top: 15px;
+    display: none;
+}
+
+@media (max-width: 1400px) {
+    #menu {
+        display: none;
+    }
+    #content {
+        width: 100%;
+    }
+    #header h1 {
+        width: 100%;
+    }
+    #overlayMenu {
+        display: block;
+    }
+}

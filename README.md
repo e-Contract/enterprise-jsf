@@ -102,7 +102,7 @@ For Jakarta EE 10 runtimes, use the following dependency:
 </dependency>
 ```
 
-### Running the demo web application
+## Running the demo web application
 
 We use Apache Maven as build system.
 Apache Maven can be downloaded from: https://maven.apache.org
@@ -113,6 +113,12 @@ Build the project via:
 ```
 mvn clean install
 ```
+
+We provide two flavors of the demo web application:
+* `ejsf-demo` targeting Java EE version 8.
+* `ejsf-demo-ee10` targeting Jakarta EE version 10.
+
+### Java EE 8 demo web application
 
 Running the demo web application requires an application server that supports Java EE version 8.
 We prefer WildFly as application server.
@@ -157,6 +163,54 @@ Run the demo web application on the Payara application server via:
 cd ejsf-demo
 mvn clean package payara-micro:start -Ppayara
 ```
+
+### Jakarta EE 10 demo web application
+
+Running the demo web application requires an application server that supports Jakarta EE version 10.
+We prefer WildFly as application server.
+WildFly version 32.0.0.Final is the latest version that  supports Jakarta EE 10.
+WildFly can be downloaded from: https://www.wildfly.org
+
+Start a WildFly version 32.0.0.Final via:
+```
+cd wildfly-32.0.0.Final/bin
+./standalone.sh --server-config=standalone-full.xml
+```
+
+Deploy the demo web application via:
+```
+cd ejsf-demo-ee10
+mvn wildfly:deploy
+```
+
+Try out the demo web application via:
+http://localhost:8080/ejsf-demo/
+
+You can also run the demo web application using an embedded Jetty servlet container.
+Run the demo web application with Mojarra as JSF implementation via:
+```
+cd ejsf-demo-ee10
+mvn clean jetty:run -Pmojarra
+```
+Run the demo web application with MyFaces as JSF implementation via:
+```
+cd ejsf-demo-ee10
+mvn clean jetty:run -Pmyfaces
+```
+
+Run the demo web application on the Open Liberty application server via:
+```
+cd ejsf-demo-ee10
+mvn clean package liberty:run
+```
+
+Run the demo web application on the Payara application server via:
+```
+cd ejsf-demo-ee10
+mvn clean package payara-micro:start -Ppayara
+```
+
+## Docker
 
 Alternatively, the Java EE application can be compiled and deployed to a WildFly Docker container
 that is built on the fly (using the `Dockerfile`-files located in `docker/`) by entering the following command:

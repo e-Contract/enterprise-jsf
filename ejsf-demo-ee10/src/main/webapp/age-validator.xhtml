@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Age Validator Demo</ui:define>
+    <ui:define name="body">
+        <h:form>
+            <h:panelGrid columns="3" id="example">
+                <p:outputLabel for="age" value="Date of birth:"/>
+                <p:datePicker id="age" value="#{ageController.dateOfBirth}" yearNavigator="true" yearRange="1920:2023">
+                    <ejsf:ageValidator minimumAge="18"/>
+                </p:datePicker>
+                <p:message for="age"/>
+            </h:panelGrid>
+            <p>
+                Submitted date of birth is:
+                <h:outputText value="#{ageController.dateOfBirth}">
+                    <f:convertDateTime type="date" dateStyle="medium" />
+                </h:outputText>
+            </p>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Submit" update="@form"/>
+            </h:panelGrid>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="AgeController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/AgeController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="ageValidator"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="jakarta.faces.composite"
+      xmlns:h="jakarta.faces.html">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface shortDescription="Outputs a text.">
+            <composite:attribute name="value"
+                                 required="true"
+                                 shortDescription="The text to output."
+                                 type="java.lang.String"/>
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                #{cc.attrs.value}
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>

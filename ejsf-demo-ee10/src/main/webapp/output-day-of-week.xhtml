@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Output Day Of Week Demo</ui:define>
+    <ui:define name="body">
+        <ui:repeat id="example" value="#{outputDayOfWeekController.dayOfWeekList}" var="dayOfWeek">
+            <ejsf:outputDayOfWeek value="#{dayOfWeek}" emptyMessage="unknown day of week"/><br/>
+        </ui:repeat>
+        <ejsf:outputDayOfWeek value="#{outputDayOfWeekController.dayOfWeekList.get(0)}" rendered="false"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="OutputDayOfWeekController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/OutputDayOfWeekController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="outputDayOfWeek"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

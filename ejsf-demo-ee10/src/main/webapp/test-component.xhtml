@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:demo="urn:be:e-contract:ejsf:demo"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Test Component Demo</ui:define>
+    <ui:define name="body">
+        <p>
+            <demo:outputText value="hello world"/>
+            <demo:vulnerableComponent secure="hello world"/>
+        </p>
+        <ejsf:testComponent id="example" library="demo" tag="vulnerableComponent"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="VulnerableComponent.java">
+                <ejsf:highlight resource="/be/e_contract/demo/VulnerableComponent.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="testComponent"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

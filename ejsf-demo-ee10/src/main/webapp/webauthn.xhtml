@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="jakarta.faces.core">
+    <ui:define name="title">WebAuthn Demo</ui:define>
+    <ui:define name="body">
+        <p>
+            This page demonstrates the WebAuthn JSF integration component.
+            More information about WebAuthn can be found at the official
+            <a href="https://www.w3.org/TR/webauthn-3/" target="_blank">W3C Web Authentication specification page</a>.
+        </p>
+        <p>
+            Manage WebAuthn keys within Chrome via
+            <a href="chrome://settings/passkeys">chrome://settings/passkeys</a>.
+        </p>
+        <p>
+            Manage security keys within Chrome via:
+            <a href="chrome://settings/securityKeys">chrome://settings/securityKeys</a>.
+        </p>
+        <div id="example">
+            <h:form id="webAuthnForm">
+                <ejsf:webAuthn id="webAuthn"
+                               username="#{webAuthnController.username}"
+                               credentialRepository="#{webAuthnCredentialRepository}"
+                               relyingPartyId="#{webAuthnController.relyingPartyId}"
+                               relyingPartyName="Enterprise JSF Demo">
+                    <ejsf:webAuthnRegistration update=":messages"
+                                               listener="#{webAuthnController.registeredListener}"
+                                               userId="#{webAuthnController.userId}"
+                                               userVerification="#{webAuthnController.userVerification}"
+                                               authenticatorAttachment="#{webAuthnController.authenticatorAttachment}"
+                                               residentKey="#{webAuthnController.residentKey}"
+                                               attestationConveyance="#{webAuthnController.attestationConveyance}"
+                                               attestationTrustSource="#{webAuthnAttestationTrustSource}"
+                                               allowUntrustedAttestation="#{webAuthnController.allowUntrustedAttestation}"
+                                               errorListener="#{webAuthnController.registrationErrorListener}"
+                                               messageInterceptor="#{webAuthnController.registrationMessageInterceptor}"/>
+                    <ejsf:webAuthnAuthentication update=":messages"
+                                                 listener="#{webAuthnController.authenticatedListener}"
+                                                 userVerification="#{webAuthnController.userVerification}"
+                                                 prfListener="#{webAuthnController.prfListener}"
+                                                 errorListener="#{webAuthnController.authenticationErrorListener}"
+                                                 messageInterceptor="#{webAuthnController.authenticationMessageInterceptor}"/>
+                    <p:ajax event="error" update=":messages"
+                            listener="#{webAuthnController.errorListener}"/>
+                </ejsf:webAuthn>
+            </h:form>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="@next" value="User Verification:"/>
+                    <p:selectOneMenu value="#{webAuthnController.userVerification}">
+                        <f:selectItem itemLabel="-none-" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="required" itemValue="required"/>
+                        <f:selectItem itemLabel="preferred" itemValue="preferred"/>
+                        <f:selectItem itemLabel="discouraged" itemValue="discouraged"/>
+                        <p:ajax event="change"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+            </h:form>
+            <p:spacer height="10px"/>
+            <p:fieldset legend="Registration">
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="@next" value="Authenticator attachment:"/>
+                        <p:selectOneMenu value="#{webAuthnController.authenticatorAttachment}">
+                            <f:selectItem itemLabel="-none-" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="platform" itemValue="platform"/>
+                            <f:selectItem itemLabel="cross-platform" itemValue="cross-platform"/>
+                            <p:ajax event="change"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="@next" value="Resident key:"/>
+                        <p:selectOneMenu value="#{webAuthnController.residentKey}">
+                            <f:selectItem itemLabel="-none-" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="required" itemValue="required"/>
+                            <f:selectItem itemLabel="preferred" itemValue="preferred"/>
+                            <f:selectItem itemLabel="discouraged" itemValue="discouraged"/>
+                            <p:ajax event="change"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="@next" value="Attestation Conveyance:"/>
+                        <p:selectOneMenu value="#{webAuthnController.attestationConveyance}">
+                            <f:selectItem itemLabel="-none-" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="none" itemValue="none"/>
+                            <f:selectItem itemLabel="indirect" itemValue="indirect"/>
+                            <f:selectItem itemLabel="direct" itemValue="direct"/>
+                            <f:selectItem itemLabel="enterprise" itemValue="enterprise"/>
+                            <p:ajax event="change"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="@next" value="Allow Untrusted Attestation:"/>
+                        <p:toggleSwitch value="#{webAuthnController.allowUntrustedAttestation}">
+                            <p:ajax/>
+                        </p:toggleSwitch>
+                    </h:panelGrid>
+                </h:form>
+                <h:form id="registrationForm">
+                    <h:panelGrid columns="3">
+                        <p:outputLabel for="@next" value="Username:"/>
+                        <p:inputText id="username"
+                                     value="#{webAuthnController.username}"
+                                     required="true" autocomplete="username webauthn">
+                            <ejsf:webAuthnUsernameValidator mode="registration"
+                                                            credentialRepository="#{webAuthnCredentialRepository}"/>
+                        </p:inputText>
+                        <p:message for="@previous"/>
+                    </h:panelGrid>
+                    <p:commandButton id="registerButton" value="Register" update="@form">
+                        <ejsf:webAuthnRegister/>
+                    </p:commandButton>
+                </h:form>
+            </p:fieldset>
+            <p:spacer height="10px"/>
+            <p:fieldset legend="Authentication">
+                <h:form id="authenticationForm">
+                    <h:panelGrid columns="3">
+                        <p:outputLabel for="@next" value="Username:"/>
+                        <p:inputText id="username"
+                                     value="#{webAuthnController.username}"
+                                     required="true" autocomplete="username webauthn">
+                            <ejsf:webAuthnUsernameValidator mode="authentication"
+                                                            credentialRepository="#{webAuthnCredentialRepository}"/>
+                        </p:inputText>
+                        <p:message for="@previous"/>
+                    </h:panelGrid>
+                    <p:commandButton id="authenticateButton" value="Authenticate" update="@form">
+                        <ejsf:webAuthnAuthenticate/>
+                    </p:commandButton>
+                </h:form>
+            </p:fieldset>
+        </div>
+        <p:spacer height="10px"/>
+        <h:form>
+            <p:dataTable id="users" value="#{webAuthnCredentialRepository.users}" var="user"
+                         paginator="true" paginatorPosition="bottom" rows="10">
+                <p:column headerText="Users">
+                    #{user}
+                </p:column>
+                <p:column headerText="Actions">
+                    <p:commandButton icon="pi pi-trash"
+                                     action="#{webAuthnCredentialRepository.remove(user)}"
+                                     update="users"/>
+                </p:column>
+            </p:dataTable>
+            <h:panelGrid columns="2">
+                <p:commandButton value="Refresh" update="users"/>
+                <p:commandButton value="Remove all"
+                                 action="#{webAuthnCredentialRepository.removeAll}"
+                                 update="users"/>
+            </h:panelGrid>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="WebAuthnController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/WebAuthnController.java"/>
+            </p:tab>
+            <p:tab title="WebAuthnCredentialRepository.java">
+                <ejsf:highlight resource="/be/e_contract/demo/WebAuthnCredentialRepository.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="webAuthn"/>
+                <ejsf:tagInfo library="ejsf" tag="webAuthnRegister"/>
+                <ejsf:tagInfo library="ejsf" tag="webAuthnAuthenticate"/>
+                <ejsf:tagInfo library="ejsf" tag="webAuthnUsernameValidator"/>
+                <ejsf:tagInfo library="ejsf" tag="webAuthnRegistration"/>
+                <ejsf:tagInfo library="ejsf" tag="webAuthnAuthentication"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

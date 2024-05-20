@@ -12,8 +12,28 @@
     </context-param>
 
     <context-param>
+        <param-name>jakarta.faces.FACELETS_LIBRARIES</param-name>
+        <param-value>/WEB-INF/demo.taglib.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>jakarta.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>ejsf.viewLogs.REQUIRED_ROLE</param-name>
+        <param-value>${ejsf.viewLogs.REQUIRED_ROLE}</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>ejsf.serverScript.enabled</param-name>
         <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>ejsf.serverScript.language</param-name>
+        <param-value>javascript</param-value>
     </context-param>
 
     <servlet>
@@ -55,5 +75,10 @@
         <extension>woff2</extension>
         <mime-type>application/x-font-woff2</mime-type>
     </mime-mapping>
+
+    <error-page>
+        <exception-type>jakarta.faces.application.ViewExpiredException</exception-type>
+        <location>/</location>
+    </error-page>
 
 </web-app>

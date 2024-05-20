@@ -14,6 +14,25 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>index.xhtml</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <directory>src/main/java</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
@@ -45,6 +64,41 @@
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-taglib-echarts</artifactId>
+            <version>1.13.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-taglib-d3</artifactId>
+            <version>1.13.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-taglib-highlight</artifactId>
+            <version>1.13.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-taglib-visnetwork</artifactId>
+            <version>1.13.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-taglib-mermaid</artifactId>
+            <version>1.13.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-taglib-webauthn</artifactId>
+            <version>1.13.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-taglib-leaflet</artifactId>
+            <version>1.13.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
@@ -69,6 +123,64 @@
         <dependency>
             <groupId>org.openjdk.nashorn</groupId>
             <artifactId>nashorn-core</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.yubico</groupId>
+            <artifactId>webauthn-server-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.yubico</groupId>
+            <artifactId>webauthn-server-attestation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-cbor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+            <artifactId>owasp-java-html-sanitizer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cronutils</groupId>
+            <artifactId>cron-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache-extras.beanshell</groupId>
+            <artifactId>bsh</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-jsr223</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
@@ -103,6 +215,10 @@
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
+                                <resourceBases>
+                                    <baseResource>src/main/webapp</baseResource>
+                                    <baseResource>src/main/java</baseResource>
+                                </resourceBases>
                             </webApp>
                         </configuration>
                     </plugin>
@@ -160,6 +276,10 @@
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
+                                <resourceBases>
+                                    <baseResource>src/main/webapp</baseResource>
+                                    <baseResource>src/main/java</baseResource>
+                                </resourceBases>
                             </webApp>
                         </configuration>
                     </plugin>
@@ -191,6 +311,22 @@
                     <artifactId>log4j-slf4j2-impl</artifactId>
                 </dependency>
             </dependencies>
+        </profile>
+        <profile>
+            <id>payara</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>fish.payara.maven.plugins</groupId>
+                        <artifactId>payara-micro-maven-plugin</artifactId>
+                        <version>2.3</version>
+                        <configuration>
+                            <deployWar>true</deployWar>
+                            <payaraVersion>6.2024.5</payaraVersion>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

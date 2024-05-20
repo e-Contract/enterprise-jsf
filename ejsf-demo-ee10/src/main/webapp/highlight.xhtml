@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Highlight Demo</ui:define>
+    <ui:define name="body">
+        <ejsf:highlight id="example" value="function test() { return true; }"/>
+        <ejsf:highlight value="function test() { return true; }" rendered="false"/>
+        <ejsf:highlight resource="/META-INF/resources/ejsf/highlight.js"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="highlight"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Matomo Tracking Demo</ui:define>
+    <ui:define name="body">
+        <p>
+            This page demonstrates the
+            <ejsf:outputUrl value="https://matomo.org"
+                            label="Matomo"
+                            newTab="true"/>
+            component.
+        </p>
+        <h:form>
+            <ejsf:matomoTracking enableTracking="#{matomoTrackingController.enableTracking}"
+                                 matomoUrl="#{matomoTrackingController.matomoUrl}"
+                                 siteId="#{matomoTrackingController.siteId}"
+                                 userId="#{matomoTrackingController.userId}"
+                                 documentTitle="#{matomoTrackingController.documentTitle}"
+                                 id="example">
+                <ejsf:matomoCustomDimension dimension="1" value="test"/>
+                <ejsf:matomoCustomDimension dimension="#{2}" value="#{'test 2'}"/>
+            </ejsf:matomoTracking>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="enableTracking" value="Enable Tracking:"/>
+                <p:selectBooleanCheckbox id="enableTracking" value="#{matomoTrackingController.enableTracking}"/>
+                <p:message for="enableTracking"/>
+
+                <p:outputLabel for="matomoUrl" value="Matomo URL:"/>
+                <p:inputText id="matomoUrl" value="#{matomoTrackingController.matomoUrl}" required="true" size="60">
+                    <ejsf:urlValidator allowHttp="true" allowLocalhost="true"/>
+                </p:inputText>
+                <p:message for="matomoUrl"/>
+
+                <p:outputLabel for="siteId" value="Site ID:"/>
+                <p:inputText id="siteId" value="#{matomoTrackingController.siteId}" required="true"/>
+                <p:message for="siteId"/>
+
+                <p:outputLabel for="userId" value="User ID:"/>
+                <p:inputText id="userId" value="#{matomoTrackingController.userId}"/>
+                <p:message for="userId"/>
+
+                <p:outputLabel for="documentTitle" value="Document Title:"/>
+                <p:inputText id="documentTitle" value="#{matomoTrackingController.documentTitle}"/>
+                <p:message for="documentTitle"/>
+            </h:panelGrid>
+            <p:commandButton value="Update" update="@form"/>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="MatomoTrackingController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/MatomoTrackingController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="matomoTracking"/>
+                <ejsf:tagInfo library="ejsf" tag="matomoCustomDimension"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

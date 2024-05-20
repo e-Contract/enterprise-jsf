@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="demo">
+
+    <featureManager>
+        <feature>faces-4.0</feature>
+        <feature>cdi-4.0</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint" httpPort="8080" />
+
+</server>

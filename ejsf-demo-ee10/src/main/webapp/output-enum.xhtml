@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Output Enum Demo</ui:define>
+    <ui:define name="body">
+        <ui:repeat value="#{outputEnumController.enums}" var="item" id="example">
+            <p>
+                #{item} becomes
+                <ejsf:outputEnum value="#{item}" handleNullAs="STATE1">
+                    <ejsf:enum name="STATE1" label="State 1"/>
+                    <ejsf:enum name="STATE2" color="green" background="greenyellow"/>
+                    <ejsf:enum name="STATE3" label="State 3" color="red" background="lightpink" icon="pi pi-exclamation-triangle"/>
+                </ejsf:outputEnum>
+            </p>
+        </ui:repeat>
+        <ejsf:outputEnum value="#{outputEnumController.enums.stream().findFirst().get()}" rendered="false"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="OutputEnumController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/OutputEnumController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="outputEnum"/>
+                <ejsf:tagInfo library="ejsf" tag="enum"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

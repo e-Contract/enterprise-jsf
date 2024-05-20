@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Geolocation Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            <h:form>
+                <ejsf:geolocation widgetVar="geolocation" enableHighAccuracy="true" maximumAge="#{1000 * 60}">
+                    <p:ajax listener="#{geolocationController.handleEvent}" update=":results"/>
+                    <p:ajax event="error" update=":messages" listener="#{geolocationController.handleErrorEvent}"/>
+                </ejsf:geolocation>
+            </h:form>
+            <h:panelGrid columns="2" id="results">
+                <h:outputText value="Latitude:"/>
+                <h:outputText value="#{geolocationController.latitude}"/>
+
+                <h:outputText value="Longitude:"/>
+                <h:outputText value="#{geolocationController.longitude}"/>
+
+                <h:outputText value="Accuracy:"/>
+                <ejsf:outputText value="#{geolocationController.accuracy}"
+                                 unit="m"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <p:button onclick="PF('geolocation').currentPosition(); return false;" value="Get Current Position"/>
+            </h:panelGrid>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="GeolocationController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/GeolocationController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="geolocation"/>
+            </p:tab>
+            <p:tab title="Client API">
+                <ejsf:highlight resource="/META-INF/resources/ejsf/geolocation.js"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
