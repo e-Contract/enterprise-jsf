@@ -349,6 +349,11 @@
             <name>target</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Set to true to avoid an ajax call upon closing the dialog.</description>
+            <name>noAjax</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
     <tag>

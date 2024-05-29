@@ -70,6 +70,12 @@ public class CloseDialogTagHandler extends TagHandler {
             target = null;
         }
 
+        boolean noAjax = false;
+        TagAttribute noAjaxTagAttribute = getAttribute("noAjax");
+        if (null != noAjaxTagAttribute) {
+            noAjax = noAjaxTagAttribute.getBoolean(faceletContext);
+        }
+
         if (null != whenCallbackParam || null != whenValid) {
             String onCompleteScript = "ejsf.handleDialogOnComplete(event, status, xhr.pfArgs, '"
                     + whenCallbackParam + "','" + whenCallbackParamValue + "','" + whenValid + "')";
@@ -91,6 +97,7 @@ public class CloseDialogTagHandler extends TagHandler {
         closeDialogClientBehavior.setWhenCallbackParam(whenCallbackParam);
         closeDialogClientBehavior.setWhenValid(whenValid);
         closeDialogClientBehavior.setTarget(target);
+        closeDialogClientBehavior.setNoAjax(noAjax);
         clientBehaviorHolder.addClientBehavior("click", closeDialogClientBehavior);
     }
 }

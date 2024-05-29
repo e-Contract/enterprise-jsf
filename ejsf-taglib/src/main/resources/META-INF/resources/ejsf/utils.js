@@ -25,12 +25,17 @@ var ejsf = ejsf || {};
         PF(dialogWidgetVar).hide();
     };
 
-    ejsf.closeDialog = function (dialogWidgetVar) {
+    ejsf.closeDialog = function (dialogWidgetVar, noAjax) {
         if (typeof dialogWidgetVar === "undefined") {
             console.error("cannot close the dialog");
             return;
         }
         dialogWidgetVar.split(",").forEach((dialogWidget) => PF(dialogWidget).hide());
+        if (noAjax) {
+            return false;
+        } else {
+            return true;
+        }
     };
 
     ejsf.openDialog = function (dialogWidgetVar, status, args, whenCallbackParam, whenCallbackParamValue) {

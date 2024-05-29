@@ -17,6 +17,7 @@ public class CloseDialogClientBehavior extends ClientBehaviorBase {
     private String whenCallbackParam;
     private Boolean whenValid;
     private String target;
+    private boolean noAjax;
 
     public String getWhenCallbackParam() {
         return this.whenCallbackParam;
@@ -40,6 +41,14 @@ public class CloseDialogClientBehavior extends ClientBehaviorBase {
 
     public String getTarget() {
         return this.target;
+    }
+
+    public void setNoAjax(boolean noAjax) {
+        this.noAjax = noAjax;
+    }
+
+    public boolean isNoAjax() {
+        return this.noAjax;
     }
 
     @Override

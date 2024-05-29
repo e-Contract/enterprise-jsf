@@ -46,7 +46,8 @@ public class CloseDialogClientBehaviorRenderer extends ClientBehaviorRenderer {
         String whenCallbackParam = closeDialogClientBehavior.getWhenCallbackParam();
         Boolean whenValid = closeDialogClientBehavior.getWhenValid();
         if (null == whenCallbackParam && null == whenValid) {
-            return "ejsf.closeDialog('" + dialogWidgetVar + "')";
+            boolean noAjax = closeDialogClientBehavior.isNoAjax();
+            return "return ejsf.closeDialog('" + dialogWidgetVar + "'," + noAjax + ")";
         } else {
             return "ejsf.storeDialog(event,'" + dialogWidgetVar + "')";
         }
