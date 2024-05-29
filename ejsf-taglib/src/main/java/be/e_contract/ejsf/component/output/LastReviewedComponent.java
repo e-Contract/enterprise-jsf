@@ -41,6 +41,9 @@ public class LastReviewedComponent extends UIOutput {
         unknownMessage,
         maxAgeWarning,
         maxAgeError,
+        okIcon,
+        warningIcon,
+        errorIcon,
     }
 
     public String getPattern() {
@@ -75,6 +78,30 @@ public class LastReviewedComponent extends UIOutput {
         getStateHelper().put(PropertyKeys.maxAgeError, maxAgeError);
     }
 
+    public String getOkIcon() {
+        return (String) getStateHelper().eval(PropertyKeys.okIcon);
+    }
+
+    public void setOkIcon(String okIcon) {
+        getStateHelper().put(PropertyKeys.okIcon, okIcon);
+    }
+
+    public String getWarningIcon() {
+        return (String) getStateHelper().eval(PropertyKeys.warningIcon);
+    }
+
+    public void setWarningIcon(String warningIcon) {
+        getStateHelper().put(PropertyKeys.warningIcon, warningIcon);
+    }
+
+    public String getErrorIcon() {
+        return (String) getStateHelper().eval(PropertyKeys.errorIcon);
+    }
+
+    public void setErrorIcon(String errorIcon) {
+        getStateHelper().put(PropertyKeys.errorIcon, errorIcon);
+    }
+
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         LocalDateTime localDateTime = (LocalDateTime) getValue();
@@ -82,6 +109,7 @@ public class LastReviewedComponent extends UIOutput {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
         String value;
         String classValue;
+        String icon;
         if (null != localDateTime) {
             value = dateTimeFormatter.format(localDateTime);
             Period maxAgeWarning = Period.parse(getMaxAgeWarning());
@@ -89,14 +117,18 @@ public class LastReviewedComponent extends UIOutput {
             LocalDateTime now = LocalDateTime.now();
             if (localDateTime.isBefore(now.minus(maxAgeError))) {
                 classValue = "ejsf-last-reviewed ejsf-last-reviewed-error";
+                icon = getErrorIcon();
             } else if (localDateTime.isBefore(now.minus(maxAgeWarning))) {
                 classValue = "ejsf-last-reviewed ejsf-last-reviewed-warning";
+                icon = getWarningIcon();
             } else {
                 classValue = "ejsf-last-reviewed ejsf-last-reviewed-ok";
+                icon = getOkIcon();
             }
         } else {
             value = getUnknownMessage();
             classValue = "ejsf-last-reviewed ejsf-last-reviewed-unknown";
+            icon = null;
         }
 
         ResponseWriter responseWriter = context.getResponseWriter();
@@ -104,6 +136,12 @@ public class LastReviewedComponent extends UIOutput {
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.writeAttribute("class", classValue, null);
+        if (null != icon) {
+            responseWriter.startElement("i", this);
+            responseWriter.writeAttribute("class", icon, "icon");
+            responseWriter.writeAttribute("style", "margin-right: 5px;", null);
+            responseWriter.endElement("i");
+        }
         responseWriter.write(value);
         responseWriter.endElement("span");
     }

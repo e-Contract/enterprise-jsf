@@ -1697,6 +1697,21 @@
             <name>maxAgeError</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The optional OK icon to show.</description>
+            <name>okIcon</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional warning icon to show.</description>
+            <name>warningIcon</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional error icon to show.</description>
+            <name>errorIcon</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
