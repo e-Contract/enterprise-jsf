@@ -49,6 +49,9 @@
                     <p:commandButton value="Close without condition" update="@form">
                         <ejsf:closeDialog/>
                     </p:commandButton>
+                    <p:commandButton value="Close without condition, no ajax">
+                        <ejsf:closeDialog noAjax="true"/>
+                    </p:commandButton>
                     <p:commandButton value="Close with unmet condition" update="@form">
                         <ejsf:closeDialog whenCallbackParam="unmetCondition"/>
                     </p:commandButton>

@@ -9,7 +9,10 @@
     <ui:define name="body">
         <ui:repeat value="#{lastReviewedController.values}" var="value" id="example">
             <p>
-                <ejsf:lastReviewed value="#{value}"/>
+                <ejsf:lastReviewed value="#{value}"
+                                   okIcon="pi pi-check-circle"
+                                   warningIcon="pi pi-info-circle"
+                                   errorIcon="pi pi-exclamation-triangle"/>
             </p>
         </ui:repeat>
         <p:tabView>
