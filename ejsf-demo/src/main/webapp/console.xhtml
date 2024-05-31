@@ -9,9 +9,11 @@
     <ui:define name="body">
         <div id="example">
             <ejsf:console widgetVar="console" timestamp="true"/>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3">
                 <p:button value="Add info message"
                           onclick="PF('console').info('some info message'); return false;"/>
+                <p:button value="Add warning message"
+                          onclick="PF('console').warning('some warning message'); return false;"/>
                 <p:button value="Add error message"
                           onclick="PF('console').error('some error message'); return false;"/>
             </h:panelGrid>

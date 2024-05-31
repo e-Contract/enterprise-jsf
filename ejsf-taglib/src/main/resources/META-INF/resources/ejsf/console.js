@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 
@@ -30,6 +30,14 @@ PrimeFaces.widget.EJSFConsole = PrimeFaces.widget.BaseWidget.extend({
     },
 
     /**
+     * Adds a warning message to the console.
+     * @param {string} message the warning message.
+     */
+    warning: function (message) {
+        this.addMessage(message, "warning");
+    },
+
+    /**
      * Adds an error message to the console.
      * @param {string} message the error message.
      */
@@ -42,7 +50,7 @@ PrimeFaces.widget.EJSFConsole = PrimeFaces.widget.BaseWidget.extend({
      *
      * @private
      * @param {string} message the message.
-     * @param {string} styleClass the message style class. "info" or "error".
+     * @param {string} styleClass the message style class. "info", "warning", or "error".
      */
     addMessage: function (message, styleClass) {
         let displayMessage;
