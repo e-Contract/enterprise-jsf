@@ -1,6 +1,6 @@
 % Enterprise JSF project.
 %
-% Copyright 2022-2023 e-Contract.be BV. All rights reserved.
+% Copyright 2022-2024 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Introduction}
@@ -174,10 +174,34 @@ Within a new terminal window, deploy the \texttt{helloworld} WAR to the local ru
 cd examples/helloworld
 mvn wildfly:deploy
 \end{lstlisting}
-
 Check out the deployed application within a web browser by navigating to:
 
 \url{http://localhost:8080/helloworld-1.0.0-SNAPSHOT/}
+
+To view the deployed applications within the WildFly application server, you can use the JBoss CLI as follows.
+\begin{lstlisting}[language=bash]
+	cd wildfly-26.1.3.Final/bin
+	./jboss-cli.sh
+	cd deployment
+	ls
+	exit
+\end{lstlisting}
+
+Undeploy the example application via the CLI as follows:
+\begin{lstlisting}[language=bash]
+	cd wildfly-26.1.3.Final/bin
+	./jboss-cli.sh
+	cd deployment
+	undeploy helloworld-1.0.0-SNAPSHOT.war
+	exit
+\end{lstlisting}
+
+You can also undeploy the example application using the Maven WildFly plugin as follows:
+\begin{lstlisting}[language=bash]
+	cd examples/helloworld
+	mvn wildfly:undeploy
+\end{lstlisting}
+
 
 \section{CDI Bean}
 
