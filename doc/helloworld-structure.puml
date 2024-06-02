@@ -9,8 +9,10 @@
 /src/main/webapp/index.xhtml
 /src/main/webapp/...
 /src/main/webapp/WEB-INF/web.xml
+/src/main/webapp/WEB-INF/jboss-web.xml
 /src/main/webapp/WEB-INF/faces-config.xml
 /src/main/webapp/WEB-INF/beans.xml
+/src/main/webapp/WEB-INF/...
 /src/main/java/...
 
 @endfiles

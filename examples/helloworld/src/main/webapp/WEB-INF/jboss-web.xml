@@ -4,6 +4,6 @@
            xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee https://www.jboss.org/schema/jbossas/jboss-web_14_1.xsd"
            version="14.0">
 
-    <context-root>/ejsf-demo</context-root>
+    <context-root>/helloworld</context-root>
 
 </jboss-web>

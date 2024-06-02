@@ -73,6 +73,9 @@ For the \texttt{http://xmlns.jcp.org/jsf/html} XML namespace we will always be u
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/WEB-INF/web.xml}
+In order to configure the context root of our web application, we use the WildFly application server specific 
+\texttt{src/main/webapp/WEB-INF/jboss-web.xml} configuration file as shown below.
+\lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/WEB-INF/jboss-web.xml}
 The JSF runtime actually lives within its own servlet, just like every other front-end technology within Java EE (JAX-WS, JAX-RS).
 As indicated by the \texttt{version} attribute, we are targeting servlet containers version 4.0, which is part of Java EE 8.
 \begin{TIP}{javax.faces.PROJECT\_STAGE}
@@ -176,7 +179,7 @@ mvn wildfly:deploy
 \end{lstlisting}
 Check out the deployed application within a web browser by navigating to:
 
-\url{http://localhost:8080/helloworld-1.0.0-SNAPSHOT/}
+\url{http://localhost:8080/helloworld/}
 
 To view the deployed applications within the WildFly application server, you can use the JBoss CLI as follows.
 \begin{lstlisting}[language=bash]
