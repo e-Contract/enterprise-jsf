@@ -548,8 +548,9 @@ The corresponding CDI backing controller is given below.
 When you want URLs that can be bookmarked, you have to use view parameters and view actions.
 The following JSF page demonstrates this concept.
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/view-action.xhtml}
-Within the \texttt{f:metadata} element we indicate the view parameters and view actions of our JSF page.
+Within the \texttt{f:metadata} element we define the view parameters and view actions of our JSF page.
 The JSF page demonstrates different ways how to invoke this page with a view parameter.
+Notice how we use the \texttt{includeViewParams} parameter to preserve (and overwrite) the existing view parameters.
 
 The corresponding CDI backing controller is given below.
 \lstinputlisting[language=Java]{../examples/helloworld/src/main/java/be/e_contract/jsf/helloworld/ViewController.java}

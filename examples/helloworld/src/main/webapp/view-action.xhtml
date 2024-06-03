@@ -15,16 +15,20 @@
         <h:form>
             <h:panelGrid columns="1">
                 <h:link value="No param" outcome="view-action"/>
-                <h:link value="Click me" outcome="view-action">
+                <h:link value="With param" outcome="view-action">
                     <f:param name="param" value="hello world"/>
                 </h:link>
-                <h:button value="Click me" outcome="view-action">
+                <h:button value="Button with param" outcome="view-action">
                     <f:param name="param" value="button param"/>
                 </h:button>
-                <h:commandButton value="Click me"
+                <h:commandButton value="CommandButton with param"
     action="view-action?faces-redirect=true&amp;includeViewParams=true">
                     <f:param name="param" value="commandButton param"/>
                 </h:commandButton>
+                <h:commandButton value="CommandButton with view params"
+    action="view-action?faces-redirect=true&amp;includeViewParams=true"/>
+                <h:commandButton value="CommandButton no params"
+    action="view-action?faces-redirect=true"/>
             </h:panelGrid>
         </h:form>
     </h:body>
