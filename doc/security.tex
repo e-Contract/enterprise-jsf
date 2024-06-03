@@ -121,9 +121,15 @@ Now we enter the actual authentication flow.
 If the \texttt{HttpSession} already contains an authenticated username, we accept as is.
 Else, if the request does not contain a username, we redirect to our login page after storing the final target web page within the HTTP session.
 Only when we have a username and password as part of the request attributes,
-we delegate towards a \texttt{SecurityBean},
-located via JNDI since we don't have injection available here.
-This \texttt{SecurityBean} validates the password credential for the given username.
+we delegate towards some application code to authenticated the user and assign roles.
+In our example we demonstrate delegation towards a CDI bean and an EJB bean.
+\begin{itemize}
+	\item The CDI \texttt{SecurityController} bean is located via \texttt{CDI.current().select(...)} since we don't have CDI injection available within our \texttt{ServerAuthModule} implementation.
+	Notice how we take care of the CDI bean lifecycle via the \texttt{destroy(...)} method call to prevent a potentially nasty CDI memory leak.
+	\item
+The EJB \texttt{SecurityBean} is located via JNDI since we don't have injection available within our \texttt{ServerAuthModule} implementation.
+This \texttt{SecurityBean} validates the password credential for the given username and assigns some roles.
+\end{itemize}
 If all goes well, we store the authenticated user within the \texttt{HttpSession},
 inject all of this towards the \texttt{CallbackHandler} and redirect to the target web page.
 
@@ -131,8 +137,9 @@ Our \texttt{ServerAuthModule} implementation also contains a public static \text
 This method is used by the login page controller to communicate the user credentials towards our server authentication module.
 Notice how we re-trigger an authentication within this method via the \texttt{authenticate} invocation on the \texttt{HttpServletRequest} instance.
 
-In a real-world scenario the \texttt{SecurityBean} would validate the credentials against, for example, a database record.
+In a real-world scenario the \texttt{SecurityController} and \texttt{SecurityBean} would validate the credentials against, for example, a database record.
 However, for demonstration purposes, we provide a simple implementation as follows.
+\lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/SecurityController.java}
 \lstinputlisting[language=Java]{../examples/security/src/main/java/be/e_contract/jsf/security/SecurityBean.java}
 So if the password is "secret", we accept the authentication and assign some role.
 Notice how we use explicit JNDI binding here to allow our \texttt{ServerAuthModule} to locate it within our application.

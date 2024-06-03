@@ -30,7 +30,7 @@
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>3.10.2</version>
+                    <version>3.10.3</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -73,7 +73,7 @@
                         <version>2.3</version>
                         <configuration>
                             <deployWar>true</deployWar>
-                            <payaraVersion>6.2024.3</payaraVersion>
+                            <payaraVersion>6.2024.5</payaraVersion>
                         </configuration>
                     </plugin>
                 </plugins>

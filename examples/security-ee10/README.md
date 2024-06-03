@@ -7,15 +7,18 @@ The example works on different application servers.
 
 ## JBoss EAP/WildFly
 
-Configure JBoss EAP version 8.0.0 or WildFly version 31.0.1 as follows.
+Configure JBoss EAP version 8.0.0 or WildFly version 32.0.0 as follows.
 Under the `urn:wildfly:elytron:18.0` subsystem, add the following security domain:
 ```xml
 <security-domain name="JASPICDomain"/>
 ```
+Notice for WildFly version 32.0.0 that the Elytron subsystem namespace was changed to `urn:wildfly:elytron:community:18.0`.
+
 Under the `urn:jboss:domain:undertow:14.0` subsystem, add the following application security domain:
 ```xml
 <application-security-domain name="jaspitest" security-domain="JASPICDomain" integrated-jaspi="false"/>
 ```
+
 Under the `urn:jboss:domain:ejb3:10.0` subsystem, add the following application security domain:
 ```xml
 <application-security-domain name="jaspitest" security-domain="JASPICDomain"/>

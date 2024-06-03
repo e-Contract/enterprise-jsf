@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.CDI;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -117,6 +119,14 @@ public class DemoServerAuthModule implements ServerAuthModule {
             return AuthStatus.SEND_CONTINUE;
         }
         String password = (String) httpServletRequest.getAttribute(PASSWORD_REQUEST_ATTRIBUTE);
+        Instance<SecurityController> securityControllerInstance = CDI.current().select(SecurityController.class);
+        SecurityController securityController = securityControllerInstance.get();
+        boolean authenticated = securityController.authenticate(username, password);
+        securityControllerInstance.destroy(securityController);
+        if (!authenticated) {
+            LOGGER.warn("incorrect password: {}", password);
+            return AuthStatus.SEND_FAILURE;
+        }
         SecurityBean securityBean;
         try {
             InitialContext initialContext = new InitialContext();
