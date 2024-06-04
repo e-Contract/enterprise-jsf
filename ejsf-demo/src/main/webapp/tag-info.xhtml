@@ -6,7 +6,10 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">TagInfo Demo</ui:define>
     <ui:define name="body">
-        <ejsf:tagInfo id="example" library="ejsf" tag="tagInfo"/>
+        <div id="example">
+            <ejsf:tagInfo library="ejsf" tag="tagInfo"/>
+            <ejsf:tagInfo namespace="urn:be:e-contract:ejsf" tag="tagInfo"/>
+        </div>
         <ejsf:tagInfo library="ejsf" tag="tagInfo" rendered="false"/>
         <p:tabView>
             <p:tab title="XHTML">

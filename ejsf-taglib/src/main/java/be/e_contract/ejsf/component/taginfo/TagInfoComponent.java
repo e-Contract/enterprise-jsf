@@ -8,6 +8,7 @@ package be.e_contract.ejsf.component.taginfo;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.JarURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -19,8 +20,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
@@ -62,15 +68,15 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
     }
 
     public enum PropertyKeys {
-        namespace,
+        actualNamespace,
         description,
         version,
         tags,
         functions
     }
 
-    public String getNamespace() {
-        return (String) getStateHelper().get(PropertyKeys.namespace);
+    public String getActualNamespace() {
+        return (String) getStateHelper().get(PropertyKeys.actualNamespace);
     }
 
     public String getDescription() {
@@ -81,8 +87,8 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         return (String) getStateHelper().get(PropertyKeys.version);
     }
 
-    private void setNamespace(String namespace) {
-        getStateHelper().put(PropertyKeys.namespace, namespace);
+    private void setActualNamespace(String namespace) {
+        getStateHelper().put(PropertyKeys.actualNamespace, namespace);
     }
 
     private void setDescription(String description) {
@@ -112,7 +118,11 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         getStateHelper().put(PropertyKeys.functions, functions);
         String library = (String) getAttributes().get("library");
         if (null == library) {
-            return tags;
+            String namespace = (String) getAttributes().get("namespace");
+            library = findLibraryForNamespace(namespace);
+            if (null == library) {
+                return tags;
+            }
         }
         Document taglibDocument = getTaglibDocument(library);
         if (null == taglibDocument) {
@@ -133,7 +143,7 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
             }
         }
         String namespace = taglibDocument.getElementsByTagNameNS("*", "namespace").item(0).getTextContent();
-        setNamespace(namespace);
+        setActualNamespace(namespace);
         String tagName = (String) getAttributes().get("tag");
         NodeList tagNodeList = taglibDocument.getElementsByTagNameNS("*", "tag");
         LOGGER.trace("number of tags: {}", tagNodeList.getLength());
@@ -406,5 +416,65 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         Document document = documentBuilder.parse(inputStream);
         return document;
+    }
+
+    private static final Map<String, String> NAMESPACE_TO_LIBRARY_MAP = new HashMap<>();
+
+    private String findLibraryForNamespace(String namespace) {
+        if (!NAMESPACE_TO_LIBRARY_MAP.isEmpty()) {
+            return NAMESPACE_TO_LIBRARY_MAP.get(namespace);
+        }
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Enumeration<URL> resources;
+        try {
+            resources = classLoader.getResources("META-INF");
+        } catch (IOException ex) {
+            LOGGER.error("resources error: " + ex.getMessage(), ex);
+            return null;
+        }
+        while (resources.hasMoreElements()) {
+            URL resource = resources.nextElement();
+            URLConnection urlConnection;
+            try {
+                urlConnection = resource.openConnection();
+            } catch (IOException ex) {
+                LOGGER.error("URL connection error: " + ex.getMessage(), ex);
+                continue;
+            }
+            if (urlConnection instanceof JarURLConnection) {
+                JarURLConnection jarUrlConnection = (JarURLConnection) urlConnection;
+                JarFile jarFile;
+                try {
+                    jarFile = jarUrlConnection.getJarFile();
+                } catch (IOException ex) {
+                    LOGGER.error("get jar file error: " + ex.getMessage(), ex);
+                    continue;
+                }
+                Enumeration<JarEntry> jarEntryEnum = jarFile.entries();
+                while (jarEntryEnum.hasMoreElements()) {
+                    JarEntry jarEntry = jarEntryEnum.nextElement();
+                    String jarEntryName = jarEntry.getName();
+                    if (!jarEntryName.startsWith("META-INF/")) {
+                        continue;
+                    }
+                    if (!jarEntryName.endsWith(".taglib.xml")) {
+                        continue;
+                    }
+                    String library = jarEntryName.substring("/META-INF".length());
+                    library = library.substring(0, library.indexOf(".taglib.xml"));
+                    Document taglibDocument;
+                    try {
+                        taglibDocument = loadDocument(jarFile.getInputStream(jarEntry));
+                    } catch (ParserConfigurationException | SAXException | IOException ex) {
+                        LOGGER.error("error loading taglib XML document: " + ex.getMessage(), ex);
+                        continue;
+                    }
+                    String taglibNamespace = taglibDocument.getElementsByTagNameNS("*", "namespace").item(0).getTextContent();
+                    LOGGER.debug("namespace {} - library: {}", taglibNamespace, library);
+                    NAMESPACE_TO_LIBRARY_MAP.put(taglibNamespace, library);
+                }
+            }
+        }
+        return NAMESPACE_TO_LIBRARY_MAP.get(namespace);
     }
 }

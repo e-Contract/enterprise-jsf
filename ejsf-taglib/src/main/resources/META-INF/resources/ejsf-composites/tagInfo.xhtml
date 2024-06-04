@@ -12,8 +12,10 @@
         <composite:interface shortDescription="Displays the API description of a JSF tag."
                              componentType="ejsf.tagInfo">
             <composite:attribute name="library"
-                                 required="true"
-                                 shortDescription="The JSF library."
+                                 shortDescription="The JSF library. Provide either library or namespace."
+                                 type="java.lang.String"/>
+            <composite:attribute name="namespace"
+                                 shortDescription="The namespace of the JSF library. Provide either library or namespace."
                                  type="java.lang.String"/>
             <composite:attribute name="tag"
                                  shortDescription="The optional JSF tag. If not provided, we display everything."
@@ -23,7 +25,7 @@
             <h:outputStylesheet library="ejsf" name="taginfo.css" />
             <div id="#{cc.clientId}">
                 <p:panel rendered="#{cc.tags.size() > 1}"
-                         header="#{cc.namespace} JSF tag library"
+                         header="#{cc.actualNamespace} JSF tag library"
                          style="margin-bottom: 30px;">
                     <p>
                         #{cc.description}
@@ -32,7 +34,7 @@
                         This JSF tag library defines #{cc.tags.size()} tags and is JSF version #{cc.version} compatible.
                     </p>
                     <p>
-                        Namespace: #{cc.namespace}
+                        Namespace: #{cc.actualNamespace}
                     </p>
                     <ul>
                         <ui:repeat value="#{cc.tags}" var="tag">
@@ -67,7 +69,7 @@
                         </p>
                         <h:panelGrid columns="2" style="margin-bottom: 10px;">
                             <h:outputText value="Namespace:"/>
-                            <h:outputText value="#{cc.namespace}"/>
+                            <h:outputText value="#{cc.actualNamespace}"/>
 
                             <h:outputText value="Component Type:"
                                           rendered="#{not empty tag.componentType}"/>
