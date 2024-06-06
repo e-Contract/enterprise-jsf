@@ -473,6 +473,10 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
                     LOGGER.debug("namespace {} - library: {}", taglibNamespace, library);
                     NAMESPACE_TO_LIBRARY_MAP.put(taglibNamespace, library);
                 }
+            } else {
+                // no JarURLConnection
+                LOGGER.debug("resource: {}", resource);
+                LOGGER.warn("TODO: implement me");
             }
         }
         return NAMESPACE_TO_LIBRARY_MAP.get(namespace);
