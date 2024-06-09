@@ -205,14 +205,14 @@ const ItemDataTable = (props: ItemDataTableProps): React.JSX.Element => {
     function ItemRemoveButton(rowData): React.JSX.Element {
         return <>
             <Button onClick={() => props.removeCallback(rowData.name)}
-                icon="pi pi-trash" />
+                icon="pi pi-trash" tooltip="Remove item..."/>
         </>;
     }
 
     function ItemAddButton(): React.JSX.Element {
         return <>
             <Button onClick={() => props.addCallback()}
-                icon="pi pi-plus-circle" />
+                icon="pi pi-plus-circle" tooltip="Add item..."/>
         </>;
     }
 

@@ -25,6 +25,7 @@
                                      update="removeDialog,messages">
                         <ejsf:openDialog dialogId=":removeDialog"/>
                     </p:commandButton>
+                    <p:tooltip for="@previous" value="Remove item..."/>
                 </p:column>
                 <f:facet name="footer">
                     <p:commandButton icon="pi pi-plus-circle"
@@ -33,6 +34,7 @@
                         <ejsf:openDialog dialogId=":addDialog"/>
                         <p:resetInput target="addDialog"/>
                     </p:commandButton>
+                    <p:tooltip for="@previous" value="Add item..."/>
                 </f:facet>
             </p:dataTable>
         </h:form>
@@ -61,7 +63,7 @@
                     <ejsf:closeDialog whenCallbackParam="itemAdded"/>
                 </p:commandButton>
                 <p:commandButton value="Dismiss" icon="pi pi-times">
-                    <ejsf:closeDialog/>
+                    <ejsf:closeDialog noAjax="true"/>
                 </p:commandButton>
             </h:panelGrid>
         </h:form>
@@ -77,7 +79,7 @@
                     <ejsf:closeDialog/>
                 </p:commandButton>
                 <p:commandButton value="Dismiss" icon="pi pi-times">
-                    <ejsf:closeDialog/>
+                    <ejsf:closeDialog noAjax="true"/>
                 </p:commandButton>
             </h:panelGrid>
         </h:form>

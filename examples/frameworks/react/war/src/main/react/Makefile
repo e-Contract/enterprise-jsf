@@ -1,6 +1,6 @@
-.PHONY: all
-.SILENT: all
-all:
+.PHONY: info
+.SILENT: info
+info:
 	echo "Makefile usage:"
 	echo "make clean"
 	echo "\tCleanup the work directories."
