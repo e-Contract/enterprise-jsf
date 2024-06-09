@@ -165,6 +165,7 @@
         <jackson.version>2.16.2</jackson.version>
         <webauthn-server.version>2.5.2</webauthn-server.version>
         <webauthn4j.version>0.23.0.RELEASE</webauthn4j.version>
+        <primefaces.version>13.0.10</primefaces.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -183,7 +184,7 @@
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
-                <version>13.0.10</version>
+                <version>${primefaces.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -238,7 +239,7 @@
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-vfs</artifactId>
-                <version>3.3.1.Final</version>
+                <version>3.3.2.Final</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>

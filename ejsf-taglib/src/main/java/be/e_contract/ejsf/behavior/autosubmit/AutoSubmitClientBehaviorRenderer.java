@@ -17,6 +17,9 @@ import org.primefaces.expression.SearchExpressionUtils;
 
 @FacesBehaviorRenderer(rendererType = AutoSubmitClientBehaviorRenderer.RENDERER_TYPE)
 @ResourceDependencies({
+    @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
+    @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
+    @ResourceDependency(library = "primefaces", name = "core.js"),
     @ResourceDependency(library = "ejsf", name = "utils.js", target = "head")
 })
 public class AutoSubmitClientBehaviorRenderer extends ClientBehaviorRenderer {

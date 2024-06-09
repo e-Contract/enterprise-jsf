@@ -31,11 +31,23 @@
             <artifactId>ejsf-taglib</artifactId>
             <version>1.15.1-SNAPSHOT</version>
             <classifier>jakarta</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>be.e-contract.enterprise-jsf</groupId>
+                    <artifactId>ejsf-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-api</artifactId>
+            <version>1.15.1-SNAPSHOT</version>
+            <classifier>jakarta</classifier>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>13.0.8</version>
+            <version>${primefaces.version}</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
