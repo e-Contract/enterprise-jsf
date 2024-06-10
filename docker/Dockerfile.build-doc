@@ -10,13 +10,13 @@ FROM debian:sid
 RUN apt-get update && \
     apt-get install -y build-essential librsvg2-bin fig2dev plantuml texlive texlive-lang-french texlive-latex-extra wget
 
-ARG PLANTUML_VERSION=1.2023.1
+ARG PLANTUML_VERSION=1.2024.5
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PLANTUML_JAR="/usr/share/plantuml/plantuml.jar" 
 
 # Update plantuml since Frank is using recent features that aren't supported in the version provided by Debian nor Ubuntu
-RUN wget -O $PLANTUML_JAR https://sourceforge.net/projects/plantuml/files/plantuml.${PLANTUML_VERSION}.jar/download
+RUN wget -O $PLANTUML_JAR https://github.com/plantuml/plantuml/releases/download/v${PLANTUML_VERSION}/plantuml-${PLANTUML_VERSION}.jar
 
 WORKDIR /build/doc
 
