@@ -28,16 +28,6 @@ var ejsf = ejsf || {};
 })();
 
 $(document).ready(function () {
-    let sameHeightElements = $("[data-ejsf-same-height]");
-    let groupNames = new Set();
-    sameHeightElements.each(function () {
-        let sameHeightElement = $(this);
-        let groupName = sameHeightElement.data("ejsf-same-height");
-        groupNames.add(groupName);
-    });
-    for (const groupName of groupNames) {
-        ejsf.sameHeight(groupName);
-    }
     let mutationObserver = new MutationObserver(function (mutationList) {
         let updateGroupNames = new Set();
         for (const mutation of mutationList) {
@@ -62,5 +52,30 @@ $(document).ready(function () {
     mutationObserver.observe(document, {
         childList: true,
         subtree: true
+    });
+    let intersectionObserver = new IntersectionObserver(function (entries) {
+        let updateGroupNames = new Set();
+        entries.forEach(
+                function (entry) {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+                    let sameHeightDataAttr = entry.target.attributes.getNamedItem("data-ejsf-same-height");
+                    if (null === sameHeightDataAttr) {
+                        return;
+                    }
+                    let groupName = sameHeightDataAttr.value;
+                    updateGroupNames.add(groupName);
+                });
+        for (const updateGroupName of updateGroupNames) {
+            queueMicrotask(() => {
+                ejsf.sameHeight(updateGroupName);
+            });
+        }
+    });
+    let sameHeightElements = $("[data-ejsf-same-height]");
+    sameHeightElements.each(function () {
+        let sameHeightElement = $(this);
+        intersectionObserver.observe(sameHeightElement.get(0));
     });
 });
