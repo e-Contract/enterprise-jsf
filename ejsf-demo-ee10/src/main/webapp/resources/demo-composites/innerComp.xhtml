@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="jakarta.faces.composite"
+      xmlns:h="jakarta.faces.html">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface>
+            <composite:facet name="innerFacet"/>
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                <composite:renderFacet name="innerFacet"/>
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>
