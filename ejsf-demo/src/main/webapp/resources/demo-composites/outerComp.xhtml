@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:demo="urn:be:e-contract:ejsf:demo"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface>
+            <composite:facet name="outerFacet"/>
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                <demo:innerComp id="inner">
+                    <ejsf:insertFacet name="outerFacet" targetName="innerFacet"/>
+                </demo:innerComp>
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>
