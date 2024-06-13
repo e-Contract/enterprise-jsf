@@ -36,6 +36,14 @@ public class InsertFacetListener implements ComponentSystemEventListener, StateH
         this.targetName = targetName;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public String getTargetName() {
+        return this.targetName;
+    }
+
     @Override
     public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
         LOGGER.debug("event: {}", event);
@@ -57,7 +65,7 @@ public class InsertFacetListener implements ComponentSystemEventListener, StateH
         }
         if (null != component.getFacet(targetName)) {
             LOGGER.debug("component {} already has facet {}", component.getId(), targetName);
-            return;
+            //return; mojarra needs to pass here
         }
         UIComponent compositeComponentParent = UIComponent.getCompositeComponentParent(component);
         LOGGER.debug("composite component parent: {}", compositeComponentParent.getId());
@@ -68,7 +76,9 @@ public class InsertFacetListener implements ComponentSystemEventListener, StateH
             return;
         }
         LOGGER.debug("insert facet {} into {} as {}", this.name, component.getId(), targetName);
+        LOGGER.debug("facet type: {}", facet);
         component.getFacets().put(targetName, facet);
+        facet.setId(facet.getId());
     }
 
     @Override

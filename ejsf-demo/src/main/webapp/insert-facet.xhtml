@@ -12,7 +12,8 @@
         <h:form>
             <demo:outerComp id="outer">
                 <f:facet name="outerFacet">
-                    <p:inputText value="#{inputOutputController.value}"/>
+                    <p:inputText value="#{inputOutputController.value}" required="true"/>
+                    <p:message for="@previous"/>
                 </f:facet>
             </demo:outerComp>
             <p>
