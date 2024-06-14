@@ -473,8 +473,33 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
                     LOGGER.debug("namespace {} - library: {}", taglibNamespace, library);
                     NAMESPACE_TO_LIBRARY_MAP.put(taglibNamespace, library);
                 }
+            } else if (resource.getProtocol().equals("vfs")) {
+                // WildFly/JBoss
+                VirtualFile virtualFile;
+                try {
+                    virtualFile = (VirtualFile) urlConnection.getContent();
+                } catch (IOException ex) {
+                    LOGGER.error("VFS error: " + ex.getMessage(), ex);
+                    continue;
+                }
+                for (VirtualFile childVirtualFile : virtualFile.getChildren()) {
+                    String childVirtualFileName = childVirtualFile.getName();
+                    LOGGER.debug("child: {}", childVirtualFileName);
+                    if (childVirtualFileName.endsWith(".taglib.xml")) {
+                        String library = childVirtualFileName.substring(0, childVirtualFileName.indexOf(".taglib.xml"));
+                        Document taglibDocument;
+                        try {
+                            taglibDocument = loadDocument(childVirtualFile.openStream());
+                        } catch (ParserConfigurationException | SAXException | IOException ex) {
+                            LOGGER.error("error loading taglib XML document: " + ex.getMessage(), ex);
+                            continue;
+                        }
+                        String taglibNamespace = taglibDocument.getElementsByTagNameNS("*", "namespace").item(0).getTextContent();
+                        LOGGER.debug("namespace {} - library: {}", taglibNamespace, library);
+                        NAMESPACE_TO_LIBRARY_MAP.put(taglibNamespace, library);
+                    }
+                }
             } else {
-                // no JarURLConnection
                 LOGGER.debug("resource: {}", resource);
                 LOGGER.warn("TODO: implement me");
             }
