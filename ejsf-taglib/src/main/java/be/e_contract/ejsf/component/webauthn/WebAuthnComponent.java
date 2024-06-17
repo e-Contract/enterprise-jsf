@@ -29,7 +29,6 @@ import com.yubico.webauthn.data.PublicKeyCredential;
 import com.yubico.webauthn.data.PublicKeyCredentialCreationOptions;
 import com.yubico.webauthn.data.RelyingPartyIdentity;
 import com.yubico.webauthn.data.UserIdentity;
-import com.yubico.webauthn.exception.RegistrationFailedException;
 import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
@@ -425,7 +424,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 RegistrationResult registrationResult;
                 try {
                     registrationResult = relyingParty.finishRegistration(finishRegistrationOptions);
-                } catch (RegistrationFailedException ex) {
+                } catch (Exception ex) {
                     LOGGER.error("registration error: " + ex.getMessage(), ex);
                     WebAuthnRegistrationError error = new WebAuthnRegistrationError(ex.getMessage());
                     invokeRegistrationErrorListener(error);
