@@ -38,13 +38,13 @@ var ejsf = ejsf || {};
         }
     };
 
-    ejsf.openDialog = function (dialogWidgetVar, status, args, whenCallbackParam, whenCallbackParamValue) {
+    ejsf.openDialog = function (dialogWidgetVar, status, args, whenCallbackParam, whenCallbackParamValue, oncomplete) {
         if (status !== "success") {
             return;
         }
         if (typeof whenCallbackParam !== "undefined") {
-            if (whenCallbackParam !== "null") {
-                if (typeof whenCallbackParamValue !== "undefined" && whenCallbackParamValue !== "null") {
+            if (whenCallbackParam !== null) {
+                if (typeof whenCallbackParamValue !== "undefined" && whenCallbackParamValue !== null) {
                     if (args[whenCallbackParam] !== whenCallbackParamValue) {
                         return;
                     }
@@ -60,6 +60,9 @@ var ejsf = ejsf || {};
         let dialogWidget = PF(dialogWidgetVar);
         if (typeof dialogWidget !== "undefined") {
             dialogWidget.show();
+        }
+        if (typeof oncomplete === "function") {
+            oncomplete.apply(this, args);
         }
     };
 

@@ -12,6 +12,7 @@ import javax.faces.FacesWrapper;
 import javax.faces.component.UIComponent;
 import javax.faces.event.PostAddToViewEvent;
 import javax.faces.event.SystemEventListener;
+import javax.faces.view.facelets.ComponentHandler;
 import javax.faces.view.facelets.FaceletContext;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagConfig;
@@ -75,6 +76,9 @@ public class InsertFacetTagHandler extends TagHandler {
 
     @Override
     public void apply(FaceletContext context, UIComponent parent) throws IOException {
+        if (!ComponentHandler.isNew(parent)) {
+            return;
+        }
         String name = this.nameTagAttribute.getValue(context);
         String targetName;
         if (null != this.targetNameTagAttribute) {

@@ -32,6 +32,13 @@
                                      whenCallbackParam="whatever"
                                      whenCallbackParamValue="some value"/>
                 </p:commandButton>
+                <p:commandButton value="Open Dialog with oncomplete"
+                                 action="#{openDialogController.actionWithCallbackParameter('whatever','some value')}">
+                    <ejsf:openDialog dialog="demoDialog"
+                                     whenCallbackParam="whatever"
+                                     whenCallbackParamValue="some value"
+                                     oncomplete="console.log('oncomplete function called');"/>
+                </p:commandButton>
                 <p:menu>
                     <p:menuitem value="Open Dialog" action="#{openDialogController.actionWithCallbackParameter('whatever','some value')}">
                         <ejsf:openDialog dialog="demoDialog" whenCallbackParam="whatever" whenCallbackParamValue="some value"/>

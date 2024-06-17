@@ -974,6 +974,11 @@
             <name>whenCallbackParamValue</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Client side callback to execute when ajax request is completed.</description>
+            <name>oncomplete</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

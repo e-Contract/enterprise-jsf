@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.behavior.opendialog;
@@ -46,6 +46,14 @@ public class OpenDialogTagHandler extends TagHandler {
             dialog = dialogTagAttribute.getValue();
         }
 
+        String oncomplete;
+        TagAttribute oncompleteTagAttribute = getAttribute("oncomplete");
+        if (null != oncompleteTagAttribute) {
+            oncomplete = "function(){" + oncompleteTagAttribute.getValue() + "}";
+        } else {
+            oncomplete = "null";
+        }
+
         String whenCallbackParam;
         String oncompleteScript;
         TagAttribute whenCallbackParamTagAttribute = getAttribute("whenCallbackParam");
@@ -54,14 +62,15 @@ public class OpenDialogTagHandler extends TagHandler {
             String whenCallbackParamValue;
             TagAttribute whenCallbackParamValueTagAttribute = getAttribute("whenCallbackParamValue");
             if (null != whenCallbackParamValueTagAttribute) {
-                whenCallbackParamValue = whenCallbackParamValueTagAttribute.getValue();
+                whenCallbackParamValue = "'" + whenCallbackParamValueTagAttribute.getValue() + "'";
             } else {
-                whenCallbackParamValue = null;
+                whenCallbackParamValue = "null";
             }
-            oncompleteScript = "ejsf.openDialog('" + dialog + "',status,xhr.pfArgs,'" + whenCallbackParam + "','" + whenCallbackParamValue + "')";
+            oncompleteScript = "ejsf.openDialog('" + dialog + "',status,xhr.pfArgs,'" + whenCallbackParam + "',"
+                    + whenCallbackParamValue + "," + oncomplete + ")";
         } else {
             whenCallbackParam = null;
-            oncompleteScript = "ejsf.openDialog('" + dialog + "',status,xhr.pfArgs)";
+            oncompleteScript = "ejsf.openDialog('" + dialog + "',status,xhr.pfArgs,null,null," + oncomplete + ")";
         }
 
         FacesContext facesContext = faceletContext.getFacesContext();
