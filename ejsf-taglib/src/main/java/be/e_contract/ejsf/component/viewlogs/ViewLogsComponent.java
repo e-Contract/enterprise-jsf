@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.viewlogs;
@@ -105,6 +105,7 @@ public class ViewLogsComponent extends UIComponentBase {
             Resource resource = resourceHandler.createResource(logFile.getName(), ViewLogsResourceHandler.LIBRARY_NAME);
             if (null == resource) {
                 LOGGER.warn("missing ViewLogsResourceHandler configuration");
+                throw new IOException("missing ViewLogsResourceHandler configuration");
             }
             String resourceRequestPath = resource.getRequestPath();
             String code = authorizationCode.generateCode(logFile.getName());
