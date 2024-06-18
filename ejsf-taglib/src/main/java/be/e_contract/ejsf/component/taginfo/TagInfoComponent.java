@@ -188,7 +188,11 @@ public class TagInfoComponent extends UIComponentBase implements NamingContainer
             NodeList attributeNodeList = tagElement.getElementsByTagNameNS("*", "attribute");
             for (int attributeIdx = 0; attributeIdx < attributeNodeList.getLength(); attributeIdx++) {
                 Element attributeElement = (Element) attributeNodeList.item(attributeIdx);
-                String attributeName = attributeElement.getElementsByTagNameNS("*", "name").item(0).getTextContent();
+                NodeList nameNodeList = attributeElement.getElementsByTagNameNS("*", "name");
+                if (nameNodeList.getLength() == 0) {
+                    continue;
+                }
+                String attributeName = nameNodeList.item(0).getTextContent();
                 String attributeType = null;
                 NodeList typeNodeList = attributeElement.getElementsByTagNameNS("*", "type");
                 if (typeNodeList.getLength() > 0) {
