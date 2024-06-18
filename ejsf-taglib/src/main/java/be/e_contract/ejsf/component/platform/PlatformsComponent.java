@@ -76,27 +76,27 @@ public class PlatformsComponent extends UIComponentBase {
 
     private List<PlatformComponent> getMatchingPlatformComponents(Platform platform) {
         List<UIComponent> children = getChildren();
-        List<PlatformComponent> paltformComponents = new LinkedList<>();
+        List<PlatformComponent> platformComponents = new LinkedList<>();
         for (UIComponent component : children) {
             if (!(component instanceof PlatformComponent)) {
                 continue;
             }
             PlatformComponent platformComponent = (PlatformComponent) component;
             if (platformComponent.match(platform)) {
-                paltformComponents.add(platformComponent);
+                platformComponents.add(platformComponent);
             }
         }
-        if (paltformComponents.isEmpty()) {
+        if (platformComponents.isEmpty()) {
             // worst-case we show everything
             for (UIComponent component : children) {
                 if (!(component instanceof PlatformComponent)) {
                     continue;
                 }
                 PlatformComponent platformComponent = (PlatformComponent) component;
-                paltformComponents.add(platformComponent);
+                platformComponents.add(platformComponent);
             }
         }
-        return paltformComponents;
+        return platformComponents;
     }
 
     @Override
