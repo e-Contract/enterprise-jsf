@@ -1806,4 +1806,18 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Only renders on a specified browser.</description>
+        <tag-name>browser</tag-name>
+        <component>
+            <component-type>ejsf.browserComponent</component-type>
+        </component>
+        <attribute>
+            <description>The name of the browser: chrome, edge, firefox, safari</description>
+            <name>name</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
