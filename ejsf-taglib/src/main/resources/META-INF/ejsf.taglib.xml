@@ -1820,4 +1820,26 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Renders for a specific platform.</description>
+        <tag-name>platforms</tag-name>
+        <component>
+            <component-type>ejsf.platformsComponent</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <description>A platform to render or not.</description>
+        <tag-name>platform</tag-name>
+        <component>
+            <component-type>ejsf.platformComponent</component-type>
+        </component>
+        <attribute>
+            <description>The name of the platform: linux, macos, freebsd, or windows</description>
+            <name>name</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
