@@ -1842,4 +1842,19 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Makes a component go fullscreen.</description>
+        <tag-name>fullscreen</tag-name>
+        <behavior>
+            <behavior-id>ejsf.fullscreenClientBehavior</behavior-id>
+            <handler-class>be.e_contract.ejsf.behavior.fullscreen.FullscreenTagHandler</handler-class>
+        </behavior>
+        <attribute>
+            <description>The component id to render fullscreen.</description>
+            <name>component</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

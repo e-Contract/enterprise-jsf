@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Fullscreen Demo</ui:define>
+    <ui:define name="body">
+        <h:form id="example">
+            <p:textEditor id="textEditor"
+                          value="#{inputOutputController.value}">
+                <f:facet name="toolbar">
+                    <span class="ql-formats">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select class="ql-font"></select>
+                        <select class="ql-size"></select>
+                    </span>
+                    <span class="ql-formats">
+                        <p:commandButton icon="pi pi-search-plus" style="color: black;">
+                            <ejsf:fullscreen component="textEditor"/>
+                        </p:commandButton>
+                        <p:tooltip for="@previous" value="Fullscreen"/>
+                    </span>
+                </f:facet>
+            </p:textEditor>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="InputOutputController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/InputOutputController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="fullscreen"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
