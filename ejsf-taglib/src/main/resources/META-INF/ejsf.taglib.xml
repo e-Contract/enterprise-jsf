@@ -1857,4 +1857,12 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Prevents this page from being indexed by search engines.</description>
+        <tag-name>robots</tag-name>
+        <component>
+            <component-type>ejsf.robotsComponent</component-type>
+        </component>
+    </tag>
+
 </facelet-taglib>
