@@ -9,7 +9,7 @@ var ejsf = ejsf || {};
 
 (function () {
 
-    ejsf.fullscreen = function (id) {
+    ejsf.fullscreen = function (id, onfullscreen) {
         if (!document.fullscreenEnabled) {
             return;
         }
@@ -18,10 +18,16 @@ var ejsf = ejsf || {};
             return;
         }
         let element = document.getElementById(id);
-        element.requestFullscreen().catch((err) => {
-            console.log("error going fullscreen on " + id);
-            console.log(err);
-        });
+        element.requestFullscreen()
+                .then(() => {
+                    if (typeof onfullscreen === "function") {
+                        onfullscreen();
+                    }
+                })
+                .catch((err) => {
+                    console.log("error going fullscreen on " + id);
+                    console.log(err);
+                });
     };
 
 })();

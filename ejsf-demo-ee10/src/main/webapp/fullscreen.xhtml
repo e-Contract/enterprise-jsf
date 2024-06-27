@@ -10,6 +10,7 @@
     <ui:define name="body">
         <h:form id="example">
             <p:textEditor id="textEditor"
+                          widgetVar="textEditor"
                           value="#{inputOutputController.value}">
                 <f:facet name="toolbar">
                     <span class="ql-formats">
@@ -24,7 +25,8 @@
                     </span>
                     <span class="ql-formats">
                         <p:commandButton icon="pi pi-search-plus" style="color: black;">
-                            <ejsf:fullscreen component="textEditor"/>
+                            <ejsf:fullscreen component="textEditor"
+                                             onfullscreen="PF('textEditor').editor.focus()"/>
                         </p:commandButton>
                         <p:tooltip for="@previous" value="Fullscreen"/>
                     </span>

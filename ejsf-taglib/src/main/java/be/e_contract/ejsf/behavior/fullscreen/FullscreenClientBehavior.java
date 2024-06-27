@@ -16,12 +16,22 @@ public class FullscreenClientBehavior extends ClientBehaviorBase {
 
     private String component;
 
+    private String onfullscreen;
+
     public String getComponent() {
         return this.component;
     }
 
     public void setComponent(String component) {
         this.component = component;
+    }
+
+    public String getOnfullscreen() {
+        return this.onfullscreen;
+    }
+
+    public void setOnfullscreen(String onfullscreen) {
+        this.onfullscreen = onfullscreen;
     }
 
     @Override

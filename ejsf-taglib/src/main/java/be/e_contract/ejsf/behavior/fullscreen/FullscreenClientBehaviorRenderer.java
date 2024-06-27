@@ -39,6 +39,12 @@ public class FullscreenClientBehaviorRenderer extends ClientBehaviorRenderer {
         }
         FacesContext facesContext = behaviorContext.getFacesContext();
         String fullscreenComponentClientId = fullscreenComponent.getClientId(facesContext);
-        return "ejsf.fullscreen('" + fullscreenComponentClientId + "'); return false;";
+        String onfullscreen = fullscreenClientBehavior.getOnfullscreen();
+        if (null != onfullscreen) {
+            onfullscreen = "function() {" + onfullscreen + "}";
+        } else {
+            onfullscreen = "null";
+        }
+        return "ejsf.fullscreen('" + fullscreenComponentClientId + "'," + onfullscreen + "); return false;";
     }
 }

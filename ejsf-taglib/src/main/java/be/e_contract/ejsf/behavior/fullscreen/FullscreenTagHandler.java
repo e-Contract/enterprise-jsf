@@ -22,9 +22,12 @@ public class FullscreenTagHandler extends TagHandler {
 
     private final TagAttribute componentTagAttribute;
 
+    private final TagAttribute onfullscreenTagAttribute;
+
     public FullscreenTagHandler(BehaviorConfig config) {
         super(config);
         this.componentTagAttribute = getRequiredAttribute("component");
+        this.onfullscreenTagAttribute = getAttribute("onfullscreen");
     }
 
     @Override
@@ -37,11 +40,20 @@ public class FullscreenTagHandler extends TagHandler {
         }
         ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) parent;
         String component = this.componentTagAttribute.getValue();
+
+        String onfullscreen;
+        if (null != this.onfullscreenTagAttribute) {
+            onfullscreen = this.onfullscreenTagAttribute.getValue();
+        } else {
+            onfullscreen = null;
+        }
+
         FacesContext facesContext = faceletContext.getFacesContext();
         Application application = facesContext.getApplication();
         FullscreenClientBehavior fullscreenClientBehavior
                 = (FullscreenClientBehavior) application.createBehavior(FullscreenClientBehavior.BEHAVIOR_ID);
         fullscreenClientBehavior.setComponent(component);
+        fullscreenClientBehavior.setOnfullscreen(onfullscreen);
         clientBehaviorHolder.addClientBehavior("click", fullscreenClientBehavior);
     }
 }
