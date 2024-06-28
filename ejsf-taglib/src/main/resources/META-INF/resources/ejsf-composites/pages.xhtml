@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface shortDescription="Show all JSF pages and their visited status."
+                             componentType="ejsf.pagesComponent">
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                <p:message for="pages" id="pagesMessage"/>
+                <p:dataTable value="#{cc.pages}"
+                             id="pages"
+                             var="page"
+                             rows="10"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             binding="#{cc.pagesDataTable}">
+                    <p:column headerText="Page"
+                              sortBy="#{page.id}"
+                              filterBy="#{page.id}"
+                              filterMatchMode="contains">
+                        #{page.id}
+                    </p:column>
+                    <p:column headerText="Visited"
+                              sortBy="#{page.visited}">
+                        <ejsf:outputBoolean value="#{page.visited}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton icon="pi pi-trash"
+                                         action="#{cc.clearPagesState()}"
+                                         update="@form"
+                                         styleClass="rounded-button ui-button-flat"/>
+                        <p:tooltip for="@previous" value="Clear pages state."/>
+                    </f:facet>
+                </p:dataTable>
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>

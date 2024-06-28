@@ -9,4 +9,8 @@
         <el-resolver>be.e_contract.ejsf.component.script.ScriptELResolver</el-resolver>
     </application>
 
+    <lifecycle>
+        <phase-listener>be.e_contract.ejsf.component.pages.PagesPhaseListener</phase-listener>
+    </lifecycle>
+
 </faces-config>
