@@ -11,7 +11,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ProjectStage;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -34,7 +36,7 @@ public class PagesComponent extends UIComponentBase implements NamingContainer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PagesComponent.class);
 
-    private UIComponent pagesDataTables;
+    private UIComponent pagesDataTable;
 
     @Override
     public String getFamily() {
@@ -42,11 +44,11 @@ public class PagesComponent extends UIComponentBase implements NamingContainer {
     }
 
     public void setPagesDataTable(UIComponent pagesDataTable) {
-        this.pagesDataTables = pagesDataTable;
+        this.pagesDataTable = pagesDataTable;
     }
 
     public UIComponent getPagesDataTable() {
-        return this.pagesDataTables;
+        return this.pagesDataTable;
     }
 
     public List<Page> getPages() {
@@ -66,17 +68,23 @@ public class PagesComponent extends UIComponentBase implements NamingContainer {
         if (null != pagesMap) {
             return pagesMap;
         }
-        ServletContext servletContext = (ServletContext) externalContext.getContext();
-        String webAppRootPath = servletContext.getRealPath("/");
-        LOGGER.debug("web app root path: {}", webAppRootPath);
-        File webAppRootFile = new File(webAppRootPath);
-        File[] files = webAppRootFile.listFiles();
         List<Page> pages = new LinkedList<>();
-        addPages(true, files, pages);
-        pages.sort((Page page1, Page page2) -> page1.getId().compareTo(page2.getId()));
         pagesMap = new LinkedHashMap<>();
-        for (Page page : pages) {
-            pagesMap.put(page.getId(), page);
+        Application application = facesContext.getApplication();
+        ProjectStage projectStage = application.getProjectStage();
+        if (projectStage != ProjectStage.Production) {
+            ServletContext servletContext = (ServletContext) externalContext.getContext();
+            String webAppRootPath = servletContext.getRealPath("/");
+            LOGGER.debug("web app root path: {}", webAppRootPath);
+            File webAppRootFile = new File(webAppRootPath);
+            File[] files = webAppRootFile.listFiles();
+            addPages(true, files, pages);
+            pages.sort((Page page1, Page page2) -> page1.getId().compareTo(page2.getId()));
+            for (Page page : pages) {
+                pagesMap.put(page.getId(), page);
+            }
+        } else {
+            LOGGER.warn("not listing pages on Production");
         }
         applicationMap.put(PAGES_ATTRIBUTE, pages);
         applicationMap.put(PAGES_MAP_ATTRIBUTE, pagesMap);
@@ -119,7 +127,7 @@ public class PagesComponent extends UIComponentBase implements NamingContainer {
             page.setVisited(false);
         }
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        facesContext.addMessage(this.pagesDataTables.getClientId(),
+        facesContext.addMessage(this.pagesDataTable.getClientId(),
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Cleared pages state.", null));
     }
 }
