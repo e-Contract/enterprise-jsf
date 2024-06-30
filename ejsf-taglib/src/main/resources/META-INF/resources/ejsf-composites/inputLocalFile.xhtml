@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface shortDescription="Input a local file from a given directory."
+                             componentType="ejsf.inputLocalFileComponent">
+            <composite:attribute name="value"
+                                 required="true"
+                                 type="java.lang.String"
+                                 shortDescription="The absolute path value of the local file."/>
+            <composite:attribute name="required"
+                                 type="java.lang.Boolean"
+                                 default="false"
+                                 shortDescription="True if this input is required."/>
+            <composite:attribute name="directory"
+                                 required="true"
+                                 type="java.lang.String"
+                                 shortDescription="The directory relative to the user home directory."/>
+            <composite:attribute name="size"
+                                 type="java.lang.Integer"
+                                 default="20"
+                                 shortDescription="The optional size of the input field."/>
+            <composite:attribute name="requiredRole"
+                                 type="java.lang.String"
+                                 shortDescription="The requred RBAC role to be able to view local files."/>
+        </composite:interface>
+        <composite:implementation>
+            <div id="#{cc.clientId}">
+                <p:inputText id="input"
+                             binding="#{cc.input}"
+                             required="#{cc.attrs.required}"
+                             size="#{cc.attrs.size}">
+                    <ejsf:homeFileValidator directory="#{cc.attrs.directory}"/>
+                </p:inputText>
+                <p:commandButton icon="pi pi-file"
+                                 id="browseButton"/>
+                <p:overlayPanel for="browseButton"
+                                dynamic="true"
+                                showCloseIcon="true">
+                    <p:scrollPanel binding="#{cc.browseContent}"
+                                   style="max-height: 50vh;"
+                                   mode="native">
+                        <b>#{cc.currentDirectory}</b>
+                        <br/>
+                        <br/>
+                        <p:commandLink value="../"
+                                       action="#{cc.selectParentDirectory()}"
+                                       immediate="true"
+                                       rendered="#{cc.renderParentDirectory}"/>
+                        <br/>
+                        <ui:repeat value="#{cc.files}" var="file">
+                            <p:commandLink value="#{file.name}/"
+                                           rendered="#{file.directory}"
+                                           action="#{cc.selectDirectory(file.name)}"
+                                           immediate="true"/>
+                            <p:commandLink value="#{file.name}"
+                                           rendered="#{!file.directory}"
+                                           action="#{cc.selectFile(file.name)}"
+                                           immediate="true"/>
+                            <br/>
+                        </ui:repeat>
+                    </p:scrollPanel>
+                </p:overlayPanel>
+            </div>
+        </composite:implementation>
+    </h:body>
+</html>

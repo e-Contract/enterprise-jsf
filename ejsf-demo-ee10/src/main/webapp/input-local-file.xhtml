@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Input Local File Demo</ui:define>
+    <ui:define name="body">
+        <h:form id="example">
+            <h:panelGrid columns="3">
+                <p:outputLabel for="@next" value="Local file:"/>
+                <ejsf:inputLocalFile value="#{inputOutputController.value}"
+                                     directory="dev/keys"
+                                     required="true"
+                                     size="60"
+                                     requiredRole="administrator"/>
+                <p:message for="@previous"/>
+            </h:panelGrid>
+            <p:commandButton value="Submit"
+                             update="@form"/>
+            <p>
+                The submitted value: #{inputOutputController.value}
+            </p>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="InputOutputController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/InputOutputController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="inputLocalFile"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
