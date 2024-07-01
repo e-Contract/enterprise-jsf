@@ -14,7 +14,9 @@
                                      directory="dev/keys"
                                      required="true"
                                      size="60"
-                                     requiredRole="administrator"/>
+                                     requiredRole="administrator">
+                    <ejsf:homeFileValidator directory="dev/keys"/>
+                </ejsf:inputLocalFile>
                 <p:message for="@previous"/>
             </h:panelGrid>
             <p:commandButton value="Submit"

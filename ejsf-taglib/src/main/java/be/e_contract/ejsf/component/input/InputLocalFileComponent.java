@@ -140,6 +140,9 @@ public class InputLocalFileComponent extends UIInput implements NamingContainer 
         }
         LOGGER.debug("encodeBegin: {}", value);
         this.input.setValue(value);
+        if (!isValid()) {
+            this.input.setValid(false);
+        }
         super.encodeBegin(context);
     }
 

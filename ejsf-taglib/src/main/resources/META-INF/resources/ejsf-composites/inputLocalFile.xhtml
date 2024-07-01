@@ -3,8 +3,7 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:ejsf="urn:be:e-contract:ejsf">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>This content will not be displayed</title>
     </h:head>
@@ -36,9 +35,7 @@
                 <p:inputText id="input"
                              binding="#{cc.input}"
                              required="#{cc.attrs.required}"
-                             size="#{cc.attrs.size}">
-                    <ejsf:homeFileValidator directory="#{cc.attrs.directory}"/>
-                </p:inputText>
+                             size="#{cc.attrs.size}"/>
                 <p:commandButton icon="pi pi-file"
                                  id="browseButton"/>
                 <p:overlayPanel for="browseButton"

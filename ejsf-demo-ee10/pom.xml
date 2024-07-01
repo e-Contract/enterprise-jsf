@@ -322,7 +322,7 @@
                         <version>2.3</version>
                         <configuration>
                             <deployWar>true</deployWar>
-                            <payaraVersion>6.2024.5</payaraVersion>
+                            <payaraVersion>6.2024.6</payaraVersion>
                         </configuration>
                     </plugin>
                 </plugins>
