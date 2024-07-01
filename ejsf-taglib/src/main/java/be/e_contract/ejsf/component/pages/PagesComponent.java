@@ -78,7 +78,7 @@ public class PagesComponent extends UIComponentBase implements NamingContainer {
             LOGGER.debug("web app root path: {}", webAppRootPath);
             File webAppRootFile = new File(webAppRootPath);
             File[] files = webAppRootFile.listFiles();
-            addPages(true, files, pages);
+            addPages(true, "", files, pages);
             pages.sort((Page page1, Page page2) -> page1.getId().compareTo(page2.getId()));
             for (Page page : pages) {
                 pagesMap.put(page.getId(), page);
@@ -91,13 +91,13 @@ public class PagesComponent extends UIComponentBase implements NamingContainer {
         return pagesMap;
     }
 
-    private static void addPages(boolean rootLevel, File[] files, List<Page> pages) {
+    private static void addPages(boolean rootLevel, String parent, File[] files, List<Page> pages) {
         for (File file : files) {
             LOGGER.debug("file: {}", file.getAbsolutePath());
             LOGGER.debug("file name: {}", file.getName());
             if (file.getName().endsWith(".xhtml")) {
                 String viewId = "/" + file.getName();
-                Page page = new Page(viewId);
+                Page page = new Page(parent + viewId);
                 pages.add(page);
             } else if (file.isDirectory()) {
                 if (rootLevel) {
@@ -107,7 +107,7 @@ public class PagesComponent extends UIComponentBase implements NamingContainer {
                         continue;
                     }
                 }
-                addPages(false, file.listFiles(), pages);
+                addPages(false, parent + "/" + file.getName(), file.listFiles(), pages);
             }
         }
     }
