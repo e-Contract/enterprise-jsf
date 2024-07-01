@@ -29,6 +29,9 @@
             <composite:attribute name="requiredRole"
                                  type="java.lang.String"
                                  shortDescription="The requred RBAC role to be able to view local files."/>
+            <composite:attribute name="fileFilter"
+                                 type="java.lang.String"
+                                 shortDescription="The optional regexp filename filter."/>
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">

@@ -7,6 +7,7 @@
 package be.e_contract.ejsf.component.input;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -63,7 +64,20 @@ public class InputLocalFileComponent extends UIInput implements NamingContainer 
         }
         String currentDirectory = getCurrentDirectory();
         File currentDirectoryFile = new File(currentDirectory);
-        File[] files = currentDirectoryFile.listFiles();
+        FileFilter fileFilter;
+        String fileFilterAttr = (String) getAttributes().get("fileFilter");
+        if (null != fileFilterAttr) {
+            fileFilter = (File file) -> {
+                if (file.isDirectory()) {
+                    return true;
+                }
+                LOGGER.debug("file name: {}", file.getName());
+                return file.getName().matches(fileFilterAttr);
+            };
+        } else {
+            fileFilter = null;
+        }
+        File[] files = currentDirectoryFile.listFiles(fileFilter);
         if (null == files) {
             return result;
         }
