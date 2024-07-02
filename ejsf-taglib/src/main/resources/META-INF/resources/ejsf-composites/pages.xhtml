@@ -26,7 +26,8 @@
                               sortBy="#{page.id}"
                               filterBy="#{page.id}"
                               filterMatchMode="contains">
-                        #{page.id}
+                        <p:link value="#{page.id}"
+                                outcome="#{page.id}?faces-redirect=true"/>
                     </p:column>
                     <p:column headerText="Visited"
                               sortBy="#{page.visited}">
