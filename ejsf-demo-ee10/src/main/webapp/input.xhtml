@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Input Demo</ui:define>
+    <ui:define name="body">
+        <h:form id="example">
+            <p:messages globalOnly="true"/>
+            <p:dataTable value="#{dataController.items}" var="item">
+                <p:column headerText="Name">
+                    #{item.name}
+                </p:column>
+                <p:column headerText="Value">
+                    <ejsf:input value="#{item.value}"
+                                type="#{item.type}">
+                        <f:facet name="string">
+                            <p:inputText required="true"/>
+                        </f:facet>
+                        <f:facet name="bool">
+                            <p:selectBooleanCheckbox/>
+                        </f:facet>
+                        <f:facet name="date">
+                            <p:datePicker/>
+                        </f:facet>
+                        <f:facet name="number">
+                            <p:inputNumber/>
+                        </f:facet>
+                        <f:facet name="period">
+                            <ejsf:inputPeriod/>
+                        </f:facet>
+                    </ejsf:input>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="Save"
+                             action="#{dataController.save()}"
+                             update="@form"/>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="DataController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/DataController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="input"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

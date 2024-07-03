@@ -1870,4 +1870,29 @@
         </component>
     </tag>
 
+    <tag>
+        <description>Input component for dynamically typed inputs. Via facets you can define the actual input component for each type.</description>
+        <tag-name>input</tag-name>
+        <component>
+            <component-type>ejsf.inputComponent</component-type>
+        </component>
+        <attribute>
+            <description>The value.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <description>The type for the input.</description>
+            <name>type</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The default type.</description>
+            <name>defaultType</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

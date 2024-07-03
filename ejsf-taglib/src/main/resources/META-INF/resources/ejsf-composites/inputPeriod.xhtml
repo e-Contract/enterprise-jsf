@@ -6,13 +6,20 @@
       xmlns:p="http://primefaces.org/ui">
     <composite:interface componentType="ejsf.inputPeriodComponent"
                          shortDescription="Input component for periods.">
-        <composite:attribute name="value" type="java.lang.Integer" required="true"
+        <composite:attribute name="value"
+                             type="java.lang.Integer"
                              shortDescription="The period in the unit indicated by unit."/>
-        <composite:attribute name="unit" type="java.lang.String" default="SECONDS"
+        <composite:attribute name="unit"
+                             type="java.lang.String"
+                             default="SECONDS"
                              shortDescription="The period unit: SECONDS, MINUTES, HOURS, DAYS, MONTHS, YEARS. Defaults to SECONDS."/>
-        <composite:attribute name="maxUnit" type="java.lang.String" default="MONTHS"
+        <composite:attribute name="maxUnit"
+                             type="java.lang.String"
+                             default="MONTHS"
                              shortDescription="The maximum unit to visualize: SECONDS, MINUTES, HOURS, DAYS, MONTHS, YEARS. Defaults to MONTHS."/>
-        <composite:attribute name="disabled" type="java.lang.Boolean" default="false"
+        <composite:attribute name="disabled"
+                             type="java.lang.Boolean"
+                             default="false"
                              shortDescription="Disables the input element, default is false."/>
     </composite:interface>
     <composite:implementation>
