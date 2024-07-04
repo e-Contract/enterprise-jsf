@@ -2,7 +2,7 @@
 
 ' Enterprise JSF project.
 '
-' Copyright 2023 e-Contract.be BV. All rights reserved.
+' Copyright 2023-2024 e-Contract.be BV. All rights reserved.
 ' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 hide empty members
@@ -13,7 +13,7 @@ interface ValueHolder
 interface EditableValueHolder
 interface StateHolder
 interface NamingContainer
-interface UIComponent
+class UIComponent
 class UIComponentBase
 class UICommand
 class UIData
@@ -21,8 +21,8 @@ class UIOutput
 class UIInput
 class UINamingContainer
 ActionSource2 -u-|> ActionSource
-UIComponent -u-|> StateHolder
-UIComponentBase .u.|> UIComponent
+UIComponent .u.|> StateHolder
+UIComponentBase -u-|> UIComponent
 UINamingContainer .u.|> NamingContainer
 UINamingContainer -u-|> UIComponentBase
 UICommand -u-|> UIComponentBase
