@@ -13,18 +13,26 @@
         <f:websocket channel="demoChannel"
                      onmessage="onMessage"
                      onopen="onOpen">
-            <f:ajax event="testEvent" listener="#{websocketController.listener}" render="messages"/>
+            <f:ajax event="testEvent"
+                    listener="#{websocketController.listener}"
+                    render="messages"/>
         </f:websocket>
         <h:form>
             <h:panelGrid columns="3">
                 <h:outputLabel for="@next" value="Message:"/>
-                <h:inputText value="#{websocketController.message}" required="true"
+                <h:inputText value="#{websocketController.message}"
+                             required="true"
                              size="60"/>
                 <h:message for="@previous"/>
             </h:panelGrid>
-            <h:commandButton value="Send" action="#{websocketController.sendMessage()}">
+            <h:commandButton value="Send"
+                             action="#{websocketController.sendMessage()}">
                 <f:ajax execute="@form" render="@form"/>
             </h:commandButton>
+        </h:form>
+        <h:form>
+            <h:link value="JSR 356 Websocket Demo"
+                    outcome="/direct.xhtml?faces-redirect=true"/>
         </h:form>
     </h:body>
 </html>

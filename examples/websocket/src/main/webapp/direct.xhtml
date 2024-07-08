@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>JSR 356 Websocket Demo</title>
+    </h:head>
+    <h:body>
+        <h1>JSR 356 Websocket Demo</h1>
+        <h:outputScript library="demo" name="direct.js"/>
+        <p>
+            Group:
+            <input type="text" id="groupInput"/>
+            <button id="connectButton">Connect</button>
+        </p>
+        <h:form id="mainForm">
+            <h:dataTable id="groupsDataTable"
+                         value="#{directController.groups}"
+                         var="group">
+                <h:column>
+                    <f:facet name="header">
+                        Group name
+                    </f:facet>
+                    #{group}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Actions
+                    </f:facet>
+                    <h:commandButton value="Send Message"
+                                     action="#{directController.sendMessage(group)}">
+                        <f:ajax/>
+                    </h:commandButton>
+                    <h:commandButton value="Send Ping"
+                                     action="#{directController.sendPing(group)}">
+                        <f:ajax/>
+                    </h:commandButton>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton value="Update">
+                <f:ajax render="groupsDataTable"/>
+            </h:commandButton>
+            <h:commandButton value="Ping All"
+                             action="#{directController.pingAll()}">
+                <f:ajax/>
+            </h:commandButton>
+        </h:form>
+        <h:form>
+            <h:outputLabel for="@next" value="Block new connections:"/>
+            <h:selectBooleanCheckbox value="#{directController.block}">
+                <f:ajax/>
+            </h:selectBooleanCheckbox>
+        </h:form>
+        <h:form>
+            <h:commandScript name="refreshGroupsDataTable"
+                             render=":mainForm:groupsDataTable"/>
+        </h:form>
+        <fieldset>
+            <legend>Output</legend>
+            <button id="clearOutputButton">Clear</button>
+            <div id="output"></div>
+        </fieldset>
+    </h:body>
+</html>
