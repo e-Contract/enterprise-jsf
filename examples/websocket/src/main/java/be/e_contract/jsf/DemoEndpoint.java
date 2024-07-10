@@ -32,6 +32,7 @@ public class DemoEndpoint {
             }
             return;
         }
+        session.setMaxIdleTimeout(1000 * 30);
         long maxIdleTimeout = session.getMaxIdleTimeout();
         LOGGER.debug("max idle timeout: {} ms", maxIdleTimeout);
         directController.addSession(session);
