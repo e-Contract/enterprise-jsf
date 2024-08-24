@@ -1895,4 +1895,18 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Component for native HTML dialogs.</description>
+        <tag-name>dialog</tag-name>
+        <component>
+            <component-type>ejsf.dialogComponent</component-type>
+            <renderer-type>ejsf.dialogRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

@@ -131,12 +131,18 @@ As for the UI components itself, similar to JSF where we default to PrimeFaces, 
 Hence from a point-of-view of look-and-feel and easy of styling, JSF is actually exactly as painful as React.
 Whether you look into the JSF renderer class, or within the React JSX sections, you have to grasp the rendering if you want to apply some custom styling.
 
-While there are probably some form based solutions out there to do the error handling within React, this is really the area where JSF is superior.
+While there are  form based solutions out there to do the error handling within React, this is really the area where JSF is superior.
 All this comes from the fact that JSF does the messaging for you behind the scenes whereas with React this aspect is like right in your face.
 
 Compared with JSF, due to the React development server, the development cycle is drastically shorter \textbf{if} of course your REST endpoints do not require changes while developing the front-end.
 But then again, runtimes like Quarkus also provide similar "hot deployment".
 Keep in mind here that we went from one compilation step for JSF to three compilation steps: OpenAPI, REST API web application, and React compilation.
+
+Another interesting aspect is the feedback a framework can provide you concerning user interface bugs.
+For example, when some value is missing, the React framework will not expose such bugs within some server-side log file since the rendering completely happens at the client-side.
+Hence if your end-users do not report such bugs themselves, your application will carry them along for a very long time.
+For a JSF application on the other hand, a missing value will directly manifest itself via an exception within the JSF rendering phase.
+Hence with server-side rendering frameworks like JSF you will more likely be able to detect user interface bugs before they start to annoy your end-users.
 
 As for custom component development itself, this is difficult/dangerous to compare.
 JSF components also cover the server-side behavior, whereas React components are limited to the client-side only.

@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.behavior.closedialog;
 
+import be.e_contract.ejsf.component.dialog.DialogComponent;
 import java.util.Optional;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
@@ -60,12 +61,18 @@ public class CloseDialogClientBehaviorRenderer extends ClientBehaviorRenderer {
             return dialog.resolveWidgetVar();
         }
         Optional<ConfirmDialog> confirmDialogOptional = findClosestParent(component, ConfirmDialog.class);
-        if (!confirmDialogOptional.isPresent()) {
-            LOGGER.warn("no parent p:dialog nor p:confirmDialog found - unable to return script to hide() the dialog");
-            return null;
+        if (confirmDialogOptional.isPresent()) {
+            ConfirmDialog confirmDialog = confirmDialogOptional.get();
+            return confirmDialog.resolveWidgetVar();
         }
-        ConfirmDialog confirmDialog = confirmDialogOptional.get();
-        return confirmDialog.resolveWidgetVar();
+        Optional<DialogComponent> dialogComponentOptional = findClosestParent(component, DialogComponent.class);
+        if (dialogComponentOptional.isPresent()) {
+            DialogComponent dialogComponent = dialogComponentOptional.get();
+            return dialogComponent.resolveWidgetVar();
+        }
+
+        LOGGER.warn("no parent p:dialog nor p:confirmDialog not ejsf:dialog found - unable to return script to hide() the dialog");
+        return null;
     }
 
     private <T extends UIComponent> Optional<T> findClosestParent(UIComponent component, Class<T> parentType) {

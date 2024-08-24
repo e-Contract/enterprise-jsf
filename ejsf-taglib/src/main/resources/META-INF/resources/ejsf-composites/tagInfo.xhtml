@@ -81,10 +81,12 @@
                             <h:outputText value="#{tag.componentClass}"
                                           rendered="#{not empty tag.componentClass}"/>
                         </h:panelGrid>
-                        <p:dataTable value="#{tag.requiredAttributes}" var="attribute"
+                        <p:dataTable value="#{tag.requiredAttributes}"
+                                     var="attribute"
                                      rendered="#{not empty tag.requiredAttributes}"
                                      style="margin-bottom: 10px;"
-                                     tableStyle="table-layout: auto !important;">
+                                     tableStyle="table-layout: auto !important;"
+                                     lazy="false">
                             <f:facet  name="header">
                                 Required Attributes
                             </f:facet>
@@ -99,10 +101,12 @@
                             </p:column>
                         </p:dataTable>
 
-                        <p:dataTable value="#{tag.optionalAttributes}" var="attribute"
+                        <p:dataTable value="#{tag.optionalAttributes}"
+                                     var="attribute"
                                      rendered="#{not empty tag.optionalAttributes}"
                                      style="margin-bottom: 10px;"
-                                     tableStyle="table-layout: auto !important;">
+                                     tableStyle="table-layout: auto !important;"
+                                     lazy="false">
                             <f:facet  name="header">
                                 Optional Attributes
                             </f:facet>
@@ -117,8 +121,10 @@
                             </p:column>
                         </p:dataTable>
 
-                        <p:dataTable value="#{tag.clientBehaviorEventNames}" var="eventName"
-                                     rendered="#{not empty tag.clientBehaviorEventNames}">
+                        <p:dataTable value="#{tag.clientBehaviorEventNames}"
+                                     var="eventName"
+                                     rendered="#{not empty tag.clientBehaviorEventNames}"
+                                     lazy="false">
                             <p:column headerText="Client behavior events">
                                 #{eventName}
                             </p:column>

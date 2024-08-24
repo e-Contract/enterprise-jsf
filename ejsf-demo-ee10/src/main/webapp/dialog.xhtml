@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Dialog Demo</ui:define>
+    <ui:define name="body">
+        <ejsf:dialog widgetVar="dialogWidget" id="example">
+            <p>
+                This is an HTML dialog.
+            </p>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Close"
+                                     onclick="PF('dialogWidget').hide(); return false;"/>
+                </h:panelGrid>
+            </h:form>
+        </ejsf:dialog>
+        <ejsf:dialog id="dialog">
+            <h:form id="dialogForm">
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="@next" value="Value:"/>
+                    <p:inputText value="#{inputOutputController.value}"
+                                 required="true"/>
+                    <p:message for="@previous"/>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Submit"
+                                     update=":result,@form">
+                        <ejsf:closeDialog whenValid="true"/>
+                    </p:commandButton>
+                    <p:commandButton value="Dismiss">
+                        <ejsf:closeDialog noAjax="true"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </h:form>
+        </ejsf:dialog>
+        <h:panelGrid id="result" columns="2">
+            <h:outputText value="Result:"/>
+            <h:outputText value="#{inputOutputController.value}"/>
+        </h:panelGrid>
+        <h:form>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Show Dialog"
+                                 onclick="PF('dialogWidget').show(); return false;"/>
+                <p:commandButton value="Show Dialog"
+                                 update=":dialog">
+                    <ejsf:openDialog dialogId=":dialog"/>
+                    <p:resetInput target=":dialogForm"/>
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="InputOutputController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/InputOutputController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="dialog"/>
+            </p:tab>
+            <p:tab title="Client API">
+                <ejsf:highlight resource="/META-INF/resources/ejsf/dialog.js"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
