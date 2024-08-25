@@ -1909,4 +1909,38 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Expression language validator.
+        </description>
+        <tag-name>elValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.elValidator</validator-id>
+            <handler-class>be.e_contract.ejsf.validator.el.ELValidatorTagHandler</handler-class>
+        </validator>
+        <attribute>
+            <description>The variable name for the value.</description>
+            <name>valueVar</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The EL expression to evaluate.</description>
+            <name>invalidWhen</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The invalid value message.</description>
+            <name>message</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The variable name for the value of the previous row.</description>
+            <name>prevRowVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

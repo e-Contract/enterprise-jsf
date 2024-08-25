@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Expression Language Validator Demo</ui:define>
+    <ui:define name="body">
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="@next" value="Input:"/>
+                <p:inputText id="demo" value="#{inputOutputController.value}" size="40">
+                    <ejsf:elValidator valueVar="value"
+                                      invalidWhen="#{value gt 10}"
+                                      message="Value too large."/>
+                </p:inputText>
+                <p:message for="@previous"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                Submitted value is: #{inputOutputController.value}
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Submit" update="@form"/>
+            </h:panelGrid>
+        </h:form>
+        <h:form>
+            <p:dataTable value="#{dataListController.items}"
+                         var="row"
+                         id="example">
+                <p:column headerText="Value 1">
+                    <p:inputNumber value="#{row.value1}">
+                        <ejsf:elValidator valueVar="value"
+                                          prevRowVar="prevRow"
+                                          invalidWhen="#{value le prevRow.value1}"
+                                          message="Less or equal to previous value 1."/>
+                    </p:inputNumber>
+                    <p:message for="@previous"/>
+                </p:column>
+                <p:column headerText="Value 2">
+                    <p:inputNumber value="#{row.value2}">
+                        <ejsf:elValidator valueVar="value"
+                                          prevRowVar="prevRow"
+                                          invalidWhen="#{value le prevRow.value2}"
+                                          message="Less or equal to previous value 2."/>
+                    </p:inputNumber>
+                    <p:message for="@previous"/>
+                </p:column>
+            </p:dataTable>
+            <h:panelGrid columns="1">
+                <p:commandButton value="Submit"
+                                 update="@form,:messages"
+                                 action="#{dataListController.save()}"/>
+            </h:panelGrid>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="demo"/>
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="InputOutputController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/InputOutputController.java"/>
+            </p:tab>
+            <p:tab title="DataListController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/DataListController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="elValidator"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
