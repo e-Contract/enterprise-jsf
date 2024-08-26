@@ -2,6 +2,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ejsf="urn:be:e-contract:ejsf"
                 template="/WEB-INF/template.xhtml">
@@ -46,12 +47,49 @@
                     </p:inputNumber>
                     <p:message for="@previous"/>
                 </p:column>
+                <f:facet name="footer">
+                    <p:commandButton value="Submit"
+                                     update="@form,:messages"
+                                     action="#{dataListController.save()}"/>
+                </f:facet>
             </p:dataTable>
-            <h:panelGrid columns="1">
-                <p:commandButton value="Submit"
-                                 update="@form,:messages"
-                                 action="#{dataListController.save()}"/>
-            </h:panelGrid>
+        </h:form>
+        <h:form>
+            <p:dataTable value="#{dataListController.items}"
+                         var="row">
+                <p:column headerText="Value 1">
+                    <p:inplace editor="true">
+                        <p:inputNumber value="#{row.value1}">
+                            <ejsf:elValidator valueVar="value"
+                                              prevRowVar="prevRow"
+                                              invalidWhen="#{value le prevRow.value1}"
+                                              message="Less or equal to previous value #{prevRow.value1}."/>
+                        </p:inputNumber>
+                        <p:message for="@previous"/>
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="Value 2">
+                    <p:inplace editor="true">
+                        <p:inputNumber value="#{row.value2}">
+                            <ejsf:elValidator valueVar="value"
+                                              prevRowVar="prevRow"
+                                              invalidWhen="#{value le prevRow.value2}"
+                                              message="Less or equal to previous value #{prevRow.value2}."/>
+                        </p:inputNumber>
+                        <p:message for="@previous"/>
+                    </p:inplace>
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton value="Add"
+                                     update="@form"
+                                     immediate="true"
+                                     action="#{dataListController.add()}"/>
+                    <p:spacer width="5px"/>
+                    <p:commandButton value="Submit"
+                                     update="@form,:messages"
+                                     action="#{dataListController.save()}"/>
+                </f:facet>
+            </p:dataTable>
         </h:form>
         <p:tabView>
             <p:tab title="XHTML">

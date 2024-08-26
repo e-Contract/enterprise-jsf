@@ -46,7 +46,7 @@ public class ELValidatorTagHandler extends ValidatorHandler {
         elValidator.setInvalidWhen(invalidWhen);
 
         TagAttribute messageTagAttribute = getRequiredAttribute("message");
-        String message = messageTagAttribute.getValue(context);
+        String message = messageTagAttribute.getValue();
         elValidator.setMessage(message);
 
         TagAttribute prevRowVarTagAttribute = getAttribute("prevRowVar");

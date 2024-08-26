@@ -6,6 +6,7 @@
  */
 package be.e_contract.ejsf.validator.el;
 
+import java.util.List;
 import javax.el.ELContext;
 import javax.el.ELException;
 import javax.el.ELResolver;
@@ -89,11 +90,27 @@ public class ELValidator implements Validator, StateHolder {
         ELResolver elResolver = elContext.getELResolver();
         elResolver.setValue(elContext, null, this.valueVar, value);
         if (this.prevRowVar != null) {
-            String rowVar = findRowVar(component);
-            if (null != rowVar) {
-                Object currentRow = elResolver.getValue(elContext, null, rowVar);
-                LOGGER.debug("current row: {}", currentRow);
-                elResolver.setValue(elContext, null, this.prevRowVar, this.prevRow);
+            UIData uiData = findUIData(component);
+            if (null != uiData) {
+                Object currentRow = uiData.getRowData();
+                if (null != this.prevRow) {
+                    elResolver.setValue(elContext, null, this.prevRowVar, this.prevRow);
+                } else {
+                    int rowIndex = uiData.getRowIndex();
+                    if (rowIndex > 0) {
+                        Object data = uiData.getValue();
+                        if (data instanceof List) {
+                            List dataList = (List) data;
+                            Object prevRow = dataList.get(rowIndex - 1);
+                            elResolver.setValue(elContext, null, this.prevRowVar, prevRow);
+                        } else {
+                            LOGGER.error("unsupported data type: {}", data.getClass().getName());
+                            elResolver.setValue(elContext, null, this.prevRowVar, null);
+                        }
+                    } else {
+                        elResolver.setValue(elContext, null, this.prevRowVar, null);
+                    }
+                }
                 this.prevRow = currentRow;
             }
         }
@@ -109,18 +126,20 @@ public class ELValidator implements Validator, StateHolder {
         }
         LOGGER.debug("{} => {}", this.invalidWhen, invalid);
         if (invalid) {
-            FacesMessage facesMessage = new FacesMessage(this.message);
+            ValueExpression messageValueExpression = expressionFactory.createValueExpression(elContext, this.message, String.class);
+            String resultMessage = (String) messageValueExpression.getValue(elContext);
+            FacesMessage facesMessage = new FacesMessage(resultMessage);
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
         }
     }
 
-    private String findRowVar(UIComponent component) {
+    private UIData findUIData(UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null) {
             if (parent instanceof UIData) {
                 UIData uiData = (UIData) parent;
-                return uiData.getVar();
+                return uiData;
             }
             parent = parent.getParent();
         }

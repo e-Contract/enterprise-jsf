@@ -73,4 +73,8 @@ public class DataListController implements Serializable {
             facesContext.addMessage(null, facesMessage);
         }
     }
+
+    public void add() {
+        this.items.add(new Item(0, 0));
+    }
 }

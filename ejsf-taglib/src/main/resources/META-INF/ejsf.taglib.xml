@@ -1931,7 +1931,7 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>The invalid value message.</description>
+            <description>The invalid value message. Can also be an EL expression.</description>
             <name>message</name>
             <required>true</required>
             <type>java.lang.String</type>
