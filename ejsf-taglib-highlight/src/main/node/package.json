@@ -1,7 +1,7 @@
 {
     "name": "taglib",
     "dependencies": {
-        "highlight.js": "11.9.0"
+        "highlight.js": "11.10.0"
     },
     "devDependencies": {
         "browserify": "17.0.0",
