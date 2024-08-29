@@ -1958,7 +1958,7 @@
             <type>java.lang.Object</type>
         </attribute>
         <attribute>
-            <description>The optional id of the input component</description>
+            <description>The optional id of the output component</description>
             <name>for</name>
             <type>java.lang.String</type>
         </attribute>

@@ -41,22 +41,20 @@ public class AsyncRenderer extends Renderer {
         responseWriter.startElement("span", component);
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.writeAttribute("data-ejsf-async", "", null);
+
         Object evaluatedValue = asyncComponent.getEvaluatedValue();
-        if (null != evaluatedValue) {
-            List<UIComponent> children = asyncComponent.getChildren();
-            boolean valueSet = false;
-            for (UIComponent child : children) {
-                if (child instanceof UIOutput) {
-                    UIOutput output = (UIOutput) child;
-                    output.setValue(evaluatedValue);
-                    valueSet = true;
-                    break;
-                }
-            }
-            if (!valueSet) {
-                responseWriter.write(evaluatedValue.toString());
+        if (null == evaluatedValue) {
+            return;
+        }
+        List<UIComponent> children = asyncComponent.getChildren();
+        for (UIComponent child : children) {
+            if (child instanceof UIOutput) {
+                UIOutput output = (UIOutput) child;
+                output.setValue(evaluatedValue);
+                return;
             }
         }
+        responseWriter.write(evaluatedValue.toString());
     }
 
     @Override
@@ -68,10 +66,8 @@ public class AsyncRenderer extends Renderer {
     @Override
     public void decode(FacesContext facesContext, UIComponent component) {
         ExternalContext externalContext = facesContext.getExternalContext();
-        Map<String, String> params
-                = externalContext.getRequestParameterMap();
-        String behaviorSource = params.get(
-                ClientBehaviorContext.BEHAVIOR_SOURCE_PARAM_NAME);
+        Map<String, String> params = externalContext.getRequestParameterMap();
+        String behaviorSource = params.get(ClientBehaviorContext.BEHAVIOR_SOURCE_PARAM_NAME);
         if (null == behaviorSource) {
             return;
         }
@@ -79,8 +75,7 @@ public class AsyncRenderer extends Renderer {
         if (!behaviorSource.equals(clientId)) {
             return;
         }
-        String behaviorEvent = params.get(
-                ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
+        String behaviorEvent = params.get(ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
         if (null == behaviorEvent) {
             return;
         }
@@ -93,7 +88,6 @@ public class AsyncRenderer extends Renderer {
             ExpressionFactory expressionFactory = application.getExpressionFactory();
             ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, value, Object.class);
             Object evaluatedValue = valueExpression.getValue(elContext);
-            asyncComponent.setEvaluatedValue(evaluatedValue);
 
             PartialViewContext partialViewContext = facesContext.getPartialViewContext();
             String _for = asyncComponent.getFor();
@@ -112,6 +106,7 @@ public class AsyncRenderer extends Renderer {
                     LOGGER.error("component not found: {}", _for);
                 }
             } else {
+                asyncComponent.setEvaluatedValue(evaluatedValue);
                 partialViewContext.getRenderIds().add(clientId);
             }
         }
