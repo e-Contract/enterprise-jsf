@@ -1943,4 +1943,25 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Component for asynchronous value loading.</description>
+        <tag-name>async</tag-name>
+        <component>
+            <component-type>ejsf.asyncComponent</component-type>
+            <renderer-type>ejsf.asyncRenderer</renderer-type>
+            <handler-class>be.e_contract.ejsf.component.async.AsyncTagHandler</handler-class>
+        </component>
+        <attribute>
+            <description>The value to be loading asynchronously.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <description>The optional id of the input component</description>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

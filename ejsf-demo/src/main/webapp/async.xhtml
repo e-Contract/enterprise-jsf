@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Async Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            <h:form>
+                <ejsf:async value="#{asyncDemoController.value}"/>
+            </h:form>
+            <h:form>
+                <ejsf:async value="#{asyncDemoController.value}">
+                    <h:outputText style="color: blue;" value="Loading..."/>
+                </ejsf:async>
+            </h:form>
+            <h:form>
+                <ejsf:async value="#{asyncDemoController.value}"
+                            for=":output"/>
+            </h:form>
+            <h:outputText id="output" value="Loading..."
+                          style="color: red;"/>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="AsyncDemoController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/AsyncDemoController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="async"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

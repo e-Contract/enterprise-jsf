@@ -407,6 +407,11 @@
                             ajax="false"
                             onclick="selectMenuitemLink(this);"
                             styleClass="#{menuController.getMenuitemStyleClass('dialog')}"/>
+                <p:menuitem value="Async"
+                            action="async?faces-redirect=true"
+                            ajax="false"
+                            onclick="selectMenuitemLink(this);"
+                            styleClass="#{menuController.getMenuitemStyleClass('async')}"/>
             </p:submenu>
         </ui:composition>
     </body>
