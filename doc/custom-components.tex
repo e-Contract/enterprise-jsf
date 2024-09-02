@@ -356,6 +356,14 @@ JSF allows you to define components that only perform some functionality on the 
 These are called client behaviors.
 Notice that AJAX events are also client behaviors, but they also decode at the server-side, and thus generate corresponding server-side events.
 The point here is that you can have client behaviors that do not trigger anything at the server-side.
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=0.8,rotate=90]{behavior}
+		\caption{The most important classes related to JSF client behavior.}
+		\label{fig:behavior}
+	\end{center}
+\end{figure}
+In Figure \ref{fig:behavior} we depicted the interfaces and classes related to JSF client behavior, of which the AJAX client behavior is the most prominent.
 
 In this section we demonstrate an example client behavior where we change the color of a button when we move over it with the mouse.
 Usage of this custom client behavior looks as follows.

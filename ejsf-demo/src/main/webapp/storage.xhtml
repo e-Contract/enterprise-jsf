@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Storage Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            <h:form>
+                <ejsf:storageGetItems>
+                    <f:ajax render=":data:item1,:data:item2"
+                            listener="#{storageController.itemsListener}"/>
+                    <ejsf:storageGetItem name="item1" type="local"
+                                         value="#{storageController.value1}"/>
+                    <ejsf:storageGetItem name="item2" type="local"
+                                         value="#{storageController.value2}"/>
+                </ejsf:storageGetItems>
+            </h:form>
+            <h:form id="data">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="@next" value="Item 1:"/>
+                    <p:inputText id="item1" value="#{storageController.value1}"/>
+
+                    <p:outputLabel for="@next" value="Item 2:"/>
+                    <p:inputText id="item2" value="#{storageController.value2}"/>
+                </h:panelGrid>
+                <h:panelGrid columns="3">
+                    <p:commandButton value="Save">
+                        <ejsf:storageSetItem type="local" name="item1"
+                                             value="#{storageController.value1}"/>
+                        <ejsf:storageSetItem type="local" name="item2"
+                                             value="#{storageController.value2}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Remove item 1" update="@form">
+                        <ejsf:storageRemoveItem type="local" name="item1"/>
+                    </p:commandButton>
+                    <p:commandButton value="Clear" update="@form">
+                        <ejsf:storageClear type="local"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </h:form>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="StorageController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/StorageController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="storageGetItems"/>
+                <ejsf:tagInfo library="ejsf" tag="storageGetItem"/>
+                <ejsf:tagInfo library="ejsf" tag="storageSetItem"/>
+                <ejsf:tagInfo library="ejsf" tag="storageRemoveItem"/>
+                <ejsf:tagInfo library="ejsf" tag="storageClear"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

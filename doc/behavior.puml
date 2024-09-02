@@ -1,0 +1,44 @@
+@startuml
+
+' Enterprise JSF project.
+'
+' Copyright 2024 e-Contract.be BV. All rights reserved.
+' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+hide empty members
+
+interface Behavior
+interface ClientBehavior
+class BehaviorBase
+class ClientBehaviorBase
+class AjaxBehavior
+
+class FacesEvent
+class BehaviorEvent
+class AjaxBehaviorEvent
+
+interface FacesListener
+interface BehaviorListener
+interface AjaxBehaviorListener
+
+interface ClientBehaviorHolder
+
+ClientBehavior -u-|> Behavior
+BehaviorBase .u.|>  Behavior
+ClientBehaviorBase -u-|> BehaviorBase
+ClientBehaviorBase .u.|> ClientBehavior
+AjaxBehavior -u-|> ClientBehaviorBase
+
+BehaviorEvent -u-|> FacesEvent
+AjaxBehaviorEvent -u-|> BehaviorEvent
+
+BehaviorListener -u-|> FacesListener
+AjaxBehaviorListener -u-|> BehaviorListener
+
+ClientBehaviorHolder -u-> ClientBehavior: manages
+
+FacesEvent --> FacesListener: broadcasts
+AjaxBehaviorListener --> AjaxBehaviorEvent: processes
+Behavior --> BehaviorEvent: broadcasts
+
+@enduml

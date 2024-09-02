@@ -5,15 +5,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import javax.faces.application.Application;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
-import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.component.behavior.ClientBehavior;
 import javax.faces.component.behavior.ClientBehaviorContext;
 import javax.faces.component.behavior.ClientBehaviorHolder;
+import javax.faces.component.search.SearchExpressionContext;
+import javax.faces.component.search.SearchExpressionHandler;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -50,8 +52,8 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
         responseWriter.writeAttribute("type", "button", null);
 
         Map<String, List<ClientBehavior>> behaviors = getClientBehaviors();
-        if (behaviors.containsKey("click")) {
-            AjaxBehavior ajaxBehavior = (AjaxBehavior) behaviors.get("click").get(0);
+        if (behaviors.containsKey(ExampleAjaxBehaviorEvent.NAME)) {
+            AjaxBehavior ajaxBehavior = (AjaxBehavior) behaviors.get(ExampleAjaxBehaviorEvent.NAME).get(0);
             String renderParam = resolveClientIds(context, ajaxBehavior.getRender());
             String executeParam = resolveClientIds(context, ajaxBehavior.getExecute());
             responseWriter.writeAttribute("onclick", "exampleAjaxEventOnClick('"
@@ -69,20 +71,21 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
         if (relativeIds.isEmpty()) {
             return "null";
         }
+        Application application = facesContext.getApplication();
+        SearchExpressionHandler searchExpressionHandler
+                = application.getSearchExpressionHandler();
+        SearchExpressionContext searchExpressionContext
+                = SearchExpressionContext
+                        .createSearchExpressionContext(facesContext, this);
         StringBuilder absoluteClientIds = new StringBuilder();
-        for (String relativeClientId : relativeIds) {
-            if (absoluteClientIds.length() > 0) {
-                absoluteClientIds.append(' ');
-            }
-            if (relativeClientId.charAt(0) == '@') {
-                absoluteClientIds.append(relativeClientId);
-            } else {
-                UIComponent component = findComponent(relativeClientId);
-                if (component == null) {
-                    throw new IllegalArgumentException("component not found: " + relativeClientId);
+        for (String relativeId : relativeIds) {
+            List<String> clientIdList = searchExpressionHandler
+                    .resolveClientIds(searchExpressionContext, relativeId);
+            for (String clientId : clientIdList) {
+                if (absoluteClientIds.length() > 0) {
+                    absoluteClientIds.append(' ');
                 }
-                String compClientId = component.getClientId(facesContext);
-                absoluteClientIds.append(compClientId);
+                absoluteClientIds.append(clientId);
             }
         }
         return "'" + absoluteClientIds.toString() + "'";
@@ -118,12 +121,12 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList("click");
+        return Arrays.asList(ExampleAjaxBehaviorEvent.NAME);
     }
 
     @Override
     public String getDefaultEventName() {
-        return "click";
+        return ExampleAjaxBehaviorEvent.NAME;
     }
 
     @Override
@@ -135,7 +138,7 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
         String clientId = getClientId(facesContext);
         String eventName = requestParameterMap.get(
                 ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
-        if ("click".equals(eventName)) {
+        if (ExampleAjaxBehaviorEvent.NAME.equals(eventName)) {
             AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) event;
             String parameter = requestParameterMap.get(clientId + "_parameter");
             ExampleAjaxBehaviorEvent exampleAjaxBehaviorEvent

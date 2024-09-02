@@ -1964,4 +1964,92 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Component to access web browser storage. This component requires JSF version 2.3.</description>
+        <tag-name>storageGetItems</tag-name>
+        <component>
+            <component-type>ejsf.storageGetItemsComponent</component-type>
+            <renderer-type>ejsf.storageGetItemsRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The components to update.</description>
+            <name>update</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>Tag to indicate which storage item to retrieve.</description>
+        <tag-name>storageGetItem</tag-name>
+        <handler-class>be.e_contract.ejsf.component.storage.StorageGetItemTagHandler</handler-class>
+        <attribute>
+            <description>The name of the storage item.</description>
+            <name>name</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The type of the storage item. 'local' or 'session'. Default to 'local'.</description>
+            <name>type</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The EL for setting the storage item value.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>Sets the item within the web browser storage.</description>
+        <tag-name>storageSetItem</tag-name>
+        <handler-class>be.e_contract.ejsf.component.storage.StorageSetItemTagHandler</handler-class>
+        <attribute>
+            <description>The name of the storage item.</description>
+            <name>name</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The type of the storage item. 'local' or 'session'. Default to 'local'.</description>
+            <name>type</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The storage item value.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>Removes the item within the web browser storage.</description>
+        <tag-name>storageRemoveItem</tag-name>
+        <handler-class>be.e_contract.ejsf.component.storage.StorageRemoveItemTagHandler</handler-class>
+        <attribute>
+            <description>The name of the storage item.</description>
+            <name>name</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The type of the storage item. 'local' or 'session'. Default to 'local'.</description>
+            <name>type</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>Clears the web browser storage.</description>
+        <tag-name>storageClear</tag-name>
+        <handler-class>be.e_contract.ejsf.component.storage.StorageClearTagHandler</handler-class>
+        <attribute>
+            <description>The type of the storage item. 'local' or 'session'. Default to 'local'.</description>
+            <name>type</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
