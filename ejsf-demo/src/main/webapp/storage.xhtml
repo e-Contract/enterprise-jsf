@@ -27,19 +27,23 @@
                     <p:outputLabel for="@next" value="Item 2:"/>
                     <p:inputText id="item2" value="#{storageController.value2}"/>
                 </h:panelGrid>
-                <h:panelGrid columns="3">
+                <h:panelGrid columns="4">
                     <p:commandButton value="Save">
                         <ejsf:storageSetItem type="local" name="item1"
                                              value="#{storageController.value1}"/>
                         <ejsf:storageSetItem type="local" name="item2"
                                              value="#{storageController.value2}"/>
                     </p:commandButton>
-                    <p:commandButton value="Remove item 1" update="@form">
+                    <p:commandButton value="Remove item 1" update="@form,:messages"
+                                     action="#{storageController.removeItem1()}">
                         <ejsf:storageRemoveItem type="local" name="item1"/>
                     </p:commandButton>
-                    <p:commandButton value="Clear" update="@form">
+                    <p:commandButton value="Clear" update="@form,:messages"
+                                     action="#{storageController.clear()}">
                         <ejsf:storageClear type="local"/>
                     </p:commandButton>
+                    <p:button value="Reload"
+                              onclick="window.location.reload()"/>
                 </h:panelGrid>
             </h:form>
         </div>

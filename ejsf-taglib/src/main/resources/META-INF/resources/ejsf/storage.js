@@ -11,7 +11,11 @@ var ejsf = ejsf || {};
 
     ejsf.storageSetItem = function (name, type, value) {
         let storage = ejsf.getStorage(type);
-        storage.setItem(name, value);
+        try {
+            storage.setItem(name, value);
+        } catch (error) {
+            console.error("Could not set item on storage.");
+        }
     };
 
     ejsf.storageRemoveItem = function (name, type) {

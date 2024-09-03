@@ -1989,7 +1989,7 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>The type of the storage item. 'local' or 'session'. Default to 'local'.</description>
+            <description>The type of the storage item. 'local' or 'session'. Defaults to 'local'.</description>
             <name>type</name>
             <type>java.lang.String</type>
         </attribute>
@@ -2012,7 +2012,7 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>The type of the storage item. 'local' or 'session'. Default to 'local'.</description>
+            <description>The type of the storage item. 'local' or 'session'. Defaults to 'local'.</description>
             <name>type</name>
             <type>java.lang.String</type>
         </attribute>
@@ -2035,7 +2035,7 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>The type of the storage item. 'local' or 'session'. Default to 'local'.</description>
+            <description>The type of the storage item. 'local' or 'session'. Defaults to 'local'.</description>
             <name>type</name>
             <type>java.lang.String</type>
         </attribute>
@@ -2046,7 +2046,7 @@
         <tag-name>storageClear</tag-name>
         <handler-class>be.e_contract.ejsf.component.storage.StorageClearTagHandler</handler-class>
         <attribute>
-            <description>The type of the storage item. 'local' or 'session'. Default to 'local'.</description>
+            <description>The type of the storage item. 'local' or 'session'. Defaults to 'local'.</description>
             <name>type</name>
             <type>java.lang.String</type>
         </attribute>

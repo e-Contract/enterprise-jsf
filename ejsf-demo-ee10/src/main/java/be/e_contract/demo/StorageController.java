@@ -7,6 +7,8 @@
 package be.e_contract.demo;
 
 import be.e_contract.ejsf.component.storage.StorageGetItemsEvent;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import java.io.Serializable;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
@@ -42,5 +44,17 @@ public class StorageController implements Serializable {
         LOGGER.debug("items listener");
         LOGGER.debug("item 1: {}", event.getItem("item1"));
         LOGGER.debug("item 2: {}", event.getItem("item2"));
+    }
+
+    public void removeItem1() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Removed item 1 from storage.", null));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "You might want to reload the page.", null));
+    }
+
+    public void clear() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cleared storage.", null));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "You might want to reload the page.", null));
     }
 }
