@@ -2052,4 +2052,31 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Battery output component.</description>
+        <tag-name>battery</tag-name>
+        <component>
+            <component-type>ejsf.batteryComponent</component-type>
+            <renderer-type>ejsf.batteryRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The battery level value. Value ranges from 0 to 100.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Number</type>
+        </attribute>
+        <attribute>
+            <description>The height of the battery.</description>
+            <name>height</name>
+            <required>true</required>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The width of the battery.</description>
+            <name>width</name>
+            <required>true</required>
+            <type>java.lang.Integer</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

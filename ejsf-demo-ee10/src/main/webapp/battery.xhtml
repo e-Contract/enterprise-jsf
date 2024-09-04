@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Battery Demo</ui:define>
+    <ui:define name="body">
+        <h:panelGrid id="example" columns="1">
+            <ejsf:battery id="battery" height="30" width="100" value="#{batteryController.value}"/>
+        </h:panelGrid>
+        <h:form id="ajaxForm">
+            <p:inputNumber value="#{batteryController.value}">
+                <f:ajax render="example"/>
+            </p:inputNumber>
+            <p:slider for="@previous" minValue="0" maxValue="100"/>
+        </h:form>
+        <h:form id="pfAjaxForm">
+            <p:inputNumber value="#{batteryController.value}">
+                <p:ajax update="battery"/>
+            </p:inputNumber>
+            <p:slider for="@previous" minValue="0" maxValue="100"/>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="BatteryController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/BatteryController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="battery"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

@@ -30,6 +30,9 @@
                                         <transformer implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer">
                                             <resource>META-INF/faces-config.xml</resource>
                                         </transformer>
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                            <resource>META-INF/resources/ejsf/battery.js</resource>
+                                        </transformer>
                                     </delegates>
                                 </transformer>
                             </transformers>
@@ -50,6 +53,14 @@
                                 <relocation>
                                     <pattern>javax.el</pattern>
                                     <shadedPattern>jakarta.el</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>window.jsf</pattern>
+                                    <shadedPattern>window.faces</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>jsf.ajax</pattern>
+                                    <shadedPattern>faces.ajax</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
