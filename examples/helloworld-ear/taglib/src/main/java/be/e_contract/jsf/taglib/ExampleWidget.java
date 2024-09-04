@@ -30,7 +30,7 @@ public class ExampleWidget extends UIOutput {
     }
 
     enum PropertyKeys {
-        widgetVar,
+        widgetVar
     }
 
     public String getWidgetVar() {
@@ -48,10 +48,11 @@ public class ExampleWidget extends UIOutput {
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
-        responseWriter.writeAttribute("data-ejsf-type", "ExampleWidget", null);
+        responseWriter.writeAttribute("data-ejsf-widget-type", "ExampleWidget", null);
+        responseWriter.writeAttribute("data-ejsf-widget-update", 1, null);
         String widgetVar = getWidgetVar();
         if (null != widgetVar) {
-            responseWriter.writeAttribute("data-ejsf-widgetVar", widgetVar, null);
+            responseWriter.writeAttribute("data-ejsf-widget-var", widgetVar, null);
         }
         responseWriter.writeText(value, "value");
         responseWriter.endElement("span");

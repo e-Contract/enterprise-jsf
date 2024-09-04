@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ejsf="urn:be:e-contract:enterprise-jsf">
+      xmlns:ejsf="urn:be:e-contract:enterprise-jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Widget Component</title>
     </h:head>
     <h:body>
         <h1>Widget Component</h1>
         <p>
-            <ejsf:exampleWidget value="initial value"
+            <ejsf:exampleWidget id="example"
+                                value="#{widgetController.value}"
                                 widgetVar="example"/>
         </p>
         <button type="button"
                 onclick="EJSF('example').setValue('hello');">
             Click me
         </button>
+        <h:form>
+            <h:commandButton value="AJAX Update"
+                             action="#{widgetController.updateValue()}">
+                <f:ajax render="example"/>
+            </h:commandButton>
+        </h:form>
         <h:form>
             <h:button value="Back" outcome="index"/>
         </h:form>

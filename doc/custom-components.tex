@@ -325,28 +325,40 @@ An example usage of our custom JSF component is given below.
 
 \section{JSF Component with client-side API}
 Modern JSF libraries like PrimeFaces provide a very rich client-side API on their components.
+Hence the (server-side) JSF components can get enriched by client-side counterparts called widgets.
+These widgets have their own lifecycle and obviously are able to expose some API.
 Within this section we demonstrate how this can be achieved.
 The JSF component source code for this example looks as follows,
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleWidget.java}
 We activate the client-side Javascript on our rendered component by setting some \texttt{data-} attributes that will be picked up by our Javascript code.
+Via the \texttt{data-ejsf-widget\allowbreak -update} attribute we indicate that the client-side should take some action.
+Similar behavior could be accomplished via some inline Javascript.
+However, this could lead to problems when activating CSP (Content Security Policy).
 
 The \texttt{ejsf-widget.js} Javascript resource looks as follows:
 \lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-widget.js}
 Here we basically create a generic \texttt{Widget} class within the \texttt{ejsf} namespace that allows us to resolve widgets on the client-side using the \texttt{EJSF} method.
 Via the \texttt{registerWidgetType} method we can register concrete widget classes for our JSF components.
 During document loading, we instantiate all the widgets according to their registered type.
+A \texttt{Widget} has a certain lifecycle. After the construction of the widget instance, we call either \texttt{init} or \texttt{update} depending on whether we have an initial construction, or an update on an existing widget.
+Before a widget gets destroyed, we invoke the \texttt{destroy} method on it.
+Notice how we use \texttt{jsf.ajax.addOnEvent} to make sure that we properly update widgets after an AJAX call as been completed.
+Once a widget has been updated to reflect the new state of its corresponding JSF component, we remove its \texttt{data-ejsf-widget-update} update marker attribute.
 
 The \texttt{ejsf-widget-example.js} Javascript resource, which contains a concrete \texttt{Widget} implementation, looks as follows:
 \lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-widget-example.js}
 Our \texttt{ExampleWidget} Javascript class simply exposes a \texttt{setValue} method to change the content of the widget element.
-Further we register our widget type so that it can get picked up during page loading by \texttt{ejsf-widget.js}.
+Further we register our widget type via \texttt{ejsf.register\allowbreak Widget\allowbreak Type} so that it can get picked up during page loading by the \texttt{ejsf-widget.js} widget frameworking.
+We override the \texttt{init}, \texttt{update}, and \texttt{destroy} methods to simply demonstrate the lifecycle of our custom widget.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=exampleWidget]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
 An example usage of our custom JSF component is given below.
 \lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/widget.xhtml}
-Please keep in mind that the above construct is just an example and lacks things like proper lifecycle management of our widgets.
+The corresponding CDI controller looks as follows:
+\lstinputlisting[language=Java]{../examples/helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/WidgetController.java}
+Please keep in mind that the above construct is just a very rudimentary example.
 JSF libraries like PrimeFaces offer similar functionality out-of-the-box that goes way beyond what we demonstrated here.
 Good advice: don't reinvent the wheel, but use libraries like PrimeFaces.
 See also Chapter \ref{chap:primefaces} for more information on PrimeFaces.
