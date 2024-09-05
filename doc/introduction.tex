@@ -5,11 +5,11 @@
 
 \chapter{Introduction}
 \label{chap:introduction}
-Within this chapter we give a brief overview of JavaServer Faces (JSF) \cite{JSF23}.
+Within this chapter we give a brief overview of JavaServer Faces (JSF) \cite{JSF23}, now renamed as Jakarta Faces.
 We will not review every feature of JSF but just enough to get you started.
 Please check out the \nameref{chap:references} on page \pageref{chap:references} if you are looking for more in-depth material.
 
-\section{Why JavaServer Faces?}
+\section{Why JavaServer/Jakarta Faces?}
 JSF evolved quite naturally from plain servlets, over JSP and such towards where we are today.
 The primary container within the Java EE realm is the servlet container, responsible for managing the lifecycle of so-called servlets as depicted in Figure \ref{fig:servlet-container}.
 \begin{figure}[htbp]
@@ -24,7 +24,7 @@ Looking at the most simple servlet that can handle input and output,
 you immediately notice that the manual construction of the HTML content from within Java itself is rather painful.
 Next to that, this simple example also manages to bring us a lovely XSS vulnerability within its 15 something lines of code.
 
-Hence template language frameworks and such were invented, up to the point where JSF is today.
+Hence template language frameworks and such were invented, up to the point where Jakarta Faces is today.
 
 
 \section{Basic Project Structure}
@@ -70,23 +70,48 @@ The JSF  page uses a combination of plain HTML together with JSF specific tags.
 This is cleary indicated by means of the different XML namespaces and prefixes.
 While you can use any XML prefix for a given XML namespace, it is good practice to be consistent here.
 For the \texttt{http://xmlns.jcp.org/jsf/html} XML namespace we will always be using the \texttt{xmlns:h} prefix.
+An overview of the most commonly used JSF namespaces is given in Table \ref{table:namespaces}.
 
-You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate JSF within the servlet container:
+\begin{table}[h!]
+\begin{center}
+	\begin{tabular}{ |l|l|}
+		\hline
+		\textbf{Prefix} & \textbf{Namespace} \\
+		\hline\hline
+		\texttt{h} & \texttt{http://xmlns.jcp.org/jsf/html}  \\
+		\hline
+		\texttt{f} & \texttt{http://xmlns.jcp.org/jsf/core}  \\
+		\hline
+		\texttt{ui} & \texttt{http://xmlns.jcp.org/jsf/facelets}  \\
+		\hline
+		\texttt{pt} & \texttt{http://xmlns.jcp.org/jsf/passthrough}  \\
+		\hline
+		\texttt{cc} & \texttt{http://xmlns.jcp.org/jsf/composite}  \\
+		\hline
+	\end{tabular}
+\end{center}
+\caption{The Faces namespaces and preferred prefixes.}
+\label{table:namespaces}
+\end{table}
+
+You need the following minimal \texttt{src/main/webapp/WEB-INF/web.xml} configuration to activate the JSF runtime within the servlet container:
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/WEB-INF/web.xml}
-In order to configure the context root of our web application, we use the WildFly application server specific 
-\texttt{src/main/webapp/WEB-INF/jboss-web.xml} configuration file as shown below.
-\lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/WEB-INF/jboss-web.xml}
-The JSF runtime actually lives within its own servlet, just like every other front-end technology within Java EE (JAX-WS, JAX-RS).
+The JSF runtime is implemented as a regular servlet, just like every other front-end technology within Java EE (JAX-WS, JAX-RS).
 As indicated by the \texttt{version} attribute, we are targeting servlet containers version 4.0, which is part of Java EE 8.
 \begin{TIP}{javax.faces.PROJECT\_STAGE}
-An explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
-For proper development, the web browser caching has to be disabled so changes to your source code files are directly reflected within the web browser.
+	An explicit configuration of \texttt{javax.faces.PROJECT\_STAGE} is really required here to disable web browser caching.
+	For proper development, the web browser caching has to be disabled so changes to your source code files are directly reflected within the web browser.
 \end{TIP}
 
-You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the application server which version of JSF you want to activate.
+In order to configure the context root of our web application, we use the JBoss/WildFly application server specific 
+\texttt{src/main/webapp/WEB-INF/jboss-web.xml} configuration file as shown below.
+\lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/WEB-INF/jboss-web.xml}
+Other Java EE application servers might require a different configuration for this.
+
+You need the following minimal \texttt{src/main/webapp/WEB-INF/faces-config.xml} configuration to indicate to the JSF runtime which version of JSF you want to activate.
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/WEB-INF/faces-config.xml}
 The \texttt{faces-config.xml} configuration file allows you to define various settings and configurations of the JSF runtime to customize the behavior of your JSF application.
-As indicated by the \texttt{version} attribute, we are targeting JSF version 2.3, which is part of Java EE 8.
+As indicated by the \texttt{version} attribute, we are targeting JSF version 2.3, which is part of Java EE 8  \cite{JavaEE8}.
 
 You need the following minimal \texttt{src/main/webapp/WEB-INF/beans.xml} configuration to activate CDI \cite{CDI2}:
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/WEB-INF/beans.xml}
@@ -134,6 +159,8 @@ WildFly/JBoss is by far the best one in terms of quality and manageability.
 	Reminds me of a Radiohead lyric: When I am king
 	You will be first against the wall.
 \end{ClownComputing}
+
+While our examples all still target Java EE 8, they can easily be ported to Jakarta EE 10 and higher as described in Chapter \ref{chap:jakarta} on page \pageref{chap:jakarta}.
 
 Start a WildFly \cite{WildFly} application server via:
 \begin{lstlisting}[language=bash]
@@ -244,7 +271,7 @@ This requires our class to implement the \texttt{Serializable} interface.
 The JSF page demonstrating basic input/output using our CDI bean is given below:
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/input-output.xhtml}
 When we click on the \texttt{h:commandButton}, the entire page is being reloaded, with an updated value reflecting the given input.
-Important here is to put every JSF component that can interact with the server-side within an \texttt{h:form} HTML form.
+Important here is to put every JSF component that can interact with the server-side within an \texttt{h:form} HTML form so it can be send via an HTTP POST.
 
 
 \section{AJAX}
@@ -252,8 +279,9 @@ Important here is to put every JSF component that can interact with the server-s
 The reloading of the entire JSF page can be avoided by using AJAX as shown in the following example JSF page.
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/ajax.xhtml}
 Via the \texttt{f:ajax} tag we enable AJAX on the \texttt{h:commandButton} component.
-The \texttt{execute} attribute instructs which components has to be processed, while the \texttt{render} attribute defines which components need to be rendered again.
-
+The \texttt{execute} attribute instructs which components have to be processed.
+The \texttt{render} attribute defines which components need to be rendered again as part of the AJAX response.
+Underneath some clever JSF Javascript will convert the AJAX XML response towards actual changes within the HTML DOM tree.
 
 \section{Page Actions}
 While the previous example demonstrated how an AJAX call is executed, we did not yet cover how to actually perform a server-side action along with it.
@@ -261,7 +289,7 @@ The following example demonstrates such page action.
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/action.xhtml}
 Via the \texttt{h:commandButton} \texttt{action} attribute, we indicate the method expression that should get executed during the AJAX call.
 Since proper user feedback is often required when executing a page action, we also demonstrate how to use the JSF message functionality.
-Within the example we have \texttt{h:messages} that displays global JSF messages only,
+Within the example we have \texttt{h:messages} that displays the global JSF messages,
 indicated via \texttt{globalOnly="true"}.
 Specific for the \texttt{h:inputText} component, we have a dedicated \texttt{h:message} component.
 Notice how we refer to the \texttt{h:inputText} component using \texttt{@next} and \texttt{@previous}.
@@ -270,12 +298,13 @@ We mark the \texttt{messages} component for rendering via the \texttt{f:ajax} \t
 
 The corresponding CDI controller demonstrates how to generate JSF messages when our action method is being invoked.
 \lstinputlisting[language=Java]{../examples/helloworld/src/main/java/be/e_contract/jsf/helloworld/PageController.java}
-JSF messages can be emitted via the \texttt{facesContext.addMessage} method.
+JSF messages are emitted via the \texttt{facesContext.addMessage} method.
 Global JSF messages are added by setting \texttt{null} as client identifier.
 Via the \texttt{mainForm:input} client identifier we explicitly target a JSF message towards our input component.
 
 \section{Input Validation}
-
+Since user input is prone to errors and/or abuse, we want to have our input validated before it gets pushed towards our CDI controllers.
+JSF allows us to define validators on input components by means of additional JSF tags embedded within the input component tag.
 Enabling input validation on JSF input components is demonstrated in the following example.
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/validation.xhtml}
 Here you get a JSF error message when the length of the input is less than 4.
@@ -295,7 +324,7 @@ This makes the JSF messages to show up colored in red.
 \section{Data Iterators}
 
 JSF has several components to ease visualization of data lists.
-The following CDI controller holds a list of items that we want to visualize within a table on the JSF page.
+The following example CDI controller holds a list of items that we want to visualize within a table on the JSF page.
 \lstinputlisting[language=Java]{../examples/helloworld/src/main/java/be/e_contract/jsf/helloworld/DataController.java}
 Using a \texttt{@PostConstruct} method we initialize our list with some example data values.
 
@@ -351,12 +380,12 @@ you want to minimize exposure to the assembly language of the web (HTML/CSS/Java
 Admitted, this is not always possible.
 But once you see a common HTML/CSS pattern appear within your web application,
 you should try to isolate this within a custom component as much as possible.
-That way, your development team can keep focus on the implementation of web functionality instead of fighting with low-level web constructs.
+That way, your development team can keep its focus on the implementation of web functionality instead of fighting with low-level web constructs.
 
 \section{JSF Lifecycle}
 Understanding the JSF page lifecycle is important.
 Actually, understanding the lifecycle of every type of container defined by Java EE (or Spring, or Quarkus) is equally important.
-This is the major difference between regular Java and Java EE: lifecycle management of various "things" within some kind of container.
+This is the major difference between regular Java and Java EE: lifecycle management of various "things" within some kind of container/runtime.
 Java EE defines several types of containers/runtimes:
 \begin{itemize}
 	\item Servlet Container, which serves as primary entry point within your (web) application.
@@ -368,12 +397,12 @@ Java EE defines several types of containers/runtimes:
 	\item JPA
 	\item JCA runtime and corresponding MDB
 \end{itemize}
-
+Within this section we investigate the lifecycle of your JSF pages.
 Using the following custom \texttt{PhaseListener}, you can follow the phases of each JSF request.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExamplePhaseListener.java}
-Via the \texttt{getPhaseId} method we indicate that we want to receive \texttt{beforePhase} and \texttt{afterPhase} callbacks during every JSF phase execution.
+Via the \texttt{getPhaseId} method we indicate that we want to receive \texttt{beforePhase} and \texttt{afterPhase} callbacks for every JSF phase execution.
 
-This phase listener should be configured within \texttt{faces-config.xml} as follows:
+This phase listener is configured within \texttt{faces-config.xml} as follows:
 \lstinputlisting[language=XML]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/faces-config.xml}
 
 Of course we want to view the generated logging somehow.
@@ -413,18 +442,23 @@ We did not depict every possible state transition within this diagram to keep th
 We give a description of each JSF phase.
 \begin{description}[style=nextline]
 	\item[Restore View]
-	During this initial phase, the \texttt{UIViewRoot} component tree is reconstructed using the corresponding XHTML page.
+	During this initial phase, the \texttt{UIViewRoot} component tree is reconstructed using the corresponding XHTML Facelets page.
+	Internally this translation is facilitated via \texttt{TagHandler}s.
+	You can influence this by defining your own custom \texttt{TagHandler} implementations.
 	\item[Apply Request Values]
 	During this phase, each component decodes the submitted request parameters to update its local values.
 	This is done via the \texttt{decode} method of each involved component.
 	\item[Process Validations]
 	During this phase, all convertors and validators are executed against the component local values.
+	In case of a validation error, we directly jump towards the Render Response phase to inform the user about the validation error.
+	A validation error will hence skip the following two phases.
 	\item[Update Model Values]
 	During this phase, the CDI backing bean properties are updated with the components validated local values.
 	\item[Invoke Application]
 	During this phase, all application-specific actions are executed.
 	\item[Render Response]
 	During this final phase, the components are rendered.
+	This is done by invoking \texttt{encodeBegin} and \texttt{encodeEnd} on each component within the component tree.
 	The component state is also saved for subsequent access during the restore view phase.
 \end{description}
 Not every JSF request will walk through all these phases. For example, an initial JSF request will directly jump from \textbf{Restore View} to \textbf{Render Response} as there is no input to process.
@@ -433,7 +467,7 @@ Similarly, when a validator fails during the \textbf{Process Validations} phase,
 To see how the JSF lifecycle interacts with our CDI controller, let us consider the following example page.
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/lifecycle.xhtml}
 Within this page we use an \texttt{f:viewAction} and a \texttt{preRenderView} event listener.
-Further we have three buttons: one that performs a regular GET action on the page, a so-called postback button, and an AJAX-enabled button.
+Further we have three buttons: one that performs a regular GET action on the page, a so-called postback button, and an AJAX-enabled button (which technically also performs a postback).
 The corresponding CDI controller looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld/src/main/java/be/e_contract/jsf/helloworld/LifecycleController.java}
 When directly navigating to this page,
@@ -476,7 +510,14 @@ preRenderView: param: some value, isPostback: true, isAjaxRequest: true, phaseId
 Again here, first our \texttt{listener} gets invoked, and afterwards our \texttt{action}.
 See how JSF also marks an AJAX call as a postback, but additionally marks it as AJAX via \texttt{partialViewContext.isAjaxRequest()}.
 
+All those JSF phases might look a bit overwhelming at first sight.
+However, if you think about it, and would implement a server-side component based framework yourself, you will most likely end up with a similar phase sequence.
+You cannot avoid constructing some kind of component tree.
+And on this component tree, you first "let lose" the user input, you invoke some business methods, and at the end you render some HTML.
+There is no way around these steps.
+
 \section{Expression Language}
+The JavaServer Faces Expression Language acts as the glue between the JSF component tree and your CDI based controllers.
 The JavaServer Faces Expression Language implementation is well optimized.
 However, certain usage patterns should be avoided as they inflict a high evaluation cost.
 An EL expression like
@@ -530,8 +571,9 @@ The following unit test clearly demonstrates the above made statements about per
 
 
 \section{Facelets Templates}
-JSF comes with a template declaration language called facelets.
-This allows us to define a common template used by all our JSF pages,
+JSF comes with a template declaration language called Facelets.
+Internally the JSF tags are translated towards the component tree via various \texttt{TagHandler}s.
+Facelets allows us to define a common template used by all our JSF pages,
 giving us a common look and feel.
 The following example template, located under \texttt{WEB-INF/template.xhtml},
 gives us a common header structure that shows us global JSF messages right after the page title.
@@ -545,7 +587,7 @@ The corresponding CDI backing controller is given below.
 \lstinputlisting[language=Java]{../examples/helloworld/src/main/java/be/e_contract/jsf/helloworld/ExampleFaceletsController.java}
 
 \section{View Actions}
-When you want URLs that can be bookmarked, you have to use view parameters and view actions.
+When you want clean URLs that can be bookmarked, you have to use view parameters and view actions.
 The following JSF page demonstrates this concept.
 \lstinputlisting[language=XML]{../examples/helloworld/src/main/webapp/view-action.xhtml}
 Within the \texttt{f:metadata} element we define the view parameters and view actions of our JSF page.
