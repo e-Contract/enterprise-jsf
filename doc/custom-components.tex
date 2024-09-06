@@ -4,6 +4,7 @@
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Custom Components}
+Besides the standard JSF component, one can also construct custom components.
 Within the chapter we explain how to construct custom JSF components.
 There are two types of custom JSF components:
 \begin{itemize}
@@ -72,6 +73,7 @@ The most important file is our\\
 \lstinputlisting[language=XML,linerange=1-10]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 You can name this file anyway you want, as long as it ends with \texttt{.taglib.xml}.
 The above \texttt{.taglib.xml} tag library descriptor file already contains some declarations of custom tags that we will define later on (file not shown completely here).
+As you can see, our custom JSF components will live under the \texttt{urn:be:e-contract:enterprise-jsf} namespace.
 
 You can compile the example as follows.
 \begin{lstlisting}[language=bash]
@@ -171,7 +173,7 @@ We selectively update our custom output component via the \texttt{render="output
 
 \subsection{Output Component with Style}
 
-In this example, we create an output component that is styled via a CSS style sheet.
+In this example, we create an output component that is styled via a separate CSS style sheet.
 Suppose we have an enumerate, which we want to visualize using different colors.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleEnum.java}
 
@@ -181,7 +183,7 @@ In this example, we perform the rendering via a separate \texttt{Renderer} imple
 Having a separate \texttt{Renderer} has several advantages.
 \begin{itemize}
 	\item It keeps the code of the component itself clean.
-	\item The \texttt{Renderer} implementation focuses purely on the rendering (and decoding).
+	\item The \texttt{Renderer} implementation focuses purely on the rendering/encoding (and decoding).
 	\item Some frameworks provide a nice base class to implement a \texttt{Renderer}, which automatically forces you to have a separate rendering class.
 \end{itemize}
 Within our component we explicitly set the renderer type within the constructor via \texttt{setRendererType}.
@@ -190,14 +192,16 @@ If we don't do this, components created via \texttt{createComponent} can have th
 See also Section \ref{sec:dynamic-components} \nameref{sec:dynamic-components} on page \pageref{sec:dynamic-components}.
 Furthermore it is good practice to define the \texttt{COMPONENT\_TYPE} constant on each JSF component to ease component creation via the \texttt{createComponent} method.
 
-Notice how we reference our CSS style sheet resource via the \texttt{@ResourceDependency} annotation.
+We reference our CSS style sheet resource via the \texttt{@ResourceDependency} annotation.
 Important here is a correct usage of the \texttt{library} attribute to clearly indicate to which web application or tag library the corresponding resource belongs.
+Of course other resources, for example a Javascript resource, can be referenced in a similar way.
 
 The implementation of the \texttt{Renderer} looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleStyledOutputRenderer.java}
 Via the \texttt{@FacesRenderer} annotation we register our custom renderer within the JSF runtime.
 Depending on the value of our enumerate, we change the \texttt{class} attribute value of our rendered \texttt{span} element.
 Obviously the \texttt{encodeBegin} method now also receives our component as additional parameter.
+Notice that we don't provide an implementation of the \texttt{encodeEnd} method as this only makes sense in case our component would also hold any child components.
 
 The corresponding\\
 \texttt{src/main/resources/META-INF/resources/ejsf/example-styled-output.css}\\
@@ -213,7 +217,7 @@ In our example, we prefixed every defined CSS class with \texttt{example-}.
 We register this custom component and corresponding renderer within our \texttt{.taglib\allowbreak.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=exampleStyledOutput]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
-We use this custom output component as follows,
+The following XHTML page demonstrates how to use this custom output component.
 \lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/output-styled.xhtml}
 
 With the corresponding CDI controller,
@@ -221,7 +225,7 @@ With the corresponding CDI controller,
 
 
 \section{Input Component}
-In this section, we construct our first custom JSF input component.
+In this section, we construct a custom JSF input component.
 The source code of our custom input JSF component is given below:
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleInput.java}
 As we are constructing an input component, we inherit from the \texttt{UIInput} class.
@@ -244,6 +248,7 @@ We register this custom component within our \texttt{.taglib.xml} tag library de
 An example usage of our custom input JSF component is given below.
 \lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/input.xhtml}
 When trying out this example and you first enter a valid value, for example "hello", and next an invalid value "foobar", you will indeed see "foobar" as input value and the JSF error message correspondingly whining about "foobar" as expected.
+Hence as long as the submitted value is invalid, our input component keeps working with this submitted value instead of the actual model value (which is retrieved via \texttt{getValue()}).
 
 \section{Rendering Children}
 In this example, we demonstrate how to render the children of a component.
@@ -273,9 +278,9 @@ JSF components can trigger AJAX events that are handled at the server-side.
 The following component demonstrates how to fire such AJAX event at the client-side, and how to capture and process the corresponding AJAX call at the server-side.
 The source code of our custom JSF component that can fire AJAX events looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleAjax.java}
-A component that supports client-side events, needs to implement the \texttt{ClientBehavior} interface.
+A component that supports client-side events, needs to implement the \texttt{ClientBehavior\allowbreak Holder} interface.
 Our component defines a \texttt{click} client-side event as indicated via the \texttt{getEvent\allowbreak  Names} method.
-This is also the default event as indicated via the \texttt{getDefaultEventName} method.
+This is also the default event as indicated via the \texttt{getDefault\allowbreak EventName} method.
 
 Within the \texttt{encodeBegin} method we weave in the client behavior Javascript code via the \texttt{onclick} Javascript hook of our HTML button.
 At the server-side, we process our event within the \texttt{decode} method.
@@ -309,10 +314,13 @@ We don't use the \texttt{getScript} method of the client behavior here as we wan
 Within the \texttt{decode} method we decode the client behaviors as usual.
 Only additional thing here is that, within the \texttt{queueEvent} method, we like upgrade the generic \texttt{AjaxBehaviorEvent} to our own flavor \texttt{ExampleAjaxBehaviorEvent}.
 Notice here that within the \texttt{queueEvent} method we don't have to recheck whether the behavior source indeed corresponds with our component since the \texttt{decode} method already did this, and only fired the AJAX event towards our component anyway.
+Important within the \texttt{queueEvent} method is to keep delegating the processing of events towards \texttt{super.queueEvent} for events that we are not interested in.
+Within the \texttt{@ResourceDependencies} annotation we reference the different Javascript resources required by our component at the client-side.
 
 The corresponding \texttt{example-ajax-event.js} Javascript resource file looks as follows:
 \lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/example-ajax-event.js}
 Here we use the JSF client-side Javascript API \texttt{jsf.ajax.request} method to perform an AJAX request.
+Hence we included the \texttt{jsf.js} Javascript JSF resource within the \texttt{@ResourceDependencies} annotation.
 Via \texttt{options.params} we pass our custom parameter.
 Our parameter name is prefixed with the client id of our component.
 This allows our component to unambiguously locate its parameters within the \texttt{queueEvent} method.
@@ -390,8 +398,10 @@ The corresponding client behavior renderer is given below.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/behavior/ExampleClientBehaviorRenderer.java}
 This renderer simply attaches its Javascript method invocation via the \texttt{getScript} method.
 Notice that the \texttt{exampleClientBehavior} Javascript method has access to an \texttt{event} variable that holds the triggered DOM event instance.
+Via the \texttt{@ResourceDependencies} annotation we reference all resources required by our client behavior at the client-side.
 
-Via a tag handler we attach in our client behavior to its parent component.
+Via a custom tag handler we attach our client behavior to its parent component.
+Remember that a tag handler performs the "translation" from our Facelets elements towards a JSF component view tree.
 The source code of the tag handler looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/behavior/ExampleClientBehaviorTagHandler.java}
 A custom tag handler has to extend the \texttt{TagHandler} class.
@@ -408,6 +418,7 @@ The \texttt{example-client-behavior.css} CSS style sheet looks as follows:
 
 We register this custom component and its corresponding tag handler within our \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=exampleClientBehavior]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+Our custom tag handler needs to be registered using its full class name under the \texttt{handler-class} element.
 
 \section{Composites}
 JSF allows us to define components entirely within XHTML using Facelets.
@@ -440,6 +451,7 @@ The corresponding backing component source code looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleBackingComponent.java}
 A backing component always has to implement the \texttt{NamingContainer} interface.
 When a component implements the \texttt{NamingContainer} interface, the JSF runtime will ensure that the client ids of its child components are unique by prefixing the identifiers with the identifiers of the parent component.
+Hence it we have multiple instances of our \texttt{NamingContainer} implementing component, the JSF runtime will ensure that we have unique client-side identifiers.
 This is important to ensure that AJAX updates get delivered to the correct elements within the DOM tree.
 Important for composite backing components is to set 
 
@@ -468,17 +480,13 @@ We declare our custom facet, named \texttt{footer},
 via the \texttt{cc:facet} element within the \texttt{cc:interface} section of our composite component.
 The panel footer is only rendered when the \texttt{footer} facet has been set.
 Via \texttt{cc:insertChildren} we insert our children within our composite component rendering lifecycle.
+Our CSS style sheet gets loaded at the client-side via the \texttt{h:outputStylesheet} tag.
 
 The corresponding CSS style sheet \texttt{panel.css} is given below.
 \lstinputlisting[language=CSS]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/panel.css}
 
 An example usage of our panel composite component is given below.
 \lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/composite-panel.xhtml}
-
-%\section{Value Expressions}
-%\begin{TODO}{TODO}
-%	Write me.
-%\end{TODO}
 
 \section{Method Expressions}
 When using \texttt{action} or \texttt{listener} attributes, behind the scenes JSF/EL is using method expressions.
@@ -490,7 +498,7 @@ This custom \texttt{Converter} simply delegates its \texttt{getAsObject} and \te
 These method expressions are invoked like "just in time".
 We implement the \texttt{StateHolder} interface to ensure that the state of our converter gets properly saved and restored by the JSF runtime.
 
-Via a tag handler we attach our custom converter to its \texttt{UIInput} input parent component.
+Via a custom \texttt{TagHandler} we attach our custom converter to its \texttt{UIInput} input parent component.
 The source code of our tag handler looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/converter/GenericConverterTagHandler.java}
 Notice how we define the method signature via the parameters of the \texttt{getMethod\allowbreak Expression} method.
@@ -516,9 +524,10 @@ Imagine we have a list of objects, each object has its own type as shown in the 
 \lstinputlisting[language=Java]{../examples/helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/DataController.java}
 Each \texttt{Item} has its own \texttt{type} and corresponding \texttt{value}.
 
-We want to construct a component that is capable of inputting this dynamic typed value, as shown in the example below.
+We want to construct a component that is capable of inputting this dynamically typed value, as shown in the example below.
 \lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/dynamic-input.xhtml}
 Depending on the actual type of the item, the \texttt{dynamicInput} component changes its rendering accordingly.
+Hence for a boolean we should render a checkbox instead of a regular text input field.
 
 Our JSF component for this looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/DynamicInputComponent.java}
@@ -537,16 +546,12 @@ Within the \texttt{encodeBegin} method we give our component a client-side ident
 This is important to ensure that AJAX updates can locate our component.
 
 Via the \texttt{getRendersChildren} method we indicate that we take care of rendering/decoding our children.
-And this is exactly what we do within the \texttt{encodeChildren} and \texttt{decode} methods where we delegate towards the appropriate child component depending on the item type.
+And this is exactly what we do within the \texttt{encodeChildren} and \texttt{decode} methods where we delegate towards the appropriate child component depending on the actual item type.
 Hence we selectively render the child component that is capable of handling the item type.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=dynamicInput]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
 
-%\section{Facets}
-%\begin{TODO}{TODO}
-%	Write me.
-%\end{TODO}
 
 \section{UIData}
 Visualization of data tables is a commonly recurring aspect when constructing business oriented web applications.
@@ -557,7 +562,11 @@ The source code of our custom \texttt{UIData} component looks as follows.
 The source code of the corresponding rendered is given below.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/datalist/DataListRenderer.java}
 Notice how we play with the \texttt{setRowIndex} method to render our child components multiple times for all our rows.
-Here the JSF runtime will take care of generating unique client identifiers for each iteration.
+Here the JSF runtime will take care of generating unique client identifiers for each iteration over the children.
+This nicely highlights why they introduces the concept of client identifiers within JSF.
+Within the Facelets page, the \texttt{id} attribute values are not necessarily unique (as opposed to plain XML where they have to be unique).
+On the other hand, within the rendered HTML the \texttt{id} attribute values have to be unique according to the HTML specification.
+Hence the JSF runtime needs to do some additional work to be able to map between JSF identifiers and client-side HTML identifiers.
 
 We register this custom component and its corresponding renderer within our \texttt{.taglib\allowbreak .xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=dataList]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}

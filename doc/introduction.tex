@@ -442,7 +442,7 @@ We did not depict every possible state transition within this diagram to keep th
 We give a description of each JSF phase.
 \begin{description}[style=nextline]
 	\item[Restore View]
-	During this initial phase, the \texttt{UIViewRoot} component tree is reconstructed using the corresponding XHTML Facelets page.
+	During this initial phase, the \texttt{UIViewRoot} component tree is reconstructed using the corresponding XHTML page which is defined using the Facelets view declaration language.
 	Internally this translation is facilitated via \texttt{TagHandler}s.
 	You can influence this by defining your own custom \texttt{TagHandler} implementations.
 	\item[Apply Request Values]

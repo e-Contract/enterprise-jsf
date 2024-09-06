@@ -19,6 +19,29 @@ The \texttt{jakarta} namespace prefix for the Java EE packages is the only chang
 Similarly, we have some namespace changes within our XHTML files as well.
 \lstinputlisting[language=XML]{../examples/helloworld-ee10/war-ee10/src/main/webapp/index.xhtml}
 Notice the \texttt{jakarta.faces} XML namespace prefix for the JSF namespaces.
+Within Table \ref{table:jakarta-namespaces} we give an overview of the JSF namespaces.
+
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{ |l|l|}
+			\hline
+			\textbf{JavaServer Faces Namespace} & \textbf{Jakarta Faces Namespace} \\
+			\hline\hline
+			\texttt{http://xmlns.jcp.org/jsf/html}  & \texttt{jakarta.faces.html} \\
+			\hline
+			\texttt{http://xmlns.jcp.org/jsf/core}  & \texttt{jakarta.faces.core} \\
+			\hline
+			\texttt{http://xmlns.jcp.org/jsf/facelets}  & \texttt{jakarta.faces.facelets} \\
+			\hline
+			\texttt{http://xmlns.jcp.org/jsf/passthrough}  & \texttt{jakarta.faces.passthrough} \\
+			\hline
+			\texttt{http://xmlns.jcp.org/jsf/composite}  & \texttt{jakarta.faces.composite} \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{The mapping between JavaServer Faces namespaces and Jakarta Faces namespaces.}
+	\label{table:jakarta-namespaces}
+\end{table}
 
 The updated web descriptor looks as follows:
 \lstinputlisting[language=XML]{../examples/helloworld-ee10/war-ee10/src/main/webapp/WEB-INF/web.xml}
