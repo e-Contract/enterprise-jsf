@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.webauthn;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import javax.el.ELContext;
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.StateHolder;
+import javax.faces.component.PartialStateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -21,7 +21,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 @FacesValidator(WebAuthnUsernameValidator.VALIDATOR_ID)
-public class WebAuthnUsernameValidator implements Validator, StateHolder {
+public class WebAuthnUsernameValidator implements Validator, PartialStateHolder {
 
     public static final String VALIDATOR_ID = "ejsf.webAuthnUsernameValidator";
 
@@ -38,6 +38,7 @@ public class WebAuthnUsernameValidator implements Validator, StateHolder {
     }
 
     public void setMessage(ValueExpression messageValueExpression) {
+        this.initialState = false;
         this.messageValueExpression = messageValueExpression;
     }
 
@@ -46,6 +47,7 @@ public class WebAuthnUsernameValidator implements Validator, StateHolder {
     }
 
     public void setMode(String mode) {
+        this.initialState = false;
         this.mode = mode;
     }
 
@@ -54,6 +56,7 @@ public class WebAuthnUsernameValidator implements Validator, StateHolder {
     }
 
     public void setCredentialRepository(ValueExpression credentialRepositoryValueExpression) {
+        this.initialState = false;
         this.credentialRepositoryValueExpression = credentialRepositoryValueExpression;
     }
 
@@ -102,6 +105,9 @@ public class WebAuthnUsernameValidator implements Validator, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
+        if (this.initialState) {
+            return null;
+        }
         return new Object[]{
             this.mode,
             this.credentialRepositoryValueExpression,
@@ -134,5 +140,22 @@ public class WebAuthnUsernameValidator implements Validator, StateHolder {
     @Override
     public void setTransient(boolean newTransientValue) {
         this._transient = newTransientValue;
+    }
+
+    private boolean initialState;
+
+    @Override
+    public void markInitialState() {
+        this.initialState = true;
+    }
+
+    @Override
+    public boolean initialStateMarked() {
+        return this.initialState;
+    }
+
+    @Override
+    public void clearInitialState() {
+        this.initialState = false;
     }
 }
