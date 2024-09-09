@@ -1,13 +1,13 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.component.StateHolder;
+import javax.faces.component.PartialStateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -16,7 +16,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 @FacesValidator(InetAddressValidator.VALIDATOR_ID)
-public class InetAddressValidator implements Validator, StateHolder {
+public class InetAddressValidator implements Validator, PartialStateHolder {
 
     public static final String VALIDATOR_ID = "ejsf.inetAddressValidator";
 
@@ -31,6 +31,7 @@ public class InetAddressValidator implements Validator, StateHolder {
     }
 
     public void setMessage(String message) {
+        this.initialState = false;
         this.message = message;
     }
 
@@ -39,6 +40,7 @@ public class InetAddressValidator implements Validator, StateHolder {
     }
 
     public void setIpv4Only(boolean ipv4Only) {
+        this.initialState = false;
         this.ipv4Only = ipv4Only;
     }
 
@@ -73,6 +75,9 @@ public class InetAddressValidator implements Validator, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
+        if (this.initialState) {
+            return null;
+        }
         return new Object[]{
             this.ipv4Only,
             this.message
@@ -103,5 +108,22 @@ public class InetAddressValidator implements Validator, StateHolder {
     @Override
     public void setTransient(boolean newTransientValue) {
         this._transient = newTransientValue;
+    }
+
+    private boolean initialState;
+
+    @Override
+    public void markInitialState() {
+        this.initialState = true;
+    }
+
+    @Override
+    public boolean initialStateMarked() {
+        return this.initialState;
+    }
+
+    @Override
+    public void clearInitialState() {
+        this.initialState = false;
     }
 }

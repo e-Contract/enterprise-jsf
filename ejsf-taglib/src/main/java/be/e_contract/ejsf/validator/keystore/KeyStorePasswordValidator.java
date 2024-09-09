@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator.keystore;
@@ -13,7 +13,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.StateHolder;
+import javax.faces.component.PartialStateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesValidator(KeyStorePasswordValidator.VALIDATOR_ID)
-public class KeyStorePasswordValidator implements Validator, StateHolder {
+public class KeyStorePasswordValidator implements Validator, PartialStateHolder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KeyStorePasswordValidator.class);
 
@@ -43,6 +43,7 @@ public class KeyStorePasswordValidator implements Validator, StateHolder {
     }
 
     public void setForKeyStore(String forKeyStore) {
+        this.initialState = false;
         this.forKeyStore = forKeyStore;
     }
 
@@ -51,6 +52,7 @@ public class KeyStorePasswordValidator implements Validator, StateHolder {
     }
 
     public void setKeyStoreType(String keyStoreType) {
+        this.initialState = false;
         this.keyStoreType = keyStoreType;
     }
 
@@ -59,6 +61,7 @@ public class KeyStorePasswordValidator implements Validator, StateHolder {
     }
 
     public void setMessage(String message) {
+        this.initialState = false;
         this.message = message;
     }
 
@@ -66,6 +69,9 @@ public class KeyStorePasswordValidator implements Validator, StateHolder {
     public Object saveState(FacesContext context) {
         if (context == null) {
             throw new NullPointerException();
+        }
+        if (this.initialState) {
+            return null;
         }
         return new Object[]{
             this.forKeyStore,
@@ -146,5 +152,22 @@ public class KeyStorePasswordValidator implements Validator, StateHolder {
         FacesMessage facesMessage = new FacesMessage(errorMessage);
         facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
         throw new ValidatorException(facesMessage);
+    }
+
+    private boolean initialState;
+
+    @Override
+    public void markInitialState() {
+        this.initialState = true;
+    }
+
+    @Override
+    public boolean initialStateMarked() {
+        return this.initialState;
+    }
+
+    @Override
+    public void clearInitialState() {
+        this.initialState = false;
     }
 }

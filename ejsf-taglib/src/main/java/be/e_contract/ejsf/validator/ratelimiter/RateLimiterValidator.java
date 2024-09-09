@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator.ratelimiter;
@@ -13,7 +13,7 @@ import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.StateHolder;
+import javax.faces.component.PartialStateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesValidator(RateLimiterValidator.VALIDATOR_ID)
-public class RateLimiterValidator implements Validator, StateHolder, ActionListener {
+public class RateLimiterValidator implements Validator, PartialStateHolder, ActionListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateLimiterValidator.class);
 
@@ -54,6 +54,7 @@ public class RateLimiterValidator implements Validator, StateHolder, ActionListe
     }
 
     public void setFor(String _for) {
+        this.initialState = false;
         this._for = _for;
     }
 
@@ -62,6 +63,7 @@ public class RateLimiterValidator implements Validator, StateHolder, ActionListe
     }
 
     public void setTimeoutDuration(int timeoutDuration) {
+        this.initialState = false;
         this.timeoutDuration = timeoutDuration;
     }
 
@@ -70,6 +72,7 @@ public class RateLimiterValidator implements Validator, StateHolder, ActionListe
     }
 
     public void setLimitRefreshPeriod(int limitRefreshPeriod) {
+        this.initialState = false;
         this.limitRefreshPeriod = limitRefreshPeriod;
     }
 
@@ -78,6 +81,7 @@ public class RateLimiterValidator implements Validator, StateHolder, ActionListe
     }
 
     public void setLimitForPeriod(int limitForPeriod) {
+        this.initialState = false;
         this.limitForPeriod = limitForPeriod;
     }
 
@@ -86,6 +90,7 @@ public class RateLimiterValidator implements Validator, StateHolder, ActionListe
     }
 
     public void setMessageValueExpression(ValueExpression messageValueExpression) {
+        this.initialState = false;
         this.messageValueExpression = messageValueExpression;
     }
 
@@ -94,6 +99,7 @@ public class RateLimiterValidator implements Validator, StateHolder, ActionListe
     }
 
     public void setOnLimitMethodExpression(MethodExpression onLimitMethodExpression) {
+        this.initialState = false;
         this.onLimitMethodExpression = onLimitMethodExpression;
     }
 
@@ -102,6 +108,7 @@ public class RateLimiterValidator implements Validator, StateHolder, ActionListe
     }
 
     public void setForValueExpression(ValueExpression forValueExpression) {
+        this.initialState = false;
         this.forValueExpression = forValueExpression;
     }
 
@@ -161,6 +168,9 @@ public class RateLimiterValidator implements Validator, StateHolder, ActionListe
         if (context == null) {
             throw new NullPointerException();
         }
+        if (this.initialState) {
+            return null;
+        }
         return new Object[]{
             this._for,
             this.timeoutDuration,
@@ -212,5 +222,22 @@ public class RateLimiterValidator implements Validator, StateHolder, ActionListe
         } catch (ValidatorException ex) {
             throw new AbortProcessingException(ex);
         }
+    }
+
+    private boolean initialState;
+
+    @Override
+    public void markInitialState() {
+        this.initialState = true;
+    }
+
+    @Override
+    public boolean initialStateMarked() {
+        return this.initialState;
+    }
+
+    @Override
+    public void clearInitialState() {
+        this.initialState = false;
     }
 }

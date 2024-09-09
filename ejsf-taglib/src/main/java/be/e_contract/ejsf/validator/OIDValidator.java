@@ -1,13 +1,13 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.component.StateHolder;
+import javax.faces.component.PartialStateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesValidator(OIDValidator.VALIDATOR_ID)
-public class OIDValidator implements Validator, StateHolder {
+public class OIDValidator implements Validator, PartialStateHolder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OIDValidator.class);
 
@@ -32,6 +32,7 @@ public class OIDValidator implements Validator, StateHolder {
     }
 
     public void setMessage(String message) {
+        this.initialState = false;
         this.message = message;
     }
 
@@ -65,6 +66,9 @@ public class OIDValidator implements Validator, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
+        if (this.initialState) {
+            return null;
+        }
         return new Object[]{
             this.message
         };
@@ -93,5 +97,22 @@ public class OIDValidator implements Validator, StateHolder {
     @Override
     public void setTransient(boolean newTransientValue) {
         this._transient = newTransientValue;
+    }
+
+    private boolean initialState;
+
+    @Override
+    public void markInitialState() {
+        this.initialState = true;
+    }
+
+    @Override
+    public boolean initialStateMarked() {
+        return this.initialState;
+    }
+
+    @Override
+    public void clearInitialState() {
+        this.initialState = false;
     }
 }

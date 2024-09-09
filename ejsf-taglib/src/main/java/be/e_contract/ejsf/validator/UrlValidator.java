@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2020-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2020-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator;
@@ -10,7 +10,7 @@ import be.e_contract.ejsf.Environment;
 import java.util.ResourceBundle;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.StateHolder;
+import javax.faces.component.PartialStateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesValidator(UrlValidator.VALIDATOR_ID)
-public class UrlValidator implements Validator, StateHolder {
+public class UrlValidator implements Validator, PartialStateHolder {
 
     public static final String VALIDATOR_ID = "ejsf.urlValidator";
 
@@ -85,6 +85,7 @@ public class UrlValidator implements Validator, StateHolder {
     }
 
     public void setAllowLocalhost(boolean allowLocalhost) {
+        this.initialState = false;
         this.allowLocalhost = allowLocalhost;
     }
 
@@ -93,6 +94,7 @@ public class UrlValidator implements Validator, StateHolder {
     }
 
     public void setAllowHttp(boolean allowHttp) {
+        this.initialState = false;
         this.allowHttp = allowHttp;
     }
 
@@ -101,6 +103,7 @@ public class UrlValidator implements Validator, StateHolder {
     }
 
     public void setMessage(String message) {
+        this.initialState = false;
         this.message = message;
     }
 
@@ -109,6 +112,9 @@ public class UrlValidator implements Validator, StateHolder {
         LOGGER.trace("saveState(..)");
         if (context == null) {
             throw new NullPointerException();
+        }
+        if (this.initialState) {
+            return null;
         }
         return new Object[]{
             this.allowLocalhost,
@@ -143,5 +149,22 @@ public class UrlValidator implements Validator, StateHolder {
     @Override
     public void setTransient(boolean newTransientValue) {
         this._transient = newTransientValue;
+    }
+
+    private boolean initialState;
+
+    @Override
+    public void markInitialState() {
+        this.initialState = true;
+    }
+
+    @Override
+    public boolean initialStateMarked() {
+        return this.initialState;
+    }
+
+    @Override
+    public void clearInitialState() {
+        this.initialState = false;
     }
 }

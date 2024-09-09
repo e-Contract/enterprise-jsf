@@ -14,7 +14,7 @@ import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.StateHolder;
+import javax.faces.component.PartialStateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesValidator(ELValidator.VALIDATOR_ID)
-public class ELValidator implements Validator, StateHolder {
+public class ELValidator implements Validator, PartialStateHolder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ELValidator.class);
 
@@ -46,6 +46,7 @@ public class ELValidator implements Validator, StateHolder {
     }
 
     public void setMessage(String message) {
+        this.initialState = false;
         this.message = message;
     }
 
@@ -54,6 +55,7 @@ public class ELValidator implements Validator, StateHolder {
     }
 
     public void setInvalidWhen(String invalidWhen) {
+        this.initialState = false;
         this.invalidWhen = invalidWhen;
     }
 
@@ -62,6 +64,7 @@ public class ELValidator implements Validator, StateHolder {
     }
 
     public void setValueVar(String valueVar) {
+        this.initialState = false;
         this.valueVar = valueVar;
     }
 
@@ -70,6 +73,7 @@ public class ELValidator implements Validator, StateHolder {
     }
 
     public void setPrevRowVar(String prevRowVar) {
+        this.initialState = false;
         this.prevRowVar = prevRowVar;
     }
 
@@ -151,6 +155,9 @@ public class ELValidator implements Validator, StateHolder {
         if (context == null) {
             throw new NullPointerException();
         }
+        if (this.initialState) {
+            return null;
+        }
         return new Object[]{
             this.valueVar,
             this.invalidWhen,
@@ -185,5 +192,22 @@ public class ELValidator implements Validator, StateHolder {
     @Override
     public void setTransient(boolean newTransientValue) {
         this._transient = newTransientValue;
+    }
+
+    private boolean initialState;
+
+    @Override
+    public void markInitialState() {
+        this.initialState = true;
+    }
+
+    @Override
+    public boolean initialStateMarked() {
+        return this.initialState;
+    }
+
+    @Override
+    public void clearInitialState() {
+        this.initialState = false;
     }
 }
