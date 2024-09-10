@@ -25,8 +25,12 @@
             <validator-id>ejsf.parameterValidator</validator-id>
         </validator>
         <attribute>
-            <name>parameter</name>
+            <name>forbidden</name>
             <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>message</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>

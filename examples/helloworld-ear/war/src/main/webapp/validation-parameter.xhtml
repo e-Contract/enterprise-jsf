@@ -12,10 +12,10 @@
             <p>
                 Result: #{inputOutputController.value}
             </p>
-            <h:outputLabel for="@next" value="Input"/>
+            <h:outputLabel for="@next" value="Input:"/>
             <h:inputText value="#{inputOutputController.value}"
                          required="true">
-                <ejsf:parameterValidator parameter="foobar"/>
+                <ejsf:parameterValidator forbidden="foobar"/>
             </h:inputText>
             <h:message for="@previous"/>
             <h:commandButton value="click me">

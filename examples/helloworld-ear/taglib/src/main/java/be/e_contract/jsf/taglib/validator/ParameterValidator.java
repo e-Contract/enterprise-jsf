@@ -13,14 +13,24 @@ public class ParameterValidator implements Validator, StateHolder {
 
     private boolean _transient;
 
-    private String parameter;
+    private String forbidden;
 
-    public String getParameter() {
-        return this.parameter;
+    private String message;
+
+    public String getForbidden() {
+        return this.forbidden;
     }
 
-    public void setParameter(String parameter) {
-        this.parameter = parameter;
+    public void setForbidden(String forbidden) {
+        this.forbidden = forbidden;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
@@ -28,10 +38,16 @@ public class ParameterValidator implements Validator, StateHolder {
         if (null == value) {
             return;
         }
-        if (this.parameter.equals(value)) {
+        if (this.forbidden.equals(value)) {
+            String errorMessage;
+            if (null != this.message) {
+                errorMessage = this.message;
+            } else {
+                errorMessage = "Not allowed: " + this.forbidden;
+            }
             FacesMessage facesMessage
                     = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Not allowed: " + this.parameter, null);
+                            errorMessage, null);
             throw new ValidatorException(facesMessage);
         }
     }
@@ -42,7 +58,8 @@ public class ParameterValidator implements Validator, StateHolder {
             throw new NullPointerException();
         }
         return new Object[]{
-            this.parameter
+            this.forbidden,
+            this.message
         };
     }
 
@@ -58,7 +75,8 @@ public class ParameterValidator implements Validator, StateHolder {
         if (stateObjects.length == 0) {
             return;
         }
-        this.parameter = (String) stateObjects[0];
+        this.forbidden = (String) stateObjects[0];
+        this.message = (String) stateObjects[1];
     }
 
     @Override
