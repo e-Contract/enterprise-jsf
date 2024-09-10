@@ -240,4 +240,22 @@
     </tag>
     <!-- customVariable end -->
 
+    <!-- examplePSHValidator begin -->
+    <tag>
+        <tag-name>examplePSHValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.examplePSHValidator</validator-id>
+        </validator>
+        <attribute>
+            <name>forbidden</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+    <!-- examplePSHValidator end -->
+
 </facelet-taglib>

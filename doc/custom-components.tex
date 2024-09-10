@@ -112,6 +112,7 @@ Hence entering "foobar" as input will result in a JSF error message being displa
 
 
 \subsection{Validator Parameters}
+\label{sec:validator-parameters}
 In the previous example the value for "foobar" was hard-coded within the validator itself.
 This is obviously something we want to avoid in the real world.
 Luckily, validators can be parameterized to tune its behavior at runtime.
@@ -625,6 +626,53 @@ Next to that, we simply pop the previous \texttt{ValueExpression} for our custom
 
 We register our component within the \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=customVariable]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+
+\section{View State}
+Looking back at the example of section \ref{sec:validator-parameters} \nameref{sec:validator-parameters} on page \pageref{sec:validator-parameters},
+we implemented the \texttt{StateHolder} interface on the custom \texttt{Validator} to preserve the state of our validator parameters.
+Let us elaborate here what this state is exactly.
+In that example, we saved all parameters/attributes as part of the \texttt{saveState} method implementation.
+But when you look a bit closer, you realize that this is kind of pointless in most cases.
+That so-called state is most of the time rather statically determined by the Facelets view declaration language (VDL) XHTML file anyway.
+And further, in case of EL value expressions towards our CDI controllers, it is the CDI (view scoped) controllers that hold the actual state.
+
+Only when we explicitly change some component/validator/etc attributes within the view tree, it really makes sense to keep track of the state changes.
+So a lot of the so-called view state can be recovered otherwise.
+You only want to keep track of the "delta state" here.
+This is why they introduced the \texttt{PartialStateHolder} interface as part of JSF version 2.0.
+
+The following validator implements \texttt{PartialStateHolder} instead of \texttt{StateHolder} to optimize with regards to such "delta state".
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/validator/ExamplePartialStateHolderValidator.java}
+As part of the \texttt{PartialStateHolder} implementation we have three new methods \texttt{mark\allowbreak InitialState}, \texttt{initialStateMarked}, and \texttt{clearInitialState} that basically just do that.
+The interesting thing happens within our \texttt{saveState} method.
+Here we simply return \texttt{null} in case our validator still was in its initial state since it is pointless to save any state if the JSF runtime can reconstruct the state of our validator completely by itself.
+If the validator was not within its initial state, we simply capture all attributes as state of our component.
+We could further optimize here and selectively capture only the attributes that where actually changed, if you would feel doing so.
+
+So how do we keep track of state changed you might ask yourself?
+Well, by simply setting the \texttt{initialState} field to \texttt{false} as part of our attribute setters.
+Important here is to understand that the JSF runtime will call \texttt{clearInitialState} and \texttt{markInitialState} to inform use about state tracking.
+After the JSF runtime has reconstructed the view tree via the Facelets view declaration language page, it fires \texttt{markInitialState} to us.
+And from there on, we want to keep track of the delta state.
+The granularity of keeping track of this delta state is completely up to us.
+We could simply use an \texttt{initialState} boolean as we demonstrate in our example, or have a more granular approach per attribute.
+At the end of the JSF phase sequence, our \texttt{saveState} method gets invoked, where we can indeed selectively declare our state towards the JSF runtime environment using our chosen state tracking approach.
+
+We register our validator within the \texttt{.taglib.xml} tag library descriptor as follows.
+\lstinputlisting[language=XML,linerange=examplePSHValidator]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
+
+The following page demonstrated the behavior of the \texttt{PartialStateHolder} over the different JSF phases.
+\lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/validation-psh.xhtml}
+Via \texttt{f:event} on the \texttt{h:inputText} component we register a listener that gets invoked after the view tree has been reconstructed.
+Further we have an AJAX listener on the "click me" button that gets invoked during the apply request phase due to \texttt{immediate="true"}.
+
+The corresponding CDI controller looks as follows.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/ValidatorController.java}
+Hence we change the validator \texttt{message} attribute value during the \texttt{PostAddToViewEvent} and also during the \texttt{AjaxBehaviorEvent} on the button.
+When playing around with this example, you will notice that changes during \texttt{PostAddToViewEvent} are actually not considered as part of the state by the JSF runtime (it invokes \texttt{markInitialState} after this event).
+Only the changes as part of the \texttt{AjaxBehaviorEvent} will result in a non null state of our validator.
+This highlights the importance of implementing the \texttt{PartialStateHolder} interface instead of the \texttt{StateHolder} interface:
+most of the time with JSF, there is no state to keep track off.
 
 \section{CDI enabled JSF tag libraries}
 At a certain point you will want to take advantage of CDI within your custom JSF tag library to get things done.
