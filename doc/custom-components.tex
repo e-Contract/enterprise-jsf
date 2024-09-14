@@ -339,6 +339,7 @@ An example usage of our custom JSF component is given below.
 \lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/ajax-event.xhtml}
 
 \section{JSF Component with client-side API}
+\label{sec:widgets}
 Modern JSF libraries like PrimeFaces provide a very rich client-side API on their components.
 Hence the (server-side) JSF components can get enriched by client-side counterparts called widgets.
 These widgets have their own lifecycle and obviously are able to expose some API.
@@ -673,6 +674,79 @@ When playing around with this example, you will notice that changes during \text
 Only the changes as part of the \texttt{AjaxBehaviorEvent} will result in a non null state of our validator.
 This highlights the importance of implementing the \texttt{PartialStateHolder} interface instead of the \texttt{StateHolder} interface:
 most of the time with JSF, there is no state to keep track off.
+
+\section{Extensions}
+Within Section \ref{sec:widgets} \nameref{sec:widgets}, on page \pageref{sec:widgets}, we demonstrated how to create so-called client-side widgets with their own lifecycle.
+However, from a performance point-of-view, the following Javascript statement,
+\begin{lstlisting}[language=bash]
+	document.querySelectorAll("[data-ejsf-widget-update]");
+\end{lstlisting}
+can be a very expensive way to query for all client-side widgets that require an update after a page refresh or AJAX call.
+Especially when the DOM document is large, such strategy cannot be maintained.
+
+Hence it is interesting to think about more elegant and performant ways to communicate some aspect, like widget initializations and updates, towards the client-side as part of the JSF lifecycle.
+Within this section we demonstrate how to use various extension mechanisms provided by the JSF runtime to facilitate such a feature.
+
+What we want is that a component can implement the following interface,
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/Extension.java}
+so it is able to communicate some aspect towards some client-side Javascript.
+In our example here, the client-side Javascript looks as follows,
+\lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/extension.js}
+Here we simply log the received data per component to the console.
+For initial page loading (and classical postbacks) we use an HTML template element to transport the data.
+For AJAX calls, we use the standardized extension mechanism on the response XML.
+The data structure is generated as follows on the server-side:
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExtensionUtil.java}
+So we output a JSON structure with an object field per component holding the component data.
+
+How to bring all of the above behavior to life?
+First of all we need to be able to load our Javascript on every page.
+This could be done explicitly via \texttt{h:outputScript} on every page, but we want to avoid this.
+We want that this Javascript is included "globally" for every page.
+This can be achieved using a custom \texttt{ViewHandler} as demonstrated below.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExtensionViewHandlerWrapper.java}
+Every time a JSF view is created or restored, we add our Javascript as component resource to the view tree.
+Note how we use the \texttt{javax.faces.resource.Script} renderer to get the right renderer activated to output our \texttt{script} element during rendering.
+Our custom \texttt{ViewHandler} is registered within the \texttt{faces-config.xml} configuration file as follows.
+\lstinputlisting[language=XML,linerange=ExtensionViewHandlerWrapper]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/faces-config.xml}
+
+Let us first see how to tackle the regular JSF rendering.
+For this we use a custom \texttt{ResponseWriter} as shown below.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExampleResponseWriterWrapper.java}
+We extend the \texttt{ResponseWriterWrapper} here that already has notion of wrapping a previous \texttt{ResponseWriter} and delegating all method invocations to the original.
+Further we override the \texttt{startElement} method where we keep track of components that implement our \texttt{Extension} interface.
+We also override the \texttt{endElement} method where we, before closing the \texttt{body} HTML element, write a \texttt{template} HTML element containing the collected extension data for all our extension components.
+
+The concept of wrapping is used extensively within the JSF framework and allows us to decorate various classes to enhance their behavior.
+Check out the Java documentation of the \texttt{FacesWrapper} interface to get an idea what can be decorated in such manner within your JSF tag library and JSF application.
+Hence to register our custom \texttt{ResponseWriter}, we again wrap another class: \texttt{FacesContext} as shown below.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExampleFacesContextWrapper.java}
+Here we override the \texttt{setResponseWriter} method to ensure that our custom \texttt{Response\allowbreak Writer} is present within the chain of wrapped response writers, which is checked via the \texttt{already\allowbreak Wrapped} method.
+There we walk through all wrappers and check whether it is an instance of our class.
+
+In turn our custom \texttt{FacesContext} is registered via wrapping custom \texttt{FacesContext\allowbreak Factory} implementation as shown below.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExampleFacesContextFactory.java}
+Here we overrride the \texttt{getFacesContext} method to ensure that an instance of our custom \texttt{FacesContext} implementation is being used.
+
+Similarly, for the AJAX calls, we implement a custom \texttt{PartialResponseWriter} as shown below.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExamplePartialResponseWriter.java}
+Again we keep track of the components that implement our \texttt{Extension} interface within the overridden \texttt{startElement} method.
+Via the \texttt{endDocument} method we write a custom AJAX response \texttt{extension} XML element containing the extension data of our collected components.
+
+We register our custom \texttt{PartialResponseWriter} via a custom \texttt{PartialViewContext} as shown below.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExamplePartialViewContext.java}
+Within the \texttt{getPartialResponseWriter} method we return an instance of our \texttt{Partial\allowbreak ResponseWriter} implementation.
+In turn our custom \texttt{PartialViewContext} is registered via custom \texttt{PartialViewContextFactory} as shown below.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExamplePartialViewContextFactory.java}
+Within the \texttt{getPartialViewContext} we simply return our custom \texttt{PartialViewContext} wrapping implementation.
+
+We register all the custom factories within \texttt{faces-config.xml} as follows.
+\lstinputlisting[language=XML,linerange=factory]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/faces-config.xml}
+
+With all of this, when a component implements our \texttt{Extension} interfaces as demonstrated below,
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExtensionComponent.java}
+it will get picked up by our little custom JSF frameworking and yield additional behavior at the client-side.
+Our example component simply adds a \texttt{now} field to the JSON datastructure of our component.
 
 \section{CDI enabled JSF tag libraries}
 At a certain point you will want to take advantage of CDI within your custom JSF tag library to get things done.
