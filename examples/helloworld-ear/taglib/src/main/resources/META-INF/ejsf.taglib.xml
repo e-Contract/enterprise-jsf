@@ -258,4 +258,13 @@
     </tag>
     <!-- examplePSHValidator end -->
 
+    <!-- extensionComponent begin -->
+    <tag>
+        <tag-name>extensionComponent</tag-name>
+        <component>
+            <component-type>ejsf.extensionComponent</component-type>
+        </component>
+    </tag>
+    <!-- extensionComponent end -->
+
 </facelet-taglib>

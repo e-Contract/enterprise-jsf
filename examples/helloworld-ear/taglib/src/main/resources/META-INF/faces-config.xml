@@ -5,10 +5,28 @@
     https://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
               version="2.3">
 
+    <!-- ExamplePhaseListener begin -->
     <lifecycle>
         <phase-listener>
             be.e_contract.jsf.taglib.ExamplePhaseListener
         </phase-listener>
     </lifecycle>
-    
+    <!-- ExamplePhaseListener end -->
+
+    <!-- ExamplePartialViewContextFactory begin -->
+    <factory>
+        <partial-view-context-factory>
+            be.e_contract.jsf.taglib.extension.ExamplePartialViewContextFactory
+        </partial-view-context-factory>
+    </factory>
+    <!-- ExamplePartialViewContextFactory end -->
+
+    <!-- ExtensionViewHandlerWrapper begin -->
+    <application>
+        <view-handler>
+            be.e_contract.jsf.taglib.extension.ExtensionViewHandlerWrapper
+        </view-handler>
+    </application>
+    <!-- ExtensionViewHandlerWrapper end -->
+
 </faces-config>

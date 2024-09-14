@@ -403,7 +403,7 @@ Using the following custom \texttt{PhaseListener}, you can follow the phases of 
 Via the \texttt{getPhaseId} method we indicate that we want to receive \texttt{beforePhase} and \texttt{afterPhase} callbacks for every JSF phase execution.
 
 This phase listener is configured within \texttt{faces-config.xml} as follows:
-\lstinputlisting[language=XML]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/faces-config.xml}
+\lstinputlisting[language=XML,linerange=ExamplePhaseListener]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/faces-config.xml}
 
 Of course we want to view the generated logging somehow.
 For this we first have to configure the WildFly application server.
