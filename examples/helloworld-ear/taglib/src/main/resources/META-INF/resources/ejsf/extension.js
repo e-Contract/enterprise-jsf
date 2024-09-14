@@ -2,15 +2,19 @@ window.addEventListener("load", () => {
     jsf.ajax.addOnEvent(function (data) {
         if (data.status === "success") {
             queueMicrotask(() => {
-                let extensionNodeList = data.responseXML.querySelectorAll("extension#example");
-                if (extensionNodeList.length === 1) {
-                    let extensionNode = extensionNodeList.item(0);
-                    let clientIds = JSON.parse(extensionNode.textContent);
-                    clientIds.forEach((clientId) => {
-                        console.log("extension client id: " + clientId);
-                    });
+                let extension = data.responseXML.querySelector("extension#example");
+                let extensionData = JSON.parse(extension.textContent);
+                for (const [clientId, data] of Object.entries(extensionData)) {
+                    console.log(clientId + " update data:");
+                    console.log(data);
                 }
             });
         }
     });
+    let template = document.querySelector("template#example-extension");
+    let extensionData = JSON.parse(template.content.textContent);
+    for (const [clientId, data] of Object.entries(extensionData)) {
+        console.log(clientId + " init data:");
+        console.log(data);
+    }
 });
