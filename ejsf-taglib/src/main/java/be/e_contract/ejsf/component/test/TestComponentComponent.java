@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.test;
@@ -22,9 +22,8 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.PostAddToViewEvent;
-import javax.faces.event.SystemEvent;
-import javax.faces.event.SystemEventListener;
 import javax.servlet.ServletContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -44,7 +43,7 @@ import org.xml.sax.SAXException;
     @ResourceDependency(library = "primefaces", name = "core.js"),
     @ResourceDependency(library = "ejsf", name = "test-component.js")
 })
-public class TestComponentComponent extends UIComponentBase implements Widget, SystemEventListener, NamingContainer {
+public class TestComponentComponent extends UIComponentBase implements Widget, NamingContainer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestComponentComponent.class);
 
@@ -56,12 +55,7 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
         LOGGER.debug("constructor");
         FacesContext facesContext = FacesContext.getCurrentInstance();
         UIViewRoot viewRoot = facesContext.getViewRoot();
-        viewRoot.subscribeToViewEvent(PostAddToViewEvent.class, this);
-    }
-
-    @Override
-    public boolean isListenerForSource(Object source) {
-        return (source instanceof UIViewRoot);
+        viewRoot.subscribeToEvent(PostAddToViewEvent.class, this);
     }
 
     @Override
@@ -159,8 +153,9 @@ public class TestComponentComponent extends UIComponentBase implements Widget, S
     }
 
     @Override
-    public void processEvent(SystemEvent event) throws AbortProcessingException {
+    public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
         if (!(event instanceof PostAddToViewEvent)) {
+            super.processEvent(event);
             return;
         }
         FacesContext facesContext = getFacesContext();

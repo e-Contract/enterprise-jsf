@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2020-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2020-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.countdown;
@@ -14,9 +14,8 @@ import javax.faces.component.UINamingContainer;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.PostAddToViewEvent;
-import javax.faces.event.SystemEvent;
-import javax.faces.event.SystemEventListener;
 import org.primefaces.component.api.Widget;
 import org.primefaces.component.progressbar.ProgressBar;
 
@@ -28,7 +27,7 @@ import org.primefaces.component.progressbar.ProgressBar;
     @ResourceDependency(library = "ejsf", name = "countdown.js"),
     @ResourceDependency(library = "ejsf", name = "countdown.css")
 })
-public class CountdownComponent extends UINamingContainer implements SystemEventListener, Widget {
+public class CountdownComponent extends UINamingContainer implements Widget {
 
     public static final String COMPONENT_TYPE = "ejsf.countdownComponent";
 
@@ -38,7 +37,7 @@ public class CountdownComponent extends UINamingContainer implements SystemEvent
         setRendererType(CountdownRenderer.RENDERER_TYPE);
         FacesContext context = FacesContext.getCurrentInstance();
         UIViewRoot root = context.getViewRoot();
-        root.subscribeToViewEvent(PostAddToViewEvent.class, this);
+        root.subscribeToEvent(PostAddToViewEvent.class, this);
     }
 
     enum PropertyKeys {
@@ -77,13 +76,9 @@ public class CountdownComponent extends UINamingContainer implements SystemEvent
     }
 
     @Override
-    public boolean isListenerForSource(Object source) {
-        return source instanceof UIViewRoot;
-    }
-
-    @Override
-    public void processEvent(SystemEvent event) throws AbortProcessingException {
+    public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
         if (!(event instanceof PostAddToViewEvent)) {
+            super.processEvent(event);
             return;
         }
         FacesContext facesContext = getFacesContext();

@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.script;
@@ -28,9 +28,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.PostAddToViewEvent;
-import javax.faces.event.SystemEvent;
-import javax.faces.event.SystemEventListener;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
@@ -39,7 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesComponent(ServerScriptComponent.COMPONENT_TYPE)
-public class ServerScriptComponent extends UIComponentBase implements SystemEventListener {
+public class ServerScriptComponent extends UIComponentBase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerScriptComponent.class);
 
@@ -59,7 +58,7 @@ public class ServerScriptComponent extends UIComponentBase implements SystemEven
         setRendererType(null);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         UIViewRoot viewRoot = facesContext.getViewRoot();
-        viewRoot.subscribeToViewEvent(PostAddToViewEvent.class, this);
+        viewRoot.subscribeToEvent(PostAddToViewEvent.class, this);
     }
 
     @Override
@@ -68,14 +67,10 @@ public class ServerScriptComponent extends UIComponentBase implements SystemEven
     }
 
     @Override
-    public boolean isListenerForSource(Object source) {
-        return (source instanceof UIViewRoot);
-    }
-
-    @Override
-    public void processEvent(SystemEvent event) throws AbortProcessingException {
+    public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
         LOGGER.debug("processEvent: {}", event);
         if (!(event instanceof PostAddToViewEvent)) {
+            super.processEvent(event);
             return;
         }
         if (!isEnabled()) {
