@@ -7,6 +7,7 @@
 package be.e_contract.ejsf.component.insertfacet;
 
 import java.util.Map;
+import java.util.Objects;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -118,5 +119,28 @@ public class InsertFacetListener implements ComponentSystemEventListener, StateH
     @Override
     public void setTransient(boolean newTransientValue) {
         this._transient = newTransientValue;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name, this.targetName);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final InsertFacetListener other = (InsertFacetListener) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return Objects.equals(this.targetName, other.targetName);
     }
 }
