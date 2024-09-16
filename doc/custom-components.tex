@@ -706,7 +706,7 @@ We want that this Javascript is included "globally" for every page.
 This can be achieved using a custom \texttt{ViewHandler} as demonstrated below.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExtensionViewHandlerWrapper.java}
 Every time a JSF view is created or restored, we add our Javascript as component resource to the view tree.
-Note how we use the \texttt{javax.faces.resource.Script} renderer to get the right renderer activated to output our \texttt{script} element during rendering.
+Note how we use the \texttt{ResourceHandler} to get the right renderer to output our \texttt{script} element during rendering.
 Our custom \texttt{ViewHandler} is registered within the \texttt{faces-config.xml} configuration file as follows.
 \lstinputlisting[language=XML,linerange=ExtensionViewHandlerWrapper]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/faces-config.xml}
 

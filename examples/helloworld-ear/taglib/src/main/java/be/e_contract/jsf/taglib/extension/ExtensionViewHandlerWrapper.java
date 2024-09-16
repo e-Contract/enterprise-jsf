@@ -2,6 +2,7 @@ package be.e_contract.jsf.taglib.extension;
 
 import java.util.List;
 import javax.faces.application.Application;
+import javax.faces.application.ResourceHandler;
 import javax.faces.application.ViewHandler;
 import javax.faces.application.ViewHandlerWrapper;
 import javax.faces.component.UIComponent;
@@ -45,8 +46,10 @@ public class ExtensionViewHandlerWrapper extends ViewHandlerWrapper {
             }
         }
         Application application = context.getApplication();
+        ResourceHandler resourceHandler = application.getResourceHandler();
+        String rendererType = resourceHandler.getRendererTypeForResourceName("extension.js");
         UIComponent componentResource = application.createComponent(UIOutput.COMPONENT_TYPE);
-        componentResource.setRendererType("javax.faces.resource.Script");
+        componentResource.setRendererType(rendererType);
         componentResource.getAttributes().put("library", "ejsf");
         componentResource.getAttributes().put("name", "extension.js");
         componentResource.setId(EXT_RES_COMP_ID);
