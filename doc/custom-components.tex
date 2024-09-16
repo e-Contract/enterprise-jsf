@@ -736,7 +736,7 @@ Via the \texttt{endDocument} method we write a custom AJAX response \texttt{exte
 We register our custom \texttt{PartialResponseWriter} via a custom \texttt{PartialViewContext} as shown below.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExamplePartialViewContext.java}
 Within the \texttt{getPartialResponseWriter} method we return an instance of our \texttt{Partial\allowbreak ResponseWriter} implementation.
-In turn our custom \texttt{PartialViewContext} is registered via custom \texttt{PartialViewContextFactory} as shown below.
+In turn our custom \texttt{PartialViewContext} is registered via a custom \texttt{PartialViewContextFactory} as shown below.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/extension/ExamplePartialViewContextFactory.java}
 Within the \texttt{getPartialViewContext} we simply return our custom \texttt{PartialViewContext} wrapping implementation.
 
