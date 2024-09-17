@@ -104,6 +104,9 @@ public class LastReviewedComponent extends UIOutput {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         LocalDateTime localDateTime = (LocalDateTime) getValue();
         String pattern = getPattern();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);

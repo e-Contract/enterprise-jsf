@@ -48,6 +48,9 @@ public class SameHeightComponent extends UIComponentBase {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.startElement("span", this);
         String clientId = getClientId(context);

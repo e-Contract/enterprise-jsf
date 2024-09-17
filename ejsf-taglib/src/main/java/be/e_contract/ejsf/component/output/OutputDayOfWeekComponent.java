@@ -65,7 +65,10 @@ public class OutputDayOfWeekComponent extends UIOutput {
     }
 
     @Override
-    public void encodeEnd(FacesContext context) throws IOException {
+    public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         ResponseWriter responseWriter = context.getResponseWriter();
 
         DayOfWeek dayOfWeek = (DayOfWeek) getValue();

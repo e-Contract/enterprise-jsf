@@ -31,7 +31,10 @@ public class OutputLanguageComponent extends UIOutput {
     }
 
     @Override
-    public void encodeEnd(FacesContext context) throws IOException {
+    public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         ResponseWriter responseWriter = context.getResponseWriter();
 
         String clientId = super.getClientId(context);

@@ -78,6 +78,9 @@ public class BrowserComponent extends UIComponentBase {
 
     @Override
     public boolean getRendersChildren() {
+        if (!isRendered()) {
+            return true;
+        }
         String browserName = getName();
         Browser browser = Browser.toBrowser(browserName);
         Browser actualBrowser = getBrowser();

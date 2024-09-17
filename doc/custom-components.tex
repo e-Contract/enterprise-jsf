@@ -151,6 +151,9 @@ we depicted the most important JSF classes within Figure \ref{fig:jsf-classes}.
 The source code of our custom output JSF component is given below.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/output/ExampleOutput.java}
 As we are constructing an output component, we inherit from the \texttt{UIOutput} class.
+Within the \texttt{encodeBegin} we perform the actual HTML rendering of our component.
+Note how we check via \texttt{isRendered()} whether we should actually render our component or not.
+The \texttt{rendered} attribute is available on all JSF component and (if meaningfull) should get honored by your component implementation.
 Important here is to set the \texttt{id} attribute on our \texttt{span} HTML element to the value of client id.
 This is required so that the JSF AJAX Javascript code can find our JSF component during response updates within the rendered HTML.
 Hence even if the value is \texttt{null}, it is important to render the HTML with correct client id so that future AJAX updates can succeed.
@@ -272,6 +275,9 @@ This is good common practice.
 
 Via the \texttt{true} return value of the \texttt{getRendersChildren} method we indicate that we render our child components ourselves.
 Within the \texttt{encodeChildren} method we render each child component via the \texttt{child.encodeAll} method invocations within our rendered HTML table.
+
+Note how we invoke \texttt{pushComponentToEL} within \texttt{encodeBegin} and \texttt{popComponentFromEL} within \texttt{encodeEnd}.
+These methods are normally invoked by the \texttt{UIComponentBase} implementation and ensure that the current component is properly available towards potential EL evaluations.
 
 We register this custom component within our \texttt{.taglib.xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=panelGrid]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/ejsf.taglib.xml}

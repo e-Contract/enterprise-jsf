@@ -45,6 +45,9 @@ public class ExampleAjaxEventComponent extends UIComponentBase implements Client
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         String clientId = super.getClientId(context);
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.startElement("button", this);

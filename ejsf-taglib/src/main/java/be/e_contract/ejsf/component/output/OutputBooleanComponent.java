@@ -49,6 +49,9 @@ public class OutputBooleanComponent extends UIOutput {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         Boolean value = (Boolean) getValue();
         String output;
         String classValue;

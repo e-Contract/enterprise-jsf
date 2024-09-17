@@ -118,6 +118,10 @@ public class InputComponent extends UIInput implements NamingContainer, Componen
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        pushComponentToEL(context, null);
+        if (!isRendered()) {
+            return;
+        }
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);
         responseWriter.startElement("span", this);
@@ -126,6 +130,9 @@ public class InputComponent extends UIInput implements NamingContainer, Componen
 
     @Override
     public void encodeChildren(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         UIInput inputComponent = findInputComponent();
         if (null == inputComponent) {
             return;
@@ -137,8 +144,13 @@ public class InputComponent extends UIInput implements NamingContainer, Componen
 
     @Override
     public void encodeEnd(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            popComponentFromEL(context);
+            return;
+        }
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.endElement("span");
+        popComponentFromEL(context);
     }
 
     @Override

@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output;
@@ -112,7 +112,10 @@ public class OutputEmailComponent extends UIOutput implements ClientBehaviorHold
     }
 
     @Override
-    public void encodeEnd(FacesContext context) throws IOException {
+    public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         String email = (String) getValue();
         String clientId = super.getClientId(context);
         String url = "mailto:" + email;

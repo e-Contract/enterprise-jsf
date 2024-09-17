@@ -71,6 +71,7 @@ public class RobotsComponent extends UIComponentBase implements ComponentSystemE
             if (null != headComponent) {
                 Application application = facesContext.getApplication();
                 RobotsHeadComponent robotsHeadComponent = (RobotsHeadComponent) application.createComponent(RobotsHeadComponent.COMPONENT_TYPE);
+                robotsHeadComponent.setRendered(isRendered());
                 headComponent.getChildren().add(robotsHeadComponent);
             } else {
                 LOGGER.warn("missing h:head on page");

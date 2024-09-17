@@ -30,6 +30,9 @@ public class RobotsHeadComponent extends UIComponentBase {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.startElement("meta", this);
         responseWriter.writeAttribute("name", "robots", null);

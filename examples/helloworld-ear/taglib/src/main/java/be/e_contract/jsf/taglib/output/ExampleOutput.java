@@ -24,6 +24,9 @@ public class ExampleOutput extends UIOutput {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         String value = (String) getValue();
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);

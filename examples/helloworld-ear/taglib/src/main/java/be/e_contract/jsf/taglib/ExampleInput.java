@@ -27,6 +27,9 @@ public class ExampleInput extends UIInput {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);
         char separatorChar = UINamingContainer.getSeparatorChar(context);

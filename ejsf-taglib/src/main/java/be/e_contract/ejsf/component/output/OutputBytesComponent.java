@@ -52,6 +52,9 @@ public class OutputBytesComponent extends UIOutput {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         Long value = (Long) getValue();
         String formattedBytes;
         if (null != value) {

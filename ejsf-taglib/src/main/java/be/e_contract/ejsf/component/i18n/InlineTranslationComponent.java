@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2021-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2021-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.i18n;
@@ -42,6 +42,9 @@ public class InlineTranslationComponent extends UIComponentBase {
 
     @Override
     public void encodeChildren(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         UIViewRoot viewRoot = context.getViewRoot();
         Locale locale = viewRoot.getLocale();
         String language = locale.getLanguage();

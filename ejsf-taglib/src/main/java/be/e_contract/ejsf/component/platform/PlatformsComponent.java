@@ -106,6 +106,9 @@ public class PlatformsComponent extends UIComponentBase {
 
     @Override
     public void encodeChildren(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         Platform platform = getPlatform(context);
         List<PlatformComponent> platformComponents = getMatchingPlatformComponents(platform);
         for (PlatformComponent platformComponent : platformComponents) {

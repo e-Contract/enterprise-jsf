@@ -38,6 +38,10 @@ public class PanelGridComponent extends UIComponentBase {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
+        pushComponentToEL(context, null);
+        if (!isRendered()) {
+            return;
+        }
         ResponseWriter responseWriter = context.getResponseWriter();
         String clientId = super.getClientId(context);
         responseWriter.startElement("table", this);
@@ -46,6 +50,9 @@ public class PanelGridComponent extends UIComponentBase {
 
     @Override
     public void encodeChildren(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            return;
+        }
         List<UIComponent> children = getChildren();
         int columns = getColumns();
         ResponseWriter responseWriter = context.getResponseWriter();
@@ -69,8 +76,13 @@ public class PanelGridComponent extends UIComponentBase {
 
     @Override
     public void encodeEnd(FacesContext context) throws IOException {
+        if (!isRendered()) {
+            popComponentFromEL(context);
+            return;
+        }
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.endElement("table");
+        popComponentFromEL(context);
     }
 
     @Override
