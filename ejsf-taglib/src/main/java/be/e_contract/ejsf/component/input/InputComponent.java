@@ -123,7 +123,7 @@ public class InputComponent extends UIInput implements NamingContainer, Componen
             return;
         }
         ResponseWriter responseWriter = context.getResponseWriter();
-        String clientId = super.getClientId(context);
+        String clientId = getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
     }

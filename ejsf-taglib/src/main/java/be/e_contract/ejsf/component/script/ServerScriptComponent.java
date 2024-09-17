@@ -281,7 +281,7 @@ public class ServerScriptComponent extends UIComponentBase {
     public void encodeChildren(FacesContext context) throws IOException {
         if (!isEnabled()) {
             ResponseWriter responseWriter = context.getResponseWriter();
-            String clientId = this.getClientId();
+            String clientId = getClientId();
             responseWriter.startElement("div", this);
             responseWriter.writeAttribute("id", clientId, "id");
             responseWriter.writeAttribute("style", "color: red;", null);

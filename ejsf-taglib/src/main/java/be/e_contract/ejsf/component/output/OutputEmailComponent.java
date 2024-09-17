@@ -117,7 +117,7 @@ public class OutputEmailComponent extends UIOutput implements ClientBehaviorHold
             return;
         }
         String email = (String) getValue();
-        String clientId = super.getClientId(context);
+        String clientId = getClientId(context);
         String url = "mailto:" + email;
         String subject = getSubject();
         if (null != subject) {

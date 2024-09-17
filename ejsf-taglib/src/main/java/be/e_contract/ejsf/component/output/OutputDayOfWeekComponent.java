@@ -75,7 +75,7 @@ public class OutputDayOfWeekComponent extends UIOutput {
         String localizedDayOfWeek = localizeDay(dayOfWeek);
         String styleClass = getStyleClass();
 
-        String clientId = super.getClientId(context);
+        String clientId = getClientId(context);
 
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");

@@ -65,7 +65,7 @@ public class OutputBytesComponent extends UIOutput {
             formattedBytes = "";
         }
         ResponseWriter responseWriter = context.getResponseWriter();
-        String clientId = super.getClientId(context);
+        String clientId = getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
 

@@ -90,7 +90,7 @@ public class OutputUrlComponent extends UIOutput implements ClientBehaviorHolder
             return;
         }
         String url = (String) getValue();
-        String clientId = super.getClientId(context);
+        String clientId = getClientId(context);
 
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.startElement("a", this);

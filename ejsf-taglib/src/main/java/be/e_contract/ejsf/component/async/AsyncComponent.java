@@ -10,8 +10,6 @@ import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponentBase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @FacesComponent(AsyncComponent.COMPONENT_TYPE)
 @ResourceDependencies({
@@ -21,8 +19,6 @@ import org.slf4j.LoggerFactory;
     @ResourceDependency(library = "ejsf", name = "async.js")
 })
 public class AsyncComponent extends UIComponentBase {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AsyncComponent.class);
 
     public static final String COMPONENT_TYPE = "ejsf.asyncComponent";
 

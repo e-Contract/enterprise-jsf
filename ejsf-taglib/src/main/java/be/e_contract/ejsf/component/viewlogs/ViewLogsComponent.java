@@ -59,7 +59,7 @@ public class ViewLogsComponent extends UIComponentBase {
             return;
         }
         ResponseWriter responseWriter = context.getResponseWriter();
-        String clientId = super.getClientId(context);
+        String clientId = getClientId(context);
         responseWriter.startElement("div", this);
         responseWriter.writeAttribute("id", clientId, "id");
 

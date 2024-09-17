@@ -70,7 +70,7 @@ public class OutputBooleanComponent extends UIOutput {
             classValue = null;
         }
         ResponseWriter responseWriter = context.getResponseWriter();
-        String clientId = super.getClientId(context);
+        String clientId = getClientId(context);
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
         if (null != classValue) {

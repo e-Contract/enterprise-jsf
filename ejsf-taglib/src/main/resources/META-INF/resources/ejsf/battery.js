@@ -89,23 +89,4 @@ $(document).ready(function () {
             ejsf.updateBatteries();
         });
     });
-    let mutationObserver = new MutationObserver(function (mutationList) {
-        for (const mutation of mutationList) {
-            for (const removedNode of mutation.removedNodes) {
-                if (removedNode.nodeType !== Node.ELEMENT_NODE) {
-                    continue;
-                }
-                let batteryRenderNodeList = removedNode.querySelectorAll("[data-ejsf-battery-render]");
-                batteryRenderNodeList.forEach((batteryRender) => {
-                    console.log("removed: " + batteryRender.attributes.getNamedItem("data-ejsf-battery-render").value);
-                });
-            }
-        }
-    });
-    mutationObserver.observe(document, {
-        childList: true,
-        subtree: true
-    });
 });
-
-
