@@ -12,7 +12,8 @@
             console.log("init");
         }
 
-        update(oldWidget) {
+        update(element) {
+            super.update(element);
             console.log("update");
         }
 

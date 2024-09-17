@@ -12,9 +12,12 @@ public class WidgetController implements Serializable {
 
     private String value;
 
+    private boolean rendered;
+
     @PostConstruct
     public void postConstruct() {
         this.value = "initial value";
+        this.rendered = true;
     }
 
     public void setValue(String value) {
@@ -23,6 +26,14 @@ public class WidgetController implements Serializable {
 
     public String getValue() {
         return this.value;
+    }
+
+    public boolean isRendered() {
+        return this.rendered;
+    }
+
+    public void setRendered(boolean rendered) {
+        this.rendered = rendered;
     }
 
     public void updateValue() {
