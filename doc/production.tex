@@ -72,6 +72,13 @@ The PrimeFaces resources are versioned via \texttt{v=13.0.0} as part of the JSF 
 This is important to ensure that the web browser correctly loads new versions of the corresponding resource as they become available with every release of your web application.
 Hence we also want such versioning on our own JSF resources.
 
+Furthermore, when we inspect the rendered HTML via:
+\begin{lstlisting}[language=bash]
+curl --verbose http://localhost:8080/helloworld-primefaces/crud-dialogs.xhtml
+\end{lstlisting}
+we notice a lot of inline \texttt{script} elements for the activation of the widgets.
+From a performance point-of-view, it would be interesting to have all these inline \texttt{script} elements bundled within one single \texttt{script} element.
+
 Given all the above arguments, it should be clear that we cannot place a JSF web application in production without an appropriate configuration.
 
 \section{OmniFaces}
@@ -103,6 +110,7 @@ The activated Maven filtering will substitute the variables:\\
 \indent \texttt{\$\{project.version\}}\\
 with the actual values as defined within our \texttt{pom.xml} Maven POM.
 Via \texttt{session-config} we ensure proper configuration of the session cookie.
+Via the \texttt{primefaces.MOVE\_SCRIPTS\allowbreak \_TO\_BOTTOM} context parameter we instruct PrimeFaces to bundle all generated inline \texttt{script} elements together within one single \texttt{script} element at the bottom of the HTML page.
 Further we have some OmniFaces related configuration.
 We pass on our project version to OmniFaces for JSF resource versioning.
 We also configure the \texttt{GzipResponseFilter} to enable GZIP compression.
