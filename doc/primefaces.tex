@@ -75,6 +75,12 @@ Notice the usage of \texttt{return false;} on the \texttt{onclick} client-side e
 
 \section{Widgets}
 Within this section, we construct a component with a client-side API, called a widget in PrimeFaces parlance.
+The PrimeFaces Javascript frameworking basically provides us with the following:
+\begin{itemize}
+	\item A mapping from a widget variable name towards the widget Javascript instance.
+	This allows us to invoke Javascript methods on our client-side Javascript widget.
+	\item Lifecycle calbacks towards our widgets so we can keep track of AJAX updates and such.
+\end{itemize}
 Our custom component with corresponding client-side widget is composed out of the actual component, and the corresponding renderer.
 The source code for the component looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-primefaces/taglib/src/main/java/be/e_contract/jsf/taglib/ExampleComponent.java}
@@ -88,7 +94,7 @@ The source code for the corresponding renderer looks as follows.
 Notice here that we extend the PrimeFaces \texttt{CoreRenderer} class.
 Using the PrimeFaces \texttt{WidgetBuilder} we bind our client-side widget to our component.
 We can pass attributes from server-side to client-side via the \texttt{WidgetBuilder} \texttt{attr} method.
-The \texttt{finish} method takes care of the necessary rendering to activate our widget.
+The \texttt{finish} method takes care of the necessary inline \texttt{script} rendering to activate our widget at the client-side.
 
 The source code of the Javascript resource \texttt{example-widget.js} looks as follows.
 \lstinputlisting[language=Javascript]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/resources/ejsf/example-widget.js}
@@ -96,6 +102,11 @@ Our widget has to extend the PrimeFaces Javascript \texttt{BaseWidget} class lik
 Via the \texttt{init} method our widget gets initialized by the PrimeFaces client-side framework.
 Via the \texttt{cfg} parameter we can access our custom attributes.
 Our widget provides two methods \texttt{getValue} and \texttt{setValue} that do exactly as they are named.
+We also override the \texttt{destroy} and \texttt{refresh} methods to demonstrate the lifecycle of widgets.
+The PrimeFaces Javascript frameworking will invoke \texttt{refresh} when a widget component gets updated during an AJAX call.
+In this case the existing Javascript widget gets rebased towards the update component DOM element.
+The \texttt{destroy} method gets invoked when the corresponding widget component gets removed (i.e., \texttt{rendered} is \texttt{false}) as part of an AJAX call.
+When overriding these methods, it is important to keep invoking the \texttt{\_super} methods as these contain listener logic.
 
 We register this custom component and its corresponding renderer within our \texttt{.taglib\allowbreak .xml} tag library descriptor as follows.
 \lstinputlisting[language=XML,linerange=exampleComponent]{../examples/helloworld-primefaces/taglib/src/main/resources/META-INF/ejsf.taglib.xml}
@@ -104,6 +115,11 @@ An example usage is demonstrated below:
 \lstinputlisting[language=XML]{../examples/helloworld-primefaces/war/src/main/webapp/widget.xhtml}
 Via the \texttt{PF} function we locate our client-side widget corresponding with the \texttt{example\allowbreak Component}.
 On this widget, we can invoke the different defined methods like \texttt{setValue} as we demonstrate within the example.
+When unchecking the "Rendered" checkbox and clicking the "Update" button, you will notice that the \texttt{destroy} method on the client-side widget gets invoked.
+
+The corresponding CDI controller is given below.
+\lstinputlisting[language=Java]{../examples/helloworld-primefaces/war/src/main/java/be/e_contract/jsf/helloworld/WidgetController.java}
+
 
 \section{Turning a Javascript library into a JSF component}
 Within this section we demonstrate how to turn a Javascript library into an easy to use JSF component.

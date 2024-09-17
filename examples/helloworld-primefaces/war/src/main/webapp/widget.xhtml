@@ -12,18 +12,25 @@
             <p>
                 <ejsf:exampleComponent
                     widgetVar="outputWidget"
-                    value="#{inputOutputController.value}"/>
+                    value="#{widgetController.value}"
+                    rendered="#{widgetController.rendered}"/>
             </p>
-            <p:outputLabel for="@next" value="Input"/>
-            <p:inputText value="#{inputOutputController.value}"
-                         required="true"/>
-            <p:message for="@previous"/>
-            <p:commandButton value="click me">
+            <h:panelGrid columns="3">
+                <p:outputLabel for="@next" value="Input"/>
+                <p:inputText value="#{widgetController.value}"
+                             required="true"/>
+                <p:message for="@previous"/>
+
+                <p:outputLabel for="@next" value="Rendered"/>
+                <p:selectBooleanCheckbox value="#{widgetController.rendered}"/>
+                <p:message for="@previous"/>
+            </h:panelGrid>
+            <p:commandButton value="Update">
                 <p:ajax update="@form" process="@form"/>
             </p:commandButton>
         </h:form>
         <p:button value="Client-side action"
-                  onclick="PF('outputWidget').setValue('hello'); return false;"/>
+                  onclick="PF('outputWidget').setValue('hello');"/>
         <h:form>
             <p:button value="Back" outcome="index"/>
         </h:form>
