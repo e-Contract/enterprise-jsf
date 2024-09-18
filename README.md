@@ -12,7 +12,7 @@ https://demo.e-contract.be/ejsf-demo/
 
 The latest version of the Enterprise JSF document is available at:
 
-https://github.com/e-Contract/enterprise-jsf/releases/download/enterprise-jsf-1.18.0/enterprise-jsf.pdf
+https://github.com/e-Contract/enterprise-jsf/releases/download/enterprise-jsf-1.18.1/enterprise-jsf.pdf
 
 The following dependencies are required for building the PDF document:
 * make
@@ -58,7 +58,7 @@ Add the JSF component library to your web application WAR project via:
 <dependency>
     <groupId>be.e-contract.enterprise-jsf</groupId>
     <artifactId>ejsf-taglib</artifactId>
-    <version>1.18.0</version>
+    <version>1.18.1</version>
 </dependency>
 <dependency>
     <groupId>org.primefaces</groupId>
@@ -79,7 +79,7 @@ For Jakarta EE 10 runtimes, use the following dependency:
 <dependency>
     <groupId>be.e-contract.enterprise-jsf</groupId>
     <artifactId>ejsf-taglib</artifactId>
-    <version>1.18.0</version>
+    <version>1.18.1</version>
     <classifier>jakarta</classifier>
     <exclusions>
         <exclusion>
@@ -91,7 +91,7 @@ For Jakarta EE 10 runtimes, use the following dependency:
 <dependency>
     <groupId>be.e-contract.enterprise-jsf</groupId>
     <artifactId>ejsf-api</artifactId>
-    <version>1.18.0</version>
+    <version>1.18.1</version>
     <classifier>jakarta</classifier>
 </dependency>
 <dependency>
@@ -168,12 +168,12 @@ mvn clean package payara-micro:start -Ppayara
 
 Running the demo web application requires an application server that supports Jakarta EE version 10.
 We prefer WildFly as application server.
-WildFly version 33.0.1.Final is the latest version that supports Jakarta EE 10.
+WildFly version 33.0.2.Final is the latest version that supports Jakarta EE 10.
 WildFly can be downloaded from: https://www.wildfly.org
 
-Start a WildFly version 33.0.1.Final via:
+Start a WildFly version 33.0.2.Final via:
 ```
-cd wildfly-33.0.1.Final/bin
+cd wildfly-33.0.2.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
 ```
 
