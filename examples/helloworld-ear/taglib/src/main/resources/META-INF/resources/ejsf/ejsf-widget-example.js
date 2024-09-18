@@ -1,7 +1,7 @@
 (function () {
     class ExampleWidget extends ejsf.Widget {
-        constructor(element) {
-            super(element);
+        constructor(element, widgetVar) {
+            super(element, widgetVar);
         }
 
         setValue(value) {

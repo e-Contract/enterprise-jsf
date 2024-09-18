@@ -8,8 +8,9 @@ var EJSF;
     let removedWidgetIds = new Set();
 
     class Widget {
-        constructor(element) {
+        constructor(element, widgetVar) {
             this._element = element;
+            this._widgetVar = widgetVar;
         }
 
         init() {
@@ -24,6 +25,10 @@ var EJSF;
 
         get element() {
             return this._element;
+        }
+
+        get widgetVar() {
+            return this._widgetVar;
         }
     }
     ejsf.Widget = Widget;
@@ -47,9 +52,9 @@ var EJSF;
             } else {
                 let widgetType = componentElement.getAttribute("data-ejsf-widget-type");
                 let widgetClass = widgetTypes.get(widgetType);
-                let widgetInstance = new widgetClass(componentElement);
-                widgetInstances.set(componentId, widgetInstance);
                 let widgetVar = componentElement.getAttribute("data-ejsf-widget-var");
+                let widgetInstance = new widgetClass(componentElement, widgetVar);
+                widgetInstances.set(componentId, widgetInstance);
                 if (widgetVar) {
                     widgetVars.set(widgetVar, widgetInstance);
                 }
@@ -59,8 +64,12 @@ var EJSF;
         });
         removedWidgetIds.forEach((removedWidgetId) => {
             let removedWidget = widgetInstances.get(removedWidgetId);
+            let removedWidgetVar = removedWidget.widgetVar;
             removedWidget.destroy();
             widgetInstances.delete(removedWidgetId);
+            if (removedWidgetVar) {
+                widgetVars.delete(removedWidgetVar);
+            }
         });
         removedWidgetIds.clear();
     }
