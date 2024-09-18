@@ -2079,4 +2079,13 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Performance navigation component.</description>
+        <tag-name>performanceNavigation</tag-name>
+        <component>
+            <component-type>ejsf.performanceNavigationComponent</component-type>
+            <renderer-type>ejsf.performanceNavigationRenderer</renderer-type>
+        </component>
+    </tag>
+
 </facelet-taglib>

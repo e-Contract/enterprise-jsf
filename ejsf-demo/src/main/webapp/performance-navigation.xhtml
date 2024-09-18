@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Performance Navigation Demo</ui:define>
+    <ui:define name="body">
+        <h:form id="example">
+            <ejsf:performanceNavigation>
+                <p:ajax listener="#{performanceNavigationController.handleEvent}"
+                        update=":messages"/>
+            </ejsf:performanceNavigation>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="PerformanceNavigationController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/PerformanceNavigationController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="performanceNavigation"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
