@@ -26,6 +26,12 @@ public class PerformanceNavigationTimingEvent extends AjaxBehaviorEvent {
 
     private double domComplete;
 
+    private double requestStart;
+
+    private double responseStart;
+
+    private double responseEnd;
+
     public PerformanceNavigationTimingEvent(UIComponent component, Behavior behavior) {
         super(component, behavior);
     }
@@ -76,5 +82,29 @@ public class PerformanceNavigationTimingEvent extends AjaxBehaviorEvent {
 
     void setDomComplete(double domComplete) {
         this.domComplete = domComplete;
+    }
+
+    public double getRequestStart() {
+        return this.requestStart;
+    }
+
+    void setRequestStart(double requestStart) {
+        this.requestStart = requestStart;
+    }
+
+    public double getResponseStart() {
+        return this.responseStart;
+    }
+
+    void setResponseStart(double responseStart) {
+        this.responseStart = responseStart;
+    }
+
+    public double getResponseEnd() {
+        return this.responseEnd;
+    }
+
+    void setResponseEnd(double responseEnd) {
+        this.responseEnd = responseEnd;
     }
 }

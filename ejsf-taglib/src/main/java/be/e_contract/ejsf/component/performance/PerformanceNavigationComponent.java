@@ -71,61 +71,79 @@ public class PerformanceNavigationComponent extends UIComponentBase implements C
             String eventName = requestParameterMap.get(Constants.RequestParams.PARTIAL_BEHAVIOR_EVENT_PARAM);
             if (PerformanceNavigationTimingEvent.NAME.equals(eventName)) {
 
-                String startTimeParam = requestParameterMap.get(clientId + "_startTime");
-                if (UIInput.isEmpty(startTimeParam)) {
-                    LOGGER.warn("missing startTime parameter");
+                Double startTime = getParamValue(requestParameterMap, clientId, "startTime");
+                if (startTime == null) {
                     return;
                 }
-                double startTime = Double.parseDouble(startTimeParam);
 
-                String durationParam = requestParameterMap.get(clientId + "_duration");
-                if (UIInput.isEmpty(startTimeParam)) {
-                    LOGGER.warn("missing duration parameter");
+                Double duration = getParamValue(requestParameterMap, clientId, "duration");
+                if (duration == null) {
                     return;
                 }
-                double duration = Double.parseDouble(durationParam);
 
-                String loadEventStartParam = requestParameterMap.get(clientId + "_loadEventStart");
-                if (UIInput.isEmpty(loadEventStartParam)) {
-                    LOGGER.warn("missing loadEventStart parameter");
+                Double loadEventStart = getParamValue(requestParameterMap, clientId, "loadEventStart");
+                if (loadEventStart == null) {
                     return;
                 }
-                double loadEventStart = Double.parseDouble(loadEventStartParam);
 
-                String loadEventEndParam = requestParameterMap.get(clientId + "_loadEventEnd");
-                if (UIInput.isEmpty(loadEventEndParam)) {
-                    LOGGER.warn("missing loadEventEnd parameter");
+                Double loadEventEnd = getParamValue(requestParameterMap, clientId, "loadEventEnd");
+                if (loadEventEnd == null) {
                     return;
                 }
-                double loadEventEnd = Double.parseDouble(loadEventEndParam);
 
-                String domInteractiveParam = requestParameterMap.get(clientId + "_domInteractive");
-                if (UIInput.isEmpty(domInteractiveParam)) {
-                    LOGGER.warn("missing domInteractive parameter");
+                Double domInteractive = getParamValue(requestParameterMap, clientId, "domInteractive");
+                if (domInteractive == null) {
                     return;
                 }
-                double domInteractive = Double.parseDouble(domInteractiveParam);
 
-                String domCompleteParam = requestParameterMap.get(clientId + "_domComplete");
-                if (UIInput.isEmpty(domCompleteParam)) {
-                    LOGGER.warn("missing domComplete parameter");
+                Double domComplete = getParamValue(requestParameterMap, clientId, "domComplete");
+                if (domComplete == null) {
                     return;
                 }
-                double domComplete = Double.parseDouble(domCompleteParam);
+
+                Double requestStart = getParamValue(requestParameterMap, clientId, "requestStart");
+                if (requestStart == null) {
+                    return;
+                }
+
+                Double responseStart = getParamValue(requestParameterMap, clientId, "responseStart");
+                if (responseStart == null) {
+                    return;
+                }
+
+                Double responseEnd = getParamValue(requestParameterMap, clientId, "responseEnd");
+                if (responseEnd == null) {
+                    return;
+                }
 
                 Behavior behavior = ajaxBehaviorEvent.getBehavior();
                 PerformanceNavigationTimingEvent timingEvent = new PerformanceNavigationTimingEvent(this, behavior);
+
                 timingEvent.setStartTime(startTime);
                 timingEvent.setDuration(duration);
                 timingEvent.setLoadEventStart(loadEventStart);
                 timingEvent.setLoadEventEnd(loadEventEnd);
                 timingEvent.setDomInteractive(domInteractive);
                 timingEvent.setDomComplete(domComplete);
+                timingEvent.setRequestStart(requestStart);
+                timingEvent.setResponseStart(responseStart);
+                timingEvent.setResponseEnd(responseEnd);
+
                 timingEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(timingEvent);
                 return;
             }
         }
         super.queueEvent(facesEvent);
+    }
+
+    private Double getParamValue(Map<String, String> requestParameterMap, String clientId, String paramName) {
+        String param = requestParameterMap.get(clientId + "_" + paramName);
+        if (UIInput.isEmpty(param)) {
+            LOGGER.warn("missing parameter: " + param);
+            return null;
+        }
+        double paramValue = Double.parseDouble(param);
+        return paramValue;
     }
 }

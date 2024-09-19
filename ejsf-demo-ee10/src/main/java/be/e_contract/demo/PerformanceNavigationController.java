@@ -18,6 +18,9 @@ public class PerformanceNavigationController {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "start time: " + event.getStartTime(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "duration: " + event.getDuration(), null));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "request start: " + event.getRequestStart(), null));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "response start: " + event.getResponseStart(), null));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "response end: " + event.getResponseEnd(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "DOM interactive: " + event.getDomInteractive(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "DOM complete: " + event.getDomComplete(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "load event start: " + event.getLoadEventStart(), null));

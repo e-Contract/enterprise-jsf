@@ -50,6 +50,18 @@ PrimeFaces.widget.EJSFPerformanceNavigation = PrimeFaces.widget.BaseWidget.exten
                 {
                     name: this.id + "_domComplete",
                     value: this.entry.domComplete
+                },
+                {
+                    name: this.id + "_requestStart",
+                    value: this.entry.requestStart
+                },
+                {
+                    name: this.id + "_responseStart",
+                    value: this.entry.responseStart
+                },
+                {
+                    name: this.id + "_responseEnd",
+                    value: this.entry.responseEnd
                 }
             ]
         };
