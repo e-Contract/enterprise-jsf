@@ -25,5 +25,6 @@ public class PerformanceNavigationController {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "DOM complete: " + event.getDomComplete(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "load event start: " + event.getLoadEventStart(), null));
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "load event end: " + event.getLoadEventEnd(), null));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "name: " + event.getName(), null));
     }
 }

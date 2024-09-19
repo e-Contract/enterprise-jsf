@@ -116,6 +116,11 @@ public class PerformanceNavigationComponent extends UIComponentBase implements C
                     return;
                 }
 
+                String name = requestParameterMap.get(clientId + "_name");
+                if (null == name) {
+                    name = facesContext.getViewRoot().getViewId();
+                }
+
                 Behavior behavior = ajaxBehaviorEvent.getBehavior();
                 PerformanceNavigationTimingEvent timingEvent = new PerformanceNavigationTimingEvent(this, behavior);
 
@@ -128,6 +133,7 @@ public class PerformanceNavigationComponent extends UIComponentBase implements C
                 timingEvent.setRequestStart(requestStart);
                 timingEvent.setResponseStart(responseStart);
                 timingEvent.setResponseEnd(responseEnd);
+                timingEvent.setName(name);
 
                 timingEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(timingEvent);

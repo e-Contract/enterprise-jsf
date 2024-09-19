@@ -32,6 +32,8 @@ public class PerformanceNavigationTimingEvent extends AjaxBehaviorEvent {
 
     private double responseEnd;
 
+    private String name;
+
     public PerformanceNavigationTimingEvent(UIComponent component, Behavior behavior) {
         super(component, behavior);
     }
@@ -106,5 +108,13 @@ public class PerformanceNavigationTimingEvent extends AjaxBehaviorEvent {
 
     void setResponseEnd(double responseEnd) {
         this.responseEnd = responseEnd;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    void setName(String name) {
+        this.name = name;
     }
 }
