@@ -58,7 +58,7 @@ Add the JSF component library to your web application WAR project via:
 <dependency>
     <groupId>be.e-contract.enterprise-jsf</groupId>
     <artifactId>ejsf-taglib</artifactId>
-    <version>1.18.1</version>
+    <version>1.19.0</version>
 </dependency>
 <dependency>
     <groupId>org.primefaces</groupId>
@@ -79,7 +79,7 @@ For Jakarta EE 10 runtimes, use the following dependency:
 <dependency>
     <groupId>be.e-contract.enterprise-jsf</groupId>
     <artifactId>ejsf-taglib</artifactId>
-    <version>1.18.1</version>
+    <version>1.19.0</version>
     <classifier>jakarta</classifier>
     <exclusions>
         <exclusion>
@@ -91,7 +91,7 @@ For Jakarta EE 10 runtimes, use the following dependency:
 <dependency>
     <groupId>be.e-contract.enterprise-jsf</groupId>
     <artifactId>ejsf-api</artifactId>
-    <version>1.18.1</version>
+    <version>1.19.0</version>
     <classifier>jakarta</classifier>
 </dependency>
 <dependency>
