@@ -144,4 +144,108 @@ public class JettySeleniumTest {
         message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         assertEquals("", message.getText());
     }
+
+    @Test
+    public void testUrlValidator() throws Exception {
+        this.driver.get(this.urlPrefix + "test-url-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("hello world");
+
+        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Custom error message.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("https://www.e-contract.be");
+
+        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testOtpValidator() throws Exception {
+        this.driver.get(this.urlPrefix + "test-otp-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("hello world");
+
+        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("This verification code is invalid.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("123456");
+
+        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testPlainTextValidator() throws Exception {
+        this.driver.get(this.urlPrefix + "test-plain-text-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("<b>HTML text</b>");
+
+        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Invalid characters.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("plain text");
+
+        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testXMLValidator() throws Exception {
+        this.driver.get(this.urlPrefix + "test-xml-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("no XML");
+
+        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Invalid XML (1,1).", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("<xml/>");
+
+        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
 }

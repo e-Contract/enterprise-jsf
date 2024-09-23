@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <f:view locale="en">
+        <h:head>
+            <title>Test URL Validator</title>
+        </h:head>
+        <h:body>
+            <h1>Test URL Validator</h1>
+            <h:form id="form">
+                <p:inputText id="input">
+                    <ejsf:urlValidator message="Custom error message."/>
+                </p:inputText>
+                <p:message id="message" for="@previous"/>
+                <p:commandButton id="submit"
+                                 value="Submit"
+                                 update="@form"/>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
