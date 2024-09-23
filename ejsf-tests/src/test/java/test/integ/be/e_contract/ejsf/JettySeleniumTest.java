@@ -30,13 +30,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.primefaces.selenium.PrimeSelenium;
+import org.primefaces.selenium.component.CommandButton;
+import org.primefaces.selenium.component.Message;
+import org.primefaces.selenium.spi.WebDriverProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 public class JettySeleniumTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JettySeleniumTest.class);
+
     private Server server;
 
-    private String url;
+    private String urlPrefix;
 
     private WebDriver driver;
 
@@ -86,9 +95,14 @@ public class JettySeleniumTest {
 
         ServerConnector serverConnector = (ServerConnector) this.server.getConnectors()[0];
         int port = serverConnector.getLocalPort();
-        this.url = "http://localhost:" + port + "/index.xhtml";
+        this.urlPrefix = "http://localhost:" + port + "/";
 
-        this.driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-search-engine-choice-screen");
+        this.driver = new ChromeDriver(options);
+
+        WebDriverProvider.set(this.driver);
+        MyDeploymentAdapter.setBaseUrl(this.urlPrefix);
     }
 
     @AfterEach
@@ -99,9 +113,35 @@ public class JettySeleniumTest {
 
     @Test
     public void testRequest() throws Exception {
-        this.driver.get(this.url);
+        this.driver.get(this.urlPrefix + "index.xhtml");
 
         WebElement webElement = this.driver.findElement(By.id("test"));
         assertEquals("hello world", webElement.getText());
+    }
+
+    @Test
+    public void testEmailValidator() throws Exception {
+        this.driver.get(this.urlPrefix + "test-email-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("hello world");
+
+        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Invalid email address.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("info@e-contract.be");
+
+        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        subscribeButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
     }
 }

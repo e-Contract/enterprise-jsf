@@ -57,6 +57,7 @@
             <artifactId>ejsf-taglib</artifactId>
             <version>1.19.1-SNAPSHOT</version>
             <classifier>jakarta</classifier>
+            <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <groupId>be.e-contract.enterprise-jsf</groupId>
@@ -69,6 +70,7 @@
             <artifactId>ejsf-api</artifactId>
             <version>1.19.1-SNAPSHOT</version>
             <classifier>jakarta</classifier>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -159,6 +161,7 @@
             <groupId>org.glassfish.expressly</groupId>
             <artifactId>expressly</artifactId>
             <version>5.0.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
@@ -172,6 +175,18 @@
             <artifactId>primefaces</artifactId>
             <version>${primefaces.version}</version>
             <classifier>jakarta</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces-selenium-components</artifactId>
+            <version>${primefaces.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
