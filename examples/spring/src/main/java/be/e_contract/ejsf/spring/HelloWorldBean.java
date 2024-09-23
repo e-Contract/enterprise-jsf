@@ -1,7 +1,7 @@
 package be.e_contract.ejsf.spring;
 
 import java.io.Serializable;
-import javax.faces.view.ViewScoped;
+import jakarta.faces.view.ViewScoped;
 import org.springframework.stereotype.Component;
 
 @Component
