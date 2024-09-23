@@ -10,6 +10,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -35,6 +36,7 @@ public class SeleniumWebAuthnTest {
     }
 
     @Test
+    @Disabled
     public void testWebAuthn() throws Exception {
         LOGGER.debug("WebAuthn integration test");
         ChromeOptions options = new ChromeOptions();

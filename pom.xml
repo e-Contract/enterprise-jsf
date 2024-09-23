@@ -209,7 +209,7 @@
             <dependency>
                 <groupId>com.googlecode.libphonenumber</groupId>
                 <artifactId>libphonenumber</artifactId>
-                <version>8.13.45</version>
+                <version>8.13.46</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>

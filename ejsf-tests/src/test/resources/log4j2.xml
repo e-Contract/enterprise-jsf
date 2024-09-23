@@ -12,6 +12,9 @@
         <Logger name="test.integ" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
+        <Logger name="be.e_contract.ejsf" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
         <Root level="warn">
             <AppenderRef ref="Console"/>
         </Root>
