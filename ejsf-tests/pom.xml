@@ -37,6 +37,11 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <skipTests>false</skipTests>
+                            <systemPropertyVariables>
+                                <java.util.logging.config.file>
+                                    src/test/resources/logging.properties
+                                </java.util.logging.config.file>
+                            </systemPropertyVariables>
                         </configuration>
                     </plugin>
                 </plugins>

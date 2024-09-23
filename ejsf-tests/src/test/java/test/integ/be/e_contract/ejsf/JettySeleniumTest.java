@@ -80,6 +80,7 @@ public class JettySeleniumTest {
                 new CdiServletContainerInitializer()));
         context.addBean(new ServletContextHandler.Initializer(context,
                 new EnhancedListener()));
+        context.getMimeTypes().addMimeMapping("ttf", "application/x-font-ttf");
 
         this.server.start();
 
