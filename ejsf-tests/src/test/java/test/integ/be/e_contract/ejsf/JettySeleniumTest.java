@@ -19,6 +19,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.toolchain.test.MavenTestingUtils;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.weld.environment.servlet.EnhancedListener;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,6 +30,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 public class JettySeleniumTest {
 
@@ -40,6 +42,8 @@ public class JettySeleniumTest {
 
     @BeforeAll
     public static void beforeAll() {
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
         WebDriverManager.chromedriver().setup();
     }
 
@@ -50,8 +54,15 @@ public class JettySeleniumTest {
         WebAppContext context = new WebAppContext();
         context.setContextPath("/");
 
+        File ejsfTaglibJar = Maven.configureResolver()
+                .workOffline()
+                .loadPomFromFile("pom.xml")
+                .resolve("be.e-contract.enterprise-jsf:ejsf-taglib:jar:jakarta:?")
+                .withoutTransitivity().asSingleFile();
+
         File baseDir = MavenTestingUtils.getTestResourcesDir();
         context.setBaseResource(Resource.newResource(baseDir));
+        context.setExtraClasspath(ejsfTaglibJar.toURI().toString());
         this.server.setHandler(context);
 
         ServletHolder servletHolder = new ServletHolder(FacesServlet.class);

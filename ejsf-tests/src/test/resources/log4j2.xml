@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN"
-               xmlns="http://logging.apache.org/log4j/2.0/config"
+               xmlns="https://logging.apache.org/xml/ns"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/master/log4j-core/src/main/resources/Log4j-config.xsd">
+               xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-config-2.23.1.xsd">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%highlight{%-5level} [%logger{1}] %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="test.integ" level="debug" additivity="false">
+        <Logger name="test.integ" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="be.e_contract.ejsf" level="debug" additivity="false">
+        <Logger name="be.e_contract.ejsf" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Root level="warn">
+        <Logger name="jakarta" level="ALL" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="WARN">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

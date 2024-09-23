@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.html">
+      xmlns:h="jakarta.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf">
     <h:head>
         <title>JSF Test</title>
     </h:head>
@@ -9,5 +10,6 @@
         <p id="test">
             #{testController.value}
         </p>
+        <ejsf:outputBoolean value="#{true}"/>
     </h:body>
 </html>
