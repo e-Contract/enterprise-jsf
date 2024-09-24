@@ -110,6 +110,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         authenticationErrorListener,
         registrationMessageInterceptor,
         authenticationMessageInterceptor,
+        allowOriginPort,
     }
 
     public String getRelyingPartyId() {
@@ -118,6 +119,14 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
 
     public void setRelyingPartyId(String id) {
         getStateHelper().put(PropertyKeys.relyingPartyId, id);
+    }
+
+    public boolean isAllowOriginPort() {
+        return (boolean) getStateHelper().eval(PropertyKeys.allowOriginPort, false);
+    }
+
+    public void setAllowOriginPort(boolean allowOriginPort) {
+        getStateHelper().put(PropertyKeys.allowOriginPort, allowOriginPort);
     }
 
     public String getRelyingPartyName() {
@@ -361,6 +370,8 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
             relyingPartyBuilder.attestationConveyancePreference(
                     AttestationConveyancePreference.valueOf(attestationConveyance.toUpperCase()));
         }
+        boolean allowOriginPort = isAllowOriginPort();
+        relyingPartyBuilder.allowOriginPort(allowOriginPort);
         RelyingParty relyingParty = relyingPartyBuilder.build();
         return relyingParty;
     }
@@ -403,7 +414,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 Boolean prf = WebAuthnUtils.hasPRF(createResponse);
                 UserIdentity userIdentity = publicKeyCredentialCreationOptions.getUser();
                 String username = userIdentity.getName();
-                LOGGER.debug("username: {}", username);
+                LOGGER.debug("registration username: {}", username);
 
                 PublicKeyCredential<AuthenticatorAttestationResponse, ClientRegistrationExtensionOutputs> publicKeyCredential;
                 try {
@@ -520,6 +531,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
             }
             if (WebAuthnErrorEvent.NAME.equals(eventName)) {
                 String errorMessage = requestParameterMap.get(clientId + "_error");
+                LOGGER.warn("received client-side error: {}", errorMessage);
                 WebAuthnErrorEvent webAuthnErrorEvent = new WebAuthnErrorEvent(this, behaviorEvent.getBehavior(), errorMessage);
                 webAuthnErrorEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(webAuthnErrorEvent);

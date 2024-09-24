@@ -15,10 +15,13 @@
         <Logger name="be.e_contract.ejsf" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="jakarta" level="ALL" additivity="false">
+        <Logger name="jakarta" level="INFO" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="org.eclipse.jetty" level="DEBUG" additivity="false">
+        <Logger name="org.eclipse.jetty" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.yubico.webauthn" level="TRACE" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level="WARN">

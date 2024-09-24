@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <f:view locale="en">
+        <h:head>
+            <title>Test WebAuthn</title>
+        </h:head>
+        <h:body>
+            <h1>Test WebAuthn</h1>
+            <p:messages id="messages" globalOnly="true"/>
+            <h:form id="webAuthnForm">
+                <ejsf:webAuthn id="webAuthn"
+                               username="#{webAuthnController.username}"
+                               credentialRepository="#{webAuthnCredentialRepository}"
+                               relyingPartyId="localhost"
+                               relyingPartyName="Enterprise JSF Test"
+                               allowOriginPort="true">
+                    <ejsf:webAuthnRegistration update=":messages"
+                                               listener="#{webAuthnController.registeredListener}"
+                                               errorListener="#{webAuthnController.registrationErrorListener}"/>
+                    <p:ajax event="error" update=":messages"
+                            listener="#{webAuthnController.errorListener}"/>
+                </ejsf:webAuthn>
+            </h:form>
+            <h:form id="registrationForm">
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="@next" value="Username:"/>
+                    <p:inputText id="username"
+                                 value="#{webAuthnController.username}"
+                                 required="true" autocomplete="username webauthn">
+                        <ejsf:webAuthnUsernameValidator mode="registration"
+                                                        credentialRepository="#{webAuthnCredentialRepository}"/>
+                    </p:inputText>
+                    <p:message for="@previous"/>
+                </h:panelGrid>
+                <p:commandButton id="registerButton" value="Register" update="@form">
+                    <ejsf:webAuthnRegister/>
+                </p:commandButton>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

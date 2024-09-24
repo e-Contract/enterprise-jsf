@@ -1520,6 +1520,11 @@
             <required>true</required>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Allow any origin port.</description>
+            <name>allowOriginPort</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
     <tag>

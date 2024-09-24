@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.webauthn;
@@ -155,6 +155,7 @@ public class WebAuthnRenderer extends CoreRenderer {
             PrimeFaces primeFaces = PrimeFaces.current();
             PrimeFaces.Ajax ajax = primeFaces.ajax();
             ajax.addCallbackParam("publicKeyCredentialCreationOptions", request);
+            LOGGER.debug("publicKeyCredentialCreationOptions response");
             context.renderResponse();
         } else if (requestParameterMap.containsKey(clientId + "_authentication_request")) {
             LOGGER.debug("authentication request");
