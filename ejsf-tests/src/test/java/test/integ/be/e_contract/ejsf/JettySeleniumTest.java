@@ -15,13 +15,13 @@ import org.eclipse.jetty.cdi.CdiDecoratingListener;
 import org.eclipse.jetty.cdi.CdiServletContainerInitializer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.toolchain.test.MavenTestingUtils;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.weld.environment.servlet.EnhancedListener;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
@@ -46,22 +46,19 @@ public class JettySeleniumTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JettySeleniumTest.class);
 
-    private Server server;
+    private static Server server;
 
-    private String urlPrefix;
+    private static String urlPrefix;
 
     private ChromeDriver driver;
 
     @BeforeAll
-    public static void beforeAll() {
+    public static void beforeAll() throws Exception {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
         WebDriverManager.chromedriver().setup();
-    }
 
-    @BeforeEach
-    public void setUp() throws Exception {
-        this.server = new Server(0);
+        JettySeleniumTest.server = new Server(0);
 
         WebAppContext context = new WebAppContext();
         context.setContextPath("/");
@@ -78,7 +75,7 @@ public class JettySeleniumTest {
 
         File baseDir = MavenTestingUtils.getTestResourcesDir();
         context.setBaseResource(Resource.newResource(baseDir));
-        this.server.setHandler(context);
+        JettySeleniumTest.server.setHandler(context);
 
         ServletHolder servletHolder = new ServletHolder(FacesServlet.class);
         context.addServlet(servletHolder, "*.xhtml");
@@ -91,35 +88,41 @@ public class JettySeleniumTest {
         context.setInitParameter(
                 CdiServletContainerInitializer.CDI_INTEGRATION_ATTRIBUTE,
                 CdiDecoratingListener.MODE);
-        context.addBean(new ServletContextHandler.Initializer(context,
-                new CdiServletContainerInitializer()));
-        context.addBean(new ServletContextHandler.Initializer(context,
-                new EnhancedListener()));
+        context.addServletContainerInitializer(new CdiServletContainerInitializer());
+        context.addServletContainerInitializer(new EnhancedListener());
         context.getMimeTypes().addMimeMapping("ttf", "application/x-font-ttf");
 
-        this.server.start();
+        JettySeleniumTest.server.start();
 
-        ServerConnector serverConnector = (ServerConnector) this.server.getConnectors()[0];
+        ServerConnector serverConnector = (ServerConnector) JettySeleniumTest.server.getConnectors()[0];
         int port = serverConnector.getLocalPort();
-        this.urlPrefix = "http://localhost:" + port + "/";
+        JettySeleniumTest.urlPrefix = "http://localhost:" + port + "/";
+    }
 
+    @BeforeEach
+    public void setUp() throws Exception {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-search-engine-choice-screen");
         this.driver = new ChromeDriver(options);
 
         WebDriverProvider.set(this.driver);
-        MyDeploymentAdapter.setBaseUrl(this.urlPrefix);
+        MyDeploymentAdapter.setBaseUrl(JettySeleniumTest.urlPrefix);
     }
 
     @AfterEach
     public void tearDown() throws Exception {
         this.driver.quit();
-        this.server.stop();
+
+    }
+
+    @AfterAll
+    public static void afterAll() throws Exception {
+        JettySeleniumTest.server.stop();
     }
 
     @Test
     public void testRequest() throws Exception {
-        this.driver.get(this.urlPrefix + "index.xhtml");
+        this.driver.get(JettySeleniumTest.urlPrefix + "index.xhtml");
 
         WebElement webElement = this.driver.findElement(By.id("test"));
         assertEquals("hello world", webElement.getText());
@@ -127,7 +130,7 @@ public class JettySeleniumTest {
 
     @Test
     public void testEmailValidator() throws Exception {
-        this.driver.get(this.urlPrefix + "test-email-validator.xhtml");
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-email-validator.xhtml");
 
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("hello world");
@@ -153,7 +156,7 @@ public class JettySeleniumTest {
 
     @Test
     public void testUrlValidator() throws Exception {
-        this.driver.get(this.urlPrefix + "test-url-validator.xhtml");
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-url-validator.xhtml");
 
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("hello world");
@@ -179,7 +182,7 @@ public class JettySeleniumTest {
 
     @Test
     public void testOtpValidator() throws Exception {
-        this.driver.get(this.urlPrefix + "test-otp-validator.xhtml");
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-otp-validator.xhtml");
 
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("hello world");
@@ -205,7 +208,7 @@ public class JettySeleniumTest {
 
     @Test
     public void testPlainTextValidator() throws Exception {
-        this.driver.get(this.urlPrefix + "test-plain-text-validator.xhtml");
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-plain-text-validator.xhtml");
 
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("<b>HTML text</b>");
@@ -231,7 +234,7 @@ public class JettySeleniumTest {
 
     @Test
     public void testXMLValidator() throws Exception {
-        this.driver.get(this.urlPrefix + "test-xml-validator.xhtml");
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-xml-validator.xhtml");
 
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("no XML");
@@ -262,7 +265,7 @@ public class JettySeleniumTest {
 
         devTools.send(Emulation.setGeolocationOverride(Optional.of(1), Optional.of(2), Optional.of(3)));
 
-        this.driver.get(this.urlPrefix + "test-geolocation.xhtml");
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-geolocation.xhtml");
 
         Button button = PrimeSelenium.createFragment(Button.class, By.id("button"));
         button.click();
