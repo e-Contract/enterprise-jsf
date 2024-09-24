@@ -71,12 +71,13 @@ public class JettySeleniumTest {
                 .loadPomFromFile("pom.xml")
                 .resolve("be.e-contract.enterprise-jsf:ejsf-taglib:jar:jakarta:?")
                 .withoutTransitivity().asSingleFile();
+        // Per default Jetty does not scan JARs for annotations.
+        // This causes our JSF components not to get registered.
+        // Hence we force our JAR upon Jetty.
+        context.getMetaData().addContainerResource(Resource.newResource(ejsfTaglibJar));
 
         File baseDir = MavenTestingUtils.getTestResourcesDir();
         context.setBaseResource(Resource.newResource(baseDir));
-        // the following makes Jetty to scan our JSF component annotations
-        // but causes class loading issues later on (JSF event class within CDI does not match)
-        //context.setExtraClasspath(ejsfTaglibJar.toURI().toString());
         this.server.setHandler(context);
 
         ServletHolder servletHolder = new ServletHolder(FacesServlet.class);

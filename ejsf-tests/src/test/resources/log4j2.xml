@@ -18,6 +18,9 @@
         <Logger name="jakarta" level="ALL" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
+        <Logger name="org.eclipse.jetty" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
         <Root level="WARN">
             <AppenderRef ref="Console"/>
         </Root>
