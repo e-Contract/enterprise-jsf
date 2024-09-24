@@ -193,5 +193,10 @@
             <artifactId>owasp-java-html-sanitizer</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.cronutils</groupId>
+            <artifactId>cron-utils</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

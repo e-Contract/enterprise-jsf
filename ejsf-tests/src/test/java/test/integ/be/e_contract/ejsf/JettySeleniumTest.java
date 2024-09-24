@@ -10,6 +10,7 @@ import com.sun.faces.config.ConfigureListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.io.File;
 import jakarta.faces.webapp.FacesServlet;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.eclipse.jetty.cdi.CdiDecoratingListener;
 import org.eclipse.jetty.cdi.CdiServletContainerInitializer;
@@ -36,6 +37,7 @@ import org.openqa.selenium.devtools.v128.emulation.Emulation;
 import org.primefaces.selenium.PrimeSelenium;
 import org.primefaces.selenium.component.Button;
 import org.primefaces.selenium.component.CommandButton;
+import org.primefaces.selenium.component.DatePicker;
 import org.primefaces.selenium.component.Message;
 import org.primefaces.selenium.spi.WebDriverProvider;
 import org.slf4j.Logger;
@@ -135,8 +137,8 @@ public class JettySeleniumTest {
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("hello world");
 
-        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         String messageText = message.getText();
@@ -147,8 +149,8 @@ public class JettySeleniumTest {
         input.clear();
         input.sendKeys("info@e-contract.be");
 
-        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         assertEquals("", message.getText());
@@ -161,8 +163,8 @@ public class JettySeleniumTest {
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("hello world");
 
-        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         String messageText = message.getText();
@@ -173,8 +175,8 @@ public class JettySeleniumTest {
         input.clear();
         input.sendKeys("https://www.e-contract.be");
 
-        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         assertEquals("", message.getText());
@@ -187,8 +189,8 @@ public class JettySeleniumTest {
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("hello world");
 
-        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         String messageText = message.getText();
@@ -199,8 +201,8 @@ public class JettySeleniumTest {
         input.clear();
         input.sendKeys("123456");
 
-        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         assertEquals("", message.getText());
@@ -213,8 +215,8 @@ public class JettySeleniumTest {
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("<b>HTML text</b>");
 
-        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         String messageText = message.getText();
@@ -225,8 +227,8 @@ public class JettySeleniumTest {
         input.clear();
         input.sendKeys("plain text");
 
-        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         assertEquals("", message.getText());
@@ -239,8 +241,8 @@ public class JettySeleniumTest {
         WebElement input = this.driver.findElement(By.id("form:input"));
         input.sendKeys("no XML");
 
-        CommandButton subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         String messageText = message.getText();
@@ -251,8 +253,8 @@ public class JettySeleniumTest {
         input.clear();
         input.sendKeys("<xml/>");
 
-        subscribeButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
-        subscribeButton.click();
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
 
         message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         assertEquals("", message.getText());
@@ -286,5 +288,82 @@ public class JettySeleniumTest {
 
         WebElement accuracy = this.driver.findElement(By.id("accuracy"));
         assertEquals("3.0 m", accuracy.getText());
+    }
+
+    @Test
+    public void testAgeValidator() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-age-validator.xhtml");
+
+        DatePicker input = PrimeSelenium.createFragment(DatePicker.class, By.id("form:input"));
+        input.setDate(LocalDateTime.now());
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("The minimum age is 18 years.", messageText);
+
+        input = PrimeSelenium.createFragment(DatePicker.class, By.id("form:input"));
+        input.setDate(LocalDateTime.now().minusYears(18).minusDays(1));
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testOidValidator() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-oid-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("no OID");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Not an OID.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("1.2.3.4");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testCronValidator() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-cron-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("no UNIX CRON");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Not a valid cron expression.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("0 0 * * *");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
     }
 }

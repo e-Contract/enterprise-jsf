@@ -73,6 +73,11 @@ public class CronValidator implements Validator, PartialStateHolder {
             FacesMessage facesMessage = new FacesMessage("Configuration error.");
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(facesMessage);
+        } catch (NoClassDefFoundError e) {
+            LOGGER.error("class not found: " + e.getMessage(), e);
+            FacesMessage facesMessage = new FacesMessage("Configuration error.");
+            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(facesMessage);
         }
         CronDefinition cronDefinition = CronDefinitionBuilder.instanceDefinitionFor(cronType);
         CronParser cronParser = new CronParser(cronDefinition);
