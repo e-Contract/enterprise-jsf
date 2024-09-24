@@ -4,4 +4,58 @@
               xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd"
               version="4.0">
 
+    <!-- work-around for Jetty JSF component annotation scanning issue -->
+    <component>
+        <component-type>ejsf.outputBoolean</component-type>
+        <component-class>be.e_contract.ejsf.component.output.OutputBooleanComponent</component-class>
+    </component>
+
+    <component>
+        <component-type>ejsf.geolocationComponent</component-type>
+        <component-class>be.e_contract.ejsf.component.geolocation.GeolocationComponent</component-class>
+    </component>
+
+    <component>
+        <component-type>ejsf.outputText</component-type>
+        <component-class>be.e_contract.ejsf.component.output.text.OutputTextComponent</component-class>
+    </component>
+
+    <render-kit>
+        <renderer>
+            <component-family>ejsf</component-family>
+            <renderer-type>ejsf.geolocationRenderer</renderer-type>
+            <renderer-class>be.e_contract.ejsf.component.geolocation.GeolocationRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>ejsf</component-family>
+            <renderer-type>ejsf.outputTextRenderer</renderer-type>
+            <renderer-class>be.e_contract.ejsf.component.output.text.OutputTextRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+
+    <validator>
+        <validator-id>ejsf.emailValidator</validator-id>
+        <validator-class>be.e_contract.ejsf.validator.EmailValidator</validator-class>
+    </validator>
+
+    <validator>
+        <validator-id>ejsf.urlValidator</validator-id>
+        <validator-class>be.e_contract.ejsf.validator.UrlValidator</validator-class>
+    </validator>
+
+    <validator>
+        <validator-id>ejsf.otpValidator</validator-id>
+        <validator-class>be.e_contract.ejsf.validator.OTPValidator</validator-class>
+    </validator>
+
+    <validator>
+        <validator-id>ejsf.plainTextValidator</validator-id>
+        <validator-class>be.e_contract.ejsf.validator.PlainTextValidator</validator-class>
+    </validator>
+
+    <validator>
+        <validator-id>ejsf.xmlValidator</validator-id>
+        <validator-class>be.e_contract.ejsf.validator.XMLValidator</validator-class>
+    </validator>
+
 </faces-config>

@@ -10,6 +10,7 @@ import com.sun.faces.config.ConfigureListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.io.File;
 import jakarta.faces.webapp.FacesServlet;
+import java.util.Optional;
 import org.eclipse.jetty.cdi.CdiDecoratingListener;
 import org.eclipse.jetty.cdi.CdiServletContainerInitializer;
 import org.eclipse.jetty.server.Server;
@@ -27,11 +28,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.devtools.DevTools;
+import org.openqa.selenium.devtools.v128.emulation.Emulation;
 import org.primefaces.selenium.PrimeSelenium;
+import org.primefaces.selenium.component.Button;
 import org.primefaces.selenium.component.CommandButton;
 import org.primefaces.selenium.component.Message;
 import org.primefaces.selenium.spi.WebDriverProvider;
@@ -47,7 +50,7 @@ public class JettySeleniumTest {
 
     private String urlPrefix;
 
-    private WebDriver driver;
+    private ChromeDriver driver;
 
     @BeforeAll
     public static void beforeAll() {
@@ -71,7 +74,9 @@ public class JettySeleniumTest {
 
         File baseDir = MavenTestingUtils.getTestResourcesDir();
         context.setBaseResource(Resource.newResource(baseDir));
-        context.setExtraClasspath(ejsfTaglibJar.toURI().toString());
+        // the following makes Jetty to scan our JSF component annotations
+        // but causes class loading issues later on (JSF event class within CDI does not match)
+        //context.setExtraClasspath(ejsfTaglibJar.toURI().toString());
         this.server.setHandler(context);
 
         ServletHolder servletHolder = new ServletHolder(FacesServlet.class);
@@ -247,5 +252,35 @@ public class JettySeleniumTest {
 
         message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testGeolocation() throws Exception {
+        DevTools devTools = this.driver.getDevTools();
+        devTools.createSession();
+
+        devTools.send(Emulation.setGeolocationOverride(Optional.of(1), Optional.of(2), Optional.of(3)));
+
+        this.driver.get(this.urlPrefix + "test-geolocation.xhtml");
+
+        Button button = PrimeSelenium.createFragment(Button.class, By.id("button"));
+        button.click();
+
+        while (true) {
+            WebElement latitude = this.driver.findElement(By.id("latitude"));
+            if (!latitude.getText().isEmpty()) {
+                break;
+            }
+            Thread.sleep(500);
+        }
+
+        WebElement latitude = this.driver.findElement(By.id("latitude"));
+        assertEquals("1.0", latitude.getText());
+
+        WebElement longitude = this.driver.findElement(By.id("longitude"));
+        assertEquals("2.0", longitude.getText());
+
+        WebElement accuracy = this.driver.findElement(By.id("accuracy"));
+        assertEquals("3.0 m", accuracy.getText());
     }
 }
