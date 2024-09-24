@@ -479,28 +479,43 @@ public class JettySeleniumTest {
         try {
             this.driver.get(JettySeleniumTest.urlPrefix + "test-webauthn.xhtml");
 
-            WebElement input = this.driver.findElement(By.id("registrationForm:username"));
-            input.sendKeys("username");
+            WebElement registerInput = this.driver.findElement(By.id("registrationForm:username"));
+            registerInput.sendKeys("username");
 
-            CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("registrationForm:registerButton"));
-            submitButton.click();
+            CommandButton registerButton = PrimeSelenium.createFragment(CommandButton.class, By.id("registrationForm:registerButton"));
+            registerButton.click();
+
+            CDI cdi = CDI.current();
+            BeanManager beanManager = cdi.getBeanManager();
+            Bean bean = beanManager.getBeans(WebAuthnController.class).iterator().next();
+            CreationalContext<?> creationalContext = beanManager.createCreationalContext(bean);
+            try {
+                WebAuthnController webAuthnController = (WebAuthnController) beanManager.getReference(bean, WebAuthnController.class, creationalContext);
+                while (true) {
+                    if (webAuthnController.isRegistered()) {
+                        break;
+                    }
+                    Thread.sleep(1000);
+                }
+
+                WebElement authenticateInput = this.driver.findElement(By.id("authenticationForm:username"));
+                authenticateInput.sendKeys("username");
+
+                CommandButton authenticateButton = PrimeSelenium.createFragment(CommandButton.class, By.id("authenticationForm:authenticateButton"));
+                authenticateButton.click();
+
+                while (true) {
+                    if (webAuthnController.isAuthenticated()) {
+                        break;
+                    }
+                    Thread.sleep(1000);
+                }
+            } finally {
+                creationalContext.release();
+            }
         } finally {
             devTools.send(WebAuthn.removeVirtualAuthenticator(authenticatorId));
             devTools.send(WebAuthn.disable());
         }
-
-        CDI cdi = CDI.current();
-        BeanManager beanManager = cdi.getBeanManager();
-        Bean bean = beanManager.getBeans(WebAuthnController.class).iterator().next();
-        CreationalContext<?> creationalContext = beanManager.createCreationalContext(bean);
-        WebAuthnController webAuthnController = (WebAuthnController) beanManager.getReference(bean, WebAuthnController.class, creationalContext);
-
-        while (true) {
-            if (webAuthnController.isRegistered()) {
-                break;
-            }
-            Thread.sleep(1000);
-        }
-        creationalContext.release();
     }
 }

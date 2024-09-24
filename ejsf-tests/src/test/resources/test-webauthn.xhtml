@@ -21,6 +21,9 @@
                     <ejsf:webAuthnRegistration update=":messages"
                                                listener="#{webAuthnController.registeredListener}"
                                                errorListener="#{webAuthnController.registrationErrorListener}"/>
+                    <ejsf:webAuthnAuthentication update=":messages"
+                                                 listener="#{webAuthnController.authenticatedListener}"
+                                                 errorListener="#{webAuthnController.authenticationErrorListener}"/>
                     <p:ajax event="error" update=":messages"
                             listener="#{webAuthnController.errorListener}"/>
                 </ejsf:webAuthn>
@@ -38,6 +41,21 @@
                 </h:panelGrid>
                 <p:commandButton id="registerButton" value="Register" update="@form">
                     <ejsf:webAuthnRegister/>
+                </p:commandButton>
+            </h:form>
+            <h:form id="authenticationForm">
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="@next" value="Username:"/>
+                    <p:inputText id="username"
+                                 value="#{webAuthnController.username}"
+                                 required="true" autocomplete="username webauthn">
+                        <ejsf:webAuthnUsernameValidator mode="authentication"
+                                                        credentialRepository="#{webAuthnCredentialRepository}"/>
+                    </p:inputText>
+                    <p:message for="@previous"/>
+                </h:panelGrid>
+                <p:commandButton id="authenticateButton" value="Authenticate" update="@form">
+                    <ejsf:webAuthnAuthenticate/>
                 </p:commandButton>
             </h:form>
         </h:body>
