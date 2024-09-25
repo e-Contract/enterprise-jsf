@@ -6,9 +6,12 @@
  */
 package test.integ.be.e_contract.ejsf;
 
+import test.integ.be.e_contract.ejsf.cdi.StopTestEvent;
+import test.integ.be.e_contract.ejsf.cdi.StartTestEvent;
 import com.sun.faces.config.ConfigureListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import jakarta.enterprise.context.spi.CreationalContext;
+import jakarta.enterprise.event.Event;
 import jakarta.enterprise.inject.spi.Bean;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
@@ -79,6 +82,7 @@ import org.primefaces.selenium.component.Button;
 import org.primefaces.selenium.component.CommandButton;
 import org.primefaces.selenium.component.DatePicker;
 import org.primefaces.selenium.component.Message;
+import org.primefaces.selenium.component.SelectOneMenu;
 import org.primefaces.selenium.spi.WebDriverProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -197,12 +201,22 @@ public class JettySeleniumTest {
 
         WebDriverProvider.set(this.driver);
         MyDeploymentAdapter.setBaseUrl(JettySeleniumTest.urlPrefix);
+
+        fireEvent(new StartTestEvent());
     }
 
     @AfterEach
     public void tearDown() throws Exception {
-        this.driver.quit();
+        fireEvent(new StopTestEvent());
 
+        this.driver.quit();
+    }
+
+    private void fireEvent(Object eventObject) {
+        CDI cdi = CDI.current();
+        BeanManager beanManager = cdi.getBeanManager();
+        Event event = beanManager.getEvent();
+        event.fire(eventObject);
     }
 
     @AfterAll
@@ -485,12 +499,7 @@ public class JettySeleniumTest {
             CommandButton registerButton = PrimeSelenium.createFragment(CommandButton.class, By.id("registrationForm:registerButton"));
             registerButton.click();
 
-            CDI cdi = CDI.current();
-            BeanManager beanManager = cdi.getBeanManager();
-            Bean bean = beanManager.getBeans(WebAuthnController.class).iterator().next();
-            CreationalContext<?> creationalContext = beanManager.createCreationalContext(bean);
-            try {
-                WebAuthnController webAuthnController = (WebAuthnController) beanManager.getReference(bean, WebAuthnController.class, creationalContext);
+            runOnBean(WebAuthnController.class, (WebAuthnController webAuthnController) -> {
                 while (true) {
                     if (webAuthnController.isRegistered()) {
                         break;
@@ -510,12 +519,45 @@ public class JettySeleniumTest {
                     }
                     Thread.sleep(1000);
                 }
-            } finally {
-                creationalContext.release();
-            }
+            });
         } finally {
             devTools.send(WebAuthn.removeVirtualAuthenticator(authenticatorId));
             devTools.send(WebAuthn.disable());
+        }
+    }
+
+    @Test
+    public void testInputPeriod() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-period.xhtml");
+
+        SelectOneMenu minutes = PrimeSelenium.createFragment(SelectOneMenu.class, By.id("form:input:minutesRange"));
+        minutes.select("1");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputPeriodController.class, (InputPeriodController inputPeriodController) -> {
+            int value = inputPeriodController.getValue();
+            assertEquals(60, value);
+        });
+    }
+
+    @FunctionalInterface
+    interface ExceptionConsumer<T> {
+
+        void accept(T instance) throws Exception;
+    }
+
+    private <T> void runOnBean(Class<T> beanClass, ExceptionConsumer<T> consumer) throws Exception {
+        CDI cdi = CDI.current();
+        BeanManager beanManager = cdi.getBeanManager();
+        Bean<T> bean = (Bean<T>) beanManager.getBeans(beanClass).iterator().next();
+        CreationalContext<T> creationalContext = beanManager.createCreationalContext(bean);
+        try {
+            T instance = (T) beanManager.getReference(bean, beanClass, creationalContext);
+            consumer.accept(instance);
+        } finally {
+            creationalContext.release();
         }
     }
 }

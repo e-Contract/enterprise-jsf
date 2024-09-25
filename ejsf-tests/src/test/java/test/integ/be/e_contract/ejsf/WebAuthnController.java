@@ -6,6 +6,7 @@
  */
 package test.integ.be.e_contract.ejsf;
 
+import test.integ.be.e_contract.ejsf.cdi.TestScoped;
 import be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticatedEvent;
 import be.e_contract.ejsf.component.webauthn.WebAuthnAuthenticationError;
 import be.e_contract.ejsf.component.webauthn.WebAuthnErrorEvent;
@@ -16,7 +17,7 @@ import com.yubico.webauthn.RegisteredCredential;
 import com.yubico.webauthn.data.AuthenticatorTransport;
 import com.yubico.webauthn.data.ByteArray;
 import com.yubico.webauthn.data.UserIdentity;
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
@@ -26,7 +27,7 @@ import java.util.Set;
 import org.primefaces.PrimeFaces;
 
 @Named
-@ApplicationScoped
+@TestScoped
 public class WebAuthnController implements Serializable {
 
     @Inject
@@ -37,6 +38,13 @@ public class WebAuthnController implements Serializable {
     private boolean registered;
 
     private boolean authenticated;
+
+    @PostConstruct
+    public void postConstruct() {
+        this.username = null;
+        this.registered = false;
+        this.authenticated = false;
+    }
 
     public String getUsername() {
         return this.username;
