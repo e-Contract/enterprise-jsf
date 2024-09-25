@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <f:view locale="en">
+        <h:head>
+            <title>Test Rate Limiter Action</title>
+        </h:head>
+        <h:body>
+            <h1>Test Rate Limiter Action</h1>
+            <h:form id="form">
+                <p:inputText id="username" required="true"/>
+                <p:commandButton id="submit"
+                                 value="Submit"
+                                 update="@form">
+                    <ejsf:rateLimiter for="username"
+                                      onLimit="#{rateLimiterController.onLimit}"/>
+                </p:commandButton>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

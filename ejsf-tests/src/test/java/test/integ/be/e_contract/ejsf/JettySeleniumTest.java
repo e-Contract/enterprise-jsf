@@ -64,6 +64,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -632,6 +633,63 @@ public class JettySeleniumTest {
 
         message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testRateLimiter() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-rate-limiter.xhtml");
+
+        WebElement usernameInput = this.driver.findElement(By.id("form:username"));
+        usernameInput.sendKeys("username");
+
+        WebElement passwordInput = this.driver.findElement(By.id("form:password"));
+        passwordInput.sendKeys("password");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+
+        for (int i = 0; i < 5; i++) {
+            runOnBean(RateLimiterController.class, (RateLimiterController rateLimiterController) -> {
+                assertNull(rateLimiterController.getUsername());
+            });
+
+            submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+            submitButton.click();
+        }
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("Please try again later.", message.getText());
+
+        runOnBean(RateLimiterController.class, (RateLimiterController rateLimiterController) -> {
+            assertEquals("username", rateLimiterController.getUsername());
+        });
+    }
+
+    @Test
+    public void testRateLimiterAction() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-rate-limiter-action.xhtml");
+
+        WebElement usernameInput = this.driver.findElement(By.id("form:username"));
+        usernameInput.sendKeys("username2");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        for (int i = 0; i < 5; i++) {
+            runOnBean(RateLimiterController.class, (RateLimiterController rateLimiterController) -> {
+                assertNull(rateLimiterController.getUsername());
+            });
+
+            submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+            submitButton.click();
+        }
+
+        runOnBean(RateLimiterController.class, (RateLimiterController rateLimiterController) -> {
+            assertEquals("username2", rateLimiterController.getUsername());
+        });
     }
 
     @FunctionalInterface
