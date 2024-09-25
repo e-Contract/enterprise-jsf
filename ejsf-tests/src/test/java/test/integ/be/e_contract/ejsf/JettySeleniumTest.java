@@ -692,6 +692,32 @@ public class JettySeleniumTest {
         });
     }
 
+    @Test
+    public void testTrimValidator() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-trim-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys(" white spaces ");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Leading/trailing white spaces.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("no white spaces");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
     @FunctionalInterface
     interface ExceptionConsumer<T> {
 
