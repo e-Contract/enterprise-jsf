@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2021-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2021-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.clocksync;
@@ -132,7 +132,7 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(ClockSyncEvent.NAME);
+        return Arrays.asList(ClockSyncEvent.NAME, ClockSyncErrorEvent.NAME);
     }
 
     @Override
@@ -200,6 +200,14 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
                                 bestRoundTripDelay, deltaT);
                 clockSyncEvent.setPhaseId(facesEvent.getPhaseId());
                 super.queueEvent(clockSyncEvent);
+                return;
+            }
+            if (ClockSyncErrorEvent.NAME.equals(eventName)) {
+                String errorMessage = requestParameterMap.get(clientId + "_errorMessage");
+                LOGGER.warn("sync error received: {}", errorMessage);
+                ClockSyncErrorEvent clockSyncErrorEvent = new ClockSyncErrorEvent(this, behaviorEvent.getBehavior(), errorMessage);
+                clockSyncErrorEvent.setPhaseId(facesEvent.getPhaseId());
+                super.queueEvent(clockSyncErrorEvent);
                 return;
             }
         }

@@ -56,7 +56,6 @@ public class TestScopeContext implements Context, Serializable {
         if (null == testScopeInstance) {
             return null;
         }
-        LOGGER.debug("returning existing bean instance of type: {}", beanClass.getName());
         return testScopeInstance.instance;
     }
 

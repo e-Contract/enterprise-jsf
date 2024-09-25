@@ -8,15 +8,15 @@ package test.integ.be.e_contract.ejsf;
 
 import be.e_contract.ejsf.component.geolocation.GeolocationErrorEvent;
 import be.e_contract.ejsf.component.geolocation.GeolocationPositionEvent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import test.integ.be.e_contract.ejsf.cdi.TestScoped;
 
 @Named("geolocationController")
-@RequestScoped
+@TestScoped
 public class GeolocationController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeolocationController.class);

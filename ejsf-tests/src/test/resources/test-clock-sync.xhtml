@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Test Clock Sync</title>
+    </h:head>
+    <h:body>
+        <h1>Test Clock Sync</h1>
+        <h:form>
+            <ejsf:clockSync clockLocation="clock" widgetVar="clockSync">
+                <p:ajax listener="#{clockSyncController.clockSynchronized}"/>
+            </ejsf:clockSync>
+            <ejsf:clockSync clockLocation="foobar" widgetVar="foobarClockSync">
+                <p:ajax event="error" listener="#{clockSyncController.clockSyncError}"/>
+            </ejsf:clockSync>
+        </h:form>
+    </h:body>
+</html>

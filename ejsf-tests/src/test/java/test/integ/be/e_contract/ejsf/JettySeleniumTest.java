@@ -6,6 +6,7 @@
  */
 package test.integ.be.e_contract.ejsf;
 
+import be.e_contract.ejsf.component.clocksync.ClockSyncServlet;
 import test.integ.be.e_contract.ejsf.cdi.StopTestEvent;
 import test.integ.be.e_contract.ejsf.cdi.StartTestEvent;
 import com.sun.faces.config.ConfigureListener;
@@ -62,10 +63,13 @@ import org.jboss.weld.environment.servlet.EnhancedListener;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -123,8 +127,11 @@ public class JettySeleniumTest {
         context.setBaseResource(Resource.newResource(baseDir));
         JettySeleniumTest.server.setHandler(context);
 
-        ServletHolder servletHolder = new ServletHolder(FacesServlet.class);
-        context.addServlet(servletHolder, "*.xhtml");
+        ServletHolder facesServletHolder = new ServletHolder(FacesServlet.class);
+        context.addServlet(facesServletHolder, "*.xhtml");
+
+        ServletHolder clockServletHolder = new ServletHolder(ClockSyncServlet.class);
+        context.addServlet(clockServletHolder, "/clock");
 
         context.setInitParameter("jakarta.faces.PROJECT_STAGE",
                 "Development");
@@ -390,6 +397,12 @@ public class JettySeleniumTest {
 
         WebElement accuracy = this.driver.findElement(By.id("accuracy"));
         assertEquals("3.0 m", accuracy.getText());
+
+        runOnBean(GeolocationController.class, (GeolocationController geolocationController) -> {
+            assertEquals(1.0, geolocationController.getLatitude());
+            assertEquals(2.0, geolocationController.getLongitude());
+            assertEquals(3.0, geolocationController.getAccuracy());
+        });
     }
 
     @Test
@@ -540,6 +553,33 @@ public class JettySeleniumTest {
             int value = inputPeriodController.getValue();
             assertEquals(60, value);
         });
+    }
+
+    @Test
+    public void testClockSync() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-clock-sync.xhtml");
+
+        runOnBean(ClockSyncController.class, (ClockSyncController clockSyncController) -> {
+            while (true) {
+                if (clockSyncController.isSynced()) {
+                    break;
+                }
+                Thread.sleep(500);
+            }
+            LOGGER.debug("best round trip: {} ms", clockSyncController.getBestRoundTripDelay());
+            LOGGER.debug("delta T: {} ms", clockSyncController.getDeltaT());
+            // next is due to the foobar clock sync
+            assertTrue(clockSyncController.isError());
+        });
+
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) this.driver;
+        Object result = javascriptExecutor.executeScript("return PF('clockSync').isSynchronized();");
+        LOGGER.debug("result: {}", result);
+        LOGGER.debug("result type: {}", result.getClass().getName());
+        assertTrue((Boolean) result);
+
+        Object errorResult = javascriptExecutor.executeScript("return PF('foobarClockSync').isSynchronized();");
+        assertFalse((Boolean) errorResult);
     }
 
     @FunctionalInterface
