@@ -718,6 +718,52 @@ public class JettySeleniumTest {
         assertEquals("", message.getText());
     }
 
+    @Test
+    public void testPasswordValidator() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-password-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("12345678901");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Must be at least 12 characters.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("123456789012");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("Should contain at least one lower case character.", message.getText());
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("a23456789012");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("Should contain at least one upper case character.", message.getText());
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("aA3456789012");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
     @FunctionalInterface
     interface ExceptionConsumer<T> {
 
