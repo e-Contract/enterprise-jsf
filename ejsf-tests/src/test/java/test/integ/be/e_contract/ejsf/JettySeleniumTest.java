@@ -582,6 +582,58 @@ public class JettySeleniumTest {
         assertFalse((Boolean) errorResult);
     }
 
+    @Test
+    public void testInetAddressValidator() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-inet-address-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("no internet address");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Invalid internet address.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("127.0.0.1");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testPinValidator() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-pin-validator.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("no PIN");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Not a PIN.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("123456");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
     @FunctionalInterface
     interface ExceptionConsumer<T> {
 
