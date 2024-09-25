@@ -7,9 +7,9 @@
 package test.integ.be.e_contract.ejsf;
 
 import be.e_contract.ejsf.component.geolocation.GeolocationErrorEvent;
+import be.e_contract.ejsf.component.geolocation.GeolocationPositionError;
 import be.e_contract.ejsf.component.geolocation.GeolocationPositionEvent;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
+import jakarta.annotation.PostConstruct;
 import jakarta.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +26,20 @@ public class GeolocationController {
     private Double longitude;
 
     private Double accuracy;
+
+    private GeolocationPositionError error;
+
+    @PostConstruct
+    public void postConstruct() {
+        reset();
+    }
+
+    public void reset() {
+        this.latitude = null;
+        this.longitude = null;
+        this.accuracy = null;
+        this.error = null;
+    }
 
     public Double getLatitude() {
         return this.latitude;
@@ -49,9 +63,12 @@ public class GeolocationController {
     }
 
     public void handleErrorEvent(GeolocationErrorEvent event) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        String message = "Geolocation error " + event.getError() + ": " + event.getMessage();
-        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null);
-        facesContext.addMessage(null, facesMessage);
+        LOGGER.debug("error code: {}", event.getError());
+        LOGGER.debug("error message: {}", event.getMessage());
+        this.error = event.getError();
+    }
+
+    public GeolocationPositionError getError() {
+        return this.error;
     }
 }

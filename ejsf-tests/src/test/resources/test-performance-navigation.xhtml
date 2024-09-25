@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Test Performance Navigation</title>
+    </h:head>
+    <h:body>
+        <h1>Test Performance Navigation</h1>
+        <h:form>
+            <ejsf:performanceNavigation>
+                <p:ajax listener="#{performanceNavigationController.handleEvent}"/>
+            </ejsf:performanceNavigation>
+        </h:form>
+    </h:body>
+</html>

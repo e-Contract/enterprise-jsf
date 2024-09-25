@@ -8,6 +8,9 @@
     </h:head>
     <h:body>
         <h1>Test Clock Sync</h1>
+        <p>
+            This test takes at least 5 seconds to complete...
+        </p>
         <h:form>
             <ejsf:clockSync clockLocation="clock" widgetVar="clockSync">
                 <p:ajax listener="#{clockSyncController.clockSynchronized}"/>

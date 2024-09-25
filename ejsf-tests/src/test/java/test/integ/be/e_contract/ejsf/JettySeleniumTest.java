@@ -7,6 +7,7 @@
 package test.integ.be.e_contract.ejsf;
 
 import be.e_contract.ejsf.component.clocksync.ClockSyncServlet;
+import be.e_contract.ejsf.component.geolocation.GeolocationPositionError;
 import test.integ.be.e_contract.ejsf.cdi.StopTestEvent;
 import test.integ.be.e_contract.ejsf.cdi.StartTestEvent;
 import com.sun.faces.config.ConfigureListener;
@@ -75,13 +76,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v128.webauthn.WebAuthn;
-import org.openqa.selenium.devtools.v128.webauthn.model.AuthenticatorId;
-import org.openqa.selenium.devtools.v128.webauthn.model.AuthenticatorProtocol;
-import org.openqa.selenium.devtools.v128.webauthn.model.AuthenticatorTransport;
-import org.openqa.selenium.devtools.v128.webauthn.model.Ctap2Version;
-import org.openqa.selenium.devtools.v128.webauthn.model.VirtualAuthenticatorOptions;
-import org.openqa.selenium.devtools.v128.emulation.Emulation;
+import org.openqa.selenium.devtools.v129.webauthn.WebAuthn;
+import org.openqa.selenium.devtools.v129.webauthn.model.AuthenticatorId;
+import org.openqa.selenium.devtools.v129.webauthn.model.AuthenticatorProtocol;
+import org.openqa.selenium.devtools.v129.webauthn.model.AuthenticatorTransport;
+import org.openqa.selenium.devtools.v129.webauthn.model.Ctap2Version;
+import org.openqa.selenium.devtools.v129.webauthn.model.VirtualAuthenticatorOptions;
+import org.openqa.selenium.devtools.v129.emulation.Emulation;
 import org.primefaces.selenium.PrimeSelenium;
 import org.primefaces.selenium.component.Button;
 import org.primefaces.selenium.component.CommandButton;
@@ -403,7 +404,24 @@ public class JettySeleniumTest {
             assertEquals(1.0, geolocationController.getLatitude());
             assertEquals(2.0, geolocationController.getLongitude());
             assertEquals(3.0, geolocationController.getAccuracy());
+
+            geolocationController.reset();
         });
+
+        devTools.send(Emulation.setGeolocationOverride(Optional.empty(), Optional.empty(), Optional.empty()));
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-geolocation.xhtml");
+        button = PrimeSelenium.createFragment(Button.class, By.id("button"));
+        button.click();
+
+        runOnBean(GeolocationController.class, (GeolocationController geolocationController) -> {
+            while (null == geolocationController.getError()) {
+                Thread.sleep(500);
+            }
+            assertEquals(GeolocationPositionError.POSITION_UNAVAILABLE, geolocationController.getError());
+        });
+
+        devTools.send(Emulation.clearGeolocationOverride());
     }
 
     @Test
@@ -762,6 +780,30 @@ public class JettySeleniumTest {
 
         message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
         assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testPerformanceNavigation() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-performance-navigation.xhtml");
+
+        runOnBean(PerformanceNavigationController.class, (PerformanceNavigationController performanceNavigationController) -> {
+            while (!performanceNavigationController.isDone()) {
+                Thread.sleep(500);
+            }
+            performanceNavigationController.reset();
+        });
+
+        DevTools devTools = this.driver.getDevTools();
+        devTools.createSession();
+        devTools.send(Emulation.setCPUThrottlingRate(90));
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-performance-navigation.xhtml");
+
+        runOnBean(PerformanceNavigationController.class, (PerformanceNavigationController performanceNavigationController) -> {
+            while (!performanceNavigationController.isDone()) {
+                Thread.sleep(500);
+            }
+            performanceNavigationController.reset();
+        });
     }
 
     @FunctionalInterface

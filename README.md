@@ -210,6 +210,14 @@ cd ejsf-demo-ee10
 mvn clean package payara-micro:start -Ppayara
 ```
 
+## Integration Tests
+
+Run the Selenium based integration tests via:
+```
+cd ejsf-tests
+mvn clean test -Pintegration-tests
+```
+
 ## Docker
 
 Alternatively, the Java EE application can be compiled and deployed to a WildFly Docker container
