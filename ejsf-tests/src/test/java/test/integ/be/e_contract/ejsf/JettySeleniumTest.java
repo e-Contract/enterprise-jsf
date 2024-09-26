@@ -88,6 +88,7 @@ import org.primefaces.selenium.component.Button;
 import org.primefaces.selenium.component.CommandButton;
 import org.primefaces.selenium.component.DatePicker;
 import org.primefaces.selenium.component.Message;
+import org.primefaces.selenium.component.Messages;
 import org.primefaces.selenium.component.SelectOneMenu;
 import org.primefaces.selenium.spi.WebDriverProvider;
 import org.slf4j.Logger;
@@ -707,7 +708,12 @@ public class JettySeleniumTest {
 
         runOnBean(RateLimiterController.class, (RateLimiterController rateLimiterController) -> {
             assertEquals("username2", rateLimiterController.getUsername());
+            assertEquals(5, rateLimiterController.getActionCount());
         });
+
+        Messages messages = PrimeSelenium.createFragment(Messages.class, By.id("messages"));
+        LOGGER.debug("messages: {}", messages.getAllSummaries());
+        assertTrue(messages.getAllSummaries().contains("Reached limit."));
     }
 
     @Test

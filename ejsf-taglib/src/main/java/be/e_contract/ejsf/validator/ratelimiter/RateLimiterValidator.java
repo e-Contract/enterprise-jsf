@@ -220,6 +220,7 @@ public class RateLimiterValidator implements Validator, PartialStateHolder, Acti
         try {
             validate(facesContext, component, null);
         } catch (ValidatorException ex) {
+            facesContext.renderResponse();
             throw new AbortProcessingException(ex);
         }
     }
