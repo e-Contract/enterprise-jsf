@@ -8,6 +8,7 @@ package be.e_contract.ejsf.component.storage;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,8 @@ public class StorageGetItemsComponent extends UIComponentBase implements ClientB
     public static final String COMPONENT_TYPE = "ejsf.storageGetItemsComponent";
 
     public static final String COMPONENT_FAMILY = "ejsf";
+
+    private static final List<String> EVENT_NAMES = Collections.unmodifiableList(Arrays.asList(StorageGetItemsEvent.NAME));
 
     public StorageGetItemsComponent() {
         setRendererType(StorageGetItemsRenderer.RENDERER_TYPE);
@@ -83,7 +86,7 @@ public class StorageGetItemsComponent extends UIComponentBase implements ClientB
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(StorageGetItemsEvent.NAME);
+        return EVENT_NAMES;
     }
 
     @Override

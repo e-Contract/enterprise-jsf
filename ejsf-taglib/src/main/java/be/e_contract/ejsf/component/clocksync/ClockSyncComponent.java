@@ -8,6 +8,8 @@ package be.e_contract.ejsf.component.clocksync;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
@@ -54,6 +56,8 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
     public static final String COMPONENT_TYPE = "ejsf.clockSync";
 
     public static final String COMPONENT_FAMILY = "ejsf";
+
+    private static final List<String> EVENT_NAMES = Collections.unmodifiableList(Arrays.asList(ClockSyncEvent.NAME, ClockSyncErrorEvent.NAME));
 
     public ClockSyncComponent() {
         setRendererType(ClockSyncRenderer.RENDERER_TYPE);
@@ -132,7 +136,7 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(ClockSyncEvent.NAME, ClockSyncErrorEvent.NAME);
+        return EVENT_NAMES;
     }
 
     @Override

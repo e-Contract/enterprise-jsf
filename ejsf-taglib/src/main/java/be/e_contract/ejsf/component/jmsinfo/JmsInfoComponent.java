@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.jmsinfo;
@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,6 +54,8 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
     private static final Logger LOGGER = LoggerFactory.getLogger(JmsInfoComponent.class);
 
     public static final String COMPONENT_TYPE = "ejsf.jmsInfo";
+
+    private static final List<String> EVENT_NAMES = Collections.unmodifiableList(Arrays.asList(ReplayEvent.NAME, RemoveEvent.NAME));
 
     @Override
     public String getFamily() {
@@ -383,7 +386,7 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(ReplayEvent.NAME, RemoveEvent.NAME);
+        return EVENT_NAMES;
     }
 
     @Override

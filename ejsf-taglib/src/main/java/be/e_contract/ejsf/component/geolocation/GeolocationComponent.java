@@ -1,13 +1,15 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.geolocation;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
@@ -38,6 +40,8 @@ public class GeolocationComponent extends UIComponentBase implements Widget, Cli
     public static final String COMPONENT_FAMILY = "ejsf";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeolocationComponent.class);
+
+    private static final List<String> EVENT_NAMES = Collections.unmodifiableList(Arrays.asList(GeolocationPositionEvent.NAME, GeolocationErrorEvent.NAME));
 
     public GeolocationComponent() {
         setRendererType(GeolocationRenderer.RENDERER_TYPE);
@@ -89,7 +93,7 @@ public class GeolocationComponent extends UIComponentBase implements Widget, Cli
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(GeolocationPositionEvent.NAME, GeolocationErrorEvent.NAME);
+        return EVENT_NAMES;
     }
 
     @Override

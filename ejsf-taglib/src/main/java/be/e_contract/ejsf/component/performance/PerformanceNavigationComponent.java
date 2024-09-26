@@ -8,6 +8,8 @@ package be.e_contract.ejsf.component.performance;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
@@ -40,6 +42,8 @@ public class PerformanceNavigationComponent extends UIComponentBase implements C
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
+    private static final List<String> EVENT_NAMES = Collections.unmodifiableList(Arrays.asList(PerformanceNavigationTimingEvent.NAME));
+
     public PerformanceNavigationComponent() {
         setRendererType(PerformanceNavigationRenderer.RENDERER_TYPE);
     }
@@ -51,7 +55,7 @@ public class PerformanceNavigationComponent extends UIComponentBase implements C
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(PerformanceNavigationTimingEvent.NAME);
+        return EVENT_NAMES;
     }
 
     @Override

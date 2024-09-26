@@ -8,6 +8,8 @@ package be.e_contract.ejsf.component.output.visnetwork;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
@@ -42,6 +44,8 @@ public class VisNetworkComponent extends UIOutput implements Widget, ClientBehav
     public static final String COMPONENT_TYPE = "ejsf.visNetworkComponent";
 
     public static final String COMPONENT_FAMILY = "ejsf";
+
+    private static final List<String> EVENT_NAMES = Collections.unmodifiableList(Arrays.asList(DoubleClickEvent.NAME));
 
     public VisNetworkComponent() {
         setRendererType(VisNetworkRenderer.RENDERER_TYPE);
@@ -102,7 +106,7 @@ public class VisNetworkComponent extends UIOutput implements Widget, ClientBehav
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(DoubleClickEvent.NAME);
+        return EVENT_NAMES;
     }
 
     @Override

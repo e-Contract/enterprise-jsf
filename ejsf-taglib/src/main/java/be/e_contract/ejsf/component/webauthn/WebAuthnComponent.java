@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,10 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
     public static final String COMPONENT_TYPE = "ejsf.webAuthnComponent";
 
     public static final String COMPONENT_FAMILY = "ejsf";
+
+    private static final List<String> EVENT_NAMES = Collections.unmodifiableList(Arrays.asList(WebAuthnRegisteredEvent.NAME,
+            WebAuthnAuthenticatedEvent.NAME,
+            WebAuthnErrorEvent.NAME));
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebAuthnComponent.class);
 
@@ -333,11 +338,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(
-                WebAuthnRegisteredEvent.NAME,
-                WebAuthnAuthenticatedEvent.NAME,
-                WebAuthnErrorEvent.NAME
-        );
+        return EVENT_NAMES;
     }
 
     @Override

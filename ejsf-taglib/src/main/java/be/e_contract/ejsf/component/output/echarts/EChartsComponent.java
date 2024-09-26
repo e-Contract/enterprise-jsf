@@ -8,6 +8,8 @@ package be.e_contract.ejsf.component.output.echarts;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
@@ -40,6 +42,8 @@ public class EChartsComponent extends UIOutput implements Widget, ClientBehavior
     public static final String COMPONENT_TYPE = "ejsf.echartsComponent";
 
     public static final String COMPONENT_FAMILY = "ejsf";
+
+    private static final List<String> EVENT_NAMES = Collections.unmodifiableList(Arrays.asList(EChartsClickEvent.NAME));
 
     public EChartsComponent() {
         setRendererType(EChartsRenderer.RENDERER_TYPE);
@@ -100,7 +104,7 @@ public class EChartsComponent extends UIOutput implements Widget, ClientBehavior
 
     @Override
     public Collection<String> getEventNames() {
-        return Arrays.asList(EChartsClickEvent.NAME);
+        return EVENT_NAMES;
     }
 
     @Override
