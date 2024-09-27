@@ -144,7 +144,7 @@ class EJSFCarousel {
         imgElement.addEventListener("load", () => {
             $this.initThumbnail(idx + 1);
         });
-        imgElement.src = imageData[idx].thumbnail;
+        imgElement.src = this.imageData[idx].thumbnail;
         imgElement.addEventListener("click", () => {
             $this.cancelAutoPlay();
             $this.changeActiveImage(idx);

@@ -2093,4 +2093,34 @@
         </component>
     </tag>
 
+    <tag>
+        <description>Lazy loading image carousel.</description>
+        <tag-name>carousel</tag-name>
+        <component>
+            <component-type>ejsf.carouselComponent</component-type>
+            <renderer-type>ejsf.carouselRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The list of CarouselImage.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.util.List</type>
+        </attribute>
+        <attribute>
+            <description>The width style.</description>
+            <name>width</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The height style.</description>
+            <name>height</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The auto play delay in ms.</description>
+            <name>autoPlay</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
