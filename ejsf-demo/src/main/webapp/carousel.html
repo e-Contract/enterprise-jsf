@@ -62,13 +62,35 @@
             margin: auto;
             cursor: zoom-out;
         }
+
+        .carousel-image-container {
+            position: relative;
+        }
+
+        .carousel-image-caption {
+            position: absolute;
+            bottom: 0px;
+            min-height: 30px;
+            background-color: black;
+            color: white;
+            opacity: 0.5;
+            padding-left: 20px;
+            padding-right: 20px;
+            line-height: 30px;
+            margin-bottom: 5px;
+            visibility: hidden;
+        }
     </style>
 </head>
 
 <body>
     <h1>Lazy Loading Carousel</h1>
     <div class="carousel" id="carousel" style="width: 60%; height: 400px;">
-        <img class="carousel-image" src="./demo/image/1" />
+        <div class="carousel-image-container">
+            <img class="carousel-image" src="./demo/image/1" />
+            <div class="carousel-image-caption">
+            </div>
+        </div>
         <div class="carousel-thumbnails">
             <div class="carousel-thumbnails-prev">
                 &lt;
@@ -88,7 +110,8 @@
             {
                 image: "./demo/image/1",
                 zoomImage: "./demo/image/hd/1",
-                thumbnail: "./demo/image/thumbnail/1"
+                thumbnail: "./demo/image/thumbnail/1",
+                caption: "Some image 1 description here"
             },
             {
                 image: "./demo/image/2",
@@ -98,7 +121,8 @@
             {
                 image: "./demo/image/3",
                 zoomImage: "./demo/image/hd/3",
-                thumbnail: "./demo/image/thumbnail/3"
+                thumbnail: "./demo/image/thumbnail/3",
+                caption: "Some image 3 description here"
             },
             {
                 image: "./demo/image/4",
@@ -108,7 +132,8 @@
             {
                 image: "./demo/image/5",
                 zoomImage: "./demo/image/hd/5",
-                thumbnail: "./demo/image/thumbnail/5"
+                thumbnail: "./demo/image/thumbnail/5",
+                caption: "Some image 5 description here"
             },
             {
                 image: "./demo/image/6",
@@ -118,7 +143,8 @@
             {
                 image: "./demo/image/7",
                 zoomImage: "./demo/image/hd/7",
-                thumbnail: "./demo/image/thumbnail/7"
+                thumbnail: "./demo/image/thumbnail/7",
+                caption: "Some image 7 description here"
             },
             {
                 image: "./demo/image/8",
@@ -128,7 +154,8 @@
             {
                 image: "./demo/image/9",
                 zoomImage: "./demo/image/hd/9",
-                thumbnail: "./demo/image/thumbnail/9"
+                thumbnail: "./demo/image/thumbnail/9",
+                caption: "Some image 9 description here"
             },
             {
                 image: "./demo/image/10",
@@ -136,6 +163,7 @@
                 thumbnail: "./demo/image/thumbnail/10"
             }
         ];
+
         class Carousel {
             element;
             imageData;
@@ -173,6 +201,10 @@
                 return this.zoomDialog.querySelector("img:first-of-type");
             }
 
+            get imageCaption() {
+                return this.element.querySelector(".carousel-image-caption");
+            }
+
             prevNavClicked() {
                 console.log("prev clicked");
                 this.cancelAutoPlay();
@@ -208,6 +240,17 @@
                 this.image.src = this.imageData[idx].image;
             }
 
+            updateImageCaption() {
+                let caption = this.imageData[this.activeImageIndex].caption;
+                if (caption) {
+                    this.imageCaption.textContent = caption;
+                    this.imageCaption.style.visibility = "visible";
+                }
+                else {
+                    this.imageCaption.style.visibility = "hidden";
+                }
+            }
+
             initEventListeners() {
                 let $this = this;
                 this.prevNavElement.addEventListener("click", () => {
@@ -218,6 +261,9 @@
                 });
                 this.image.addEventListener("click", () => {
                     $this.zoom();
+                });
+                this.image.addEventListener("load", () => {
+                    $this.updateImageCaption();
                 });
                 this.zoomDialogImage.addEventListener("click", () => {
                     $this.zoomDialog.close();
@@ -280,12 +326,14 @@
             }
 
             autoPlay(delay) {
+                this.cancelAutoPlay();
                 let $this = this;
                 this.timer = window.setInterval(() => {
                     $this.doAutoPlay();
                 }, delay);
             }
         };
+
         document.addEventListener("DOMContentLoaded", () => {
             let carouselElement = document.getElementById("carousel");
             let carousel = new Carousel(carouselElement, imageData);

@@ -130,7 +130,7 @@ public class ImageServlet extends HttpServlet {
                             .antialiasing(Antialiasing.ON)
                             .toOutputStream(outputStream);
                 }
-                return;
+                break;
             case NORMAL:
                 try (ServletOutputStream outputStream = response.getOutputStream()) {
                     Thumbnails.of(photo)
@@ -140,6 +140,7 @@ public class ImageServlet extends HttpServlet {
                             .antialiasing(Antialiasing.ON)
                             .toOutputStream(outputStream);
                 }
+                break;
             case THUMBNAIL:
                 try (ServletOutputStream outputStream = response.getOutputStream()) {
                     Thumbnails.of(photo)
@@ -149,6 +150,7 @@ public class ImageServlet extends HttpServlet {
                             .antialiasing(Antialiasing.ON)
                             .toOutputStream(outputStream);
                 }
+                break;
         }
     }
 
