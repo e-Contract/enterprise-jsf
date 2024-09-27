@@ -97,7 +97,20 @@
                 carousel.autoPlay(2000);
             });
         </script>
-        <ejsf:carousel value="#{carouselController.carouselImages}"
+        <ejsf:carousel id="example"
+                       value="#{carouselController.carouselImages}"
                        autoPlay="2000"/>
+        <p:spacer height="10px"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="CarouselController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/CarouselController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="carousel"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>
