@@ -1,0 +1,298 @@
+<html>
+
+<head>
+    <title>Lazy Loading Carousel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .carousel {
+            height: 200px;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .carousel-thumbnails {
+            margin-top: auto;
+            height: 80px;
+            display: flex;
+            background-color: black;
+        }
+
+        .carousel-thumbnails-prev,
+        .carousel-thumbnails-next {
+            height: 80px;
+            min-width: 30px;
+            cursor: pointer;
+            line-height: 80px;
+            text-align: center;
+            color: white;
+            font-weight: bolder;
+        }
+
+        .carousel-thumbnails-content {
+            height: 60px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .carousel-thumbnails-image {
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+        .carousel-thumbnails-image:hover {
+            opacity: 1;
+        }
+
+        .carousel-image {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: auto;
+            cursor: zoom-in;
+        }
+
+        .carousel-zoom-dialog-image {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: auto;
+            cursor: zoom-out;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lazy Loading Carousel</h1>
+    <div class="carousel" id="carousel" style="width: 60%; height: 400px;">
+        <img class="carousel-image" src="./demo/image/1" />
+        <div class="carousel-thumbnails">
+            <div class="carousel-thumbnails-prev">
+                &lt;
+            </div>
+            <div class="carousel-thumbnails-content">
+            </div>
+            <div class="carousel-thumbnails-next">
+                &gt;
+            </div>
+        </div>
+        <dialog class="carousel-zoom-dialog">
+            <img class="carousel-zoom-dialog-image" />
+        </dialog>
+    </div>
+    <script>
+        let imageData = [
+            {
+                image: "./demo/image/1",
+                zoomImage: "./demo/image/hd/1",
+                thumbnail: "./demo/image/thumbnail/1"
+            },
+            {
+                image: "./demo/image/2",
+                zoomImage: "./demo/image/hd/2",
+                thumbnail: "./demo/image/thumbnail/2"
+            },
+            {
+                image: "./demo/image/3",
+                zoomImage: "./demo/image/hd/3",
+                thumbnail: "./demo/image/thumbnail/3"
+            },
+            {
+                image: "./demo/image/4",
+                zoomImage: "./demo/image/hd/4",
+                thumbnail: "./demo/image/thumbnail/4"
+            },
+            {
+                image: "./demo/image/5",
+                zoomImage: "./demo/image/hd/5",
+                thumbnail: "./demo/image/thumbnail/5"
+            },
+            {
+                image: "./demo/image/6",
+                zoomImage: "./demo/image/hd/6",
+                thumbnail: "./demo/image/thumbnail/6"
+            },
+            {
+                image: "./demo/image/7",
+                zoomImage: "./demo/image/hd/7",
+                thumbnail: "./demo/image/thumbnail/7"
+            },
+            {
+                image: "./demo/image/8",
+                zoomImage: "./demo/image/hd/8",
+                thumbnail: "./demo/image/thumbnail/8"
+            },
+            {
+                image: "./demo/image/9",
+                zoomImage: "./demo/image/hd/9",
+                thumbnail: "./demo/image/thumbnail/9"
+            },
+            {
+                image: "./demo/image/10",
+                zoomImage: "./demo/image/hd/10",
+                thumbnail: "./demo/image/thumbnail/10"
+            }
+        ];
+        class Carousel {
+            element;
+            imageData;
+            activeImageIndex = 0;
+            constructor(element, imageData) {
+                this.element = element;
+                this.imageData = imageData;
+            }
+
+            get prevNavElement() {
+                return this.element.querySelector(".carousel-thumbnails-prev");
+            }
+
+            get nextNavElement() {
+                return this.element.querySelector(".carousel-thumbnails-next");
+            }
+
+            get thumbnailsElement() {
+                return this.element.querySelector(".carousel-thumbnails-content");
+            }
+
+            get activeThumbnailImg() {
+                return this.thumbnailsElement.querySelector("img[data-image-index='" + this.activeImageIndex + "']");
+            }
+
+            get image() {
+                return this.element.querySelector(".carousel-image");
+            }
+
+            get zoomDialog() {
+                return this.element.querySelector(".carousel-zoom-dialog");
+            }
+
+            get zoomDialogImage() {
+                return this.zoomDialog.querySelector("img:first-of-type");
+            }
+
+            prevNavClicked() {
+                console.log("prev clicked");
+                this.cancelAutoPlay();
+                let newImageIndex = this.activeImageIndex - 1;
+                this.changeActiveImage(newImageIndex);
+            }
+
+            nextNavClicked() {
+                console.log("next clicked");
+                this.cancelAutoPlay();
+                this.changeActiveImage(this.activeImageIndex + 1);
+            }
+
+            zoom() {
+                console.log("zoom image: " + this.activeImageIndex);
+                this.cancelAutoPlay();
+                this.zoomDialogImage.src = this.imageData[this.activeImageIndex].zoomImage;
+            }
+
+            changeActiveImage(idx) {
+                if (idx < 0) {
+                    return;
+                }
+                if (idx >= this.thumbnailsElement.childElementCount) {
+                    return;
+                }
+                if (this.activeImageIndex === idx) {
+                    return;
+                }
+                this.activeThumbnailImg.style.removeProperty("opacity");
+                this.activeImageIndex = idx;
+                this.activeThumbnailImg.style.opacity = 1;
+                this.image.src = this.imageData[idx].image;
+            }
+
+            initEventListeners() {
+                let $this = this;
+                this.prevNavElement.addEventListener("click", () => {
+                    $this.prevNavClicked();
+                });
+                this.nextNavElement.addEventListener("click", () => {
+                    $this.nextNavClicked();
+                });
+                this.image.addEventListener("click", () => {
+                    $this.zoom();
+                });
+                this.zoomDialogImage.addEventListener("click", () => {
+                    $this.zoomDialog.close();
+                });
+                this.zoomDialogImage.addEventListener("load", () => {
+                    $this.zoomDialog.showModal();
+                });
+            }
+
+            initThumbnail(idx) {
+                if (this.imageData.length <= idx) {
+                    return;
+                }
+                let maxThumbnails = this.thumbnailsElement.offsetWidth / (80 + 10) - 1;
+                if (idx >= maxThumbnails) {
+                    return;
+                }
+                let imgElement = document.createElement("img");
+                imgElement.classList.add("carousel-thumbnails-image");
+                imgElement.setAttribute("data-image-index", idx);
+                if (idx === this.activeImageIndex) {
+                    imgElement.style.opacity = 1.0;
+                }
+                let $this = this;
+                imgElement.addEventListener("load", () => {
+                    $this.initThumbnail(idx + 1);
+                });
+                imgElement.src = imageData[idx].thumbnail;
+                imgElement.addEventListener("click", () => {
+                    console.log("thumbnail clicked: " + idx);
+                    $this.cancelAutoPlay();
+                    $this.changeActiveImage(idx);
+                });
+                this.thumbnailsElement.appendChild(imgElement);
+            }
+
+            initThumbnails() {
+                this.activeImageIndex = 0;
+                this.initThumbnail(0);
+            }
+
+            init() {
+                this.initEventListeners();
+                this.initThumbnails();
+            }
+
+            doAutoPlay() {
+                let nextIndex = this.activeImageIndex + 1;
+                if (nextIndex === this.thumbnailsElement.childElementCount) {
+                    nextIndex = 0;
+                }
+                this.changeActiveImage(nextIndex);
+            }
+
+            cancelAutoPlay() {
+                if (this.timer) {
+                    window.clearInterval(this.timer);
+                    this.timer = null;
+                }
+            }
+
+            autoPlay(delay) {
+                let $this = this;
+                this.timer = window.setInterval(() => {
+                    $this.doAutoPlay();
+                }, delay);
+            }
+        };
+        document.addEventListener("DOMContentLoaded", () => {
+            let carouselElement = document.getElementById("carousel");
+            let carousel = new Carousel(carouselElement, imageData);
+            carousel.init();
+            carousel.autoPlay(2000);
+        });
+    </script>
+</body>
+
+</html>
