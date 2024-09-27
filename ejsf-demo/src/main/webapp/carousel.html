@@ -30,6 +30,11 @@
             font-weight: bolder;
         }
 
+        .carousel-thumbnails-prev:hover,
+        .carousel-thumbnails-next:hover {
+            color: cyan;
+        }
+
         .carousel-thumbnails-content {
             height: 60px;
             width: 100%;
@@ -44,7 +49,7 @@
         }
 
         .carousel-thumbnails-image:hover {
-            opacity: 1;
+            opacity: 0.75;
         }
 
         .carousel-image {
@@ -79,12 +84,15 @@
             line-height: 30px;
             margin-bottom: 5px;
             visibility: hidden;
+            box-sizing: border-box;
+            width: 100%;
         }
     </style>
 </head>
 
 <body>
     <h1>Lazy Loading Carousel</h1>
+    <div style="height: 2000px;"></div>
     <div class="carousel" id="carousel" style="width: 60%; height: 400px;">
         <div class="carousel-image-container">
             <img class="carousel-image" src="./demo/image/1" />
@@ -168,6 +176,7 @@
             element;
             imageData;
             activeImageIndex = 0;
+            active = false;
             constructor(element, imageData) {
                 this.element = element;
                 this.imageData = imageData;
@@ -206,20 +215,17 @@
             }
 
             prevNavClicked() {
-                console.log("prev clicked");
                 this.cancelAutoPlay();
                 let newImageIndex = this.activeImageIndex - 1;
                 this.changeActiveImage(newImageIndex);
             }
 
             nextNavClicked() {
-                console.log("next clicked");
                 this.cancelAutoPlay();
                 this.changeActiveImage(this.activeImageIndex + 1);
             }
 
             zoom() {
-                console.log("zoom image: " + this.activeImageIndex);
                 this.cancelAutoPlay();
                 this.zoomDialogImage.src = this.imageData[this.activeImageIndex].zoomImage;
             }
@@ -293,7 +299,6 @@
                 });
                 imgElement.src = imageData[idx].thumbnail;
                 imgElement.addEventListener("click", () => {
-                    console.log("thumbnail clicked: " + idx);
                     $this.cancelAutoPlay();
                     $this.changeActiveImage(idx);
                 });
@@ -306,8 +311,28 @@
             }
 
             init() {
-                this.initEventListeners();
-                this.initThumbnails();
+                let $this = this;
+                let intersectionObserver = new IntersectionObserver(function (entries) {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            if ($this.active) {
+                                if ($this.autoPlayDelay) {
+                                    $this.autoPlay($this.autoPlayDelay);
+                                }
+                            } else {
+                                $this.active = true;
+                                $this.initEventListeners();
+                                $this.initThumbnails();
+                                if ($this.autoPlayDelay) {
+                                    $this.autoPlay($this.autoPlayDelay);
+                                }
+                            }
+                        } else {
+                            $this.cancelAutoPlay();
+                        }
+                    });
+                });
+                intersectionObserver.observe(this.element);
             }
 
             doAutoPlay() {
@@ -326,6 +351,10 @@
             }
 
             autoPlay(delay) {
+                this.autoPlayDelay = delay;
+                if (!this.active) {
+                    return;
+                }
                 this.cancelAutoPlay();
                 let $this = this;
                 this.timer = window.setInterval(() => {
