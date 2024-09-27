@@ -35,10 +35,14 @@
             color: cyan;
         }
 
+        .carousel-thumbnails-window {
+            margin: auto;
+            width: 100%;
+            overflow: hidden;
+        }
+
         .carousel-thumbnails-content {
             height: 60px;
-            width: 100%;
-            margin: auto;
             display: flex;
             gap: 10px;
         }
@@ -46,6 +50,10 @@
         .carousel-thumbnails-image {
             opacity: 0.5;
             cursor: pointer;
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: auto;
         }
 
         .carousel-thumbnails-image:hover {
@@ -79,9 +87,10 @@
             background-color: black;
             color: white;
             opacity: 0.5;
+            padding-top: 10px;
+            padding-bottom: 10px;
             padding-left: 20px;
             padding-right: 20px;
-            line-height: 30px;
             margin-bottom: 5px;
             visibility: hidden;
             box-sizing: border-box;
@@ -93,25 +102,29 @@
 <body>
     <h1>Lazy Loading Carousel</h1>
     <div style="height: 2000px;"></div>
-    <div class="carousel" id="carousel" style="width: 60%; height: 400px;">
-        <div class="carousel-image-container">
-            <img class="carousel-image" src="./demo/image/1" />
-            <div class="carousel-image-caption">
+    <div style="margin-left: 20%; margin-left: 20%;">
+        <div class="carousel" id="carousel" style="width: 60%; height: 400px;">
+            <div class="carousel-image-container">
+                <img class="carousel-image" src="./demo/image/1" />
+                <div class="carousel-image-caption">
+                </div>
             </div>
+            <div class="carousel-thumbnails">
+                <div class="carousel-thumbnails-prev">
+                    &lt;
+                </div>
+                <div class="carousel-thumbnails-window">
+                    <div class="carousel-thumbnails-content">
+                    </div>
+                </div>
+                <div class="carousel-thumbnails-next">
+                    &gt;
+                </div>
+            </div>
+            <dialog class="carousel-zoom-dialog">
+                <img class="carousel-zoom-dialog-image" />
+            </dialog>
         </div>
-        <div class="carousel-thumbnails">
-            <div class="carousel-thumbnails-prev">
-                &lt;
-            </div>
-            <div class="carousel-thumbnails-content">
-            </div>
-            <div class="carousel-thumbnails-next">
-                &gt;
-            </div>
-        </div>
-        <dialog class="carousel-zoom-dialog">
-            <img class="carousel-zoom-dialog-image" />
-        </dialog>
     </div>
     <script>
         let imageData = [
@@ -119,7 +132,7 @@
                 image: "./demo/image/1",
                 zoomImage: "./demo/image/hd/1",
                 thumbnail: "./demo/image/thumbnail/1",
-                caption: "Some image 1 description here"
+                caption: "Some image 1 description here. Can the thing handle very large descriptions or not?"
             },
             {
                 image: "./demo/image/2",
@@ -128,7 +141,7 @@
             },
             {
                 image: "./demo/image/3",
-                zoomImage: "./demo/image/hd/3",
+                //zoomImage: "./demo/image/hd/3",
                 thumbnail: "./demo/image/thumbnail/3",
                 caption: "Some image 3 description here"
             },
@@ -177,6 +190,7 @@
             imageData;
             activeImageIndex = 0;
             active = false;
+
             constructor(element, imageData) {
                 this.element = element;
                 this.imageData = imageData;
@@ -192,6 +206,10 @@
 
             get thumbnailsElement() {
                 return this.element.querySelector(".carousel-thumbnails-content");
+            }
+
+            get thumbnailsWindowElement() {
+                return this.element.querySelector(".carousel-thumbnails-window");
             }
 
             get activeThumbnailImg() {
@@ -227,7 +245,14 @@
 
             zoom() {
                 this.cancelAutoPlay();
-                this.zoomDialogImage.src = this.imageData[this.activeImageIndex].zoomImage;
+                if (this.activeImageIndex >= this.imageData.length) {
+                    return;
+                }
+                let zoomImage = this.imageData[this.activeImageIndex].zoomImage;
+                if (!zoomImage) {
+                    zoomImage = this.imageData[this.activeImageIndex].image;
+                }
+                this.zoomDialogImage.src = zoomImage;
             }
 
             changeActiveImage(idx) {
@@ -244,6 +269,13 @@
                 this.activeImageIndex = idx;
                 this.activeThumbnailImg.style.opacity = 1;
                 this.image.src = this.imageData[idx].image;
+
+                this.thumbnailsElement.style.transition = "transform 500ms ease 0s";
+
+                let count = this.imageData.length;
+                let width = this.thumbnailsWindowElement.getBoundingClientRect().width;
+                let translation = - idx * (80 + 10) + (width - (80 + 10)) * (idx + 1) / count;
+                this.thumbnailsElement.style.transform = "translate(" + translation + "px, 0px)";
             }
 
             updateImageCaption() {
@@ -281,10 +313,6 @@
 
             initThumbnail(idx) {
                 if (this.imageData.length <= idx) {
-                    return;
-                }
-                let maxThumbnails = this.thumbnailsElement.offsetWidth / (80 + 10) - 1;
-                if (idx >= maxThumbnails) {
                     return;
                 }
                 let imgElement = document.createElement("img");
