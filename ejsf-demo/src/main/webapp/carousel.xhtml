@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Carousel Demo</ui:define>
+    <ui:define name="body">
+        <h:outputStylesheet library="ejsf" name="carousel.css"/>
+        <h:outputScript library="ejsf" name="carousel.js"/>
+        <div class="ejsf-carousel" id="carousel" style="width: 60%; height: 400px;">
+            <div class="ejsf-carousel-image-container">
+                <img class="ejsf-carousel-image" src="./demo/image/1" />
+                <div class="ejsf-carousel-image-caption">
+                </div>
+            </div>
+            <div class="ejsf-carousel-thumbnails">
+                <div class="ejsf-carousel-thumbnails-prev">
+                    &lt;
+                </div>
+                <div class="ejsf-carousel-thumbnails-window">
+                    <div class="ejsf-carousel-thumbnails-content">
+                    </div>
+                </div>
+                <div class="ejsf-carousel-thumbnails-next">
+                    &gt;
+                </div>
+            </div>
+            <dialog class="ejsf-carousel-zoom-dialog">
+                <img class="ejsf-carousel-zoom-dialog-image" />
+            </dialog>
+        </div>
+        <script>
+            let imageData = [
+                {
+                    image: "./demo/image/1",
+                    zoomImage: "./demo/image/hd/1",
+                    thumbnail: "./demo/image/thumbnail/1",
+                    caption: "Some image 1 description here. Can the thing handle very large descriptions or not?"
+                },
+                {
+                    image: "./demo/image/2",
+                    zoomImage: "./demo/image/hd/2",
+                    thumbnail: "./demo/image/thumbnail/2"
+                },
+                {
+                    image: "./demo/image/3",
+                    //zoomImage: "./demo/image/hd/3",
+                    thumbnail: "./demo/image/thumbnail/3",
+                    caption: "Some image 3 description here"
+                },
+                {
+                    image: "./demo/image/4",
+                    zoomImage: "./demo/image/hd/4",
+                    thumbnail: "./demo/image/thumbnail/4"
+                },
+                {
+                    image: "./demo/image/5",
+                    zoomImage: "./demo/image/hd/5",
+                    thumbnail: "./demo/image/thumbnail/5",
+                    caption: "Some image 5 description here"
+                },
+                {
+                    image: "./demo/image/6",
+                    zoomImage: "./demo/image/hd/6",
+                    thumbnail: "./demo/image/thumbnail/6"
+                },
+                {
+                    image: "./demo/image/7",
+                    zoomImage: "./demo/image/hd/7",
+                    thumbnail: "./demo/image/thumbnail/7",
+                    caption: "Some image 7 description here"
+                },
+                {
+                    image: "./demo/image/8",
+                    zoomImage: "./demo/image/hd/8",
+                    thumbnail: "./demo/image/thumbnail/8"
+                },
+                {
+                    image: "./demo/image/9",
+                    zoomImage: "./demo/image/hd/9",
+                    thumbnail: "./demo/image/thumbnail/9",
+                    caption: "Some image 9 description here"
+                },
+                {
+                    image: "./demo/image/10",
+                    zoomImage: "./demo/image/hd/10",
+                    thumbnail: "./demo/image/thumbnail/10"
+                }
+            ];
+
+            document.addEventListener("DOMContentLoaded", () => {
+                let carouselElement = document.getElementById("carousel");
+                let carousel = new EJSFCarousel(carouselElement, imageData);
+                carousel.init();
+                carousel.autoPlay(2000);
+            });
+        </script>
+    </ui:define>
+</ui:composition>

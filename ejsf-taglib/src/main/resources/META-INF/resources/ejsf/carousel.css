@@ -1,0 +1,98 @@
+/*
+ * Enterprise JSF project.
+ *
+ * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+ */
+
+.ejsf-carousel {
+    height: 200px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ejsf-carousel-thumbnails {
+    margin-top: auto;
+    height: 80px;
+    display: flex;
+    background-color: black;
+}
+
+.ejsf-carousel-thumbnails-prev,
+.ejsf-carousel-thumbnails-next {
+    height: 80px;
+    min-width: 30px;
+    cursor: pointer;
+    line-height: 80px;
+    text-align: center;
+    color: white;
+    font-weight: bolder;
+}
+
+.ejsf-carousel-thumbnails-prev:hover,
+.ejsf-carousel-thumbnails-next:hover {
+    color: cyan;
+}
+
+.ejsf-carousel-thumbnails-window {
+    margin: auto;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ejsf-carousel-thumbnails-content {
+    height: 60px;
+    display: flex;
+    gap: 10px;
+}
+
+.ejsf-carousel-thumbnails-image {
+    opacity: 0.5;
+    cursor: pointer;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+}
+
+.ejsf-carousel-thumbnails-image:hover {
+    opacity: 0.75;
+}
+
+.ejsf-carousel-image {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+    cursor: zoom-in;
+}
+
+.ejsf-carousel-zoom-dialog-image {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+    cursor: zoom-out;
+}
+
+.ejsf-carousel-image-container {
+    position: relative;
+}
+
+.ejsf-carousel-image-caption {
+    position: absolute;
+    bottom: 0px;
+    min-height: 30px;
+    background-color: black;
+    color: white;
+    opacity: 0.5;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 5px;
+    visibility: hidden;
+    box-sizing: border-box;
+    width: 100%;
+}
