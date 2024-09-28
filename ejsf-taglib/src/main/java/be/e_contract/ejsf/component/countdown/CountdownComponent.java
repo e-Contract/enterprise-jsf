@@ -24,8 +24,8 @@ import org.primefaces.component.progressbar.ProgressBar;
     @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
     @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
     @ResourceDependency(library = "primefaces", name = "core.js"),
-    @ResourceDependency(library = "ejsf", name = "countdown.js"),
-    @ResourceDependency(library = "ejsf", name = "countdown.css")
+    @ResourceDependency(library = "ejsf", name = "countdown/countdown.js"),
+    @ResourceDependency(library = "ejsf", name = "countdown/countdown.css")
 })
 public class CountdownComponent extends UINamingContainer implements Widget {
 

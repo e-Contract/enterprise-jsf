@@ -20,8 +20,8 @@ import org.primefaces.component.api.Widget;
     @ResourceDependency(library = "primefaces", name = "components.js"),
     @ResourceDependency(library = "ejsf", name = "highlight/highlight.min.js"),
     @ResourceDependency(library = "ejsf", name = "highlight/default.css"),
-    @ResourceDependency(library = "ejsf", name = "highlight.css"),
-    @ResourceDependency(library = "ejsf", name = "highlight.js")
+    @ResourceDependency(library = "ejsf", name = "highlight/highlight.css"),
+    @ResourceDependency(library = "ejsf", name = "highlight/highlight.js")
 })
 public class HighlightComponent extends UIOutput implements Widget {
 
