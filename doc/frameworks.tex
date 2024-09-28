@@ -172,3 +172,31 @@ In the meanwhile the poor average developer is fighting a technology stack with 
 To be able to put the latest new framework on their CV?
 Where did we go wrong and gave in into this hype-driven development?
 Is this maybe due to those same big cloud providers, that also happen to run the biggest social networks out there, that their constant plugging has killed off basic critical thinking?
+
+\section{Client-side versus server-side rendering}
+Imagine we have a web page where the HTML document is 10 KiB in size.
+Let us assume that, in the context of a client-side framework, we required 1 KiB of JSON data to be able to construct the corresponding DOM tree.
+For both client-side and server-side approaches, the most expensive part on the server-side is the retrieval of the required data (via JPA, microservices, whatever).
+The server-side rendering part (for client-side frameworks towards JSON\footnote{So yes, each client-side framework also has some server-side rendering. It's just not towards HTML, but instead JSON.}) is actually a small fraction of the required server-side processing time.
+Important to realize here is that for server-side frameworks, they don't need to actually construct the DOM tree.
+Their rendering can be made very efficient by using a simple "flat" string buffer.
+Also, because the JIT compiler runs the same code over and over again on the server-side, it can optimize the detected hotspots over time.
+Given the sheer CPU power at the server-side (just run \texttt{top} on one of your production servers and notice that it is sitting idle for most of the time\footnote{Of course, if you are a cloud provider, you will want to squeeze out every single CPU cycle and hence push REST and client-side down the throat of all your customers.}), we can state that server-side rendering can be performed very efficient and fast.
+
+Looking at the network load, sending 1 KiB versus 10 KiB also makes little difference compared to the TCP and TLS protocol handshakes that are required anyway.
+Given that the client-side framework also needs to load additional Javascript code for its client-side rendering,
+we can state that from a point-of-view of network load, both client-side and server-side approaches balance eachother out.
+For really high volume web applications, client-side rendering frameworks will have an advantage.
+But then again, most of use don't run a Google or Facebook as company.
+
+Let us have a look at the client-side now.
+For server-side frameworks, the web browser receives a 10 KiB HTML document which is can translate towards a DOM tree using native and well optimized code.
+The additional DOM manipulations, after the DOM tree has been constructed, are most of the time also limited (take a look at for example the PrimeFaces widgets).
+
+A client-side framework on the other hand starts off with basically an empty DOM tree and a 1 KiB JSON based text data structure.
+First the web browser Javascript VM has to initialize the client-side framework.
+Next your application has to parse the JSON, where the JSON parser for most web browsers lives within the Javascript VM.
+And then it has to populate the DOM tree, roughly corresponding to our 10 KiB HTML document, based on some templating language using nothing but \texttt{appendChild}.
+Hence we construct exactly the same DOM tree completely driven by \texttt{appendChild} in the end.
+And after all the hard work of the Javascript JIT compiler, if the user navigates away, all the hotspot detection and optimization effort is simply thrown away.
+How is that for efficiency?
