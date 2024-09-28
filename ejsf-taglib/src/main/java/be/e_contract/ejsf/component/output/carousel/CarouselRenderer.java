@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.util.List;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
@@ -46,7 +47,12 @@ public class CarouselRenderer extends CoreRenderer {
                 responseWriter.startElement("img", null);
                 responseWriter.writeAttribute("class", "ejsf-carousel-image", null);
                 if (null != carouselImages && !carouselImages.isEmpty()) {
-                    responseWriter.writeAttribute("src", carouselImages.get(0).getImage(), null);
+                    CarouselImage carouselImage = carouselImages.get(0);
+                    responseWriter.writeAttribute("src", carouselImage.getImage(), null);
+                    String caption = carouselImage.getCaption();
+                    if (!UIInput.isEmpty(caption)) {
+                        responseWriter.writeAttribute("alt", caption, null);
+                    }
                 }
                 responseWriter.writeAttribute("height", height - 80, null);
                 responseWriter.endElement("img");
