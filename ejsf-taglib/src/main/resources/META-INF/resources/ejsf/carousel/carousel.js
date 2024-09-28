@@ -145,7 +145,10 @@ class EJSFCarousel {
         }
         let $this = this;
         imgElement.addEventListener("load", () => {
-            $this.initThumbnail(idx + 1);
+            setTimeout(() => {
+                // run on next event cycle
+                $this.initThumbnail(idx + 1);
+            });
         });
         imgElement.src = this.imageData[idx].thumbnail;
         imgElement.addEventListener("click", () => {
@@ -157,7 +160,10 @@ class EJSFCarousel {
 
     initThumbnails() {
         this.activeImageIndex = 0;
-        this.initThumbnail(0);
+        setTimeout(() => {
+            // run on next event cycle
+            this.initThumbnail(0);
+        });
     }
 
     init() {
