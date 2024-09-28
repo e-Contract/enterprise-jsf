@@ -90,10 +90,12 @@ class EJSFCarousel {
         this.activeThumbnailImg.style.opacity = 1;
         this.image.src = this.imageData[idx].image;
 
-        this.thumbnailsElement.style.transition = "transform 500ms ease 0s";
-
         let count = this.imageData.length;
         let width = this.thumbnailsWindowElement.getBoundingClientRect().width;
+        if (width > count * (80 + 10)) {
+            return;
+        }
+        this.thumbnailsElement.style.transition = "transform 500ms ease 0s";
         let translation = -idx * (80 + 10) + (width - (80 + 10)) * (idx + 1) / count;
         this.thumbnailsElement.style.transform = "translate(" + translation + "px, 0px)";
     }
@@ -145,17 +147,17 @@ class EJSFCarousel {
         }
         let $this = this;
         imgElement.addEventListener("load", () => {
+            imgElement.addEventListener("click", () => {
+                $this.cancelAutoPlay();
+                $this.changeActiveImage(idx);
+            });
+            $this.thumbnailsElement.appendChild(imgElement);
             setTimeout(() => {
                 // run on next event cycle
                 $this.initThumbnail(idx + 1);
             });
         });
         imgElement.src = this.imageData[idx].thumbnail;
-        imgElement.addEventListener("click", () => {
-            $this.cancelAutoPlay();
-            $this.changeActiveImage(idx);
-        });
-        this.thumbnailsElement.appendChild(imgElement);
     }
 
     initThumbnails() {

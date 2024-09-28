@@ -36,4 +36,16 @@ public class CarouselImage implements Serializable {
     public String getImage() {
         return this.image;
     }
+
+    public String getCaption() {
+        return this.caption;
+    }
+
+    public String getThumbnail() {
+        return this.thumbnail;
+    }
+
+    public String getZoomImage() {
+        return this.zoomImage;
+    }
 }
