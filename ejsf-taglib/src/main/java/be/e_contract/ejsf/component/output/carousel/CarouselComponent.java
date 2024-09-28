@@ -17,9 +17,9 @@ import org.primefaces.component.api.Widget;
     @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
     @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
     @ResourceDependency(library = "primefaces", name = "core.js"),
-    @ResourceDependency(library = "ejsf", name = "carousel.css"),
-    @ResourceDependency(library = "ejsf", name = "carousel.js"),
-    @ResourceDependency(library = "ejsf", name = "carousel-widget.js")
+    @ResourceDependency(library = "ejsf", name = "carousel/carousel.css"),
+    @ResourceDependency(library = "ejsf", name = "carousel/carousel.js"),
+    @ResourceDependency(library = "ejsf", name = "carousel/carousel-widget.js")
 })
 public class CarouselComponent extends UIOutput implements Widget {
 
