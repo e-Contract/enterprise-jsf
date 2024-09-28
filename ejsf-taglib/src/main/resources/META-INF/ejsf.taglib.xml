@@ -2112,9 +2112,10 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <description>The height style.</description>
+            <description>The height style in pixels.</description>
             <name>height</name>
-            <type>java.lang.String</type>
+            <required>true</required>
+            <type>java.lang.Integer</type>
         </attribute>
         <attribute>
             <description>The auto play delay in ms.</description>

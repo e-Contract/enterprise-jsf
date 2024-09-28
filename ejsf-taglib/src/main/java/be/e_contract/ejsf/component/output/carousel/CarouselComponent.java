@@ -50,11 +50,11 @@ public class CarouselComponent extends UIOutput implements Widget {
         getStateHelper().put(PropertyKeys.width, width);
     }
 
-    public String getHeight() {
-        return (String) getStateHelper().eval(PropertyKeys.height, null);
+    public int getHeight() {
+        return (int) getStateHelper().eval(PropertyKeys.height, null);
     }
 
-    public void setHeight(String height) {
+    public void setHeight(int height) {
         getStateHelper().put(PropertyKeys.height, height);
     }
 

@@ -32,17 +32,13 @@ public class CarouselRenderer extends CoreRenderer {
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.writeAttribute("class", "ejsf-carousel", null);
         String width = carouselComponent.getWidth();
-        String height = carouselComponent.getHeight();
-        if (null != width || null != height) {
-            String style = "";
-            if (null != width) {
-                style += "width: " + width + ";";
-            }
-            if (null != height) {
-                style += "height: " + height + ";";
-            }
-            responseWriter.writeAttribute("style", style, null);
+        int height = carouselComponent.getHeight();
+        String style = "height: " + height + "px;";
+        if (null != width) {
+            style += "width: " + width + ";";
         }
+        responseWriter.writeAttribute("style", style, null);
+
         {
             responseWriter.startElement("div", null);
             responseWriter.writeAttribute("class", "ejsf-carousel-image-container", null);
@@ -52,6 +48,7 @@ public class CarouselRenderer extends CoreRenderer {
                 if (null != carouselImages && !carouselImages.isEmpty()) {
                     responseWriter.writeAttribute("src", carouselImages.get(0).getImage(), null);
                 }
+                responseWriter.writeAttribute("height", height - 80, null);
                 responseWriter.endElement("img");
             }
             {

@@ -6,11 +6,8 @@
  */
 
 .ejsf-carousel {
-    height: 200px;
-    width: 400px;
     display: flex;
     flex-direction: column;
-    margin-bottom: 85px; /* fix overlap */
 }
 
 .ejsf-carousel-thumbnails {
@@ -67,6 +64,7 @@
     display: block;
     margin: auto;
     cursor: zoom-in;
+    object-fit: contain;
 }
 
 .ejsf-carousel-zoom-dialog-image {

@@ -11,7 +11,7 @@
         <h:outputScript library="ejsf" name="carousel/carousel.js"/>
         <div class="ejsf-carousel" id="carousel" style="width: 60%; height: 400px;">
             <div class="ejsf-carousel-image-container">
-                <img class="ejsf-carousel-image" src="./demo/image/1" />
+                <img class="ejsf-carousel-image" src="./demo/image/1" height="320"/>
                 <div class="ejsf-carousel-image-caption">
                 </div>
             </div>
@@ -99,7 +99,8 @@
         </script>
         <ejsf:carousel id="example"
                        value="#{carouselController.carouselImages}"
-                       autoPlay="2000"/>
+                       autoPlay="2000"
+                       height="400"/>
         <p:spacer height="10px"/>
         <p:tabView>
             <p:tab title="XHTML">
