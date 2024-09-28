@@ -131,6 +131,9 @@ class EJSFCarousel {
     }
 
     initThumbnail(idx) {
+        if (null === this.imageData) {
+            return;
+        }
         if (this.imageData.length <= idx) {
             return;
         }

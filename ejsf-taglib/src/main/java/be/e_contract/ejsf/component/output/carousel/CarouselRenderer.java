@@ -49,7 +49,9 @@ public class CarouselRenderer extends CoreRenderer {
             {
                 responseWriter.startElement("img", null);
                 responseWriter.writeAttribute("class", "ejsf-carousel-image", null);
-                responseWriter.writeAttribute("src", carouselImages.get(0).getImage(), null);
+                if (null != carouselImages && !carouselImages.isEmpty()) {
+                    responseWriter.writeAttribute("src", carouselImages.get(0).getImage(), null);
+                }
                 responseWriter.endElement("img");
             }
             {
