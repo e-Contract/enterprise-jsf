@@ -183,6 +183,14 @@
             <artifactId>groovy-jsr223</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>

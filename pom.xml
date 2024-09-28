@@ -341,6 +341,11 @@
                 <artifactId>gson</artifactId>
                 <version>2.11.0</version>
             </dependency>
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>0.4.20</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
