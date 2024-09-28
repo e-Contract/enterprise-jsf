@@ -13,6 +13,8 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -20,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.resizers.configurations.Antialiasing;
 import org.slf4j.Logger;
@@ -32,6 +35,27 @@ public class ImageServlet extends HttpServlet {
 
     private enum ImageQuality {
         HD, NORMAL, THUMBNAIL
+    }
+
+    private static final int DEFAULT_DELAY = 1000;
+
+    private static final String DELAY_SESSION_ATTRIBUTE = ImageServlet.class.getName() + ".delay";
+
+    public static void setDelay(int delay) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+        HttpSession httpSession = request.getSession();
+        httpSession.setAttribute(DELAY_SESSION_ATTRIBUTE, delay);
+    }
+
+    private int getDelay(HttpServletRequest request) {
+        HttpSession httpSession = request.getSession();
+        Integer delay = (Integer) httpSession.getAttribute(DELAY_SESSION_ATTRIBUTE);
+        if (null == delay) {
+            delay = DEFAULT_DELAY;
+        }
+        return delay;
     }
 
     @Override
@@ -114,21 +138,19 @@ public class ImageServlet extends HttpServlet {
 
         response.setContentType("image/jpg");
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            LOGGER.error("sleep error");
+        int delay = getDelay(request);
+        if (delay > 0) {
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException ex) {
+                LOGGER.error("sleep error");
+            }
         }
 
         switch (imageQuality) {
             case HD:
                 try (ServletOutputStream outputStream = response.getOutputStream()) {
-                    Thumbnails.of(photo)
-                            .size(1920, 1080)
-                            .outputFormat("JPEG")
-                            .outputQuality(1.0d)
-                            .antialiasing(Antialiasing.ON)
-                            .toOutputStream(outputStream);
+                    ImageIO.write(photo, "jpg", outputStream);
                 }
                 break;
             case NORMAL:

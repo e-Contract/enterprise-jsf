@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Carousel Performance Demo</ui:define>
+    <ui:define name="body">
+        <f:metadata>
+            <f:viewAction action="#{carouselPerformanceController.initView()}"/>
+        </f:metadata>
+        <h:form>
+            <h:panelGrid columns="3">
+                <p:outputLabel for="@next" value="Number of carousels:"/>
+                <p:inputNumber value="#{carouselPerformanceController.carouselCount}" required="true"/>
+                <p:message for="@previous"/>
+
+                <p:outputLabel for="@next" value="Number of images per carousel:"/>
+                <p:inputNumber value="#{carouselPerformanceController.imageCount}" required="true"/>
+                <p:message for="@previous"/>
+
+                <p:outputLabel for="@next" value="Image download delay (ms):"/>
+                <p:inputNumber value="#{carouselPerformanceController.imageDelay}" required="true"/>
+                <p:message for="@previous"/>
+            </h:panelGrid>
+            <p:commandButton value="Save" action="#{carouselPerformanceController.save()}"
+                             update=":messages"/>
+        </h:form>
+        <ui:repeat value="#{carouselPerformanceController.indexes}" var="index">
+            <ejsf:carousel value="#{carouselPerformanceController.getCarouselImages(index)}"
+                           autoPlay="2000"
+                           height="400"/>
+        </ui:repeat>
+        <h:form>
+            <ejsf:performanceNavigation>
+                <p:ajax listener="#{carouselPerformanceController.handleEvent}"
+                        update=":messages"/>
+            </ejsf:performanceNavigation>
+        </h:form>
+    </ui:define>
+</ui:composition>
