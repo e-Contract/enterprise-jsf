@@ -106,7 +106,7 @@ class EJSFCarousel {
             this.nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
             this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
             this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
-            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
+            this.prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
         } else {
             this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
             this.prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");

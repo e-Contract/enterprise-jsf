@@ -25,6 +25,9 @@
     line-height: 80px;
     text-align: center;
     font-weight: bolder;
+    font-size: 18px;
+    background-color: black;
+    border: none;
 }
 
 .ejsf-carousel-thumbnails-nav-enabled {
@@ -38,6 +41,11 @@
 .ejsf-carousel-thumbnails-prev:hover,
 .ejsf-carousel-thumbnails-next:hover {
     color: cyan;
+}
+
+.ejsf-carousel-thumbnails-prev:active,
+.ejsf-carousel-thumbnails-next:active {
+    background-color: darkgrey;
 }
 
 .ejsf-carousel-thumbnails-window {
