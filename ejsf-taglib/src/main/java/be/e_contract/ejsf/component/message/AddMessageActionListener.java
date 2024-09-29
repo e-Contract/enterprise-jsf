@@ -150,6 +150,20 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         return targetComponent.getClientId(facesContext);
     }
 
+    private String getTargetClientId(SystemEvent event) {
+        if (null == this.target) {
+            return null;
+        }
+        UIViewRoot viewRoot = (UIViewRoot) event.getSource();
+        UIComponent targetComponent = viewRoot.findComponent(this.target);
+        if (null == targetComponent) {
+            LOGGER.error("target not found: {}", this.target);
+            return null;
+        }
+        FacesContext facesContext = event.getFacesContext();
+        return targetComponent.getClientId(facesContext);
+    }
+
     @Override
     public void processAction(ActionEvent event) throws AbortProcessingException {
         FacesContext facesContext = event.getFacesContext();
@@ -179,7 +193,7 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             }
         }
         FacesMessage facesMessage = new FacesMessage(getSeverity(), getSummary(facesContext), getDetail(facesContext));
-        String clientId = null; // TODO
+        String clientId = getTargetClientId(event);
         facesContext.addMessage(clientId, facesMessage);
     }
 
