@@ -32,6 +32,7 @@ public class CarouselRenderer extends CoreRenderer {
         responseWriter.startElement("div", component);
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.writeAttribute("class", "ejsf-carousel", null);
+        boolean lazyFirst = carouselComponent.isLazyFirst();
         String width = carouselComponent.getWidth();
         int height = carouselComponent.getHeight();
         String style = "height: " + height + "px;";
@@ -46,12 +47,14 @@ public class CarouselRenderer extends CoreRenderer {
             {
                 responseWriter.startElement("img", null);
                 responseWriter.writeAttribute("class", "ejsf-carousel-image", null);
-                if (null != carouselImages && !carouselImages.isEmpty()) {
-                    CarouselImage carouselImage = carouselImages.get(0);
-                    responseWriter.writeAttribute("src", carouselImage.getImage(), null);
-                    String caption = carouselImage.getCaption();
-                    if (!UIInput.isEmpty(caption)) {
-                        responseWriter.writeAttribute("alt", caption, null);
+                if (!lazyFirst) {
+                    if (null != carouselImages && !carouselImages.isEmpty()) {
+                        CarouselImage carouselImage = carouselImages.get(0);
+                        responseWriter.writeAttribute("src", carouselImage.getImage(), null);
+                        String caption = carouselImage.getCaption();
+                        if (!UIInput.isEmpty(caption)) {
+                            responseWriter.writeAttribute("alt", caption, null);
+                        }
                     }
                 }
                 responseWriter.writeAttribute("height", height - 80, null);
@@ -112,6 +115,7 @@ public class CarouselRenderer extends CoreRenderer {
         if (null != autoPlay) {
             widgetBuilder.attr("autoPlayDelay", autoPlay);
         }
+        widgetBuilder.attr("lazyFirst", lazyFirst);
         widgetBuilder.finish();
     }
 }

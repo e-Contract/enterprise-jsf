@@ -11,7 +11,11 @@ PrimeFaces.widget.EJSFCarousel = PrimeFaces.widget.BaseWidget.extend({
         this._super(cfg);
         let imageData = JSON.parse(this.cfg.value);
         this.carousel = new EJSFCarousel(this.jq.get(0), imageData);
-        this.carousel.init();
+        let lazyFirst = false;
+        if (this.cfg.lazyFirst) {
+            lazyFirst = this.cfg.lazyFirst;
+        }
+        this.carousel.init(lazyFirst);
         let autoPlayDelay = this.cfg.autoPlayDelay;
         if (autoPlayDelay) {
             this.carousel.autoPlay(autoPlayDelay);

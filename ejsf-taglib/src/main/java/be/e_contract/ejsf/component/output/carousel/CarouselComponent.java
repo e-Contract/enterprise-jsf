@@ -39,7 +39,8 @@ public class CarouselComponent extends UIOutput implements Widget {
     enum PropertyKeys {
         width,
         height,
-        autoPlay
+        autoPlay,
+        lazyFirst
     }
 
     public String getWidth() {
@@ -64,5 +65,13 @@ public class CarouselComponent extends UIOutput implements Widget {
 
     public void setAutoPlay(Integer autoPlay) {
         getStateHelper().put(PropertyKeys.autoPlay, autoPlay);
+    }
+
+    public boolean isLazyFirst() {
+        return (boolean) getStateHelper().eval(PropertyKeys.lazyFirst, false);
+    }
+
+    public void setLazyFirst(boolean lazyFirst) {
+        getStateHelper().put(PropertyKeys.lazyFirst, lazyFirst);
     }
 }

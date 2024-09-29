@@ -2122,6 +2122,11 @@
             <name>autoPlay</name>
             <type>java.lang.Integer</type>
         </attribute>
+        <attribute>
+            <description>Lazy loads even the first image. Defaults to false.</description>
+            <name>lazyFirst</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
     <tag>

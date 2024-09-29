@@ -11,6 +11,7 @@ class EJSFCarousel {
     imageData;
     activeImageIndex = 0;
     active = false;
+    lazyFirst = false;
 
     constructor(element, imageData) {
         this.element = element;
@@ -190,7 +191,24 @@ class EJSFCarousel {
         });
     }
 
-    init() {
+    initLazyFirst() {
+        if (!this.lazyFirst) {
+            return;
+        }
+        if (null === this.imageData) {
+            return;
+        }
+        if (0 === this.imageData.length) {
+            return;
+        }
+        setTimeout(() => {
+            // run on next event cycle
+            this.image.src = this.imageData[0].image;
+        });
+    }
+
+    init(lazyFirst = false) {
+        this.lazyFirst = lazyFirst;
         let $this = this;
         this.intersectionObserver = new IntersectionObserver(function (entries) {
             entries.forEach(entry => {
@@ -206,6 +224,7 @@ class EJSFCarousel {
                         if ($this.autoPlayDelay) {
                             $this.autoPlay($this.autoPlayDelay);
                         }
+                        $this.initLazyFirst();
                     }
                 } else {
                     $this.cancelAutoPlay();

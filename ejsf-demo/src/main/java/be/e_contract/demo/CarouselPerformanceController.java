@@ -33,11 +33,16 @@ public class CarouselPerformanceController implements Serializable {
 
     private Integer imageDelayParam;
 
+    private boolean lazyFirst;
+
+    private Boolean lazyFirstParam;
+
     @PostConstruct
     public void postConstruct() {
         this.carouselCount = 50;
         this.imageCount = 10;
         this.imageDelay = 0;
+        this.lazyFirst = false;
     }
 
     public void initView() {
@@ -49,6 +54,9 @@ public class CarouselPerformanceController implements Serializable {
         }
         if (null != this.imageDelayParam) {
             this.imageDelay = this.imageDelayParam;
+        }
+        if (null != this.lazyFirstParam) {
+            this.lazyFirst = this.lazyFirstParam;
         }
         ImageServlet.setDelay(this.imageDelay);
     }
@@ -113,6 +121,14 @@ public class CarouselPerformanceController implements Serializable {
         this.imageDelay = imageDelay;
     }
 
+    public boolean isLazyFirst() {
+        return this.lazyFirst;
+    }
+
+    public void setLazyFirst(boolean lazyFirst) {
+        this.lazyFirst = lazyFirst;
+    }
+
     public void save() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Settings saved in session.", null));
@@ -141,5 +157,13 @@ public class CarouselPerformanceController implements Serializable {
 
     public void setImageDelayParam(Integer imageDelayParam) {
         this.imageDelayParam = imageDelayParam;
+    }
+
+    public Boolean getLazyFirstParam() {
+        return this.lazyFirstParam;
+    }
+
+    public void setLazyFirstParam(Boolean lazyFirstParam) {
+        this.lazyFirstParam = lazyFirstParam;
     }
 }

@@ -12,6 +12,7 @@
             <f:viewParam name="carouselCount" value="#{carouselPerformanceController.carouselCountParam}"/>
             <f:viewParam name="imageCount" value="#{carouselPerformanceController.imageCountParam}"/>
             <f:viewParam name="imageDelay" value="#{carouselPerformanceController.imageDelayParam}"/>
+            <f:viewParam name="lazyFirst" value="#{carouselPerformanceController.lazyFirstParam}"/>
             <f:viewAction action="#{carouselPerformanceController.initView()}"/>
         </f:metadata>
         <h:form>
@@ -27,6 +28,10 @@
                 <p:outputLabel for="@next" value="Image download delay (ms):"/>
                 <p:inputNumber value="#{carouselPerformanceController.imageDelay}" required="true"/>
                 <p:message for="@previous"/>
+
+                <p:outputLabel for="@next" value="Lazy load first image:"/>
+                <p:inputSwitch value="#{carouselPerformanceController.lazyFirst}"/>
+                <p:message for="@previous"/>
             </h:panelGrid>
             <h:panelGrid columns="2">
                 <p:commandButton value="Save" action="#{carouselPerformanceController.save()}"
@@ -38,7 +43,8 @@
         <ui:repeat value="#{carouselPerformanceController.indexes}" var="index">
             <ejsf:carousel value="#{carouselPerformanceController.getCarouselImages(index)}"
                            autoPlay="2000"
-                           height="400"/>
+                           height="400"
+                           lazyFirst="#{carouselPerformanceController.lazyFirst}"/>
         </ui:repeat>
         <h:form>
             <ejsf:performanceNavigation>
