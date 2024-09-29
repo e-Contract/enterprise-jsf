@@ -27,6 +27,12 @@ public class CarouselPerformanceController implements Serializable {
 
     private int imageDelay;
 
+    private Integer carouselCountParam;
+
+    private Integer imageCountParam;
+
+    private Integer imageDelayParam;
+
     @PostConstruct
     public void postConstruct() {
         this.carouselCount = 50;
@@ -35,11 +41,20 @@ public class CarouselPerformanceController implements Serializable {
     }
 
     public void initView() {
+        if (null != this.carouselCountParam) {
+            this.carouselCount = this.carouselCountParam;
+        }
+        if (null != this.imageCountParam) {
+            this.imageCount = this.imageCountParam;
+        }
+        if (null != this.imageDelayParam) {
+            this.imageDelay = this.imageDelayParam;
+        }
         ImageServlet.setDelay(this.imageDelay);
     }
 
     public Integer[] getIndexes() {
-        Integer[] indexes = new Integer[150];
+        Integer[] indexes = new Integer[this.carouselCount];
         for (int idx = 0; idx < indexes.length; idx++) {
             indexes[idx] = idx;
         }
@@ -48,7 +63,7 @@ public class CarouselPerformanceController implements Serializable {
 
     public List<CarouselImage> getCarouselImages(int index) {
         List<CarouselImage> carouselImages = new LinkedList<>();
-        for (int idx = 0; idx < 10; idx++) {
+        for (int idx = 0; idx < this.imageCount; idx++) {
             int imageIdx = index * 10000 + idx;
             CarouselImage carouselImage = new CarouselImage("./demo/image/" + imageIdx, "./demo/image/thumbnail/" + imageIdx);
             carouselImage.withZoomImage("./demo/image/hd/" + imageIdx);
@@ -102,5 +117,29 @@ public class CarouselPerformanceController implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Settings saved in session.", null));
         ImageServlet.setDelay(this.imageDelay);
+    }
+
+    public Integer getCarouselCountParam() {
+        return this.carouselCountParam;
+    }
+
+    public void setCarouselCountParam(Integer carouselCountParam) {
+        this.carouselCountParam = carouselCountParam;
+    }
+
+    public Integer getImageCountParam() {
+        return this.imageCountParam;
+    }
+
+    public void setImageCountParam(Integer imageCountParam) {
+        this.imageCountParam = imageCountParam;
+    }
+
+    public Integer getImageDelayParam() {
+        return this.imageDelayParam;
+    }
+
+    public void setImageDelayParam(Integer imageDelayParam) {
+        this.imageDelayParam = imageDelayParam;
     }
 }

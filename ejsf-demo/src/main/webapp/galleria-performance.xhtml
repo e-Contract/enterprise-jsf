@@ -9,6 +9,9 @@
     <ui:define name="title">PrimeFaces Galleria Performance Demo</ui:define>
     <ui:define name="body">
         <f:metadata>
+            <f:viewParam name="carouselCount" value="#{carouselPerformanceController.carouselCountParam}"/>
+            <f:viewParam name="imageCount" value="#{carouselPerformanceController.imageCountParam}"/>
+            <f:viewParam name="imageDelay" value="#{carouselPerformanceController.imageDelayParam}"/>
             <f:viewAction action="#{carouselPerformanceController.initView()}"/>
         </f:metadata>
         <h:form>
@@ -25,8 +28,12 @@
                 <p:inputNumber value="#{carouselPerformanceController.imageDelay}" required="true"/>
                 <p:message for="@previous"/>
             </h:panelGrid>
-            <p:commandButton value="Save" action="#{carouselPerformanceController.save()}"
-                             update=":messages"/>
+            <h:panelGrid columns="2">
+                <p:commandButton value="Save" action="#{carouselPerformanceController.save()}"
+                                 update=":messages"/>
+                <p:button value="Reload"
+                          onclick="window.location.reload(); return false;"/>
+            </h:panelGrid>
         </h:form>
         <ui:repeat value="#{carouselPerformanceController.indexes}" var="index">
             <p:galleria value="#{carouselPerformanceController.getCarouselImages(index)}" var="image"
