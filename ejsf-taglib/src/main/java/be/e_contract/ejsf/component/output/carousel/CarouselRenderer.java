@@ -69,7 +69,7 @@ public class CarouselRenderer extends CoreRenderer {
             responseWriter.writeAttribute("class", "ejsf-carousel-thumbnails", null);
             {
                 responseWriter.startElement("div", null);
-                responseWriter.writeAttribute("class", "ejsf-carousel-thumbnails-prev", null);
+                responseWriter.writeAttribute("class", "ejsf-carousel-thumbnails-prev ejsf-carousel-thumbnails-nav-disabled", null);
                 responseWriter.write("&lt;");
                 responseWriter.endElement("div");
             }
@@ -85,7 +85,7 @@ public class CarouselRenderer extends CoreRenderer {
             }
             {
                 responseWriter.startElement("div", null);
-                responseWriter.writeAttribute("class", "ejsf-carousel-thumbnails-next", null);
+                responseWriter.writeAttribute("class", "ejsf-carousel-thumbnails-next ejsf-carousel-thumbnails-nav-enabled", null);
                 responseWriter.write("&gt;");
                 responseWriter.endElement("div");
             }

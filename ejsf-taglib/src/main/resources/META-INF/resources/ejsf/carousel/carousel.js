@@ -90,6 +90,28 @@ class EJSFCarousel {
         this.activeThumbnailImg.style.opacity = 1;
         this.image.src = this.imageData[idx].image;
 
+        if (this.imageData.length === 1) {
+            this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
+            this.prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
+            this.nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
+            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
+        } else if (idx === 0) {
+            this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
+            this.prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
+            this.nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
+            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
+        } else if (idx === this.imageData.length - 1) {
+            this.nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
+            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
+            this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
+            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
+        } else {
+            this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
+            this.prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
+            this.nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
+            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
+        }
+
         let count = this.imageData.length;
         let width = this.thumbnailsWindowElement.getBoundingClientRect().width;
         if (width > count * (80 + 10)) {

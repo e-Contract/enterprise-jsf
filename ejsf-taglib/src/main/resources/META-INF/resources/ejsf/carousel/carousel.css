@@ -24,8 +24,15 @@
     cursor: pointer;
     line-height: 80px;
     text-align: center;
-    color: white;
     font-weight: bolder;
+}
+
+.ejsf-carousel-thumbnails-nav-enabled {
+    color: white;
+}
+
+.ejsf-carousel-thumbnails-nav-disabled {
+    color: gray;
 }
 
 .ejsf-carousel-thumbnails-prev:hover,
