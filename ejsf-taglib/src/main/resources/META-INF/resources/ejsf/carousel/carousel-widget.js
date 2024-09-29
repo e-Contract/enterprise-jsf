@@ -10,11 +10,16 @@ PrimeFaces.widget.EJSFCarousel = PrimeFaces.widget.BaseWidget.extend({
     init: function (cfg) {
         this._super(cfg);
         let imageData = JSON.parse(this.cfg.value);
-        let carousel = new EJSFCarousel(this.jq.get(0), imageData);
-        carousel.init();
+        this.carousel = new EJSFCarousel(this.jq.get(0), imageData);
+        this.carousel.init();
         let autoPlayDelay = this.cfg.autoPlayDelay;
         if (autoPlayDelay) {
-            carousel.autoPlay(autoPlayDelay);
+            this.carousel.autoPlay(autoPlayDelay);
         }
+    },
+
+    destroy: function () {
+        this.carousel.destroy();
+        this._super();
     }
 });

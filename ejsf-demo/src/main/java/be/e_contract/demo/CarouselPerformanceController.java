@@ -29,7 +29,7 @@ public class CarouselPerformanceController implements Serializable {
 
     @PostConstruct
     public void postConstruct() {
-        this.carouselCount = 150;
+        this.carouselCount = 50;
         this.imageCount = 10;
         this.imageDelay = 0;
     }

@@ -50,6 +50,7 @@
     height: 60px;
     display: flex;
     gap: 10px;
+    transition: transform 500ms ease 0s;
 }
 
 .ejsf-carousel-thumbnails-image {
@@ -97,7 +98,6 @@
     padding-bottom: 10px;
     padding-left: 20px;
     padding-right: 20px;
-    margin-bottom: 5px;
     visibility: hidden;
     box-sizing: border-box;
     width: 100%;

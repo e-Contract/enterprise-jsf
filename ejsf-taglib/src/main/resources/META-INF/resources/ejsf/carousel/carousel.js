@@ -6,6 +6,7 @@
  */
 
 class EJSFCarousel {
+
     element;
     imageData;
     activeImageIndex = 0;
@@ -117,7 +118,6 @@ class EJSFCarousel {
         if (width > count * (80 + 10)) {
             return;
         }
-        this.thumbnailsElement.style.transition = "transform 500ms ease 0s";
         let translation = -idx * (80 + 10) + (width - (80 + 10)) * (idx + 1) / count;
         this.thumbnailsElement.style.transform = "translate(" + translation + "px, 0px)";
     }
@@ -192,7 +192,7 @@ class EJSFCarousel {
 
     init() {
         let $this = this;
-        let intersectionObserver = new IntersectionObserver(function (entries) {
+        this.intersectionObserver = new IntersectionObserver(function (entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     if ($this.active) {
@@ -212,7 +212,7 @@ class EJSFCarousel {
                 }
             });
         });
-        intersectionObserver.observe(this.element);
+        this.intersectionObserver.observe(this.element);
     }
 
     doAutoPlay() {
@@ -240,5 +240,13 @@ class EJSFCarousel {
         this.timer = window.setInterval(() => {
             $this.doAutoPlay();
         }, delay);
+    }
+
+    destroy() {
+        this.cancelAutoPlay();
+        if (this.intersectionObserver) {
+            this.intersectionObserver.disconnect();
+            this.intersectionObserver = null;
+        }
     }
 }
