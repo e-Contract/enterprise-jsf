@@ -2148,6 +2148,16 @@
             <name>target</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Only add message when a callback parameter has been set.</description>
+            <name>whenCallbackParam</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Only add message when a callback parameter value has been set.</description>
+            <name>whenCallbackParamValue</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>

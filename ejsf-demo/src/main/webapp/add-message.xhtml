@@ -8,12 +8,23 @@
     <ui:define name="title">Add Message Demo</ui:define>
     <ui:define name="body">
         <h:form id="example">
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="1">
                 <p:commandButton value="Add Info Message" update=":messages">
                     <ejsf:addMessage summary="Some info message."/>
                 </p:commandButton>
                 <p:commandButton value="Add Error Message" update=":messages">
                     <ejsf:addMessage severity="ERROR" summary="Some error message."/>
+                </p:commandButton>
+                <p:commandButton value="whenCallbackParam" update=":messages"
+                                 action="#{addMessageController.addCallbackParam()}">
+                    <ejsf:addMessage summary="Some whenCallbackParam message."
+                                     whenCallbackParam="callbackParam"/>
+                </p:commandButton>
+                <p:commandButton value="whenCallbackParamValue" update=":messages"
+                                 action="#{addMessageController.addCallbackParam()}">
+                    <ejsf:addMessage summary="Some whenCallbackParamValue message."
+                                     whenCallbackParam="callbackParam"
+                                     whenCallbackParamValue="some value"/>
                 </p:commandButton>
             </h:panelGrid>
         </h:form>

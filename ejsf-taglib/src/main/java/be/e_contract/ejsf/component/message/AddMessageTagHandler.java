@@ -68,7 +68,24 @@ public class AddMessageTagHandler extends TagHandler {
             target = null;
         }
 
-        AddMessageActionListener actionListener = new AddMessageActionListener(severity, summary, detail, target);
+        String whenCallbackParam;
+        TagAttribute whenCallbackParamTagAttribute = getAttribute("whenCallbackParam");
+        if (null != whenCallbackParamTagAttribute) {
+            whenCallbackParam = whenCallbackParamTagAttribute.getValue();
+        } else {
+            whenCallbackParam = null;
+        }
+
+        String whenCallbackParamValue;
+        TagAttribute whenCallbackParamValueTagAttribute = getAttribute("whenCallbackParamValue");
+        if (null != whenCallbackParamValueTagAttribute) {
+            whenCallbackParamValue = whenCallbackParamValueTagAttribute.getValue();
+        } else {
+            whenCallbackParamValue = null;
+        }
+
+        AddMessageActionListener actionListener = new AddMessageActionListener(severity, summary, detail,
+                target, whenCallbackParam, whenCallbackParamValue);
         actionSource.addActionListener(actionListener);
     }
 }

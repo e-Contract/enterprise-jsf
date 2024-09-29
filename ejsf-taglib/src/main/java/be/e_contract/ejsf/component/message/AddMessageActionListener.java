@@ -6,19 +6,25 @@
  */
 package be.e_contract.ejsf.component.message;
 
+import java.util.Map;
 import javax.el.ELContext;
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import javax.faces.event.PreRenderViewEvent;
+import javax.faces.event.SystemEvent;
+import javax.faces.event.SystemEventListener;
+import org.primefaces.context.PrimeRequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddMessageActionListener implements ActionListener, StateHolder {
+public class AddMessageActionListener implements ActionListener, StateHolder, SystemEventListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddMessageActionListener.class);
 
@@ -32,15 +38,23 @@ public class AddMessageActionListener implements ActionListener, StateHolder {
 
     private String target;
 
+    private String whenCallbackParam;
+
+    private String whenCallbackParamValue;
+
     public AddMessageActionListener() {
         super();
     }
 
-    public AddMessageActionListener(String severity, ValueExpression summary, ValueExpression detail, String target) {
+    public AddMessageActionListener(String severity, ValueExpression summary,
+            ValueExpression detail, String target, String whenCallbackParam,
+            String whenCallbackParamValue) {
         this.severity = severity;
         this.summary = summary;
         this.detail = detail;
         this.target = target;
+        this.whenCallbackParam = whenCallbackParam;
+        this.whenCallbackParamValue = whenCallbackParamValue;
     }
 
     @Override
@@ -52,7 +66,9 @@ public class AddMessageActionListener implements ActionListener, StateHolder {
             this.severity,
             this.summary,
             this.detail,
-            this.target
+            this.target,
+            this.whenCallbackParam,
+            this.whenCallbackParamValue
         };
     }
 
@@ -72,6 +88,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder {
         this.summary = (ValueExpression) stateObjects[1];
         this.detail = (ValueExpression) stateObjects[2];
         this.target = (String) stateObjects[3];
+        this.whenCallbackParam = (String) stateObjects[4];
+        this.whenCallbackParamValue = (String) stateObjects[5];
     }
 
     @Override
@@ -135,8 +153,39 @@ public class AddMessageActionListener implements ActionListener, StateHolder {
     @Override
     public void processAction(ActionEvent event) throws AbortProcessingException {
         FacesContext facesContext = event.getFacesContext();
+        if (null == this.whenCallbackParam) {
+            FacesMessage facesMessage = new FacesMessage(getSeverity(), getSummary(facesContext), getDetail(facesContext));
+            String clientId = getTargetClientId(event);
+            facesContext.addMessage(clientId, facesMessage);
+        } else {
+            UIViewRoot viewRoot = facesContext.getViewRoot();
+            viewRoot.subscribeToViewEvent(PreRenderViewEvent.class, this);
+        }
+    }
+
+    @Override
+    public void processEvent(SystemEvent event) throws AbortProcessingException {
+        LOGGER.debug("processEvent: {}", event);
+        FacesContext facesContext = event.getFacesContext();
+        PrimeRequestContext primeRequestContext = PrimeRequestContext.getCurrentInstance(facesContext);
+        Map<String, Object> callbackParams = primeRequestContext.getCallbackParams();
+        if (!callbackParams.containsKey(this.whenCallbackParam)) {
+            return;
+        }
+        if (null != this.whenCallbackParamValue) {
+            String actualValue = callbackParams.get(this.whenCallbackParam).toString();
+            if (!this.whenCallbackParamValue.equals(actualValue)) {
+                return;
+            }
+        }
         FacesMessage facesMessage = new FacesMessage(getSeverity(), getSummary(facesContext), getDetail(facesContext));
-        String clientId = getTargetClientId(event);
+        String clientId = null; // TODO
         facesContext.addMessage(clientId, facesMessage);
+    }
+
+    @Override
+    public boolean isListenerForSource(Object source) {
+        LOGGER.debug("source: {}", source);
+        return true;
     }
 }
