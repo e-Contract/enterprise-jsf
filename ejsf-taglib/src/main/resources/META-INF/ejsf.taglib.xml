@@ -2124,4 +2124,30 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Action to add a message.</description>
+        <tag-name>addMessage</tag-name>
+        <handler-class>be.e_contract.ejsf.component.message.AddMessageTagHandler</handler-class>
+        <attribute>
+            <description>The severity. Defaults to "INFO".</description>
+            <name>severity</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The message summary.</description>
+            <name>summary</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The message detail.</description>
+            <name>detail</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The target component.</description>
+            <name>target</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

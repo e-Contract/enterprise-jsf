@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Add Message Demo</ui:define>
+    <ui:define name="body">
+        <h:form id="example">
+            <h:panelGrid columns="2">
+                <p:commandButton value="Add Info Message" update=":messages">
+                    <ejsf:addMessage summary="Some info message."/>
+                </p:commandButton>
+                <p:commandButton value="Add Error Message" update=":messages">
+                    <ejsf:addMessage severity="ERROR" summary="Some error message."/>
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="addMessage"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
