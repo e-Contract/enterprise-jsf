@@ -32,7 +32,7 @@
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>4.2.2.Final</version>
+                    <version>5.0.1.Final</version>
                 </plugin>
                 <plugin>
                     <groupId>org.openapitools</groupId>
@@ -47,7 +47,7 @@
                 <plugin>
                     <groupId>com.github.eirslett</groupId>
                     <artifactId>frontend-maven-plugin</artifactId>
-                    <version>1.15.0</version>
+                    <version>1.15.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

@@ -25,7 +25,7 @@
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>4.2.2.Final</version>
+                    <version>5.0.1.Final</version>
                 </plugin>
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
