@@ -7,7 +7,6 @@
 package be.e_contract.ejsf.component.message;
 
 import java.io.IOException;
-import javax.el.ValueExpression;
 import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.view.facelets.ComponentHandler;
@@ -45,17 +44,17 @@ public class AddMessageTagHandler extends TagHandler {
         }
 
         TagAttribute summaryTagAttribute = getAttribute("summary");
-        ValueExpression summary;
+        String summary;
         if (null != summaryTagAttribute) {
-            summary = summaryTagAttribute.getValueExpression(faceletContext, String.class);
+            summary = summaryTagAttribute.getValue();
         } else {
             summary = null;
         }
 
         TagAttribute detailTagAttribute = getAttribute("detail");
-        ValueExpression detail;
+        String detail;
         if (null != detailTagAttribute) {
-            detail = detailTagAttribute.getValueExpression(faceletContext, String.class);
+            detail = detailTagAttribute.getValue();
         } else {
             detail = null;
         }
@@ -84,8 +83,16 @@ public class AddMessageTagHandler extends TagHandler {
             whenCallbackParamValue = null;
         }
 
+        String callbackParamVar;
+        TagAttribute callbackParamVarTagAttribute = getAttribute("callbackParamVar");
+        if (null != callbackParamVarTagAttribute) {
+            callbackParamVar = callbackParamVarTagAttribute.getValue();
+        } else {
+            callbackParamVar = null;
+        }
+
         AddMessageActionListener actionListener = new AddMessageActionListener(severity, summary, detail,
-                target, whenCallbackParam, whenCallbackParamValue);
+                target, whenCallbackParam, whenCallbackParamValue, callbackParamVar);
         actionSource.addActionListener(actionListener);
     }
 }

@@ -26,11 +26,20 @@
                                      whenCallbackParam="callbackParam"
                                      whenCallbackParamValue="some value"/>
                 </p:commandButton>
+                <p:commandButton value="callbackParamVar" update=":messages"
+                                 action="#{addMessageController.addCallbackParam()}">
+                    <ejsf:addMessage summary="Callback param value: #{paramValue}"
+                                     whenCallbackParam="callbackParam"
+                                     callbackParamVar="paramValue"/>
+                </p:commandButton>
             </h:panelGrid>
         </h:form>
         <p:tabView>
             <p:tab title="XHTML">
                 <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="AddMessageController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/AddMessageController.java"/>
             </p:tab>
             <p:tab title="API">
                 <ejsf:tagInfo library="ejsf" tag="addMessage"/>

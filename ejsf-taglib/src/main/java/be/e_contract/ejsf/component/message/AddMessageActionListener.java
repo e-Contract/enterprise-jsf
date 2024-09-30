@@ -8,7 +8,10 @@ package be.e_contract.ejsf.component.message;
 
 import java.util.Map;
 import javax.el.ELContext;
+import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
+import javax.el.VariableMapper;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
@@ -32,9 +35,9 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
 
     private String severity;
 
-    private ValueExpression summary;
+    private String summary;
 
-    private ValueExpression detail;
+    private String detail;
 
     private String target;
 
@@ -44,19 +47,22 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
 
     private String targetClientId;
 
+    private String callbackParamVar;
+
     public AddMessageActionListener() {
         super();
     }
 
-    public AddMessageActionListener(String severity, ValueExpression summary,
-            ValueExpression detail, String target, String whenCallbackParam,
-            String whenCallbackParamValue) {
+    public AddMessageActionListener(String severity, String summary,
+            String detail, String target, String whenCallbackParam,
+            String whenCallbackParamValue, String callbackParamVar) {
         this.severity = severity;
         this.summary = summary;
         this.detail = detail;
         this.target = target;
         this.whenCallbackParam = whenCallbackParam;
         this.whenCallbackParamValue = whenCallbackParamValue;
+        this.callbackParamVar = callbackParamVar;
     }
 
     @Override
@@ -71,7 +77,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             this.target,
             this.whenCallbackParam,
             this.whenCallbackParamValue,
-            this.targetClientId
+            this.targetClientId,
+            this.callbackParamVar
         };
     }
 
@@ -88,12 +95,13 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             return;
         }
         this.severity = (String) stateObjects[0];
-        this.summary = (ValueExpression) stateObjects[1];
-        this.detail = (ValueExpression) stateObjects[2];
+        this.summary = (String) stateObjects[1];
+        this.detail = (String) stateObjects[2];
         this.target = (String) stateObjects[3];
         this.whenCallbackParam = (String) stateObjects[4];
         this.whenCallbackParamValue = (String) stateObjects[5];
         this.targetClientId = (String) stateObjects[6];
+        this.callbackParamVar = (String) stateObjects[7];
     }
 
     @Override
@@ -111,7 +119,10 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             return null;
         }
         ELContext elContext = facesContext.getELContext();
-        return (String) this.summary.getValue(elContext);
+        Application application = facesContext.getApplication();
+        ExpressionFactory expressionFactory = application.getExpressionFactory();
+        ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, this.summary, String.class);
+        return (String) valueExpression.getValue(elContext);
     }
 
     private String getDetail(FacesContext facesContext) {
@@ -119,7 +130,10 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             return null;
         }
         ELContext elContext = facesContext.getELContext();
-        return (String) this.detail.getValue(elContext);
+        Application application = facesContext.getApplication();
+        ExpressionFactory expressionFactory = application.getExpressionFactory();
+        ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, this.detail, String.class);
+        return (String) valueExpression.getValue(elContext);
     }
 
     private FacesMessage.Severity getSeverity() {
@@ -182,7 +196,22 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
                 return;
             }
         }
+        ValueExpression previousValue = null;
+        if (null != this.callbackParamVar) {
+            String value = callbackParams.get(this.whenCallbackParam).toString();
+            ELContext elContext = facesContext.getELContext();
+            VariableMapper variableMapper = elContext.getVariableMapper();
+            Application application = facesContext.getApplication();
+            ExpressionFactory expressionFactory = application.getExpressionFactory();
+            ValueExpression varValue = expressionFactory.createValueExpression(value, String.class);
+            previousValue = variableMapper.setVariable(this.callbackParamVar, varValue);
+        }
         FacesMessage facesMessage = new FacesMessage(getSeverity(), getSummary(facesContext), getDetail(facesContext));
+        if (null != this.callbackParamVar) {
+            ELContext elContext = facesContext.getELContext();
+            VariableMapper variableMapper = elContext.getVariableMapper();
+            variableMapper.setVariable(this.callbackParamVar, previousValue);
+        }
         facesContext.addMessage(this.targetClientId, facesMessage);
     }
 

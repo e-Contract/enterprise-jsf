@@ -2163,6 +2163,11 @@
             <name>whenCallbackParamValue</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Callback parameter value variable that can be used during evaluation of the message summary and detail.</description>
+            <name>callbackParamVar</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>
