@@ -832,6 +832,49 @@ public class JettySeleniumTest {
         assertEquals("Warning message: " + paramValue, messageText);
     }
 
+    @Test
+    public void testBrowser() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-browser.xhtml");
+
+        WebElement webElement = this.driver.findElement(By.id("result"));
+        assertEquals("chrome", webElement.getText());
+
+        DevTools devTools = this.driver.getDevTools();
+        devTools.createSession();
+
+        // Edge
+        devTools.send(Emulation.setUserAgentOverride("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.2792.65", Optional.empty(), Optional.empty(), Optional.empty()));
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-browser.xhtml");
+
+        webElement = this.driver.findElement(By.id("result"));
+        assertEquals("edge", webElement.getText());
+
+        // Firefox
+        devTools.send(Emulation.setUserAgentOverride("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0", Optional.empty(), Optional.empty(), Optional.empty()));
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-browser.xhtml");
+
+        webElement = this.driver.findElement(By.id("result"));
+        assertEquals("firefox", webElement.getText());
+
+        // Safari
+        devTools.send(Emulation.setUserAgentOverride("Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15", Optional.empty(), Optional.empty(), Optional.empty()));
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-browser.xhtml");
+
+        webElement = this.driver.findElement(By.id("result"));
+        assertEquals("safari", webElement.getText());
+
+        // Unknown
+        devTools.send(Emulation.setUserAgentOverride("foobar", Optional.empty(), Optional.empty(), Optional.empty()));
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-browser.xhtml");
+
+        webElement = this.driver.findElement(By.id("result"));
+        assertEquals("unknown", webElement.getText());
+    }
+
     @FunctionalInterface
     interface ExceptionConsumer<T> {
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:f="jakarta.faces.core">
+    <f:view locale="en">
+        <h:head>
+            <title>Test Browser</title>
+        </h:head>
+        <h:body>
+            <h1>Test Browser</h1>
+            <div id="result">
+                <ejsf:browser name="chrome">
+                    chrome
+                </ejsf:browser>
+                <ejsf:browser name="edge">
+                    edge
+                </ejsf:browser>
+                <ejsf:browser name="firefox">
+                    firefox
+                </ejsf:browser>
+                <ejsf:browser name="safari">
+                    safari
+                </ejsf:browser>
+                <ejsf:browser name="unknown">
+                    unknown
+                </ejsf:browser>
+            </div>
+        </h:body>
+    </f:view>
+</html>
