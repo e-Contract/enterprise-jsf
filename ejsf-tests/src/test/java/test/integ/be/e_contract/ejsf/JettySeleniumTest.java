@@ -875,6 +875,50 @@ public class JettySeleniumTest {
         assertEquals("unknown", webElement.getText());
     }
 
+    @Test
+    public void testPlatforms() throws Exception {
+        DevTools devTools = this.driver.getDevTools();
+        devTools.createSession();
+
+        // Linux
+        devTools.send(Emulation.setUserAgentOverride("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0", Optional.empty(), Optional.empty(), Optional.empty()));
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-platforms.xhtml");
+
+        WebElement webElement = this.driver.findElement(By.id("result"));
+        assertEquals("linux", webElement.getText());
+
+        // macOS
+        devTools.send(Emulation.setUserAgentOverride("Mozilla/5.0 (Macintosh; Intel Mac OS X 14.7; rv:130.0) Gecko/20100101 Firefox/130.0", Optional.empty(), Optional.empty(), Optional.empty()));
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-platforms.xhtml");
+
+        webElement = this.driver.findElement(By.id("result"));
+        assertEquals("macos", webElement.getText());
+
+        // Windows
+        devTools.send(Emulation.setUserAgentOverride("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0", Optional.empty(), Optional.empty(), Optional.empty()));
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-platforms.xhtml");
+
+        webElement = this.driver.findElement(By.id("result"));
+        assertEquals("windows", webElement.getText());
+
+        // FreeBSD
+        devTools.send(Emulation.setUserAgentOverride("Mozilla/5.0 (X11; FreeBSD x86_64; rv:125.0) Gecko/20100101 Firefox/125.0", Optional.empty(), Optional.empty(), Optional.empty()));
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-platforms.xhtml");
+
+        webElement = this.driver.findElement(By.id("result"));
+        assertEquals("freebsd", webElement.getText());
+
+        // unknown
+        devTools.send(Emulation.setUserAgentOverride("foobar", Optional.empty(), Optional.empty(), Optional.empty()));
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-platforms.xhtml");
+
+        webElement = this.driver.findElement(By.id("result"));
+        assertTrue(webElement.getText().contains("linux"));
+        assertTrue(webElement.getText().contains("macos"));
+        assertTrue(webElement.getText().contains("windows"));
+        assertTrue(webElement.getText().contains("freebsd"));
+    }
+
     @FunctionalInterface
     interface ExceptionConsumer<T> {
 

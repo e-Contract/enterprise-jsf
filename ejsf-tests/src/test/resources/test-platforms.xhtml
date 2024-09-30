@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:f="jakarta.faces.core">
+    <f:view locale="en">
+        <h:head>
+            <title>Test Platforms</title>
+        </h:head>
+        <h:body>
+            <h1>Test Platforms</h1>
+            <div id="result">
+                <ejsf:platforms>
+                    <ejsf:platform name="linux">
+                        linux
+                    </ejsf:platform>
+                    <ejsf:platform name="macos">
+                        macos
+                    </ejsf:platform>
+                    <ejsf:platform name="freebsd">
+                        freebsd
+                    </ejsf:platform>
+                    <ejsf:platform name="windows">
+                        windows
+                    </ejsf:platform>
+                </ejsf:platforms>
+            </div>
+        </h:body>
+    </f:view>
+</html>
