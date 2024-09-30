@@ -1,0 +1,42 @@
+@startuml
+
+' Enterprise JSF project.
+'
+' Copyright 2024 e-Contract.be BV. All rights reserved.
+' e-Contract.be BV proprietary/confidential. Use is subject to license terms.
+
+hide empty description
+
+state "Facelets XHTML" as xhtml
+
+xhtml: <html>
+xhtml: \t<h:head>
+xhtml: \t\t...
+xhtml: \t</h:head>
+xhtml: \t<h:body>
+xhtml: \t\t...
+xhtml: \t</h:body>
+xhtml: </html>
+
+state "View" as view {
+    state "UIViewRoot" as root
+    state "UIComponent" as comp1
+    state "..." as comp2
+    state "UIComponent" as comp3
+
+    state "..." as comp21
+    state "..." as comp22
+    state "..." as comp23
+
+    root --> comp1
+    root --> comp2
+    root --> comp3
+
+    comp2 --> comp21
+    comp2 --> comp22
+    comp2 --> comp23
+}
+
+xhtml --> view: TagHandler
+
+@enduml

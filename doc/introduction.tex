@@ -572,7 +572,14 @@ The following unit test clearly demonstrates the above made statements about per
 
 \section{Facelets Templates}
 JSF comes with a template declaration language called Facelets.
-Internally the JSF tags are translated towards the component tree via various \texttt{TagHandler}s.
+Internally the JSF tags are translated towards the component view tree via various \texttt{TagHandler}s as depicted in Figure \ref{fig:taghandler}.
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[scale=0.8]{taghandler}
+		\caption{Tag handlers translate the Facelets XHTML document towards a component view tree.}
+		\label{fig:taghandler}
+	\end{center}
+\end{figure}
 Facelets allows us to define a common template used by all our JSF pages,
 giving us a common look and feel.
 The following example template, located under \texttt{WEB-INF/template.xhtml},
