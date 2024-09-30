@@ -42,6 +42,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
 
     private String whenCallbackParamValue;
 
+    private String targetClientId;
+
     public AddMessageActionListener() {
         super();
     }
@@ -68,7 +70,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             this.detail,
             this.target,
             this.whenCallbackParam,
-            this.whenCallbackParamValue
+            this.whenCallbackParamValue,
+            this.targetClientId
         };
     }
 
@@ -90,6 +93,7 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this.target = (String) stateObjects[3];
         this.whenCallbackParam = (String) stateObjects[4];
         this.whenCallbackParamValue = (String) stateObjects[5];
+        this.targetClientId = (String) stateObjects[6];
     }
 
     @Override
@@ -150,20 +154,6 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         return targetComponent.getClientId(facesContext);
     }
 
-    private String getTargetClientId(SystemEvent event) {
-        if (null == this.target) {
-            return null;
-        }
-        UIViewRoot viewRoot = (UIViewRoot) event.getSource();
-        UIComponent targetComponent = viewRoot.findComponent(this.target);
-        if (null == targetComponent) {
-            LOGGER.error("target not found: {}", this.target);
-            return null;
-        }
-        FacesContext facesContext = event.getFacesContext();
-        return targetComponent.getClientId(facesContext);
-    }
-
     @Override
     public void processAction(ActionEvent event) throws AbortProcessingException {
         FacesContext facesContext = event.getFacesContext();
@@ -172,6 +162,7 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             String clientId = getTargetClientId(event);
             facesContext.addMessage(clientId, facesMessage);
         } else {
+            this.targetClientId = getTargetClientId(event);
             UIViewRoot viewRoot = facesContext.getViewRoot();
             viewRoot.subscribeToViewEvent(PreRenderViewEvent.class, this);
         }
@@ -179,7 +170,6 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
 
     @Override
     public void processEvent(SystemEvent event) throws AbortProcessingException {
-        LOGGER.debug("processEvent: {}", event);
         FacesContext facesContext = event.getFacesContext();
         PrimeRequestContext primeRequestContext = PrimeRequestContext.getCurrentInstance(facesContext);
         Map<String, Object> callbackParams = primeRequestContext.getCallbackParams();
@@ -193,13 +183,11 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             }
         }
         FacesMessage facesMessage = new FacesMessage(getSeverity(), getSummary(facesContext), getDetail(facesContext));
-        String clientId = getTargetClientId(event);
-        facesContext.addMessage(clientId, facesMessage);
+        facesContext.addMessage(this.targetClientId, facesMessage);
     }
 
     @Override
     public boolean isListenerForSource(Object source) {
-        LOGGER.debug("source: {}", source);
         return true;
     }
 }
