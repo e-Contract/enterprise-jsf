@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <f:view locale="en">
+        <h:head>
+            <title>Test Add Message</title>
+        </h:head>
+        <h:body>
+            <h1>Test Add Message</h1>
+            <p:messages id="messages" globalOnly="true"/>
+            <h:form id="form">
+                <p:commandButton id="submit"
+                                 value="Submit"
+                                 action="#{addMessageController.addCallbackParam()}"
+                                 update="@form,:messages">
+                    <ejsf:addMessage severity="WARN"
+                                     callbackParamVar="paramVar"
+                                     summary="Warning message: #{paramVar}"
+                                     whenCallbackParam="callbackParam"/>
+                </p:commandButton>
+
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

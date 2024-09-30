@@ -35,6 +35,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
@@ -810,6 +811,25 @@ public class JettySeleniumTest {
             }
             performanceNavigationController.reset();
         });
+    }
+
+    @Test
+    public void testAddMessage() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-add-message.xhtml");
+
+        String paramValue = UUID.randomUUID().toString();
+        runOnBean(AddMessageController.class, (AddMessageController addMessageController) -> {
+            addMessageController.setCallbackParam("callbackParam", paramValue);
+        });
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Messages messages = PrimeSelenium.createFragment(Messages.class, By.id("messages"));
+        String messageText = messages.getText();
+        LOGGER.debug("message text: {}", messageText);
+
+        assertEquals("Warning message: " + paramValue, messageText);
     }
 
     @FunctionalInterface
