@@ -3,7 +3,7 @@
     <parent>
         <groupId>be.e-contract</groupId>
         <artifactId>enterprise-jsf</artifactId>
-        <version>1.20.1</version>
+        <version>1.20.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>be.e-contract.enterprise-jsf</groupId>
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-api</artifactId>
-            <version>1.20.1</version>
+            <version>1.20.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
