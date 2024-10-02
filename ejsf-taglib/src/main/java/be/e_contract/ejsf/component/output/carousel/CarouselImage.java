@@ -20,6 +20,8 @@ public class CarouselImage implements Serializable {
 
     private String captionTitle;
 
+    private String onclickLocation;
+
     public CarouselImage(String image, String thumbnail) {
         this.image = image;
         this.thumbnail = thumbnail;
@@ -37,6 +39,11 @@ public class CarouselImage implements Serializable {
 
     public CarouselImage withZoomImage(String zoomImage) {
         this.zoomImage = zoomImage;
+        return this;
+    }
+
+    public CarouselImage withOnclickLocation(String onclickLocation) {
+        this.onclickLocation = onclickLocation;
         return this;
     }
 
@@ -58,5 +65,9 @@ public class CarouselImage implements Serializable {
 
     public String getCaptionTitle() {
         return this.captionTitle;
+    }
+
+    public String getOnclickLocation() {
+        return this.onclickLocation;
     }
 }

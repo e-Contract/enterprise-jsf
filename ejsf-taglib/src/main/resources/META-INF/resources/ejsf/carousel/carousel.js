@@ -73,9 +73,14 @@ class EJSFCarousel {
         this.changeActiveImage(this.activeImageIndex + 1);
     }
 
-    zoom() {
+    imageClicked() {
         this.cancelAutoPlay();
         if (this.activeImageIndex >= this.imageData.length) {
+            return;
+        }
+        let onclickLocation = this.imageData[this.activeImageIndex].onclickLocation;
+        if (onclickLocation) {
+            window.location.assign(onclickLocation);
             return;
         }
         let zoomImage = this.imageData[this.activeImageIndex].zoomImage;
@@ -160,7 +165,7 @@ class EJSFCarousel {
             $this.nextNavClicked();
         });
         this.image.addEventListener("click", () => {
-            $this.zoom();
+            $this.imageClicked();
         });
         this.image.addEventListener("load", () => {
             $this.updateImageCaption();
