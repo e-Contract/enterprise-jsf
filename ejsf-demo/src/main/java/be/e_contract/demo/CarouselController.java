@@ -25,6 +25,7 @@ public class CarouselController {
             CarouselImage carouselImage = new CarouselImage("./demo/image/" + idx, "./demo/image/thumbnail/" + idx);
             carouselImage.withZoomImage("./demo/image/hd/" + idx);
             if (idx % 2 == 0) {
+                carouselImage.withCaptionTitle("Title " + idx);
                 carouselImage.withCaption("A description for image " + idx);
             }
             this.carouselImages.add(carouselImage);

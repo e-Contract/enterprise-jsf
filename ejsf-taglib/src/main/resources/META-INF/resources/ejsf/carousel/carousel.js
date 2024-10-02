@@ -54,6 +54,14 @@ class EJSFCarousel {
         return this.element.querySelector(".ejsf-carousel-image-caption");
     }
 
+    get imageCaptionContent() {
+        return this.element.querySelector(".ejsf-carousel-image-caption-content");
+    }
+
+    get imageCaptionTitle() {
+        return this.element.querySelector(".ejsf-carousel-image-caption-title");
+    }
+
     prevNavClicked() {
         this.cancelAutoPlay();
         let newImageIndex = this.activeImageIndex - 1;
@@ -125,8 +133,18 @@ class EJSFCarousel {
 
     updateImageCaption() {
         let caption = this.imageData[this.activeImageIndex].caption;
-        if (caption) {
-            this.imageCaption.textContent = caption;
+        let captionTitle = this.imageData[this.activeImageIndex].captionTitle;
+        if (caption || captionTitle) {
+            if (caption) {
+                this.imageCaptionContent.textContent = caption;
+            } else {
+                this.imageCaptionContent.textContent = "";
+            }
+            if (captionTitle) {
+                this.imageCaptionTitle.textContent = captionTitle;
+            } else {
+                this.imageCaptionTitle.textContent = "";
+            }
             this.imageCaption.style.visibility = "visible";
         } else {
             this.imageCaption.style.visibility = "hidden";

@@ -110,3 +110,8 @@
     box-sizing: border-box;
     width: 100%;
 }
+
+.ejsf-carousel-image-caption-title {
+    font-weight: bolder;
+    font-size: large;
+}

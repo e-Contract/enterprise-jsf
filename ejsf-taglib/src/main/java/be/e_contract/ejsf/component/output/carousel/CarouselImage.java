@@ -18,6 +18,8 @@ public class CarouselImage implements Serializable {
 
     private String zoomImage;
 
+    private String captionTitle;
+
     public CarouselImage(String image, String thumbnail) {
         this.image = image;
         this.thumbnail = thumbnail;
@@ -25,6 +27,11 @@ public class CarouselImage implements Serializable {
 
     public CarouselImage withCaption(String caption) {
         this.caption = caption;
+        return this;
+    }
+
+    public CarouselImage withCaptionTitle(String captionTitle) {
+        this.captionTitle = captionTitle;
         return this;
     }
 
@@ -47,5 +54,9 @@ public class CarouselImage implements Serializable {
 
     public String getZoomImage() {
         return this.zoomImage;
+    }
+
+    public String getCaptionTitle() {
+        return this.captionTitle;
     }
 }

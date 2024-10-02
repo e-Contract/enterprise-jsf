@@ -63,6 +63,16 @@ public class CarouselRenderer extends CoreRenderer {
             {
                 responseWriter.startElement("div", null);
                 responseWriter.writeAttribute("class", "ejsf-carousel-image-caption", null);
+                {
+                    responseWriter.startElement("span", null);
+                    responseWriter.writeAttribute("class", "ejsf-carousel-image-caption-title", null);
+                    responseWriter.endElement("span");
+                }
+                {
+                    responseWriter.startElement("div", null);
+                    responseWriter.writeAttribute("class", "ejsf-carousel-image-caption-content", null);
+                    responseWriter.endElement("div");
+                }
                 responseWriter.endElement("div");
             }
             responseWriter.endElement("div");
