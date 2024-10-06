@@ -94,7 +94,8 @@ class EJSFCarousel {
         if (idx < 0) {
             return;
         }
-        if (idx >= this.thumbnailsElement.childElementCount) {
+        let thumbnailsElement = this.thumbnailsElement;
+        if (idx >= thumbnailsElement.childElementCount) {
             return;
         }
         if (this.activeImageIndex === idx) {
@@ -105,32 +106,34 @@ class EJSFCarousel {
         this.activeThumbnailImg.style.opacity = 1;
         this.image.src = this.imageData[idx].image;
 
+        let prevNavElement = this.prevNavElement;
+        let nextNavElement = this.nextNavElement;
         if (this.imageData.length === 1) {
-            this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
-            this.prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
-            this.nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
-            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
+            prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
+            prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
+            nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
+            nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
         } else if (idx === 0) {
-            this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
-            this.prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
-            this.nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
-            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
+            prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
+            prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
+            nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
+            nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
         } else if (idx === this.imageData.length - 1) {
-            this.nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
-            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
-            this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
-            this.prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
+            nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-disabled");
+            nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-enabled");
+            prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
+            prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
         } else {
-            this.prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
-            this.prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
-            this.nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
-            this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
+            prevNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
+            prevNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
+            nextNavElement.classList.add("ejsf-carousel-thumbnails-nav-enabled");
+            nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
         }
 
         let width = this.thumbnailsWindowElement.getBoundingClientRect().width;
         let totalWidth = 0;
-        for (let cidx = 0; cidx < this.thumbnailsElement.children.length; cidx++) {
-            totalWidth += this.thumbnailsElement.children[cidx].offsetWidth;
+        for (let cidx = 0; cidx < thumbnailsElement.childElementCount; cidx++) {
+            totalWidth += thumbnailsElement.children[cidx].offsetWidth;
             totalWidth += 10; // padding
         }
         let translation;
@@ -140,7 +143,7 @@ class EJSFCarousel {
             let offset = 0;
             // idx - 1 to keep previous thumbnail visible
             for (let cidx = 0; cidx < idx - 1; cidx++) {
-                offset += this.thumbnailsElement.children[cidx].offsetWidth;
+                offset += thumbnailsElement.children[cidx].offsetWidth;
                 offset += 10; // padding
             }
             let maxOffset = totalWidth - width;
@@ -149,7 +152,7 @@ class EJSFCarousel {
             }
             translation = -offset;
         }
-        this.thumbnailsElement.style.transform = "translate(" + translation + "px, 0px)";
+        thumbnailsElement.style.transform = "translate(" + translation + "px, 0px)";
     }
 
     updateImageCaption() {
@@ -180,16 +183,18 @@ class EJSFCarousel {
         this.nextNavElement.addEventListener("click", () => {
             $this.nextNavClicked();
         });
-        this.image.addEventListener("click", () => {
+        let image = this.image;
+        image.addEventListener("click", () => {
             $this.imageClicked();
         });
-        this.image.addEventListener("load", () => {
+        image.addEventListener("load", () => {
             $this.updateImageCaption();
         });
-        this.zoomDialogImage.addEventListener("click", () => {
+        let zoomDialogImage = this.zoomDialogImage;
+        zoomDialogImage.addEventListener("click", () => {
             $this.zoomDialog.close();
         });
-        this.zoomDialogImage.addEventListener("load", () => {
+        zoomDialogImage.addEventListener("load", () => {
             $this.zoomDialog.showModal();
         });
     }
@@ -289,6 +294,11 @@ class EJSFCarousel {
     }
 
     autoPlay(delay) {
+        if (delay <= 0) {
+            this.cancelAutoPlay();
+            this.autoPlayDelay = null;
+            return;
+        }
         this.autoPlayDelay = delay;
         if (!this.active) {
             return;
