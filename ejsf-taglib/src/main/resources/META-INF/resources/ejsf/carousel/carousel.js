@@ -127,12 +127,28 @@ class EJSFCarousel {
             this.nextNavElement.classList.remove("ejsf-carousel-thumbnails-nav-disabled");
         }
 
-        let count = this.imageData.length;
         let width = this.thumbnailsWindowElement.getBoundingClientRect().width;
-        if (width > count * (80 + 10)) {
-            return;
+        let totalWidth = 0;
+        for (let cidx = 0; cidx < this.thumbnailsElement.children.length; cidx++) {
+            totalWidth += this.thumbnailsElement.children[cidx].offsetWidth;
+            totalWidth += 10; // padding
         }
-        let translation = -idx * (80 + 10) + (width - (80 + 10)) * (idx + 1) / count;
+        let translation;
+        if (width >= totalWidth) {
+            translation = 0;
+        } else {
+            let offset = 0;
+            // idx - 1 to keep previous thumbnail visible
+            for (let cidx = 0; cidx < idx - 1; cidx++) {
+                offset += this.thumbnailsElement.children[cidx].offsetWidth;
+                offset += 10; // padding
+            }
+            let maxOffset = totalWidth - width;
+            if (offset > maxOffset) {
+                offset = maxOffset;
+            }
+            translation = -offset;
+        }
         this.thumbnailsElement.style.transform = "translate(" + translation + "px, 0px)";
     }
 

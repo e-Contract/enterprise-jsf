@@ -19,7 +19,8 @@ public class CarouselController {
 
     @PostConstruct
     public void postConstruct() {
-        ImageServlet.setDelay(1000);
+        ImageServlet.setDelay(500);
+        ImageServlet.setVariableDimensions(true);
         this.carouselImages = new LinkedList<>();
         for (int idx = 0; idx < 20; idx++) {
             CarouselImage carouselImage = new CarouselImage("./demo/image/" + idx, "./demo/image/thumbnail/" + idx);

@@ -37,15 +37,42 @@ public class ImageServlet extends HttpServlet {
         HD, NORMAL, THUMBNAIL
     }
 
+    private enum ImageDimension {
+
+        ID_800_600(800, 600),
+        ID_640_480(640, 480),
+        HDTV(1920, 1080),
+        HD(1280, 720),
+        SOCIAL(1080, 1080),
+        PHONE(1080, 720),
+        HUGE(2048, 1536),
+        ID_1366_768(1366, 768);
+
+        private final int width;
+        private final int height;
+
+        private ImageDimension(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public int getWidth() {
+            return this.width;
+        }
+
+        public int getHeight() {
+            return this.height;
+        }
+    }
+
     private static final int DEFAULT_DELAY = 1000;
 
     private static final String DELAY_SESSION_ATTRIBUTE = ImageServlet.class.getName() + ".delay";
 
+    private static final String VARIABLE_DIMENSIONS_SESSION_ATTRIBUTE = ImageServlet.class.getName() + ".variableDimensions";
+
     public static void setDelay(int delay) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-        HttpSession httpSession = request.getSession();
+        HttpSession httpSession = getHttpSession();
         httpSession.setAttribute(DELAY_SESSION_ATTRIBUTE, delay);
     }
 
@@ -56,6 +83,28 @@ public class ImageServlet extends HttpServlet {
             delay = DEFAULT_DELAY;
         }
         return delay;
+    }
+
+    private static HttpSession getHttpSession() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+        HttpSession httpSession = request.getSession();
+        return httpSession;
+    }
+
+    public static void setVariableDimensions(boolean variableDimensions) {
+        HttpSession httpSession = getHttpSession();
+        httpSession.setAttribute(VARIABLE_DIMENSIONS_SESSION_ATTRIBUTE, variableDimensions);
+    }
+
+    private boolean isVariableDimensions(HttpServletRequest request) {
+        HttpSession httpSession = request.getSession();
+        Boolean variableDimensions = (Boolean) httpSession.getAttribute(VARIABLE_DIMENSIONS_SESSION_ATTRIBUTE);
+        if (null == variableDimensions) {
+            variableDimensions = false;
+        }
+        return variableDimensions;
     }
 
     @Override
@@ -88,11 +137,27 @@ public class ImageServlet extends HttpServlet {
             return;
         }
 
+        int width;
+        int height;
         Random random = new Random(mediaId);
-        //int width = 1024 + random.nextInt(1024);
-        //int height = 1024 + random.nextInt(1024);
-        int width = 1920;
-        int height = 1080;
+        random.nextInt();
+        boolean variableDimensions = isVariableDimensions(request);
+        if (variableDimensions) {
+            int idx = random.nextInt(ImageDimension.values().length);
+            ImageDimension imageDimension = ImageDimension.values()[idx];
+            boolean flip = random.nextBoolean();
+            if (flip) {
+                height = imageDimension.getWidth();
+                width = imageDimension.getHeight();
+            } else {
+                width = imageDimension.getWidth();
+                height = imageDimension.getHeight();
+            }
+        } else {
+            ImageDimension imageDimension = ImageDimension.HDTV;
+            width = imageDimension.getWidth();
+            height = imageDimension.getHeight();
+        }
 
         BufferedImage photo = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = (Graphics2D) photo.getGraphics();
