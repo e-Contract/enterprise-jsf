@@ -1,4 +1,7 @@
 window.addEventListener("load", () => {
+    if (typeof jsf === "undefined") {
+        return;
+    }
     jsf.ajax.addOnEvent(function (data) {
         if (data.status === "success") {
             queueMicrotask(() => {

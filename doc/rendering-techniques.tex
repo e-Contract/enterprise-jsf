@@ -107,7 +107,14 @@ To emulate such scenario, let us introduce a slow \texttt{DataModel} implementat
 \lstinputlisting[language=Java]{../examples/helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/SlowTableModel.java}
 For each page loading it sleeps for 2 seconds, so quite slow indeed.
 
+A paginated data table JSF component that implements lazy loading might look as follows.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/LazyTableComponent.java}
+Determining whether we have to perform an initial rendering or not can be queried via the \texttt{isAjaxRequest} method on the \texttt{PartialViewContext} instance.
+Within the \texttt{encodeBegin} method we basically render everything, except the table body to avoid having to access our slow data model for the initial rendering.
+When we receive an AJAX request, we basically render everything, including the table body with data of course.
+As for the \texttt{decode} method, we actually don't have to do any additional stuff here.
 
-\begin{TODO}{TODO}
-	Write me.
-\end{TODO}
+Now let's have a look at the client-side widget for the lazy loading table.
+\lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-table-lazy.js}
+The only thing special here is that, during \texttt{init()}, we perform an AJAX call addressing our component and demanding via the \texttt{render} option for an update.
+

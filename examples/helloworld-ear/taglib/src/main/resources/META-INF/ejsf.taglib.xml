@@ -306,4 +306,17 @@
     </tag>
     <!-- tableUpdate end -->
 
+    <!-- lazyTable begin -->
+    <tag>
+        <tag-name>lazyTable</tag-name>
+        <component>
+            <component-type>ejsf.lazyTableComponent</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <type>be.e_contract.jsf.taglib.table.TableModel</type>
+        </attribute>
+    </tag>
+    <!-- lazyTable end -->
+
 </facelet-taglib>

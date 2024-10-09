@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ejsf="urn:be:e-contract:enterprise-jsf">
+    <h:head>
+        <title>Table Lazy Loading</title>
+    </h:head>
+    <h:body>
+        <h1>Table Lazy Loading</h1>
+        <h:form>
+            <ejsf:lazyTable value="#{lazyTableController.tableModel}"/>
+        </h:form>
+        <h:form>
+            <h:button value="Back" outcome="index"/>
+        </h:form>
+    </h:body>
+</html>
