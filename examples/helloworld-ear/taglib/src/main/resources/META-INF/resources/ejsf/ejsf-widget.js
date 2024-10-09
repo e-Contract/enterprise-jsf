@@ -27,6 +27,10 @@ var EJSF;
             return this._element;
         }
 
+        get id() {
+            return this._element.getAttribute("id");
+        }
+
         get widgetVar() {
             return this._widgetVar;
         }
@@ -35,6 +39,10 @@ var EJSF;
 
     ejsf.registerWidgetType = function (widgetClass) {
         widgetTypes.set(widgetClass.name, widgetClass);
+    };
+
+    ejsf.getWidget = function (id) {
+        return widgetInstances.get(id);
     };
 
     window.EJSF = function (widgetVar) {

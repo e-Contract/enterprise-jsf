@@ -267,4 +267,30 @@
     </tag>
     <!-- extensionComponent end -->
 
+    <!-- tableComponent begin -->
+    <tag>
+        <tag-name>table</tag-name>
+        <component>
+            <component-type>ejsf.tableComponent</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <type>be.e_contract.jsf.taglib.table.TableModel</type>
+        </attribute>
+    </tag>
+    <!-- tableComponent end -->
+
+    <!-- tableJavascriptUpdate begin -->
+    <tag>
+        <tag-name>tableJavascriptUpdate</tag-name>
+        <component>
+            <component-type>ejsf.tableJavascriptUpdateComponent</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <type>be.e_contract.jsf.taglib.table.TableModel</type>
+        </attribute>
+    </tag>
+    <!-- tableJavascriptUpdate end -->
+
 </facelet-taglib>

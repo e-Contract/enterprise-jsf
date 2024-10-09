@@ -14,7 +14,7 @@
             </p>
             <h:outputLabel for="@next" value="Input"/>
             <ejsf:exampleInput value="#{inputOutputController.value}">
-                <ejsf:parameterValidator parameter="foobar"/>
+                <ejsf:parameterValidator forbidden="foobar"/>
             </ejsf:exampleInput>
             <h:message for="@previous"/>
             <h:commandButton value="click me">

@@ -10,7 +10,7 @@ PUML = life-cycle.puml ear.puml helloworld-structure.puml ear-structure.puml jsf
 servlet-container.puml application-container.puml real-world-ear.puml cdi.puml cdi-war.puml \
 jaspic.puml behavior.puml taghandler.puml
 TEX_INCLUDES = preface.tex references.tex copyright.tex introduction.tex testing.tex production.tex \
-security.tex runtimes.tex jakarta.tex frameworks.tex
+security.tex runtimes.tex jakarta.tex frameworks.tex rendering-techniques.tex
 SVG = e-contract-logoFINAL.svg
 
 .PHONY: all

@@ -1,0 +1,6 @@
+.ejsf-table,
+.ejsf-table th,
+.ejsf-table td {
+    border: 1px solid;
+    border-collapse: collapse;
+}
