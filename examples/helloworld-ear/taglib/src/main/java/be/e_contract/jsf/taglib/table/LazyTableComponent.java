@@ -135,6 +135,7 @@ public class LazyTableComponent extends UIOutput {
         }
         if ("load".equals(behaviorEvent)) {
             LOGGER.debug("lazy load event received");
+            return;
         }
         LOGGER.error("unknown event: {}", behaviorEvent);
     }

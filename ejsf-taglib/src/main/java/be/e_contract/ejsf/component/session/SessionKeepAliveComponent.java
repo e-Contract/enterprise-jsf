@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.session;
@@ -36,6 +36,7 @@ public class SessionKeepAliveComponent extends UIComponentBase implements Widget
 
     enum PropertyKeys {
         pingPeriodBeforeExpiry,
+        maxKeepAlivePeriod
     }
 
     public int getPingPeriodBeforeExpiry() {
@@ -44,5 +45,13 @@ public class SessionKeepAliveComponent extends UIComponentBase implements Widget
 
     public void setPingPeriodBeforeExpiry(int pingPeriodBeforeExpiry) {
         getStateHelper().put(PropertyKeys.pingPeriodBeforeExpiry, pingPeriodBeforeExpiry);
+    }
+
+    public int getMaxKeepAlivePeriod() {
+        return (int) getStateHelper().eval(PropertyKeys.maxKeepAlivePeriod, -1);
+    }
+
+    public void setMaxKeepAlivePeriod(int maxKeepAlivePeriod) {
+        getStateHelper().put(PropertyKeys.maxKeepAlivePeriod, maxKeepAlivePeriod);
     }
 }

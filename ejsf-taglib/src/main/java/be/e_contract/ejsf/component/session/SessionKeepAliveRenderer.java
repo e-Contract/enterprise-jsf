@@ -1,13 +1,15 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.session;
 
 import java.io.IOException;
+import java.util.Map;
 import javax.faces.component.UIComponent;
+import javax.faces.component.behavior.ClientBehaviorContext;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.render.FacesRenderer;
@@ -39,6 +41,35 @@ public class SessionKeepAliveRenderer extends CoreRenderer {
         } else {
             LOGGER.warn("pingPeriodBeforeExpiry value to large: {}", pingPeriodBeforeExpiry);
         }
+        int maxKeepAlivePeriod = sessionKeepAliveComponent.getMaxKeepAlivePeriod();
+        if (maxKeepAlivePeriod > 0) {
+            widgetBuilder.attr("MAX_KEEP_ALIVE_PERIOD", maxKeepAlivePeriod);
+        }
         widgetBuilder.finish();
+    }
+
+    @Override
+    public void decode(FacesContext context, UIComponent component) {
+        ExternalContext externalContext = context.getExternalContext();
+        Map<String, String> params
+                = externalContext.getRequestParameterMap();
+        String behaviorSource = params.get(
+                ClientBehaviorContext.BEHAVIOR_SOURCE_PARAM_NAME);
+        if (null == behaviorSource) {
+            return;
+        }
+        String clientId = component.getClientId(context);
+        if (!behaviorSource.equals(clientId)) {
+            return;
+        }
+        String behaviorEvent = params.get(
+                ClientBehaviorContext.BEHAVIOR_EVENT_PARAM_NAME);
+        if (null == behaviorEvent) {
+            return;
+        }
+        if ("keepAlive".equals(behaviorEvent)) {
+            String sessionId = externalContext.getSessionId(false);
+            LOGGER.debug("keeping session alive: {}", sessionId);
+        }
     }
 }
