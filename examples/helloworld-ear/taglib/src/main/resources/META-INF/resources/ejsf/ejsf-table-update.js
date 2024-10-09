@@ -1,5 +1,5 @@
 (function () {
-    class TableJavascriptUpdateWidget extends ejsf.Widget {
+    class TableUpdateWidget extends ejsf.UpdateWidget {
         constructor(element, widgetVar) {
             super(element, widgetVar);
         }
@@ -38,12 +38,6 @@
                 td.innerText = data[idx];
             }
         }
-
-        static update(id, data) {
-            let widget = ejsf.getWidget(id);
-            widget.updateData(data);
-        }
     }
-    ejsf.TableJavascriptUpdateWidget = TableJavascriptUpdateWidget;
-    ejsf.registerWidgetType(TableJavascriptUpdateWidget);
+    ejsf.registerWidgetType(TableUpdateWidget);
 })();

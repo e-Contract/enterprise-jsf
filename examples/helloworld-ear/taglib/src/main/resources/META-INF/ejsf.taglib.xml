@@ -293,4 +293,17 @@
     </tag>
     <!-- tableJavascriptUpdate end -->
 
+    <!-- tableUpdate begin -->
+    <tag>
+        <tag-name>tableUpdate</tag-name>
+        <component>
+            <component-type>ejsf.tableUpdateComponent</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <type>be.e_contract.jsf.taglib.table.TableModel</type>
+        </attribute>
+    </tag>
+    <!-- tableUpdate end -->
+
 </facelet-taglib>

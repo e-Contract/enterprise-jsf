@@ -29,7 +29,7 @@ As you can see within the \texttt{encodeBegin} method we use our \texttt{HTMLEnc
 This makes the code much more readable.
 So the table header has two buttons to navigate the data pages.
 The table body simply renders us the active page content.
-Notice that we use our baby widget API as introduced in section \ref{sec:widgets} on page \pageref{sec:widgets} to take care of the client-side pagination logic.
+Notice that we use our baby widget API as introduced in Section \ref{sec:widgets} on page \pageref{sec:widgets} to take care of the client-side pagination logic.
 
 The \texttt{decode} method takes care of two AJAX events \texttt{next} and \texttt{prev} to move the active page index accordingly.
 Obviously the active page index is stored as state on our component using the \texttt{StateHelper}.
@@ -80,10 +80,33 @@ Here we simply inject the received data within the existing table data elements.
 Hence we performed an update of our paginated table without replacing any of the HTML elements.
 
 \section{JSON based updates}
+We can go a step further and avoid using \texttt{eval} completely to achieve an update based on some JSON data.
+For this we will write a JSF extension as previously demonstrated under Section \ref{sec:extensions} on page \pageref{sec:extensions}.
+The code of our custom \texttt{PartialResponseWriter} looks as follows.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/UpdatePartialResponseWriter.java}
+At the end of the partial response, when \texttt{endDocument} gets invoked, we simply write a JSF extension containing all JSON update data for all widget based components that felt like doing an update.
+JSF components can register a JSON update via the static \texttt{updateWidget} method.
+
+Our custom paginated table component looks as follows now.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/TableUpdateComponent.java}
+Only the \texttt{update} method has changed, where we invoke \texttt{updateWidget} on our custom partial response writer to register our JSON data to be delivered to our client-side widget.
+
+Of course at the client-side we need something that processes our custom JSF extension.
+\lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-widget-update.js}
+Within the JSF \texttt{addOnEvent} event listener, we simply parse the extension and fire the JSON update data towards the corresponding widgets.
+We introduced the \texttt{UpdateWidget} class here to give a sense of strong typing somehow.
+
+Our table widget code looks as follows.
+\lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-table-update.js}
+Not much has changed here, except that we could get rid of the static \texttt{update} method.
 
 \section{Lazy loading}
-
+Imagine we have a component that needs to visualize data that takes a while to compile, for example, due to heavy database queries required to do so.
+For such cases, we want to implement some lazy loading strategy.
+To emulate such scenario, let us introduce a slow \texttt{DataModel} implementation that looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/SlowTableModel.java}
+For each page loading it sleeps for 2 seconds, so quite slow indeed.
+
 
 \begin{TODO}{TODO}
 	Write me.
