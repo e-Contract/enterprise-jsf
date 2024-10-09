@@ -23,6 +23,21 @@
                 </p:commandButton>
 
             </h:form>
+            <h:form id="form2">
+                <p:inputText id="input"/>
+                <p:message id="message" for="@previous"/>
+                <p:commandButton id="submit"
+                                 value="Submit"
+                                 action="#{addMessageController.addCallbackParam()}"
+                                 update="@form,:messages">
+                    <ejsf:addMessage severity="ERROR"
+                                     callbackParamVar="paramVar"
+                                     summary="Warning message: #{paramVar}"
+                                     whenCallbackParam="callbackParam"
+                                     target="input"
+                                     invalidateTarget="true"/>
+                </p:commandButton>
+            </h:form>
         </h:body>
     </f:view>
 </html>

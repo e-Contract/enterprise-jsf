@@ -15,6 +15,7 @@ import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
@@ -49,13 +50,16 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
 
     private String callbackParamVar;
 
+    private boolean invalidateTarget;
+
     public AddMessageActionListener() {
         super();
     }
 
     public AddMessageActionListener(String severity, String summary,
             String detail, String target, String whenCallbackParam,
-            String whenCallbackParamValue, String callbackParamVar) {
+            String whenCallbackParamValue, String callbackParamVar,
+            boolean invalidateTarget) {
         this.severity = severity;
         this.summary = summary;
         this.detail = detail;
@@ -63,6 +67,7 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this.whenCallbackParam = whenCallbackParam;
         this.whenCallbackParamValue = whenCallbackParamValue;
         this.callbackParamVar = callbackParamVar;
+        this.invalidateTarget = invalidateTarget;
     }
 
     @Override
@@ -78,7 +83,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             this.whenCallbackParam,
             this.whenCallbackParamValue,
             this.targetClientId,
-            this.callbackParamVar
+            this.callbackParamVar,
+            this.invalidateTarget
         };
     }
 
@@ -102,6 +108,7 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this.whenCallbackParamValue = (String) stateObjects[5];
         this.targetClientId = (String) stateObjects[6];
         this.callbackParamVar = (String) stateObjects[7];
+        this.invalidateTarget = (Boolean) stateObjects[8];
     }
 
     @Override
@@ -154,29 +161,41 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         }
     }
 
-    private String getTargetClientId(ActionEvent event) {
-        if (null == this.target) {
-            return null;
-        }
-        UIComponent component = event.getComponent();
-        UIComponent targetComponent = component.findComponent(this.target);
-        if (null == targetComponent) {
-            LOGGER.error("target not found: {}", this.target);
-            return null;
-        }
-        FacesContext facesContext = event.getFacesContext();
-        return targetComponent.getClientId(facesContext);
-    }
-
     @Override
     public void processAction(ActionEvent event) throws AbortProcessingException {
         FacesContext facesContext = event.getFacesContext();
+        UIComponent component = event.getComponent();
+        String targetClientId;
+        UIComponent targetComponent;
+        if (this.target != null) {
+            targetComponent = component.findComponent(this.target);
+            if (null != targetComponent) {
+                targetClientId = targetComponent.getClientId(facesContext);
+            } else {
+                LOGGER.warn("target not found: {}", this.target);
+                targetClientId = null;
+            }
+        } else {
+            targetComponent = null;
+            targetClientId = null;
+        }
         if (null == this.whenCallbackParam) {
             FacesMessage facesMessage = new FacesMessage(getSeverity(), getSummary(facesContext), getDetail(facesContext));
-            String clientId = getTargetClientId(event);
-            facesContext.addMessage(clientId, facesMessage);
+            facesContext.addMessage(targetClientId, facesMessage);
+            if (this.invalidateTarget) {
+                if (null != targetComponent) {
+                    if (targetComponent instanceof UIInput) {
+                        UIInput targetInput = (UIInput) targetComponent;
+                        targetInput.setValid(false);
+                    } else {
+                        LOGGER.warn("target component is no UIInput");
+                    }
+                } else {
+                    LOGGER.warn("cannot invalidate null target component");
+                }
+            }
         } else {
-            this.targetClientId = getTargetClientId(event);
+            this.targetClientId = targetClientId;
             UIViewRoot viewRoot = facesContext.getViewRoot();
             viewRoot.subscribeToViewEvent(PreRenderViewEvent.class, this);
         }
@@ -213,6 +232,22 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             variableMapper.setVariable(this.callbackParamVar, previousValue);
         }
         facesContext.addMessage(this.targetClientId, facesMessage);
+        if (!this.invalidateTarget) {
+            return;
+        }
+        if (null == this.targetClientId) {
+            return;
+        }
+        UIViewRoot viewRoot = facesContext.getViewRoot();
+        UIComponent targetComponent = viewRoot.findComponent(this.targetClientId);
+        if (null == targetComponent) {
+            return;
+        }
+        if (!(targetComponent instanceof UIInput)) {
+            return;
+        }
+        UIInput targetInput = (UIInput) targetComponent;
+        targetInput.setValid(false);
     }
 
     @Override

@@ -88,6 +88,7 @@ import org.primefaces.selenium.PrimeSelenium;
 import org.primefaces.selenium.component.Button;
 import org.primefaces.selenium.component.CommandButton;
 import org.primefaces.selenium.component.DatePicker;
+import org.primefaces.selenium.component.InputText;
 import org.primefaces.selenium.component.Message;
 import org.primefaces.selenium.component.Messages;
 import org.primefaces.selenium.component.SelectOneMenu;
@@ -830,6 +831,18 @@ public class JettySeleniumTest {
         LOGGER.debug("message text: {}", messageText);
 
         assertEquals("Warning message: " + paramValue, messageText);
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form2:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form2:message"));
+        // PrimeFaces mixes detail with summary or what?
+        LOGGER.debug("error detail: {}", message.getDetailError().getText());
+        assertEquals("Warning message: " + paramValue, message.getText());
+        InputText inputText = PrimeSelenium.createFragment(InputText.class, By.id("form2:input"));
+        String inputClasses = inputText.getInput().getAttribute("class");
+        LOGGER.debug("input classes: {}", inputClasses);
+        assertTrue(inputClasses.contains("ui-state-error"));
     }
 
     @Test

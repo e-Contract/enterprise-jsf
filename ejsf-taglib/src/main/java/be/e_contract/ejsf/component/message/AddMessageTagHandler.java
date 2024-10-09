@@ -91,8 +91,16 @@ public class AddMessageTagHandler extends TagHandler {
             callbackParamVar = null;
         }
 
+        boolean invalidateTarget;
+        TagAttribute invalidateTargetTagAttribute = getAttribute("invalidateTarget");
+        if (null != invalidateTargetTagAttribute) {
+            invalidateTarget = invalidateTargetTagAttribute.getBoolean(faceletContext);
+        } else {
+            invalidateTarget = false;
+        }
+
         AddMessageActionListener actionListener = new AddMessageActionListener(severity, summary, detail,
-                target, whenCallbackParam, whenCallbackParamValue, callbackParamVar);
+                target, whenCallbackParam, whenCallbackParamValue, callbackParamVar, invalidateTarget);
         actionSource.addActionListener(actionListener);
     }
 }
