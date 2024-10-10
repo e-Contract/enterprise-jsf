@@ -25,6 +25,9 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
 
         if (typeof this.cfg.SESSION_KEEP_ALIVE_PING_INTERVAL !== "undefined") {
             console.log("configuring session keep alive ping");
+            if (typeof this.cfg.MAX_KEEP_ALIVE_PERIOD !== "undefined") {
+                this.cancelTimestamp = Date.now() + this.cfg.MAX_KEEP_ALIVE_PERIOD * 60 * 1000;
+            }
             this.keepAliveTimer = setInterval(function () {
                 $this.keepAlive();
             }, this.cfg.SESSION_KEEP_ALIVE_PING_INTERVAL);
@@ -190,6 +193,16 @@ PrimeFaces.widget.EJSFClockSync = PrimeFaces.widget.BaseWidget.extend({
             event: "keepAlive"
         };
         PrimeFaces.ajax.Request.handle(ajaxRequestOptions);
+        if (this.cancelTimestamp) {
+            let now = Date.now();
+            if (now > this.cancelTimestamp) {
+                if (this.keepAliveTimer) {
+                    console.log("canceling keep alive timer");
+                    clearInterval(this.keepAliveTimer);
+                    this.keepAliveTimer = null;
+                }
+            }
+        }
     },
 
     /**

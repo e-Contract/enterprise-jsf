@@ -9,7 +9,9 @@
     <ui:define name="body">
         <div id="example">
             <h:form>
-                <ejsf:clockSync clockLocation="clock" widgetVar="clockSync">
+                <ejsf:clockSync clockLocation="clock" widgetVar="clockSync"
+                                sessionKeepAlivePing="true"
+                                maxKeepAlivePeriod="2">
                     <p:ajax listener="#{clockSyncController.clockSynchronized}"
                             update=":messages,:results"/>
                 </ejsf:clockSync>

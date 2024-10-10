@@ -76,6 +76,7 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
         sessionKeepAlivePing,
         sessionKeepAliveBeforeExpiryPeriod,
         clockLocation,
+        maxKeepAlivePeriod
     }
 
     public boolean isSessionKeepAlivePing() {
@@ -132,6 +133,14 @@ public class ClockSyncComponent extends UIComponentBase implements Widget, Clien
 
     public void setClockLocation(String clockLocation) {
         getStateHelper().put(PropertyKeys.clockLocation, clockLocation);
+    }
+
+    public int getMaxKeepAlivePeriod() {
+        return (int) getStateHelper().eval(PropertyKeys.maxKeepAlivePeriod, -1);
+    }
+
+    public void setMaxKeepAlivePeriod(int maxKeepAlivePeriod) {
+        getStateHelper().put(PropertyKeys.maxKeepAlivePeriod, maxKeepAlivePeriod);
     }
 
     @Override

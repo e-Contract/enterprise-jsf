@@ -38,12 +38,12 @@ public class SessionKeepAliveRenderer extends CoreRenderer {
         sessionMaxInactiveIntervalSeconds -= pingPeriodBeforeExpiry;
         if (sessionMaxInactiveIntervalSeconds > 0) {
             widgetBuilder.attr("SESSION_KEEP_ALIVE_PING_INTERVAL", sessionMaxInactiveIntervalSeconds * 1000);
+            int maxKeepAlivePeriod = sessionKeepAliveComponent.getMaxKeepAlivePeriod();
+            if (maxKeepAlivePeriod > 0) {
+                widgetBuilder.attr("MAX_KEEP_ALIVE_PERIOD", maxKeepAlivePeriod);
+            }
         } else {
             LOGGER.warn("pingPeriodBeforeExpiry value to large: {}", pingPeriodBeforeExpiry);
-        }
-        int maxKeepAlivePeriod = sessionKeepAliveComponent.getMaxKeepAlivePeriod();
-        if (maxKeepAlivePeriod > 0) {
-            widgetBuilder.attr("MAX_KEEP_ALIVE_PERIOD", maxKeepAlivePeriod);
         }
         widgetBuilder.finish();
     }

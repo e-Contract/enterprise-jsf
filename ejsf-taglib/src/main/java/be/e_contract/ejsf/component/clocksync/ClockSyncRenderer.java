@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2021-2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2021-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.clocksync;
@@ -48,6 +48,10 @@ public class ClockSyncRenderer extends CoreRenderer {
             sessionMaxInactiveIntervalSeconds -= beforeExpiryPeriod;
             if (sessionMaxInactiveIntervalSeconds > 0) {
                 widgetBuilder.attr("SESSION_KEEP_ALIVE_PING_INTERVAL", sessionMaxInactiveIntervalSeconds * 1000);
+                int maxKeepAlivePeriod = clockSync.getMaxKeepAlivePeriod();
+                if (maxKeepAlivePeriod > 0) {
+                    widgetBuilder.attr("MAX_KEEP_ALIVE_PERIOD", maxKeepAlivePeriod);
+                }
             }
         }
         encodeClientBehaviors(context, clockSync);

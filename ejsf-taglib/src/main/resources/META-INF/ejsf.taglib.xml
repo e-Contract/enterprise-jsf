@@ -543,6 +543,11 @@
             <name>sessionKeepAliveBeforeExpiryPeriod</name>
             <type>java.lang.Integer</type>
         </attribute>
+        <attribute>
+            <description>The maximum period to keep the session alive in minutes. Indefinitely if not defined.</description>
+            <name>maxKeepAlivePeriod</name>
+            <type>java.lang.Integer</type>
+        </attribute>
     </tag>
 
     <tag>
