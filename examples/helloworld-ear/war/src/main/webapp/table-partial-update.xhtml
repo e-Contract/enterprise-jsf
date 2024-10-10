@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ejsf="urn:be:e-contract:enterprise-jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Table Partial Update</title>
+    </h:head>
+    <h:body>
+        <h1>Table Partial Update</h1>
+        <h:form>
+            <ejsf:tablePartialUpdate value="#{tableController.tableModel}"/>
+            <h:commandButton value="Update">
+                <f:ajax render="@form"/>
+            </h:commandButton>
+        </h:form>
+        <h:form>
+            <h:button value="Back" outcome="index"/>
+        </h:form>
+    </h:body>
+</html>

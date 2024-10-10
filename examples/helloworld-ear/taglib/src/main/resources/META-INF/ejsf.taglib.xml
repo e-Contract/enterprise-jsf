@@ -319,4 +319,17 @@
     </tag>
     <!-- lazyTable end -->
 
+    <!-- tablePartialUpdate begin -->
+    <tag>
+        <tag-name>tablePartialUpdate</tag-name>
+        <component>
+            <component-type>ejsf.tablePartialUpdateComponent</component-type>
+        </component>
+        <attribute>
+            <name>value</name>
+            <type>be.e_contract.jsf.taglib.table.TableModel</type>
+        </attribute>
+    </tag>
+    <!-- tablePartialUpdate end -->
+
 </facelet-taglib>

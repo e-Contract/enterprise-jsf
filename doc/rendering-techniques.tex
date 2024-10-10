@@ -13,13 +13,14 @@ Web frameworks should just be able to facilitate different rendering strategies 
 
 Within this chapter we investigate how different rendering techniques can also be applied to JSF components and hence that the JSF framework is more than capable of facilitating such different rendering techniques.
 
-To demonstrate some rendering techniques, we will create different components that give us a simple paginated table all using the following table model interface.
+To demonstrate some rendering techniques, we will create different components that give us a simple paginated table.
+All components use the following table model interface.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/TableModel.java}
 So each page simply contains a list of strings.
 
-To make the generation of HTML a bit less painful, we use the following helper class.
+To make the generation of HTML a bit less painful, we use the following \texttt{HTMLEncoder} helper class.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/HTMLEncoder.java}
-As you will see within the following component, via this helper class the code takes on the same structure as the generated HTML, and hence it improves readability of the code.
+As you will see within the following component, via this \texttt{HTMLEncoder} helper class the code takes on the same structure as the generated HTML, and hence it improves readability of the code.
 
 \section{Server-side rendered updates}
 We start with the most straightforward implementation possible.
@@ -29,7 +30,7 @@ As you can see within the \texttt{encodeBegin} method we use our \texttt{HTMLEnc
 This makes the code much more readable.
 So the table header has two buttons to navigate the data pages.
 The table body simply renders us the active page content.
-Notice that we use our baby widget API as introduced in Section \ref{sec:widgets} on page \pageref{sec:widgets} to take care of the client-side pagination logic.
+Notice that we use our baby widget API, introduced in Section \ref{sec:widgets} on page \pageref{sec:widgets}, to take care of the client-side pagination logic.
 
 The \texttt{decode} method takes care of two AJAX events \texttt{next} and \texttt{prev} to move the active page index accordingly.
 Obviously the active page index is stored as state on our component using the \texttt{StateHelper}.
@@ -41,10 +42,11 @@ When you click them, an AJAX request gets fired towards the server-side with the
 Notice that we request our table to be updated via the \texttt{render} option on the AJAX request.
 We locate our buttons via \texttt{querySelector} based on some CSS classes.
 This strategy has two advantages, one of course being able to locate stuff, and at the same time being able to style the stuff to make it look less likes it's still 1993.
+We also re-register our listeners when our widget receives an \texttt{update} since the navigation buttons also get replaced upon each AJAX update.
 
 The following page demonstrates the usage of our simple paginated table component.
 \lstinputlisting[language=XML]{../examples/helloworld-ear/war/src/main/webapp/table.xhtml}
-Notice that we have to embed our \texttt{ejsf:table} component within an \texttt{h:form} as it needs to be able to perform AJAX calls.
+Notice that we have to embed our \texttt{ejsf:table} component within an \texttt{h:form} as it needs to be able to perform JSF AJAX calls.
 
 The corresponding CDI controller looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/TableController.java}
@@ -52,11 +54,11 @@ The corresponding CDI controller looks as follows.
 With a very simple implementation of our \texttt{TableModel} interface given by,
 \lstinputlisting[language=Java]{../examples/helloworld-ear/war/src/main/java/be/e_contract/jsf/helloworld/SimpleTableModel.java}
 
-The most important characteristic of JSF is that the initial rendering (non-postback) and the update (postback and in case of AJAX postback with partial rendering) uses exactly the same \texttt{encodeBegin} method.
+The most important characteristic of JSF is that the initial rendering (non-postback) and the update (postback, and in case of AJAX postback with partial rendering) uses exactly the same \texttt{encodeBegin} method.
 This is what made the introduction of AJAX into the JSF framework, at that time, somewhat revolutionary.
-Even non-AJAX aware JSF components can participate within an AJAX update cycle.
+Even non-AJAX aware JSF components can participate in an AJAX update cycle.
 
-If you run this example and operate the navigation buttons, you will see that the AJAX response basically contains the entire rendered table, which is replaced by the client-side JSF AJAX code.
+If you run this example and operate the navigation buttons, you will see that the AJAX response contains the entire rendered table, which is replaced by the client-side JSF AJAX code (provided by \texttt{jsf.js}).
 Given the fact that JSF uses \texttt{XMLHttpRequest} underneath, and hence directly receives parsed XML, replacing DOM elements can actually be done very efficiently.
 
 While for our simple paginated table a complete replacement of the table during an AJAX update might not be very troublesome, it is imaginable that for some more complex components we might want to avoid this.
@@ -64,7 +66,8 @@ Within the following sections we will investigate different alternative strategi
 
 
 \section{Javascript based updates}
-The following component uses Javascript code that gets evaluated at the client-side to perform the table updates.
+The following component uses Javascript that gets evaluated at the client-side to perform the table updates each time one of the table navigation buttons is operated.
+The advantage of this rendering technique is that we no longer update and thus replace the entire table. We only update the table data content itself.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/TableJavascriptUpdateComponent.java}
 The only difference within the \texttt{encodeBegin} method is that we add a \texttt{data-ejsf-table-\allowbreak page-row} attribute to the table row data elements so our client-side Javascript can locate them.
 Within the \texttt{decode} method we do a Javascript based update via the \texttt{update} method.
@@ -73,11 +76,12 @@ This JSON parameter contains the content of the current page to be rendered.\foo
 
 The corresponding client-side widget code looks as follows,
 \lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-table-js-update.js}
-First of all notice that we no longer request our component to be updated during the AJAX call.
-Hence the JSF framework will no longer invoke \texttt{encodeBegin}.
+First of all notice that we no longer request our component to be updated during the AJAX call (no \texttt{render} option anymore).
+Hence the JSF framework will no longer invoke \texttt{encodeBegin} for an update.
 Instead we have a static \texttt{update} method on our widget that will get invoked via the \texttt{eval} based Javascript.
 Here we simply inject the received data within the existing table data elements.
 Hence we performed an update of our paginated table without replacing any of the HTML elements.
+
 
 \section{JSON based updates}
 We can go a step further and avoid using \texttt{eval} completely to achieve an update based on some JSON data.
@@ -99,6 +103,43 @@ We introduced the \texttt{UpdateWidget} class here to give a sense of strong typ
 Our table widget code looks as follows.
 \lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-table-update.js}
 Not much has changed here, except that we could get rid of the static \texttt{update} method.
+
+
+\section{Partial Partial Updates}
+If you look at the AJAX response of a partial update, you will see a structure similar to the following:
+\begin{lstlisting}[language=XML]
+<partial-response>
+	<changes>
+		<update id="...">
+		...
+		</update>
+		...
+	</changes>
+	...
+</partial-response>
+\end{lstlisting}
+Each component that had to render during a partial update, will have an \texttt{update} element within the response.
+As part of the client-side AJAX response handling, the JSF framework will interpret all elements within the \texttt{partial-response} element and like execute those instructions.
+With vanilla JSF, the \texttt{update} element operates at a component granularity, but nothing prevents us from going sub-component here.
+We could use this existing client-side JSF response handling to truly partially update our component.
+This can easily be achieve with a custom \texttt{PartialResponseWriter} as shown below.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/PartialUpdatePartialResponseWriter.java}
+Via the static \texttt{registerPartialUpdateListener} method we can register listeners that simply get called as part of \texttt{endDocument}.
+The corresponding interface for the listeners looks as follows:
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/PartialUpdateListener.java}
+
+Now let us show how to use this within the following component.
+\lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/TablePartialUpdateComponent.java}
+As for the \texttt{encodeBegin} method, we isolated the table body rendering with the \texttt{encodeBody} method for re-use.
+Notice how we give our table body a unique \texttt{id} value.
+This component implements our \texttt{PartialUpdateListener} interface.
+Within the \texttt{decode} method we simply register our component for a truly partial update when the next and previous buttons has been operated.
+The magic happens within the implementation of the \texttt{partialUpdate} method.
+Here we add an \texttt{update} element to the AJAX partial response where we only encode our table body.
+
+The corresponding client-side widget looks as follows:
+\lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-table-partial-update.js}
+Not much has changed here, except that we no longer request our component to be rendered (no \texttt{render} option) as part of the AJAX call.
 
 \section{Lazy loading}
 Imagine we have a component that needs to visualize data that takes a while to compile, for example, due to heavy database queries required to do so.

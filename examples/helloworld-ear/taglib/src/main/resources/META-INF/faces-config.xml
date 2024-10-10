@@ -36,6 +36,9 @@
         <partial-view-context-factory>
             be.e_contract.jsf.taglib.table.UpdatePartialViewContextFactory
         </partial-view-context-factory>
+        <partial-view-context-factory>
+            be.e_contract.jsf.taglib.table.PartialUpdatePartialViewContextFactory
+        </partial-view-context-factory>
     </factory>
 
 </faces-config>
