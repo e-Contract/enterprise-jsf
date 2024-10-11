@@ -239,6 +239,9 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
                 }
             }
         } else {
+            // we evaluate message here already
+            this.summary = getSummary(facesContext);
+            this.detail = getDetail(facesContext);
             this.targetClientId = targetClientId;
             UIViewRoot viewRoot = facesContext.getViewRoot();
             viewRoot.subscribeToViewEvent(PreRenderViewEvent.class, this);
