@@ -15,6 +15,12 @@
                 <p:commandButton value="Add Error Message" update=":messages">
                     <ejsf:addMessage severity="ERROR" summary="Some error message."/>
                 </p:commandButton>
+                <p:commandButton value="Message Parameters" update=":messages">
+                    <ejsf:addMessage summary="Some info message {0} {1}.">
+                        <ejsf:addMessageParam value="with"/>
+                        <ejsf:addMessageParam value="#{true} parameters"/>
+                    </ejsf:addMessage>
+                </p:commandButton>
                 <p:commandButton value="whenCallbackParam" update=":messages"
                                  action="#{addMessageController.addCallbackParam()}">
                     <ejsf:addMessage summary="Some whenCallbackParam message."

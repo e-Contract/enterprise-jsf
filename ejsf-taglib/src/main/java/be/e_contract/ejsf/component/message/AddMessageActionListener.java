@@ -121,8 +121,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this.targetClientId = (String) stateObjects[6];
         this.callbackParamVar = (String) stateObjects[7];
         this.invalidateTarget = (Boolean) stateObjects[8];
-        this.summaryParams = Arrays.asList((String[]) stateObjects[9]);
-        this.detailParams = Arrays.asList((String[]) stateObjects[10]);
+        this.summaryParams = new LinkedList<>(Arrays.asList((String[]) stateObjects[9]));
+        this.detailParams = new LinkedList<>(Arrays.asList((String[]) stateObjects[10]));
     }
 
     @Override
@@ -143,6 +143,19 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this.detailParams.add(value);
     }
 
+    private List<String> evaluateParams(FacesContext facesContext, List<String> params) {
+        ELContext elContext = facesContext.getELContext();
+        Application application = facesContext.getApplication();
+        ExpressionFactory expressionFactory = application.getExpressionFactory();
+        List<String> evaluatedParams = new LinkedList<>();
+        for (String param : params) {
+            ValueExpression paramValueExpression = expressionFactory.createValueExpression(elContext, param, String.class);
+            String paramValue = (String) paramValueExpression.getValue(elContext);
+            evaluatedParams.add(paramValue);
+        }
+        return evaluatedParams;
+    }
+
     private String getSummary(FacesContext facesContext) {
         if (null == this.summary) {
             return null;
@@ -154,13 +167,7 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         String summaryText = (String) valueExpression.getValue(elContext);
         if (summaryText.contains("{0}")) {
             MessageFormat messageFormat = new MessageFormat(summaryText);
-            List<String> params = new LinkedList<>();
-            for (String param : this.summaryParams) {
-                ValueExpression paramValueExpression = expressionFactory.createValueExpression(elContext, param, String.class);
-                String paramValue = (String) paramValueExpression.getValue(elContext);
-                params.add(paramValue);
-            }
-            summaryText = messageFormat.format(params.toArray(new String[0]));
+            summaryText = messageFormat.format(this.summaryParams.toArray(new String[0]));
         }
         return summaryText;
     }
@@ -176,13 +183,7 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         String detailText = (String) valueExpression.getValue(elContext);
         if (detailText.contains("{0}")) {
             MessageFormat messageFormat = new MessageFormat(detailText);
-            List<String> params = new LinkedList<>();
-            for (String param : this.detailParams) {
-                ValueExpression paramValueExpression = expressionFactory.createValueExpression(elContext, param, String.class);
-                String paramValue = (String) paramValueExpression.getValue(elContext);
-                params.add(paramValue);
-            }
-            detailText = messageFormat.format(params.toArray(new String[0]));
+            detailText = messageFormat.format(this.detailParams.toArray(new String[0]));
         }
         return detailText;
     }
@@ -223,6 +224,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             targetComponent = null;
             targetClientId = null;
         }
+        this.summaryParams = evaluateParams(facesContext, this.summaryParams);
+        this.detailParams = evaluateParams(facesContext, this.detailParams);
         if (null == this.whenCallbackParam) {
             FacesMessage facesMessage = new FacesMessage(getSeverity(), getSummary(facesContext), getDetail(facesContext));
             facesContext.addMessage(targetClientId, facesMessage);
@@ -239,9 +242,6 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
                 }
             }
         } else {
-            // we evaluate message here already
-            this.summary = getSummary(facesContext);
-            this.detail = getDetail(facesContext);
             this.targetClientId = targetClientId;
             UIViewRoot viewRoot = facesContext.getViewRoot();
             viewRoot.subscribeToViewEvent(PreRenderViewEvent.class, this);
