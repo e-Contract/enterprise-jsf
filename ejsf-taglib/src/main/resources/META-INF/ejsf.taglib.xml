@@ -2185,4 +2185,21 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Parameter for addMessage summary or detail messages.</description>
+        <tag-name>addMessageParam</tag-name>
+        <handler-class>be.e_contract.ejsf.component.message.AddMessageParamTagHandler</handler-class>
+        <attribute>
+            <description>The parameter value.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The target message. summary or detail. Defaults to summary.</description>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

@@ -6,6 +6,10 @@
  */
 package be.e_contract.ejsf.component.message;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -52,6 +56,10 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
 
     private boolean invalidateTarget;
 
+    private List<String> summaryParams;
+
+    private List<String> detailParams;
+
     public AddMessageActionListener() {
         super();
     }
@@ -68,6 +76,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this.whenCallbackParamValue = whenCallbackParamValue;
         this.callbackParamVar = callbackParamVar;
         this.invalidateTarget = invalidateTarget;
+        this.summaryParams = new LinkedList<>();
+        this.detailParams = new LinkedList<>();
     }
 
     @Override
@@ -84,7 +94,9 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             this.whenCallbackParamValue,
             this.targetClientId,
             this.callbackParamVar,
-            this.invalidateTarget
+            this.invalidateTarget,
+            this.summaryParams.toArray(new String[0]),
+            this.detailParams.toArray(new String[0])
         };
     }
 
@@ -109,6 +121,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this.targetClientId = (String) stateObjects[6];
         this.callbackParamVar = (String) stateObjects[7];
         this.invalidateTarget = (Boolean) stateObjects[8];
+        this.summaryParams = Arrays.asList((String[]) stateObjects[9]);
+        this.detailParams = Arrays.asList((String[]) stateObjects[10]);
     }
 
     @Override
@@ -121,6 +135,14 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this._transient = newTransientValue;
     }
 
+    public void addSummaryParam(String value) {
+        this.summaryParams.add(value);
+    }
+
+    public void addDetailParam(String value) {
+        this.detailParams.add(value);
+    }
+
     private String getSummary(FacesContext facesContext) {
         if (null == this.summary) {
             return null;
@@ -129,7 +151,18 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         Application application = facesContext.getApplication();
         ExpressionFactory expressionFactory = application.getExpressionFactory();
         ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, this.summary, String.class);
-        return (String) valueExpression.getValue(elContext);
+        String summaryText = (String) valueExpression.getValue(elContext);
+        if (summaryText.contains("{0}")) {
+            MessageFormat messageFormat = new MessageFormat(summaryText);
+            List<String> params = new LinkedList<>();
+            for (String param : this.summaryParams) {
+                ValueExpression paramValueExpression = expressionFactory.createValueExpression(elContext, param, String.class);
+                String paramValue = (String) paramValueExpression.getValue(elContext);
+                params.add(paramValue);
+            }
+            summaryText = messageFormat.format(params.toArray(new String[0]));
+        }
+        return summaryText;
     }
 
     private String getDetail(FacesContext facesContext) {
@@ -140,7 +173,18 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         Application application = facesContext.getApplication();
         ExpressionFactory expressionFactory = application.getExpressionFactory();
         ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, this.detail, String.class);
-        return (String) valueExpression.getValue(elContext);
+        String detailText = (String) valueExpression.getValue(elContext);
+        if (detailText.contains("{0}")) {
+            MessageFormat messageFormat = new MessageFormat(detailText);
+            List<String> params = new LinkedList<>();
+            for (String param : this.detailParams) {
+                ValueExpression paramValueExpression = expressionFactory.createValueExpression(elContext, param, String.class);
+                String paramValue = (String) paramValueExpression.getValue(elContext);
+                params.add(paramValue);
+            }
+            detailText = messageFormat.format(params.toArray(new String[0]));
+        }
+        return detailText;
     }
 
     private FacesMessage.Severity getSeverity() {

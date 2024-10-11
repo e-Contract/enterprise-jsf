@@ -102,5 +102,8 @@ public class AddMessageTagHandler extends TagHandler {
         AddMessageActionListener actionListener = new AddMessageActionListener(severity, summary, detail,
                 target, whenCallbackParam, whenCallbackParamValue, callbackParamVar, invalidateTarget);
         actionSource.addActionListener(actionListener);
+
+        // to activate our addMessageParam tag handler
+        this.nextHandler.apply(faceletContext, parent);
     }
 }

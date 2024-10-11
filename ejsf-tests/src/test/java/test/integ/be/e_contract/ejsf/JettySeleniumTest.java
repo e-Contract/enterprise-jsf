@@ -843,6 +843,14 @@ public class JettySeleniumTest {
         String inputClasses = inputText.getInput().getAttribute("class");
         LOGGER.debug("input classes: {}", inputClasses);
         assertTrue(inputClasses.contains("ui-state-error"));
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("paramsForm:submit"));
+        submitButton.click();
+
+        messages = PrimeSelenium.createFragment(Messages.class, By.id("messages"));
+        messageText = messages.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("value 0 true", messageText);
     }
 
     @Test

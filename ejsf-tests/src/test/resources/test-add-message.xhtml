@@ -21,7 +21,6 @@
                                      summary="Warning message: #{paramVar}"
                                      whenCallbackParam="callbackParam"/>
                 </p:commandButton>
-
             </h:form>
             <h:form id="form2">
                 <p:inputText id="input"/>
@@ -36,6 +35,16 @@
                                      whenCallbackParam="callbackParam"
                                      target="input"
                                      invalidateTarget="true"/>
+                </p:commandButton>
+            </h:form>
+            <h:form id="paramsForm">
+                <p:commandButton id="submit"
+                                 value="Submit"
+                                 update=":messages">
+                    <ejsf:addMessage summary="#{'{0} {1}'}">
+                        <ejsf:addMessageParam value="value 0"/>
+                        <ejsf:addMessageParam value="#{true}"/>
+                    </ejsf:addMessage>
                 </p:commandButton>
             </h:form>
         </h:body>
