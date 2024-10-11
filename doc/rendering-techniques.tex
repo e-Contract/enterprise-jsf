@@ -41,7 +41,7 @@ As part of the initialization of our widget, we register click event listeners o
 When you click them, an AJAX request gets fired towards the server-side with the navigation action as event\footnote{Yes strictly speaking we kind of abuse the behavior event parameter here, but who cares? Certainly not the JSF runtime.}.
 Notice that we request our table to be updated via the \texttt{render} option on the AJAX request.
 We locate our buttons via \texttt{querySelector} based on some CSS classes.
-This strategy has two advantages, one of course being able to locate stuff, and at the same time being able to style the stuff to make it look less likes it's still 1993.
+This strategy has two advantages, one of course being able to locate some element, and at the same time being able to style those elements to make it look less likes it's still 1993.
 We also re-register our listeners when our widget receives an \texttt{update} since the navigation buttons also get replaced upon each AJAX update.
 
 The following page demonstrates the usage of our simple paginated table component.
@@ -61,8 +61,9 @@ Even non-AJAX aware JSF components can participate in an AJAX update cycle.
 If you run this example and operate the navigation buttons, you will see that the AJAX response contains the entire rendered table, which is replaced by the client-side JSF AJAX code (provided by \texttt{jsf.js}).
 Given the fact that JSF uses \texttt{XMLHttpRequest} underneath, and hence directly receives parsed XML, replacing DOM elements can actually be done very efficiently.
 
-While for our simple paginated table a complete replacement of the table during an AJAX update might not be very troublesome, it is imaginable that for some more complex components we might want to avoid this.
-Within the following sections we will investigate different alternative strategies to achieve such client-side updates.
+For our simple paginated table a complete replacement of the table during an AJAX update is not very troublesome.
+However, it is imaginable that for some more complex components we might want to avoid this.
+Within the following sections we investigate different alternative strategies to achieve such client-side updates without the need to completely replace the rendered component.
 
 
 \section{Javascript based updates}
@@ -77,28 +78,32 @@ This JSON parameter contains the content of the current page to be rendered.\foo
 The corresponding client-side widget code looks as follows,
 \lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-table-js-update.js}
 First of all notice that we no longer request our component to be updated during the AJAX call (no \texttt{render} option anymore).
-Hence the JSF framework will no longer invoke \texttt{encodeBegin} for an update.
+Hence the JSF framework will no longer invoke \texttt{encodeBegin} for a navigation button update.
 Instead we have a static \texttt{update} method on our widget that will get invoked via the \texttt{eval} based Javascript.
-Here we simply inject the received data within the existing table data elements.
-Hence we performed an update of our paginated table without replacing any of the HTML elements.
+Here we locate our widget and push the update JSON data to it via the \texttt{updateData} method.
+There we simply inject the received data within the existing table data elements.
+Hence we performed a navigation button update of our paginated table without replacing any of the HTML elements.
+It is important here to realize that "classical" AJAX updates will still work as usual, and hence pass via \texttt{encodeBegin} to render the update.
 
 
 \section{JSON based updates}
-We can go a step further and avoid using \texttt{eval} completely to achieve an update based on some JSON data.
-For this we will write a JSF extension as previously demonstrated under Section \ref{sec:extensions} on page \pageref{sec:extensions}.
+We can go a step further and avoid using \texttt{eval} completely to achieve an update based on some JSON data.\footnote{\texttt{eval} is actually evil.}
+One way to accomplish this is to write a JSF extension as previously demonstrated under Section \ref{sec:extensions} on page \pageref{sec:extensions}.
 The code of our custom \texttt{PartialResponseWriter} looks as follows.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/UpdatePartialResponseWriter.java}
-At the end of the partial response, when \texttt{endDocument} gets invoked, we simply write a JSF extension containing all JSON update data for all widget based components that felt like doing an update.
-JSF components can register a JSON update via the static \texttt{updateWidget} method.
+At the end of the partial response, when \texttt{endDocument} gets invoked, we simply write a JSF \texttt{extension} element containing the JSON update data for all widget based components that felt like doing an update.
+JSF components can register for a JSON based update via the static \texttt{updateWidget} method.
 
 Our custom paginated table component looks as follows now.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/TableUpdateComponent.java}
-Only the \texttt{update} method has changed, where we invoke \texttt{updateWidget} on our custom partial response writer to register our JSON data to be delivered to our client-side widget.
+Only the \texttt{update} method has changed, where we invoke the static \texttt{updateWidget} method on our custom partial response writer to register our JSON data to be delivered to our client-side widget.
 
 Of course at the client-side we need something that processes our custom JSF extension.
+Also, our widgets needs to have notion of a JSON based update.
+Hence we extend our widget framework as follows.
 \lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-widget-update.js}
 Within the JSF \texttt{addOnEvent} event listener, we simply parse the extension and fire the JSON update data towards the corresponding widgets.
-We introduced the \texttt{UpdateWidget} class here to give a sense of strong typing somehow.
+We introduced the \texttt{UpdateWidget} class here to give a sense of strong typing somehow.\footnote{Without dragging Typescript into the picture.}
 
 Our table widget code looks as follows.
 \lstinputlisting[language=Javascript]{../examples/helloworld-ear/taglib/src/main/resources/META-INF/resources/ejsf/ejsf-table-update.js}
@@ -106,7 +111,7 @@ Not much has changed here, except that we could get rid of the static \texttt{up
 
 
 \section{Partial Partial Updates}
-If you look at the AJAX response of a partial update, you will see a structure similar to the following:
+If you look at the AJAX response of a partial update, you will find a structure similar to the following:
 \begin{lstlisting}[language=XML]
 <partial-response>
 	<changes>
@@ -125,6 +130,7 @@ We could use this existing client-side JSF response handling to truly partially 
 This can easily be achieve with a custom \texttt{PartialResponseWriter} as shown below.
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/PartialUpdatePartialResponseWriter.java}
 Via the static \texttt{registerPartialUpdateListener} method we can register listeners that simply get called as part of \texttt{endDocument}.
+There those listeners can inject whatever they feel like within the \texttt{partial-response} element.
 The corresponding interface for the listeners looks as follows:
 \lstinputlisting[language=Java]{../examples/helloworld-ear/taglib/src/main/java/be/e_contract/jsf/taglib/table/PartialUpdateListener.java}
 
@@ -133,7 +139,7 @@ Now let us show how to use this within the following component.
 As for the \texttt{encodeBegin} method, we isolated the table body rendering with the \texttt{encodeBody} method for re-use.
 Notice how we give our table body a unique \texttt{id} value.
 This component implements our \texttt{PartialUpdateListener} interface.
-Within the \texttt{decode} method we simply register our component for a truly partial update when the next and previous buttons has been operated.
+Within the \texttt{decode} method we simply register our component for a truly partial update when the next and previous buttons have been operated.
 The magic happens within the implementation of the \texttt{partialUpdate} method.
 Here we add an \texttt{update} element to the AJAX partial response where we only encode our table body.
 

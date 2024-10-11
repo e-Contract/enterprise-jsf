@@ -52,6 +52,8 @@ public class ClockSyncRenderer extends CoreRenderer {
                 if (maxKeepAlivePeriod > 0) {
                     widgetBuilder.attr("MAX_KEEP_ALIVE_PERIOD", maxKeepAlivePeriod);
                 }
+            } else {
+                LOGGER.error("sessionKeepAliveBeforeExpiryPeriod too high for session timeout");
             }
         }
         encodeClientBehaviors(context, clockSync);
