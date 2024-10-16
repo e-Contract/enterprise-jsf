@@ -4,7 +4,7 @@
         "highlight.js": "11.10.0"
     },
     "devDependencies": {
-        "browserify": "17.0.0",
+        "browserify": "17.0.1",
         "tinyify": "4.0.0"
     },
     "scripts": {

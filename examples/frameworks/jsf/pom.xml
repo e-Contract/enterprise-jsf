@@ -53,7 +53,7 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <classifier>jakarta</classifier>
-            <version>14.0.4</version>
+            <version>14.0.5</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
