@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:metadata>
+        <f:viewAction action="#{linkController.pageAction()}"/>
+    </f:metadata>
+    <ui:define name="title">Last Reviewed Demo</ui:define>
+    <ui:define name="body">
+        <ejsf:link id="example" href="#{linkController.canonicalUrl}" rel="canonical"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="LinkController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/LinkController.java"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="link"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

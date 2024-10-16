@@ -2202,4 +2202,24 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Adds a link element to the head.</description>
+        <tag-name>link</tag-name>
+        <component>
+            <component-type>ejsf.linkComponent</component-type>
+            <handler-class>be.e_contract.ejsf.component.link.LinkComponentHandler</handler-class>
+        </component>
+        <attribute>
+            <description>The link href attribute.</description>
+            <name>href</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The link rel attribute.</description>
+            <name>rel</name>·
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
