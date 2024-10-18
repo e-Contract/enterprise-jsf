@@ -7,7 +7,6 @@
 package be.e_contract.ejsf.component.output;
 
 import java.io.IOException;
-import java.util.Map;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
@@ -45,16 +44,6 @@ public class OutputTextEditorHtmlComponent extends UIOutput {
         responseWriter.startElement("span", this);
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.writeAttribute("class", "ql-editor", null);
-
-        Map<String, Object> passThroughAttributes = getPassThroughAttributes();
-        for (Map.Entry<String, Object> passThroughAttribute : passThroughAttributes.entrySet()) {
-            String name = passThroughAttribute.getKey();
-            Object value = passThroughAttribute.getValue();
-            if (null == value) {
-                continue;
-            }
-            responseWriter.writeAttribute(name, value.toString(), name);
-        }
 
         Object value = getValue();
         if (null != value) {

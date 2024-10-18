@@ -158,6 +158,9 @@ Important here is to set the \texttt{id} attribute on our \texttt{span} HTML ele
 This is required so that the JSF AJAX Javascript code can find our JSF component during response updates within the rendered HTML.
 Hence even if the value is \texttt{null}, it is important to render the HTML with correct client id so that future AJAX updates can succeed.
 
+As second parameter of the \texttt{startElement} invocation, we pass our component.
+This will make JSF to automagically add all pass through attributes to the \texttt{span} element.
+
 We explicitly set the renderer type to \texttt{null} to prevent a warning when using Apache MyFaces \cite{myfaces} as JSF implementation.
 
 Important here is to use \texttt{writeText} to output our \texttt{value}.

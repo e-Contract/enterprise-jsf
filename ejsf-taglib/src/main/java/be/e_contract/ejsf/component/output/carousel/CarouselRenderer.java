@@ -29,7 +29,7 @@ public class CarouselRenderer extends CoreRenderer {
         List<CarouselImage> carouselImages = (List<CarouselImage>) carouselComponent.getValue();
         String clientId = component.getClientId();
         ResponseWriter responseWriter = facesContext.getResponseWriter();
-        responseWriter.startElement("div", component);
+        responseWriter.startElement("div", null); // null = no pass through attributes here
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.writeAttribute("class", "ejsf-carousel", null);
         boolean lazyFirst = carouselComponent.isLazyFirst();
@@ -45,7 +45,7 @@ public class CarouselRenderer extends CoreRenderer {
             responseWriter.startElement("div", null);
             responseWriter.writeAttribute("class", "ejsf-carousel-image-container", null);
             {
-                responseWriter.startElement("img", null);
+                responseWriter.startElement("img", component); // pass through attributes here
                 responseWriter.writeAttribute("class", "ejsf-carousel-image", null);
                 if (!lazyFirst) {
                     if (null != carouselImages && !carouselImages.isEmpty()) {
