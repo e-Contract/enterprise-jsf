@@ -60,6 +60,10 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
 
     private List<String> detailParams;
 
+    private List<String> evaluatedSummaryParams;
+
+    private List<String> evaluatedDetailParams;
+
     public AddMessageActionListener() {
         super();
     }
@@ -78,6 +82,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this.invalidateTarget = invalidateTarget;
         this.summaryParams = new LinkedList<>();
         this.detailParams = new LinkedList<>();
+        this.evaluatedSummaryParams = new LinkedList<>();
+        this.evaluatedDetailParams = new LinkedList<>();
     }
 
     @Override
@@ -96,7 +102,9 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             this.callbackParamVar,
             this.invalidateTarget,
             this.summaryParams.toArray(new String[0]),
-            this.detailParams.toArray(new String[0])
+            this.detailParams.toArray(new String[0]),
+            this.evaluatedSummaryParams.toArray(new String[0]),
+            this.evaluatedDetailParams.toArray(new String[0])
         };
     }
 
@@ -123,6 +131,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         this.invalidateTarget = (Boolean) stateObjects[8];
         this.summaryParams = new LinkedList<>(Arrays.asList((String[]) stateObjects[9]));
         this.detailParams = new LinkedList<>(Arrays.asList((String[]) stateObjects[10]));
+        this.evaluatedSummaryParams = new LinkedList<>(Arrays.asList((String[]) stateObjects[11]));
+        this.evaluatedDetailParams = new LinkedList<>(Arrays.asList((String[]) stateObjects[12]));
     }
 
     @Override
@@ -167,7 +177,7 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         String summaryText = (String) valueExpression.getValue(elContext);
         if (summaryText.contains("{0}")) {
             MessageFormat messageFormat = new MessageFormat(summaryText);
-            summaryText = messageFormat.format(this.summaryParams.toArray(new String[0]));
+            summaryText = messageFormat.format(this.evaluatedSummaryParams.toArray(new String[0]));
         }
         return summaryText;
     }
@@ -183,7 +193,7 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
         String detailText = (String) valueExpression.getValue(elContext);
         if (detailText.contains("{0}")) {
             MessageFormat messageFormat = new MessageFormat(detailText);
-            detailText = messageFormat.format(this.detailParams.toArray(new String[0]));
+            detailText = messageFormat.format(this.evaluatedDetailParams.toArray(new String[0]));
         }
         return detailText;
     }
@@ -224,8 +234,8 @@ public class AddMessageActionListener implements ActionListener, StateHolder, Sy
             targetComponent = null;
             targetClientId = null;
         }
-        this.summaryParams = evaluateParams(facesContext, this.summaryParams);
-        this.detailParams = evaluateParams(facesContext, this.detailParams);
+        this.evaluatedSummaryParams = evaluateParams(facesContext, this.summaryParams);
+        this.evaluatedDetailParams = evaluateParams(facesContext, this.detailParams);
         if (null == this.whenCallbackParam) {
             FacesMessage facesMessage = new FacesMessage(getSeverity(), getSummary(facesContext), getDetail(facesContext));
             facesContext.addMessage(targetClientId, facesMessage);
