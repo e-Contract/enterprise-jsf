@@ -100,6 +100,7 @@ public class LinkComponent extends UIComponentBase implements ComponentSystemEve
             } else {
                 LOGGER.warn("missing h:head on page");
             }
+            return;
         }
         super.processEvent(event);
     }

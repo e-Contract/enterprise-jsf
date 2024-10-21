@@ -2222,4 +2222,12 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Component to add JSON-LD to the head.</description>
+        <tag-name>linkedData</tag-name>
+        <component>
+            <component-type>ejsf.linkedDataComponent</component-type>
+        </component>
+    </tag>
+
 </facelet-taglib>
