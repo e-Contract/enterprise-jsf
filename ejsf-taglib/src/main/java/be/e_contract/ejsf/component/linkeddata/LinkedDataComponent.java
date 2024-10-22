@@ -54,6 +54,18 @@ public class LinkedDataComponent extends UIComponentBase implements ComponentSys
         return COMPONENT_FAMILY;
     }
 
+    enum PropertyKeys {
+        value,
+    }
+
+    public void setValue(String value) {
+        getStateHelper().put(PropertyKeys.value, value);
+    }
+
+    public String getValue() {
+        return (String) getStateHelper().eval(PropertyKeys.value);
+    }
+
     private UIComponent findHead(FacesContext facesContext) {
         UIViewRoot viewRoot = facesContext.getViewRoot();
         for (UIComponent component : viewRoot.getChildren()) {
@@ -105,26 +117,31 @@ public class LinkedDataComponent extends UIComponentBase implements ComponentSys
                     continue;
                 }
                 LinkedDataHeadComponent linkedDataHeadComponent = (LinkedDataHeadComponent) headChild;
-                FastStringWriter output = new FastStringWriter();
-                ResponseWriter originalResponseWriter = facesContext.getResponseWriter();
-                if (null != originalResponseWriter) {
-                    facesContext.setResponseWriter(originalResponseWriter.cloneWithWriter(output));
+                String value = getValue();
+                if (null != value) {
+                    linkedDataHeadComponent.addContent(value);
                 } else {
-                    RenderKit renderKit = RendererUtils.getRenderKit(facesContext);
-                    facesContext.setResponseWriter(renderKit.createResponseWriter(output, "text/html", "UTF-8"));
-                }
-                try {
-                    for (UIComponent child : getChildren()) {
-                        child.encodeAll(facesContext);
-                    }
-                } catch (IOException ex) {
-                    LOGGER.error("I/O error: " + ex.getMessage(), ex);
-                } finally {
+                    FastStringWriter output = new FastStringWriter();
+                    ResponseWriter originalResponseWriter = facesContext.getResponseWriter();
                     if (null != originalResponseWriter) {
-                        facesContext.setResponseWriter(originalResponseWriter);
+                        facesContext.setResponseWriter(originalResponseWriter.cloneWithWriter(output));
+                    } else {
+                        RenderKit renderKit = RendererUtils.getRenderKit(facesContext);
+                        facesContext.setResponseWriter(renderKit.createResponseWriter(output, "text/html", "UTF-8"));
                     }
+                    try {
+                        for (UIComponent child : getChildren()) {
+                            child.encodeAll(facesContext);
+                        }
+                    } catch (IOException ex) {
+                        LOGGER.error("I/O error: " + ex.getMessage(), ex);
+                    } finally {
+                        if (null != originalResponseWriter) {
+                            facesContext.setResponseWriter(originalResponseWriter);
+                        }
+                    }
+                    linkedDataHeadComponent.addContent(output.toString());
                 }
-                linkedDataHeadComponent.addContent(output.toString());
                 return;
             }
             LOGGER.warn("no LinkedDataHeadComponent found");

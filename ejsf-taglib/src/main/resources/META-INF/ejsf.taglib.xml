@@ -2228,6 +2228,11 @@
         <component>
             <component-type>ejsf.linkedDataComponent</component-type>
         </component>
+        <attribute>
+            <description>The JSON-LD value. If not provided, we use the children as value.</description>
+            <name>value</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>
