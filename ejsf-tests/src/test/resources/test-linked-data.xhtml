@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:f="jakarta.faces.core">
+    <f:view locale="en">
+        <h:head>
+            <title>Test Linked Data</title>
+        </h:head>
+        <h:body>
+            <h1>Test Linked Data</h1>
+            <ejsf:linkedData>
+                {
+                    "@context": "https://schema.org",
+                    "@type": "WebPage",
+                    "author": {
+                        "@type": "Organization",
+                        "name": "e-Contract.be BV"
+                    }
+                }
+            </ejsf:linkedData>
+        </h:body>
+    </f:view>
+</html>

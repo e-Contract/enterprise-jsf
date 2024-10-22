@@ -36,6 +36,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
@@ -938,6 +939,25 @@ public class JettySeleniumTest {
         assertTrue(webElement.getText().contains("macos"));
         assertTrue(webElement.getText().contains("windows"));
         assertTrue(webElement.getText().contains("freebsd"));
+    }
+
+    @Test
+    public void testLink() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-link.xhtml");
+
+        WebElement webElement = this.driver.findElement(By.cssSelector("link[rel='canonical']"));
+        String href = webElement.getAttribute("href");
+        assertEquals("https://www.e-contract.be/", href);
+    }
+
+    @Test
+    public void testLinkedData() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-linked-data.xhtml");
+
+        WebElement webElement = this.driver.findElement(By.cssSelector("script[type='application/ld+json']"));
+        String jsonLd = webElement.getAttribute("innerHTML");
+        LOGGER.debug("JSON-LD: {}", jsonLd);
+        assertTrue(StringUtils.isNotEmpty(jsonLd));
     }
 
     @FunctionalInterface
