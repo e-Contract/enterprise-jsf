@@ -82,7 +82,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if ("" !== port) {
             port = ":" + port;
         }
-        let webSocket = new ReconnectingWebSocket("ws://localhost" + port + "/websocket-demo/websocket/" + group);
+        let protocol;
+        if (window.location.protocol === "https:") {
+            protocol = "wss";
+        } else {
+            protocol = "ws";
+        }
+        let webSocket = new ReconnectingWebSocket(protocol + "://localhost" + port + "/websocket-demo/websocket/" + group);
         webSocket.addEventListener("message", (event) => {
             let output = document.getElementById("output");
             output.innerHTML = output.innerHTML + event.data + "<br/>";
