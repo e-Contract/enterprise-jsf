@@ -2235,4 +2235,12 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Component to add KaTeX support to a page.</description>
+        <tag-name>katex</tag-name>
+        <component>
+            <component-type>ejsf.katexComponent</component-type>
+        </component>
+    </tag>
+
 </facelet-taglib>

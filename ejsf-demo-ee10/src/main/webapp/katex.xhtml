@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">KaTeX Demo</ui:define>
+    <ui:define name="body">
+        <div id="example">
+            <ejsf:katex/>
+            <p>
+                A quadratic equation,
+                $$a x^2 + b x + c = 0$$
+                where $a \neq 0$ has two real roots when $b^2 - 4 a c \gt 0$, which are given by,
+                $$
+                x = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2 a}
+                $$
+            </p>
+        </div>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="katex"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
