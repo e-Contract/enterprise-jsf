@@ -89,9 +89,21 @@ class EJSFCarousel {
                 if (!zoomImage) {
                     zoomImage = $this.imageData[index].image;
                 }
-                return {
-                    src: zoomImage
+                if ($this.imageData[index].width) {
+                    return {
+                        src: zoomImage,
+                        width: $this.imageData[index].width,
+                        height: $this.imageData[index].height
+                    };
+                }
+                let image = new Image();
+                image.onload = () => {
+                    $this.imageData[index].width = image.naturalWidth;
+                    $this.imageData[index].height = image.naturalHeight;
+                    $this.lightbox.pswp.refreshSlideContent(index);
                 };
+                image.src = zoomImage;
+                return {};
             });
             this.lightbox.init();
         }
