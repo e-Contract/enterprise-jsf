@@ -7,8 +7,6 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Carousel Demo</ui:define>
     <ui:define name="body">
-        <h:outputStylesheet library="ejsf" name="carousel/carousel.css"/>
-        <h:outputScript library="ejsf" name="carousel/carousel.js"/>
         <div class="ejsf-carousel" id="carousel" style="width: 60%; height: 400px;">
             <div class="ejsf-carousel-image-container">
                 <img class="ejsf-carousel-image" src="./demo/image/1" height="320"/>
@@ -30,9 +28,6 @@
                     &gt;
                 </button>
             </div>
-            <dialog class="ejsf-carousel-zoom-dialog">
-                <img class="ejsf-carousel-zoom-dialog-image" />
-            </dialog>
         </div>
         <script>
             let imageData = [

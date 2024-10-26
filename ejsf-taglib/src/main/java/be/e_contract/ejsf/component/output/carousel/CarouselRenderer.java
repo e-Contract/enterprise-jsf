@@ -106,16 +106,6 @@ public class CarouselRenderer extends CoreRenderer {
             }
             responseWriter.endElement("div");
         }
-        {
-            responseWriter.startElement("dialog", null);
-            responseWriter.writeAttribute("class", "ejsf-carousel-zoom-dialog", null);
-            {
-                responseWriter.startElement("img", null);
-                responseWriter.writeAttribute("class", "ejsf-carousel-zoom-dialog-image", null);
-                responseWriter.endElement("img");
-            }
-            responseWriter.endElement("dialog");
-        }
         responseWriter.endElement("div");
 
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);

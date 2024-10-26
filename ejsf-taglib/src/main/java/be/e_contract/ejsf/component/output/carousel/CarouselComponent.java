@@ -17,6 +17,9 @@ import org.primefaces.component.api.Widget;
     @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
     @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
     @ResourceDependency(library = "primefaces", name = "core.js"),
+    @ResourceDependency(library = "ejsf", name = "photoswipe/photoswipe.css"),
+    @ResourceDependency(library = "ejsf", name = "photoswipe/photoswipe.umd.min.js"),
+    @ResourceDependency(library = "ejsf", name = "photoswipe/photoswipe-lightbox.umd.min.js"),
     @ResourceDependency(library = "ejsf", name = "carousel/carousel.css"),
     @ResourceDependency(library = "ejsf", name = "carousel/carousel.js"),
     @ResourceDependency(library = "ejsf", name = "carousel/carousel-widget.js")

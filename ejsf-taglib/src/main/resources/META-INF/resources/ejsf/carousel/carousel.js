@@ -9,6 +9,7 @@ class EJSFCarousel {
 
     element;
     imageData;
+    lightbox;
     activeImageIndex = 0;
     active = false;
     lazyFirst = false;
@@ -40,14 +41,6 @@ class EJSFCarousel {
 
     get image() {
         return this.element.querySelector(".ejsf-carousel-image");
-    }
-
-    get zoomDialog() {
-        return this.element.querySelector(".ejsf-carousel-zoom-dialog");
-    }
-
-    get zoomDialogImage() {
-        return this.zoomDialog.querySelector("img:first-of-type");
     }
 
     get imageCaption() {
@@ -83,11 +76,26 @@ class EJSFCarousel {
             window.location.assign(onclickLocation);
             return;
         }
-        let zoomImage = this.imageData[this.activeImageIndex].zoomImage;
-        if (!zoomImage) {
-            zoomImage = this.imageData[this.activeImageIndex].image;
+        if (!this.lightbox) {
+            let $this = this;
+            this.lightbox = new PhotoSwipeLightbox({
+                pswpModule: PhotoSwipe
+            });
+            this.lightbox.addFilter("numItems", (numItems) => {
+                return $this.imageData.length;
+            });
+            this.lightbox.addFilter("itemData", (itemData, index) => {
+                let zoomImage = $this.imageData[index].zoomImage;
+                if (!zoomImage) {
+                    zoomImage = $this.imageData[index].image;
+                }
+                return {
+                    src: zoomImage
+                };
+            });
+            this.lightbox.init();
         }
-        this.zoomDialogImage.src = zoomImage;
+        this.lightbox.loadAndOpen(this.activeImageIndex);
     }
 
     changeActiveImage(idx) {
@@ -189,13 +197,6 @@ class EJSFCarousel {
         });
         image.addEventListener("load", () => {
             $this.updateImageCaption();
-        });
-        let zoomDialogImage = this.zoomDialogImage;
-        zoomDialogImage.addEventListener("click", () => {
-            $this.zoomDialog.close();
-        });
-        zoomDialogImage.addEventListener("load", () => {
-            $this.zoomDialog.showModal();
         });
     }
 
@@ -315,6 +316,10 @@ class EJSFCarousel {
         if (this.intersectionObserver) {
             this.intersectionObserver.disconnect();
             this.intersectionObserver = null;
+        }
+        if (this.lightbox) {
+            this.lightbox.destroy();
+            this.lightbox = null;
         }
     }
 }
