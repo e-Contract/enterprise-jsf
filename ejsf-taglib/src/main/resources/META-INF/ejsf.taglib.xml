@@ -2243,4 +2243,19 @@
         </component>
     </tag>
 
+    <tag>
+        <description>Output value as markdown.</description>
+        <tag-name>marked</tag-name>
+        <component>
+            <component-type>ejsf.markedComponent</component-type>
+            <renderer-type>ejsf.markedRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The markdown to display.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

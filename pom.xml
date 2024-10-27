@@ -369,6 +369,7 @@
         <module>ejsf-taglib-leaflet</module>
         <module>ejsf-taglib-katex</module>
         <module>ejsf-taglib-photoswipe</module>
+        <module>ejsf-taglib-marked</module>
         <module>ejsf-tests</module>
     </modules>
     <profiles>

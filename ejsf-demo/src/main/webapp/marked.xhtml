@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Marked Demo</ui:define>
+    <ui:define name="body">
+        <ejsf:marked id="example" value="#{markedController.value}"/>
+        <h:form>
+            <h:panelGrid columns="1">
+                <p:inputTextarea value="#{markedController.value}"
+                                 rows="10" cols="80"/>
+                <p:commandButton value="Update" update=":example"/>
+            </h:panelGrid>
+        </h:form>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="MarkedController.java">
+                <ejsf:highlight resource="/be/e_contract/demo/MarkedController.java"/>
+            </p:tab>
+            <p:tab title="marked.md">
+                <ejsf:highlight resource="/marked.md"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="marked"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
