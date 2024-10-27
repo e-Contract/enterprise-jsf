@@ -2258,4 +2258,24 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Copy the value to the clipboard.</description>
+        <tag-name>copyButton</tag-name>
+        <component>
+            <component-type>ejsf.copyButtonComponent</component-type>
+            <renderer-type>ejsf.copyButtonRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The value to be copied to the clipboard.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional style for the icon.</description>
+            <name>style</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
