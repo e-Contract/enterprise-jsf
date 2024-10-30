@@ -3,7 +3,7 @@
     <parent>
         <groupId>be.e-contract</groupId>
         <artifactId>enterprise-jsf</artifactId>
-        <version>1.24.0</version>
+        <version>1.24.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>be.e-contract.enterprise-jsf</groupId>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
             <classifier>jakarta</classifier>
             <exclusions>
                 <exclusion>
@@ -60,58 +60,58 @@
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-api</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-echarts</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-d3</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-highlight</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-visnetwork</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-mermaid</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-webauthn</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-leaflet</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-katex</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-photoswipe</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-marked</artifactId>
-            <version>1.24.0</version>
+            <version>1.24.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
