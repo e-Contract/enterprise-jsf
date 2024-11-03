@@ -960,6 +960,35 @@ public class JettySeleniumTest {
         assertTrue(StringUtils.isNotEmpty(jsonLd));
     }
 
+    @Test
+    public void testRobots() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-robots.xhtml");
+
+        WebElement webElement = this.driver.findElement(By.cssSelector("meta[name='robots']"));
+        String content = webElement.getAttribute("content");
+        assertEquals("noindex, nofollow", content);
+
+        runOnBean(RobotsController.class, (RobotsController robotsController) -> {
+            robotsController.setFollow(true);
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-robots.xhtml");
+
+        webElement = this.driver.findElement(By.cssSelector("meta[name='robots']"));
+        content = webElement.getAttribute("content");
+        assertEquals("noindex, follow", content);
+
+        runOnBean(RobotsController.class, (RobotsController robotsController) -> {
+            robotsController.setIndex(true);
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-robots.xhtml");
+
+        webElement = this.driver.findElement(By.cssSelector("meta[name='robots']"));
+        content = webElement.getAttribute("content");
+        assertEquals("index, follow", content);
+    }
+
     @FunctionalInterface
     interface ExceptionConsumer<T> {
 

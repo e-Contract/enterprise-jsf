@@ -42,6 +42,27 @@ public class RobotsComponent extends UIComponentBase implements ComponentSystemE
         return COMPONENT_FAMILY;
     }
 
+    enum PropertyKeys {
+        index,
+        follow
+    }
+
+    public void setIndex(boolean index) {
+        getStateHelper().put(PropertyKeys.index, index);
+    }
+
+    public boolean isIndex() {
+        return (boolean) getStateHelper().eval(PropertyKeys.index, false);
+    }
+
+    public void setFollow(boolean follow) {
+        getStateHelper().put(PropertyKeys.follow, follow);
+    }
+
+    public boolean isFollow() {
+        return (boolean) getStateHelper().eval(PropertyKeys.follow, false);
+    }
+
     private UIComponent findHead(FacesContext facesContext) {
         UIViewRoot viewRoot = facesContext.getViewRoot();
         for (UIComponent component : viewRoot.getChildren()) {
@@ -72,6 +93,8 @@ public class RobotsComponent extends UIComponentBase implements ComponentSystemE
                 Application application = facesContext.getApplication();
                 RobotsHeadComponent robotsHeadComponent = (RobotsHeadComponent) application.createComponent(RobotsHeadComponent.COMPONENT_TYPE);
                 robotsHeadComponent.setRendered(isRendered());
+                robotsHeadComponent.setIndex(isIndex());
+                robotsHeadComponent.setFollow(isFollow());
                 headComponent.getChildren().add(robotsHeadComponent);
             } else {
                 LOGGER.warn("missing h:head on page");

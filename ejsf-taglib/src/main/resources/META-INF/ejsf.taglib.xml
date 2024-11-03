@@ -1883,6 +1883,16 @@
         <component>
             <component-type>ejsf.robotsComponent</component-type>
         </component>
+        <attribute>
+            <description>Sets follow instead of nofollow.</description>
+            <name>follow</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <description>Sets index instead of noindex.</description>
+            <name>index</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
     <tag>

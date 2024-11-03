@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:f="jakarta.faces.core">
+    <f:view>
+        <h:head>
+            <title>Test Robots</title>
+        </h:head>
+        <h:body>
+            <h1>Test Robots</h1>
+            <ejsf:robots index="#{robotsController.index}"
+                         follow="#{robotsController.follow}"/>
+        </h:body>
+    </f:view>
+</html>
