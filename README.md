@@ -168,12 +168,12 @@ mvn clean package payara-micro:start -Ppayara
 
 Running the demo web application requires an application server that supports Jakarta EE version 10.
 We prefer WildFly as application server.
-WildFly version 33.0.2.Final is the latest version that supports Jakarta EE 10.
+WildFly version 34.0.0.Final is the latest version that supports Jakarta EE 10.
 WildFly can be downloaded from: https://www.wildfly.org
 
-Start a WildFly version 33.0.2.Final via:
+Start a WildFly version 34.0.0.Final via:
 ```
-cd wildfly-33.0.2.Final/bin
+cd wildfly-34.0.0.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
 ```
 
