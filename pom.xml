@@ -215,7 +215,7 @@
             <dependency>
                 <groupId>com.googlecode.libphonenumber</groupId>
                 <artifactId>libphonenumber</artifactId>
-                <version>8.13.48</version>
+                <version>8.13.49</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
@@ -335,7 +335,7 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
-                <version>4.25.0</version>
+                <version>4.26.0</version>
             </dependency>
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
