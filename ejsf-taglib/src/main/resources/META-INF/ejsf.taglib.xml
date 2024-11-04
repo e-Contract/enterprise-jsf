@@ -31,6 +31,11 @@
             <name>newTab</name>
             <type>java.lang.Boolean</type>
         </attribute>
+        <attribute>
+            <description>The datetime formatter pattern.</description>
+            <name>datetimePattern</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

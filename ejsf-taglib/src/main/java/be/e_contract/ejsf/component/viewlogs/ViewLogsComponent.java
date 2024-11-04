@@ -9,6 +9,9 @@ package be.e_contract.ejsf.component.viewlogs;
 import be.e_contract.ejsf.component.output.currency.OutputCurrencyComponent;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.Application;
@@ -51,6 +54,7 @@ public class ViewLogsComponent extends UIComponentBase {
         newTab,
         includes,
         excludes,
+        datetimePattern
     }
 
     @Override
@@ -92,6 +96,15 @@ public class ViewLogsComponent extends UIComponentBase {
         responseWriter.endElement("th");
 
         responseWriter.endElement("tr");
+
+        DateTimeFormatter dateTimeFormatter;
+        String pattern = getDatetimePattern();
+        if (null != pattern) {
+            dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
+        } else {
+            dateTimeFormatter = null;
+        }
+
         List<String> includes = getIncludes();
         List<String> excludes = getExcludes();
         List<File> logFiles = ViewLogsManager.getLogFiles(includes, excludes);
@@ -131,7 +144,13 @@ public class ViewLogsComponent extends UIComponentBase {
             responseWriter.endElement("td");
 
             responseWriter.startElement("td", this);
-            responseWriter.write(new Date(logFile.lastModified()).toString());
+            if (null != dateTimeFormatter) {
+                Date lastModified = new Date(logFile.lastModified());
+                LocalDateTime localDateTime = LocalDateTime.ofInstant(lastModified.toInstant(), ZoneId.systemDefault());
+                responseWriter.write(dateTimeFormatter.format(localDateTime));
+            } else {
+                responseWriter.write(new Date(logFile.lastModified()).toString());
+            }
             responseWriter.endElement("td");
 
             responseWriter.endElement("tr");
@@ -182,5 +201,13 @@ public class ViewLogsComponent extends UIComponentBase {
 
     public List<String> getExcludes() {
         return (List<String>) getStateHelper().eval(PropertyKeys.excludes);
+    }
+
+    public void setDatetimePattern(String pattern) {
+        getStateHelper().put(PropertyKeys.datetimePattern, pattern);
+    }
+
+    public String getDatetimePattern() {
+        return (String) getStateHelper().eval(PropertyKeys.datetimePattern);
     }
 }
