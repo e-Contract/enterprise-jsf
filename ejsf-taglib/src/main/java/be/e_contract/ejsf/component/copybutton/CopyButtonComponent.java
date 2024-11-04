@@ -36,7 +36,8 @@ public class CopyButtonComponent extends UIComponentBase implements Widget {
 
     enum PropertyKeys {
         value,
-        style
+        style,
+        copiedIcon,
     }
 
     public String getValue() {
@@ -53,5 +54,13 @@ public class CopyButtonComponent extends UIComponentBase implements Widget {
 
     public void setStyle(String style) {
         getStateHelper().put(PropertyKeys.style, style);
+    }
+
+    public String getCopiedIcon() {
+        return (String) getStateHelper().eval(PropertyKeys.copiedIcon, "pi-check-square");
+    }
+
+    public void setCopiedIcon(String copiedIcon) {
+        getStateHelper().put(PropertyKeys.copiedIcon, copiedIcon);
     }
 }

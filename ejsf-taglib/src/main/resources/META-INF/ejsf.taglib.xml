@@ -2291,6 +2291,11 @@
             <name>style</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>Icon to be used when value has been copied to the clipboard.</description>
+            <name>copiedIcon</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
 </facelet-taglib>

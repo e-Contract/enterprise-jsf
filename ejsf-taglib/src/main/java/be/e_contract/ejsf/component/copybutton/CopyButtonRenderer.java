@@ -47,6 +47,8 @@ public class CopyButtonRenderer extends CoreRenderer {
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
         widgetBuilder.init("EJSFCopyButton", copyButtonComponent);
         widgetBuilder.attr("value", value);
+        String copiedIcon = copyButtonComponent.getCopiedIcon();
+        widgetBuilder.attr("copiedIcon", copiedIcon);
         widgetBuilder.finish();
     }
 }

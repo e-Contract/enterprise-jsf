@@ -18,7 +18,7 @@ PrimeFaces.widget.EJSFCopyButton = PrimeFaces.widget.BaseWidget.extend({
     copyToClipboard: function () {
         navigator.clipboard.writeText(this.cfg.value);
         let icon = $(this.jqId + "\\:icon");
-        icon.removeClass("pi-copy").addClass("pi-check-square").css("color", "green");
+        icon.removeClass("pi-copy").addClass(this.cfg.copiedIcon).css("color", "green");
         let $this = this;
         setTimeout(function () {
             $this.restoreIcon();
@@ -27,6 +27,6 @@ PrimeFaces.widget.EJSFCopyButton = PrimeFaces.widget.BaseWidget.extend({
 
     restoreIcon: function () {
         let icon = $(this.jqId + "\\:icon");
-        icon.removeClass("pi-check-square").addClass("pi-copy").css("color", "");
+        icon.removeClass(this.cfg.copiedIcon).addClass("pi-copy").css("color", "");
     }
 });
