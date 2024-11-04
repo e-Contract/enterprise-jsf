@@ -18,6 +18,9 @@
             <composite:attribute name="download"
                                  shortDescription="Set to true to show a download button."
                                  type="java.lang.Boolean"/>
+            <composite:attribute name="dateTimePattern"
+                                 shortDescription="The pattern used for formatting datetimes."
+                                 type="java.lang.String"/>
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
@@ -30,13 +33,15 @@
 
                     <h:outputText value="#{ejsfMessages.certificateNotBefore}:"/>
                     <h:outputText value="#{cc.attrs.value.notBefore}"
-                                  style="#{cc.notBeforeStyle}">
+                                  style="#{cc.notBeforeStyle}"
+                                  binding="#{cc.notBefore}">
                         <f:convertDateTime type="both" timeStyle="full" />
                     </h:outputText>
 
                     <h:outputText value="#{ejsfMessages.certificateNotAfter}:"/>
                     <h:outputText value="#{cc.attrs.value.notAfter}"
-                                  style="#{cc.notAfterStyle}">
+                                  style="#{cc.notAfterStyle}"
+                                  binding="#{cc.notAfter}">
                         <f:convertDateTime type="both" timeStyle="full" />
                     </h:outputText>
 
@@ -61,11 +66,14 @@
 
                     <composite:insertChildren/>
                 </h:panelGrid>
-                <p:commandButton rendered="#{cc.attrs.download}" ajax="false"
-                                 icon="pi pi-arrow-down" styleClass="rounded-button ui-button-flat">
+                <p:commandButton rendered="#{cc.attrs.download}"
+                                 ajax="false"
+                                 icon="pi pi-arrow-down"
+                                 styleClass="rounded-button ui-button-flat">
                     <p:fileDownload value="#{cc.file}"/>
                 </p:commandButton>
-                <p:tooltip for="@previous" rendered="#{cc.attrs.download}"
+                <p:tooltip for="@previous"
+                           rendered="#{cc.attrs.download}"
                            value="Download certificate."/>
             </div>
         </composite:implementation>

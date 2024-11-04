@@ -16,21 +16,33 @@ import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import javax.faces.application.Application;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.UIOutput;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.DateTimeConverter;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ComponentSystemEvent;
+import javax.faces.event.ListenerFor;
+import javax.faces.event.PostAddToViewEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @FacesComponent(OutputCertificateComponent.COMPONENT_TYPE)
+@ListenerFor(systemEventClass = PostAddToViewEvent.class)
 public class OutputCertificateComponent extends UIOutput implements NamingContainer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OutputCertificateComponent.class);
 
     public static final String COMPONENT_TYPE = "ejsf.outputCertificate";
+
+    private UIOutput notBefore;
+
+    private UIOutput notAfter;
 
     public OutputCertificateComponent() {
         setRendererType(null);
@@ -39,6 +51,22 @@ public class OutputCertificateComponent extends UIOutput implements NamingContai
     @Override
     public String getFamily() {
         return UINamingContainer.COMPONENT_FAMILY;
+    }
+
+    public UIOutput getNotBefore() {
+        return this.notBefore;
+    }
+
+    public void setNotBefore(UIOutput notBefore) {
+        this.notBefore = notBefore;
+    }
+
+    public UIOutput getNotAfter() {
+        return this.notAfter;
+    }
+
+    public void setNotAfter(UIOutput notAfter) {
+        this.notAfter = notAfter;
     }
 
     public byte[] getCertificateData() {
@@ -141,5 +169,22 @@ public class OutputCertificateComponent extends UIOutput implements NamingContai
         }
         BigInteger serialNumber = certificate.getSerialNumber();
         return serialNumber.toString(16).toUpperCase();
+    }
+
+    @Override
+    public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
+        if (event instanceof PostAddToViewEvent) {
+            String dateTimePattern = (String) getAttributes().get("dateTimePattern");
+            if (null != dateTimePattern) {
+                FacesContext facesContext = event.getFacesContext();
+                Application application = facesContext.getApplication();
+                DateTimeConverter dateTimeConverter = (DateTimeConverter) application.createConverter(DateTimeConverter.CONVERTER_ID);
+                dateTimeConverter.setType("both");
+                dateTimeConverter.setPattern(dateTimePattern);
+                this.notBefore.setConverter(dateTimeConverter);
+                this.notAfter.setConverter(dateTimeConverter);
+            }
+        }
+        super.processEvent(event);
     }
 }
