@@ -33,7 +33,7 @@
         </attribute>
         <attribute>
             <description>The datetime formatter pattern.</description>
-            <name>datetimePattern</name>
+            <name>dateTimePattern</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>

@@ -54,7 +54,7 @@ public class ViewLogsComponent extends UIComponentBase {
         newTab,
         includes,
         excludes,
-        datetimePattern
+        dateTimePattern
     }
 
     @Override
@@ -98,9 +98,9 @@ public class ViewLogsComponent extends UIComponentBase {
         responseWriter.endElement("tr");
 
         DateTimeFormatter dateTimeFormatter;
-        String pattern = getDatetimePattern();
-        if (null != pattern) {
-            dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
+        String dateTimePattern = getDateTimePattern();
+        if (null != dateTimePattern) {
+            dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimePattern);
         } else {
             dateTimeFormatter = null;
         }
@@ -203,11 +203,11 @@ public class ViewLogsComponent extends UIComponentBase {
         return (List<String>) getStateHelper().eval(PropertyKeys.excludes);
     }
 
-    public void setDatetimePattern(String pattern) {
-        getStateHelper().put(PropertyKeys.datetimePattern, pattern);
+    public void setDateTimePattern(String dateTimePattern) {
+        getStateHelper().put(PropertyKeys.dateTimePattern, dateTimePattern);
     }
 
-    public String getDatetimePattern() {
-        return (String) getStateHelper().eval(PropertyKeys.datetimePattern);
+    public String getDateTimePattern() {
+        return (String) getStateHelper().eval(PropertyKeys.dateTimePattern);
     }
 }
