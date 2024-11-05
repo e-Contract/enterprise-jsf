@@ -24,6 +24,9 @@
             <composite:attribute name="removeAction"
                                  shortDescription="Set to true to show the remove message button."
                                  type="java.lang.Boolean"/>
+            <composite:attribute name="dateTimePattern"
+                                 shortDescription="The pattern used for formatting datetimes."
+                                 type="java.lang.String"/>
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
@@ -31,8 +34,10 @@
                     <f:facet name="options">
                         <p:menu>
                             <p:submenu label="Settings">
-                                <p:menuitem value="Refresh" icon="pi pi-refresh"
-                                            action="#{cc.refresh()}" update="panel"/>
+                                <p:menuitem value="Refresh"
+                                            icon="pi pi-refresh"
+                                            action="#{cc.refresh()}"
+                                            update="panel"/>
                             </p:submenu>
                         </p:menu>
                     </f:facet>
@@ -64,9 +69,13 @@
                                 <h:outputText value="#{cc.attrs.replayQueue}" rendered="#{cc.replayRendered}"/>
                             </h:panelGrid>
                             <p:message for="jmsMessagesTable" id="jmsMessagesTableMessage" style="width: 100%;"/>
-                            <p:dataTable value="#{cc.jmsMessages}" var="jmsMessage"
-                                         rows="10" paginator="true" paginatorPosition="bottom"
-                                         lazy="false" id="jmsMessagesTable">
+                            <p:dataTable value="#{cc.jmsMessages}"
+                                         var="jmsMessage"
+                                         rows="10"
+                                         paginator="true"
+                                         paginatorPosition="bottom"
+                                         lazy="false"
+                                         id="jmsMessagesTable">
                                 <f:facet name="header">
                                     JMS Messages in queue #{cc.attrs.queue}
                                 </f:facet>
@@ -74,7 +83,8 @@
                                     #{jmsMessage.id}
                                 </p:column>
                                 <p:column headerText="Timestamp">
-                                    <h:outputText value="#{jmsMessage.timestamp}">
+                                    <h:outputText value="#{jmsMessage.timestamp}"
+                                                  binding="#{cc.timestamp}">
                                         <f:convertDateTime type="both" timeStyle="full" />
                                     </h:outputText>
                                 </p:column>

@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
@@ -22,11 +23,17 @@ import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UINamingContainer;
+import javax.faces.component.UIOutput;
 import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.DateTimeConverter;
+import javax.faces.event.AbortProcessingException;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.FacesEvent;
+import javax.faces.event.ListenerFor;
+import javax.faces.event.PostAddToViewEvent;
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
@@ -49,6 +56,7 @@ import org.slf4j.LoggerFactory;
     @ResourceDependency(library = "primefaces", name = "core.js"),
     @ResourceDependency(library = "ejsf", name = "jms-info.js")
 })
+@ListenerFor(systemEventClass = PostAddToViewEvent.class)
 public class JmsInfoComponent extends UIComponentBase implements NamingContainer, ClientBehaviorHolder, Widget {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JmsInfoComponent.class);
@@ -76,6 +84,7 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
 
     private CommandButton replayButton;
     private CommandButton removeButton;
+    private UIOutput timestamp;
 
     public CommandButton getReplayButton() {
         return this.replayButton;
@@ -91,6 +100,14 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
 
     public void setRemoveButton(CommandButton removeButton) {
         this.removeButton = removeButton;
+    }
+
+    public UIOutput getTimestamp() {
+        return this.timestamp;
+    }
+
+    public void setTimestamp(UIOutput timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -454,5 +471,21 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
             }
         }
         super.queueEvent(facesEvent);
+    }
+
+    @Override
+    public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
+        if (event instanceof PostAddToViewEvent) {
+            String dateTimePattern = (String) getAttributes().get("dateTimePattern");
+            if (null != dateTimePattern) {
+                FacesContext facesContext = event.getFacesContext();
+                Application application = facesContext.getApplication();
+                DateTimeConverter dateTimeConverter = (DateTimeConverter) application.createConverter(DateTimeConverter.CONVERTER_ID);
+                dateTimeConverter.setType("both");
+                dateTimeConverter.setPattern(dateTimePattern);
+                this.timestamp.setConverter(dateTimeConverter);
+            }
+        }
+        super.processEvent(event);
     }
 }
