@@ -251,7 +251,7 @@
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>jakarta.faces</artifactId>
-                    <version>4.0.8</version>
+                    <version>4.0.9</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
