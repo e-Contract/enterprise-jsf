@@ -86,7 +86,6 @@ public class LinkComponent extends UIComponentBase implements ComponentSystemEve
 
     @Override
     public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
-        LOGGER.debug("processEvent");
         if (event instanceof PostAddToViewEvent) {
             FacesContext facesContext = event.getFacesContext();
             UIComponent headComponent = findHead(facesContext);
