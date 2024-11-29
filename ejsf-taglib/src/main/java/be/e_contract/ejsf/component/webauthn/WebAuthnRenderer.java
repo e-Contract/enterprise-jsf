@@ -77,6 +77,7 @@ public class WebAuthnRenderer extends CoreRenderer {
         if (requestParameterMap.containsKey(clientId + "_registration_request")) {
             LOGGER.debug("registration request");
             WebAuthnComponent webAuthnComponent = (WebAuthnComponent) component;
+            webAuthnComponent.setWebAuthnRegisteredEvent(null);
             RelyingParty relyingParty = webAuthnComponent.getRelyingParty();
 
             byte[] userIdData = webAuthnComponent.getUserId();
@@ -160,6 +161,7 @@ public class WebAuthnRenderer extends CoreRenderer {
         } else if (requestParameterMap.containsKey(clientId + "_authentication_request")) {
             LOGGER.debug("authentication request");
             WebAuthnComponent webAuthnComponent = (WebAuthnComponent) component;
+            webAuthnComponent.setWebAuthnAuthenticatedEvent(null);
             RelyingParty relyingParty = webAuthnComponent.getRelyingParty();
             String username = webAuthnComponent.getUsername();
             LOGGER.debug("username: {}", username);

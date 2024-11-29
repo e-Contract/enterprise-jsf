@@ -116,6 +116,24 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
         registrationMessageInterceptor,
         authenticationMessageInterceptor,
         allowOriginPort,
+        webAuthnRegisteredEvent,
+        webAuthnAuthenticatedEvent
+    }
+
+    public WebAuthnAuthenticatedEvent getWebAuthnAuthenticatedEvent() {
+        return (WebAuthnAuthenticatedEvent) getStateHelper().get(PropertyKeys.webAuthnAuthenticatedEvent);
+    }
+
+    public void setWebAuthnAuthenticatedEvent(WebAuthnAuthenticatedEvent event) {
+        getStateHelper().put(PropertyKeys.webAuthnAuthenticatedEvent, event);
+    }
+
+    public WebAuthnRegisteredEvent getWebAuthnRegisteredEvent() {
+        return (WebAuthnRegisteredEvent) getStateHelper().get(PropertyKeys.webAuthnRegisteredEvent);
+    }
+
+    public void setWebAuthnRegisteredEvent(WebAuthnRegisteredEvent event) {
+        getStateHelper().put(PropertyKeys.webAuthnRegisteredEvent, event);
     }
 
     public String getRelyingPartyId() {
@@ -149,6 +167,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
     public PublicKeyCredentialCreationOptions getPublicKeyCredentialCreationOptions() throws JsonProcessingException {
         String creationOptions = (String) getStateHelper().get(PropertyKeys.publicKeyCredentialCreationOptions);
         LOGGER.debug("creation options: {}", creationOptions);
+        getStateHelper().put(PropertyKeys.publicKeyCredentialCreationOptions, null);
         PublicKeyCredentialCreationOptions options = PublicKeyCredentialCreationOptions.fromJson(creationOptions);
         return options;
     }
@@ -165,6 +184,7 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
 
     public AssertionRequest getAssertionRequest() throws JsonProcessingException {
         AssertionRequest assertionRequest = AssertionRequest.fromJson((String) getStateHelper().get(PropertyKeys.assertionRequest));
+        getStateHelper().put(PropertyKeys.assertionRequest, null);
         return assertionRequest;
     }
 
@@ -394,6 +414,25 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
             String clientId = getClientId(facesContext);
             AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) facesEvent;
             if (WebAuthnRegisteredEvent.NAME.equals(eventName)) {
+                WebAuthnRegisteredEvent authnRegisteredEvent = getWebAuthnRegisteredEvent();
+                if (null != authnRegisteredEvent) {
+                    // process the registration response only once
+                    authnRegisteredEvent
+                            = new WebAuthnRegisteredEvent(this,
+                                    behaviorEvent.getBehavior(),
+                                    authnRegisteredEvent.getUsername(),
+                                    authnRegisteredEvent.getRegisteredCredential(),
+                                    authnRegisteredEvent.getAuthenticatorTransports(),
+                                    authnRegisteredEvent.getUserIdentity(),
+                                    authnRegisteredEvent.getAuthenticatorAttestationResponse(),
+                                    authnRegisteredEvent.getResidentKey(),
+                                    authnRegisteredEvent.getAttestationCertificate(),
+                                    authnRegisteredEvent.getPrf(),
+                                    authnRegisteredEvent.isAttestationTrusted());
+                    authnRegisteredEvent.setPhaseId(facesEvent.getPhaseId());
+                    super.queueEvent(authnRegisteredEvent);
+                    return;
+                }
                 String createResponse = requestParameterMap.get(clientId + "_registration_response");
                 LOGGER.debug("create response: {}", createResponse);
                 PublicKeyCredentialCreationOptions publicKeyCredentialCreationOptions;
@@ -472,16 +511,27 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                         .publicKeyCose(registrationResult.getPublicKeyCose())
                         .signatureCount(registrationResult.getSignatureCount())
                         .build();
-                WebAuthnRegisteredEvent authnRegisteredEvent
+                authnRegisteredEvent
                         = new WebAuthnRegisteredEvent(this, behaviorEvent.getBehavior(), username,
                                 registeredCredential, authenticatorTransports, userIdentity,
                                 authenticatorAttestationResponse, residentKey, attestationCertificate,
                                 prf, attestationTrusted);
                 authnRegisteredEvent.setPhaseId(facesEvent.getPhaseId());
+                setWebAuthnRegisteredEvent(authnRegisteredEvent);
                 super.queueEvent(authnRegisteredEvent);
                 return;
             }
             if (WebAuthnAuthenticatedEvent.NAME.equals(eventName)) {
+                WebAuthnAuthenticatedEvent authnAuthenticatedEvent = getWebAuthnAuthenticatedEvent();
+                if (null != authnAuthenticatedEvent) {
+                    authnAuthenticatedEvent
+                            = new WebAuthnAuthenticatedEvent(this, behaviorEvent.getBehavior(),
+                                    authnAuthenticatedEvent.getAssertionResult(),
+                                    authnAuthenticatedEvent.getPrf());
+                    authnAuthenticatedEvent.setPhaseId(facesEvent.getPhaseId());
+                    super.queueEvent(authnAuthenticatedEvent);
+                    return;
+                }
                 String getResponse = requestParameterMap.get(clientId + "_authentication_response");
                 getResponse = WebAuthnUtils.fixAuthenticationResponse(getResponse);
                 // DO NOT LOG PRF RESULTS
@@ -518,9 +568,10 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
                 }
                 LOGGER.debug("assertion result: {}", result);
                 if (result.isSuccess()) {
-                    WebAuthnAuthenticatedEvent authnAuthenticatedEvent
+                    authnAuthenticatedEvent
                             = new WebAuthnAuthenticatedEvent(this, behaviorEvent.getBehavior(), result, prf);
                     authnAuthenticatedEvent.setPhaseId(facesEvent.getPhaseId());
+                    setWebAuthnAuthenticatedEvent(authnAuthenticatedEvent);
                     super.queueEvent(authnAuthenticatedEvent);
                 } else {
                     LOGGER.warn("assertion failed");

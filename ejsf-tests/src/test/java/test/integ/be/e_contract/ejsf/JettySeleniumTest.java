@@ -537,7 +537,7 @@ public class JettySeleniumTest {
 
             runOnBean(WebAuthnController.class, (WebAuthnController webAuthnController) -> {
                 while (true) {
-                    if (webAuthnController.isRegistered()) {
+                    if (webAuthnController.isRegistered() && webAuthnController.isRegistered2()) {
                         break;
                     }
                     Thread.sleep(1000);
@@ -550,7 +550,7 @@ public class JettySeleniumTest {
                 authenticateButton.click();
 
                 while (true) {
-                    if (webAuthnController.isAuthenticated()) {
+                    if (webAuthnController.isAuthenticated() && webAuthnController.isAuthenticated2()) {
                         break;
                     }
                     Thread.sleep(1000);

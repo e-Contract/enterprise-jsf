@@ -39,11 +39,17 @@ public class WebAuthnController implements Serializable {
 
     private boolean authenticated;
 
+    private boolean registered2;
+
+    private boolean authenticated2;
+
     @PostConstruct
     public void postConstruct() {
         this.username = null;
         this.registered = false;
         this.authenticated = false;
+        this.registered2 = false;
+        this.authenticated2 = false;
     }
 
     public String getUsername() {
@@ -60,6 +66,14 @@ public class WebAuthnController implements Serializable {
 
     public boolean isAuthenticated() {
         return this.authenticated;
+    }
+
+    public boolean isRegistered2() {
+        return this.registered2;
+    }
+
+    public boolean isAuthenticated2() {
+        return this.authenticated2;
     }
 
     public void errorListener(WebAuthnErrorEvent event) {
@@ -95,6 +109,10 @@ public class WebAuthnController implements Serializable {
         this.registered = true;
     }
 
+    public void registeredListener2(WebAuthnRegisteredEvent event) {
+        this.registered2 = true;
+    }
+
     public void authenticatedListener(WebAuthnAuthenticatedEvent event) {
         AssertionResult assertionResult = event.getAssertionResult();
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -111,6 +129,10 @@ public class WebAuthnController implements Serializable {
         }
         this.credentialRepository.updateSignatureCount(assertionResult);
         this.authenticated = true;
+    }
+
+    public void authenticatedListener2(WebAuthnAuthenticatedEvent event) {
+        this.authenticated2 = true;
     }
 
     public void authenticationErrorListener(WebAuthnAuthenticationError error) {
