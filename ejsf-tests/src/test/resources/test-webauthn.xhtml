@@ -26,6 +26,8 @@
                                                  errorListener="#{webAuthnController.authenticationErrorListener}"/>
                     <p:ajax event="error" update=":messages"
                             listener="#{webAuthnController.errorListener}"/>
+                    <p:ajax event="registered"/>
+                    <p:ajax event="authenticated"/>
                 </ejsf:webAuthn>
             </h:form>
             <h:form id="registrationForm">

@@ -147,9 +147,9 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
     }
 
     public PublicKeyCredentialCreationOptions getPublicKeyCredentialCreationOptions() throws JsonProcessingException {
-        PublicKeyCredentialCreationOptions options = PublicKeyCredentialCreationOptions.fromJson((String) getStateHelper().get(PropertyKeys.publicKeyCredentialCreationOptions));
-        // consume only once
-        getStateHelper().put(PropertyKeys.publicKeyCredentialCreationOptions, null);
+        String creationOptions = (String) getStateHelper().get(PropertyKeys.publicKeyCredentialCreationOptions);
+        LOGGER.debug("creation options: {}", creationOptions);
+        PublicKeyCredentialCreationOptions options = PublicKeyCredentialCreationOptions.fromJson(creationOptions);
         return options;
     }
 
@@ -165,7 +165,6 @@ public class WebAuthnComponent extends UIComponentBase implements Widget, Client
 
     public AssertionRequest getAssertionRequest() throws JsonProcessingException {
         AssertionRequest assertionRequest = AssertionRequest.fromJson((String) getStateHelper().get(PropertyKeys.assertionRequest));
-        getStateHelper().put(PropertyKeys.assertionRequest, null);
         return assertionRequest;
     }
 
