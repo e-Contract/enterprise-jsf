@@ -1400,9 +1400,8 @@
             <renderer-type>ejsf.mermaidRenderer</renderer-type>
         </component>
         <attribute>
-            <description>The Mermaid diagram.</description>
+            <description>The Mermaid diagram. If not provided, we use the child content as value.</description>
             <name>value</name>
-            <required>true</required>
             <type>java.lang.String</type>
         </attribute>
         <attribute>
