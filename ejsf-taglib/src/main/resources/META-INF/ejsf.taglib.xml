@@ -1409,6 +1409,16 @@
             <name>widgetVar</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The optional inline style.</description>
+            <name>style</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional style class.</description>
+            <name>styleClass</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>

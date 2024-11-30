@@ -19,8 +19,10 @@ import org.primefaces.util.WidgetBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@FacesRenderer(componentFamily = MermaidComponent.COMPONENT_FAMILY,
-        rendererType = MermaidRenderer.RENDERER_TYPE)
+@FacesRenderer(
+        componentFamily = MermaidComponent.COMPONENT_FAMILY,
+        rendererType = MermaidRenderer.RENDERER_TYPE
+)
 public class MermaidRenderer extends CoreRenderer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MermaidRenderer.class);
@@ -35,7 +37,19 @@ public class MermaidRenderer extends CoreRenderer {
 
         responseWriter.startElement("pre", mermaidComponent);
         responseWriter.writeAttribute("id", clientId, "id");
-        responseWriter.writeAttribute("class", "mermaid", null);
+
+        String style = mermaidComponent.getStyle();
+        if (null != style) {
+            responseWriter.writeAttribute("style", style, "style");
+        }
+
+        String styleClass = mermaidComponent.getStyleClass();
+        if (null == styleClass) {
+            styleClass = "mermaid";
+        } else {
+            styleClass = "mermaid " + styleClass;
+        }
+        responseWriter.writeAttribute("class", styleClass, "styleClass");
 
         String diagram = (String) mermaidComponent.getValue();
         if (null == diagram) {
