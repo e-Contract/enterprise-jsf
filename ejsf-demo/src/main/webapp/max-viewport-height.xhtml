@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">MaxViewportHeight Demo</ui:define>
+    <ui:define name="body">
+        <p:fieldset id="example" legend="MaxViewportHeight">
+            <ejsf:maxViewportHeight footer="footer"/>
+            This component takes the maximum height available within the viewport.
+        </p:fieldset>
+        <p:tabView id="footer">
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="maxViewportHeight"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

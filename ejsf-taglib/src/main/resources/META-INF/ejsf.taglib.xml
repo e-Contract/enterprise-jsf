@@ -2307,4 +2307,17 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Maximizes the height of the embedding component within the viewport.</description>
+        <tag-name>maxViewportHeight</tag-name>
+        <component>
+            <component-type>ejsf.maxViewportHeight</component-type>
+        </component>
+        <attribute>
+            <description>The id of the footer element that should also remain visible.</description>
+            <name>footer</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
