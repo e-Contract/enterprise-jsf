@@ -164,11 +164,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.webauthn4j</groupId>
-            <artifactId>webauthn4j-device-check</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <optional>true</optional>
