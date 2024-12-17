@@ -37,6 +37,8 @@ public class MaxViewportHeightComponent extends UIComponentBase {
 
     enum PropertyKeys {
         footer,
+        _for,
+        minHeight,
     }
 
     public String getFooter() {
@@ -45,6 +47,22 @@ public class MaxViewportHeightComponent extends UIComponentBase {
 
     public void setFooter(String footer) {
         getStateHelper().put(PropertyKeys.footer, footer);
+    }
+
+    public String getFor() {
+        return (String) getStateHelper().get(PropertyKeys._for);
+    }
+
+    public void setFor(String _for) {
+        getStateHelper().put(PropertyKeys._for, _for);
+    }
+
+    public Integer getMinHeight() {
+        return (Integer) getStateHelper().get(PropertyKeys.minHeight);
+    }
+
+    public void setMinHeight(Integer minHeight) {
+        getStateHelper().put(PropertyKeys.minHeight, minHeight);
     }
 
     @Override
@@ -56,9 +74,25 @@ public class MaxViewportHeightComponent extends UIComponentBase {
         responseWriter.startElement("span", this);
         String clientId = getClientId(context);
         responseWriter.writeAttribute("id", clientId, "id");
-        UIComponent parentComponent = getParent();
-        String parentClientId = parentComponent.getClientId();
+        String parentClientId;
+        String _for = getFor();
+        if (null != _for) {
+            UIComponent forComponent = findComponent(_for);
+            if (null != forComponent) {
+                parentClientId = forComponent.getClientId();
+            } else {
+                parentClientId = _for;
+            }
+        } else {
+            UIComponent parentComponent = getParent();
+            parentClientId = parentComponent.getClientId();
+        }
         responseWriter.writeAttribute("data-ejsf-max-viewport-height", parentClientId, null);
+
+        Integer minHeight = getMinHeight();
+        if (null != minHeight) {
+            responseWriter.writeAttribute("data-ejsf-max-viewport-height-min", minHeight, "minHeiht");
+        }
 
         String footer = getFooter();
         if (null != footer) {

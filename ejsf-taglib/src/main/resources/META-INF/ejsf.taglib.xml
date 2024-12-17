@@ -2314,9 +2314,19 @@
             <component-type>ejsf.maxViewportHeight</component-type>
         </component>
         <attribute>
-            <description>The id of the footer element that should also remain visible.</description>
+            <description>The id of the footer component or element that should also remain visible.</description>
             <name>footer</name>
             <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional id of the component or element on which this should apply. If not provided we use the parent component.</description>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional minimum height of the component.</description>
+            <name>minHeight</name>
+            <type>java.lang.Integer</type>
         </attribute>
     </tag>
 

@@ -23,7 +23,14 @@ var ejsf = ejsf || {};
             if (footerId) {
                 let footerElement = document.getElementById(footerId);
                 let footerBoundingClientRect = footerElement.getBoundingClientRect();
-                height -= footerBoundingClientRect.height;
+                height -= $("#" + footerId).outerHeight(true);
+                height -= footerBoundingClientRect.top - boundingClientRect.bottom;
+            }
+            let minHeight = maxViewportHeightElement.data("ejsfMaxViewportHeightMin");
+            if (minHeight) {
+                if (height < minHeight) {
+                    height = minHeight;
+                }
             }
             $("#" + parentId).height(height);
         });
