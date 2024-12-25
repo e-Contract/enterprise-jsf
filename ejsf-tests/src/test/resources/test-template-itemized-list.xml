@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f-element id="fdp_iff.2.6">
+    Some text:
+    <list type="itemized">
+        <item>
+            first item;
+        </item>
+        <item>
+            second item;
+        </item>
+        <item>
+            last item.
+        </item>
+    </list>
+</f-element>

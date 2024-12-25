@@ -2330,4 +2330,25 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Input component to instantiate a template.</description>
+        <tag-name>inputTemplate</tag-name>
+        <component>
+            <component-type>ejsf.inputTemplateComponent</component-type>
+            <handler-class>be.e_contract.ejsf.component.input.template.InputTemplateComponentHandler</handler-class>
+        </component>
+        <attribute>
+            <description>The template value.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The template instantiation result value.</description>
+            <name>result</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

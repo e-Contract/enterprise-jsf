@@ -36,6 +36,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import javax.swing.JOptionPane;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
@@ -987,6 +988,133 @@ public class JettySeleniumTest {
         webElement = this.driver.findElement(By.cssSelector("meta[name='robots']"));
         content = webElement.getAttribute("content");
         assertEquals("index, follow", content);
+    }
+
+    @Test
+    public void testInputTemplate() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text.", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
+    public void testInputTemplateAssignment() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-assignment.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input:input-0"));
+        input.sendKeys("assignment value");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text [assignment value] .", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
+    public void testInputTemplateAssignment2() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-assignment-2.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input:input-0"));
+        input.sendKeys("assignment value");
+
+        WebElement input1 = this.driver.findElement(By.id("form:input:input-1"));
+        input1.sendKeys("assignment value 2");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text [assignment value] and [assignment value 2] .", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
+    public void testInputTemplateAssignment2InputValidation() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-assignment-2.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input:input-0"));
+        input.sendKeys("assignment value");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        WebElement input1 = this.driver.findElement(By.id("form:input:input-1"));
+        input1.sendKeys("assignment value 2");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text [assignment value] and [assignment value 2] .", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
+    public void testInputTemplateItemizedList() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-itemized-list.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text:<ul><li>first item;</li><li>second item;</li><li>last item.</li></ul>", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
+    public void testInputTemplateSelectionExclusive() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-selection-exclusive.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        JOptionPane.showMessageDialog(null, "Click to close.");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+        });
     }
 
     @FunctionalInterface

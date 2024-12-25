@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f-element id="fau_saa.4.1">
+    Some text
+    <assignment>
+        <assignmentitem>some assignment</assignmentitem>
+        <assignmentnotes>
+            <para>
+                assignment notes
+            </para>
+        </assignmentnotes>
+    </assignment>
+    and
+    <assignment>
+        <assignmentitem>some assignment 2</assignmentitem>
+        <assignmentnotes>
+            <para>
+                assignment 2 notes
+            </para>
+        </assignmentnotes>
+    </assignment>
+    .
+</f-element>

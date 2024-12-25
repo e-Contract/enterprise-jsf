@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ejsf="urn:be:e-contract:ejsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <f:view locale="en">
+        <h:head>
+            <title>Test Input Template</title>
+        </h:head>
+        <h:body>
+            <h1>Test Input Template</h1>
+            <h:form id="form">
+                <ejsf:inputTemplate id="input"
+                                    value="#{inputTemplateController.template}"
+                                    result="#{inputTemplateController.result}">
+                </ejsf:inputTemplate>
+                <p:message id="message" for="@previous"/>
+                <p:commandButton id="submit"
+                                 value="Submit"
+                                 update="@form"/>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f-element id="fau_arp.1.1">
+    Some text
+    <assignment>
+        <assignmentitem>some assignment</assignmentitem>
+        <assignmentnotes>
+            <para>
+                assignment notes
+            </para>
+        </assignmentnotes>
+    </assignment>
+    .
+</f-element>
