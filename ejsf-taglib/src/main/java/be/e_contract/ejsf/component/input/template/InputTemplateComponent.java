@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.StringTokenizer;
 import javax.el.ELContext;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
@@ -38,6 +39,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.selectoneradio.SelectOneRadio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,7 +154,34 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                                             UISelectItem selectItem = (UISelectItem) application.createComponent(UISelectItem.COMPONENT_TYPE);
                                             selectOneRadio.getChildren().add(selectItem);
                                             selectItem.setItemLabel(itemElement.getTextContent());
-                                            selectItem.setItemValue("item" + itemIdx);
+                                            String itemValue = "item" + itemIdx;
+                                            itemElement.setAttribute("ejsf-input-item", itemValue);
+                                            selectItem.setItemValue(itemValue);
+                                        }
+                                    }
+                                }
+                            } else {
+                                // exclusive="NO"
+                                SelectManyCheckbox selectManyCheckbox = (SelectManyCheckbox) application.createComponent(SelectManyCheckbox.COMPONENT_TYPE);
+                                String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
+                                inputComponentIndex++;
+                                selectManyCheckbox.setId(inputComponentId);
+                                selectManyCheckbox.setRequired(true);
+                                selectManyCheckbox.setLayout("pageDirection");
+                                element.setAttribute("ejsf-input", inputComponentId);
+                                getChildren().add(selectManyCheckbox);
+                                NodeList itemNodes = childNode.getChildNodes();
+                                for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
+                                    Node itemNode = itemNodes.item(itemIdx);
+                                    if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                                        Element itemElement = (Element) itemNode;
+                                        if ("selectionitem".equals(itemElement.getLocalName())) {
+                                            UISelectItem selectItem = (UISelectItem) application.createComponent(UISelectItem.COMPONENT_TYPE);
+                                            selectManyCheckbox.getChildren().add(selectItem);
+                                            selectItem.setItemLabel(itemElement.getTextContent());
+                                            String itemValue = "item" + itemIdx;
+                                            itemElement.setAttribute("ejsf-input-item", itemValue);
+                                            selectItem.setItemValue(itemValue);
                                         }
                                     }
                                 }
@@ -221,7 +250,58 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                             }
                             stringBuilder.append("</ul>");
                         }
+                    } else if ("selection".equals(localName)) {
+                        String exclusive = element.getAttribute("exclusive");
+                        if ("YES".equals(exclusive)) {
+                            String itemValue = element.getAttribute("ejsf-input-value");
+                            stringBuilder.append(" [<ul><li>");
+                            NodeList itemNodes = element.getChildNodes();
+                            String itemLabel = itemValue;
+                            for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
+                                Node itemNode = itemNodes.item(itemIdx);
+                                if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                                    Element itemElement = (Element) itemNode;
+                                    if ("selectionitem".equals(itemElement.getLocalName())) {
+                                        String thisItemValue = itemElement.getAttribute("ejsf-input-item");
+                                        if (itemValue.equals(thisItemValue)) {
+                                            itemLabel = itemElement.getTextContent();
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            stringBuilder.append(itemLabel);
+                            stringBuilder.append("</li></ul>] ");
+                        } else {
+                            // exclusive="NO"
+                            String itemValues = element.getAttribute("ejsf-input-value");
+                            stringBuilder.append(" [<ul>");
+                            NodeList itemNodes = element.getChildNodes();
+                            StringTokenizer stringTokenizer = new StringTokenizer(itemValues, ",");
+                            while (stringTokenizer.hasMoreTokens()) {
+                                String itemValue = stringTokenizer.nextToken();
+                                stringBuilder.append("<li>");
+                                String itemLabel = itemValue;
+                                for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
+                                    Node itemNode = itemNodes.item(itemIdx);
+                                    if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                                        Element itemElement = (Element) itemNode;
+                                        if ("selectionitem".equals(itemElement.getLocalName())) {
+                                            String thisItemValue = itemElement.getAttribute("ejsf-input-item");
+                                            if (itemValue.equals(thisItemValue)) {
+                                                itemLabel = itemElement.getTextContent();
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                stringBuilder.append(itemLabel);
+                                stringBuilder.append("</li>");
+                            }
+                            stringBuilder.append("</ul>] ");
+                        }
                     }
+
                     break;
             }
         }
@@ -240,9 +320,20 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                 String id = childElement.getAttribute("ejsf-input");
                 LOGGER.debug("element ejsf-input: {}", id);
                 if (inputComponentId.equals(id)) {
-                    String value = (String) inputComponent.getValue();
-                    LOGGER.debug("setting value: {}", value);
-                    childElement.setAttribute("ejsf-input-value", value);
+                    Object value = inputComponent.getValue();
+                    if (value.getClass().isArray()) {
+                        String[] strValues = (String[]) value;
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (String strValue : strValues) {
+                            if (!stringBuilder.isEmpty()) {
+                                stringBuilder.append(",");
+                            }
+                            stringBuilder.append(strValue);
+                            childElement.setAttribute("ejsf-input-value", stringBuilder.toString());
+                        }
+                    } else {
+                        childElement.setAttribute("ejsf-input-value", value.toString());
+                    }
                 }
             }
         }

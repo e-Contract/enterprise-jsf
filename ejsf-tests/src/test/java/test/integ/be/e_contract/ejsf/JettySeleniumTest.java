@@ -36,7 +36,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
-import javax.swing.JOptionPane;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
@@ -93,7 +92,9 @@ import org.primefaces.selenium.component.DatePicker;
 import org.primefaces.selenium.component.InputText;
 import org.primefaces.selenium.component.Message;
 import org.primefaces.selenium.component.Messages;
+import org.primefaces.selenium.component.SelectManyCheckbox;
 import org.primefaces.selenium.component.SelectOneMenu;
+import org.primefaces.selenium.component.SelectOneRadio;
 import org.primefaces.selenium.spi.WebDriverProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1106,7 +1107,8 @@ public class JettySeleniumTest {
 
         this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
 
-        JOptionPane.showMessageDialog(null, "Click to close.");
+        SelectOneRadio selectOneRadio = PrimeSelenium.createFragment(SelectOneRadio.class, By.id("form:input:input-0"));
+        selectOneRadio.select(0);
 
         CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
         submitButton.click();
@@ -1114,6 +1116,28 @@ public class JettySeleniumTest {
         runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
             LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
             LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text [<ul><li>item 1</li></ul>] end.", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
+    public void testInputTemplateSelectionNonExclusive() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-selection-non-exclusive.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        SelectManyCheckbox selectManyCheckbox = PrimeSelenium.createFragment(SelectManyCheckbox.class, By.id("form:input:input-0"));
+        selectManyCheckbox.select(0, 2);
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text [<ul><li>item 1</li><li>item 3</li></ul>] end.", inputTemplateController.getResult());
         });
     }
 

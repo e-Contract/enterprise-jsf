@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f-element id="fdp_rip.2.1">
+    Some text
+    <selection exclusive="NO">
+        <selectionitem>item 1</selectionitem>
+        <selectionitem>item 2</selectionitem>
+        <selectionitem>item 3</selectionitem>
+        <selectionnotes>
+            <para>
+                selection notes.
+            </para>
+        </selectionnotes>
+    </selection>
+    end.
+</f-element>
