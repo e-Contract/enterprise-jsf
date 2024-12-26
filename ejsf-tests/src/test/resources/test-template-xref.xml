@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f-element id="fau_stg.1.1">
+    Some text
+    <selection exclusive="NO">
+        <selectionitem>item 1</selectionitem>
+        <selectionitem>item 2 <xref id="ftp_itc"/></selectionitem>
+        <selectionitem>
+            <assignment>
+                <assignmentitem>some assignment</assignmentitem>
+                <assignmentnotes>
+                    <para>
+                        assignment notes
+                    </para>
+                </assignmentnotes>
+            </assignment>
+            .
+        </selectionitem>
+        <selectionnotes>
+            <para>
+                selection notes.
+            </para>
+        </selectionnotes>
+    </selection>
+    end.
+</f-element>

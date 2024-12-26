@@ -98,7 +98,11 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                     Element element = (Element) childNode;
                     String localName = element.getLocalName();
                     LOGGER.debug("element local name: {}", localName);
-                    if ("assignment".equals(localName)) {
+                    if ("xref".equals(localName)) {
+                        UIOutput xref = (UIOutput) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
+                        xref.setValue(element.getAttribute("id").toUpperCase());
+                        parentComponent.getChildren().add(xref);
+                    } else if ("assignment".equals(localName)) {
                         UIInput inputComponent = (UIInput) application.createComponent(InputText.COMPONENT_TYPE);
                         String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
                         inputComponentIndex++;
@@ -240,7 +244,12 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                     Element element = (Element) childNode;
                     String localName = element.getLocalName();
                     LOGGER.debug("element local name: {}", localName);
-                    if ("assignment".equals(localName)) {
+                    if ("xref".equals(localName)) {
+                        String value = element.getAttribute("id").toUpperCase();
+                        stringBuilder.append(" ");
+                        stringBuilder.append(value);
+                        stringBuilder.append(" ");
+                    } else if ("assignment".equals(localName)) {
                         String value = element.getAttribute("ejsf-input-value");
                         stringBuilder.append(" [");
                         stringBuilder.append(value);

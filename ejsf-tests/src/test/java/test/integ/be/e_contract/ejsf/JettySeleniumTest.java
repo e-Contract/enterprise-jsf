@@ -1224,6 +1224,39 @@ public class JettySeleniumTest {
         });
     }
 
+    @Test
+    public void testInputTemplateXref() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-xref.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        WebElement item0 = this.driver.findElement(By.id("form:input:input-0-item-0"));
+        WebElement parentNextSibling0 = item0.findElement(By.xpath("./parent::*/following-sibling::*[1]"));
+        parentNextSibling0.click();
+
+        WebElement item1 = this.driver.findElement(By.id("form:input:input-0-item-1"));
+        WebElement parentNextSibling1 = item1.findElement(By.xpath("./parent::*/following-sibling::*[1]"));
+        parentNextSibling1.click();
+
+        WebElement item2 = this.driver.findElement(By.id("form:input:input-0-item-2"));
+        WebElement parentNextSibling2 = item2.findElement(By.xpath("./parent::*/following-sibling::*[1]"));
+        parentNextSibling2.click();
+
+        WebElement input = this.driver.findElement(By.id("form:input:input-1"));
+        input.sendKeys("assignment value");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text [<ul><li>item 1</li><li>item 2 FTP_ITC </li><li> [assignment value] .</li></ul>] end.", inputTemplateController.getResult());
+        });
+    }
+
     @FunctionalInterface
     interface ExceptionConsumer<T> {
 
