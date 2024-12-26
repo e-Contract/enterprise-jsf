@@ -19,6 +19,11 @@
                 <p:commandButton id="submit"
                                  value="Submit"
                                  update="@form"/>
+                <div>
+                    <h:outputText id="result"
+                                  value="#{inputTemplateController.result}"
+                                  escape="false"/>
+                </div>
             </h:form>
         </h:body>
     </f:view>

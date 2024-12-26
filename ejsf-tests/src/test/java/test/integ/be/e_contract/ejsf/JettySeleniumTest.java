@@ -1141,6 +1141,30 @@ public class JettySeleniumTest {
         });
     }
 
+    @Test
+    public void testInputTemplateItemizedListInput() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-itemized-list-input.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        SelectOneRadio selectOneRadio = PrimeSelenium.createFragment(SelectOneRadio.class, By.id("form:input:input-0"));
+        selectOneRadio.select(0);
+
+        WebElement input = this.driver.findElement(By.id("form:input:input-1"));
+        input.sendKeys("assignment value");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text:<ul><li>first item;</li><li>Some text [<ul><li>item 1</li></ul>] end.</li><li>Some text [assignment value] .</li></ul>", inputTemplateController.getResult());
+        });
+    }
+
     @FunctionalInterface
     interface ExceptionConsumer<T> {
 

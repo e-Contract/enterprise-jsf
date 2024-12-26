@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f-element id="fau_gen.1.1">
+    Some text:
+    <list type="itemized">
+        <item>
+            first item;
+        </item>
+        <item>
+            Some text
+            <selection exclusive="YES">
+                <selectionitem>item 1</selectionitem>
+                <selectionitem>item 2</selectionitem>
+                <selectionnotes>
+                    <para>
+                        selection notes.
+                    </para>
+                </selectionnotes>
+            </selection>
+            end.
+        </item>
+        <item>
+            Some text
+            <assignment>
+                <assignmentitem>some assignment</assignmentitem>
+                <assignmentnotes>
+                    <para>
+                        assignment notes
+                    </para>
+                </assignmentnotes>
+            </assignment>
+            .
+        </item>
+    </list>
+</f-element>
