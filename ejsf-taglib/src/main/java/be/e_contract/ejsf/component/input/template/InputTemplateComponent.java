@@ -12,6 +12,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.function.Function;
 import javax.el.ELContext;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
@@ -103,7 +104,7 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                         xref.setValue(element.getAttribute("id").toUpperCase());
                         parentComponent.getChildren().add(xref);
                     } else if ("assignment".equals(localName)) {
-                        UIInput inputComponent = (UIInput) application.createComponent(InputText.COMPONENT_TYPE);
+                        InputText inputComponent = (InputText) application.createComponent(InputText.COMPONENT_TYPE);
                         String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
                         inputComponentIndex++;
                         inputComponent.setId(inputComponentId);
@@ -325,12 +326,62 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
     }
 
     @Override
+    public void processValidators(FacesContext context) {
+        LOGGER.debug("processValidators");
+        String input = (String) getValue();
+        Document document = loadDocument(input);
+        updateDocumentValue(getChildren(), (UIInput inputComponent) -> inputComponent.getSubmittedValue(), document);
+        setValue(toString(document));
+        updateRequired(getChildren(), document);
+        super.processValidators(context);
+    }
+
+    private void updateRequired(List<UIComponent> components, Document document) {
+        for (UIComponent component : components) {
+            if (component instanceof UIInput) {
+                UIInput inputComponent = (UIInput) component;
+                String inputComponentId = inputComponent.getId();
+                Element inputElement = findInputElement(inputComponentId, document);
+                inputComponent.setRequired(isRequired(inputElement));
+            }
+            updateRequired(component.getChildren(), document);
+        }
+    }
+
+    private boolean isRequired(Element inputElement) {
+        Node node = inputElement.getParentNode();
+        String itemValue = null;
+        while (null != node) {
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                String localName = element.getLocalName();
+                if ("selectionitem".equals(localName)) {
+                    if (null == itemValue) {
+                        itemValue = element.getAttribute("ejsf-input-item");
+                    }
+                } else if ("selection".equals(localName)) {
+                    StringTokenizer stringTokenizer = new StringTokenizer(element.getAttribute("ejsf-input-value"), ",");
+                    while (stringTokenizer.hasMoreTokens()) {
+                        String selectedValue = stringTokenizer.nextToken();
+                        if (selectedValue.equals(itemValue)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            node = node.getParentNode();
+        }
+        return true;
+    }
+
+    @Override
     public void updateModel(FacesContext context) {
         LOGGER.debug("updateModel");
         String input = (String) getValue();
         Document document = loadDocument(input);
 
-        updateDocumentValue(getChildren(), document);
+        updateDocumentValue(getChildren(), (UIInput inputComponent) -> inputComponent.getValue(), document);
 
         setValue(toString(document));
         super.updateModel(context);
@@ -365,13 +416,15 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
         return null;
     }
 
-    private void updateDocumentValue(List<UIComponent> components, Document document) {
+    private void updateDocumentValue(List<UIComponent> components,
+            Function<UIInput, Object> valueFunc,
+            Document document) {
         for (UIComponent component : components) {
             if (component instanceof UIInput) {
                 UIInput inputComponent = (UIInput) component;
                 String inputComponentId = inputComponent.getId();
                 Element inputElement = findInputElement(inputComponentId, document);
-                Object value = inputComponent.getValue();
+                Object value = valueFunc.apply(inputComponent);
                 if (value.getClass().isArray()) {
                     String[] strValues = (String[]) value;
                     StringBuilder stringBuilder = new StringBuilder();
@@ -386,7 +439,7 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                     inputElement.setAttribute("ejsf-input-value", value.toString());
                 }
             }
-            updateDocumentValue(component.getChildren(), document);
+            updateDocumentValue(component.getChildren(), valueFunc, document);
         }
     }
 
