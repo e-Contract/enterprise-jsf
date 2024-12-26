@@ -110,6 +110,17 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                         inputComponent.setId(inputComponentId);
                         element.setAttribute("ejsf-input", inputComponentId);
                         parentComponent.getChildren().add(inputComponent);
+
+                        NodeList itemNodes = element.getChildNodes();
+                        for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
+                            Node itemNode = itemNodes.item(itemIdx);
+                            if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                                Element itemElement = (Element) itemNode;
+                                if ("assignmentitem".equals(itemElement.getLocalName())) {
+                                    inputComponent.setPlaceholder(itemElement.getTextContent());
+                                }
+                            }
+                        }
                     } else if ("list".equals(localName)) {
                         String type = element.getAttribute("type");
                         if ("itemized".equals(type)) {
@@ -429,7 +440,7 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                     String[] strValues = (String[]) value;
                     StringBuilder stringBuilder = new StringBuilder();
                     for (String strValue : strValues) {
-                        if (!stringBuilder.isEmpty()) {
+                        if (stringBuilder.length() > 0) {
                             stringBuilder.append(",");
                         }
                         stringBuilder.append(strValue);
