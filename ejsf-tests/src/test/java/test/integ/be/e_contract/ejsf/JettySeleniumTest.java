@@ -93,7 +93,6 @@ import org.primefaces.selenium.component.InputText;
 import org.primefaces.selenium.component.Message;
 import org.primefaces.selenium.component.Messages;
 import org.primefaces.selenium.component.SelectOneMenu;
-import org.primefaces.selenium.component.SelectOneRadio;
 import org.primefaces.selenium.spi.WebDriverProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1106,8 +1105,8 @@ public class JettySeleniumTest {
 
         this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
 
-        SelectOneRadio selectOneRadio = PrimeSelenium.createFragment(SelectOneRadio.class, By.id("form:input:input-0"));
-        selectOneRadio.select(0);
+        WebElement item0 = this.driver.findElement(By.id("form:input:input-0-item-0"));
+        item0.click();
 
         CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
         submitButton.click();
@@ -1153,8 +1152,8 @@ public class JettySeleniumTest {
 
         this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
 
-        SelectOneRadio selectOneRadio = PrimeSelenium.createFragment(SelectOneRadio.class, By.id("form:input:input-0"));
-        selectOneRadio.select(0);
+        WebElement item0 = this.driver.findElement(By.id("form:input:input-0-item-0"));
+        item0.click();
 
         WebElement input = this.driver.findElement(By.id("form:input:input-1"));
         input.sendKeys("assignment value");
@@ -1195,6 +1194,33 @@ public class JettySeleniumTest {
             LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
             LOGGER.debug("result: {}", inputTemplateController.getResult());
             assertEquals("Some text [<ul><li>item 1</li><li> [assignment value] .</li></ul>] end.", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
+    public void testInputTemplateSelectionExclusiveAssignment() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-selection-exclusive-assignment.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input:input-0"));
+        input.sendKeys("assignment value");
+
+        WebElement item3 = this.driver.findElement(By.id("form:input:input-1-item-2"));
+        item3.click();
+
+        WebElement input2 = this.driver.findElement(By.id("form:input:input-2"));
+        input2.sendKeys("assignment value 2");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text [assignment value] and [<ul><li> [assignment value 2] </li></ul>] end.", inputTemplateController.getResult());
         });
     }
 

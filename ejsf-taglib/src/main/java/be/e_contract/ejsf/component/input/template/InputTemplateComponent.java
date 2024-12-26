@@ -40,6 +40,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.primefaces.component.checkbox.Checkbox;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.radiobutton.RadioButton;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.selectoneradio.SelectOneRadio;
 import org.slf4j.Logger;
@@ -131,21 +132,37 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                             String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
                             inputComponentIndex++;
                             selectOneRadio.setId(inputComponentId);
-                            selectOneRadio.setLayout("pageDirection");
+                            selectOneRadio.setLayout("custom");
                             element.setAttribute("ejsf-input", inputComponentId);
                             parentComponent.getChildren().add(selectOneRadio);
+                            HtmlComponent ul = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
+                            ul.setTag("ul");
+                            ul.setStyle("list-style-type: none;");
+                            parentComponent.getChildren().add(ul);
+                            int itemIndex = 0;
                             NodeList itemNodes = childNode.getChildNodes();
-                            for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
-                                Node itemNode = itemNodes.item(itemIdx);
+                            for (int itemNodeIdx = 0; itemNodeIdx < itemNodes.getLength(); itemNodeIdx++) {
+                                Node itemNode = itemNodes.item(itemNodeIdx);
                                 if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
                                     Element itemElement = (Element) itemNode;
                                     if ("selectionitem".equals(itemElement.getLocalName())) {
                                         UISelectItem selectItem = (UISelectItem) application.createComponent(UISelectItem.COMPONENT_TYPE);
                                         selectOneRadio.getChildren().add(selectItem);
                                         selectItem.setItemLabel(itemElement.getTextContent());
-                                        String itemValue = "item" + itemIdx;
+                                        String itemValue = "item-" + itemIndex;
                                         itemElement.setAttribute("ejsf-input-item", itemValue);
                                         selectItem.setItemValue(itemValue);
+
+                                        HtmlComponent li = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
+                                        li.setTag("li");
+                                        ul.getChildren().add(li);
+                                        RadioButton radioButton = (RadioButton) application.createComponent(RadioButton.COMPONENT_TYPE);
+                                        radioButton.setItemIndex(itemIndex);
+                                        radioButton.setFor(inputComponentId);
+                                        radioButton.setId(inputComponentId + "-" + itemValue);
+                                        itemIndex++;
+                                        li.getChildren().add(radioButton);
+                                        toComponents(itemElement, li, inputComponentIndex, application);
                                     }
                                 }
                             }
@@ -252,7 +269,6 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                             String itemValue = element.getAttribute("ejsf-input-value");
                             stringBuilder.append(" [<ul><li>");
                             NodeList itemNodes = element.getChildNodes();
-                            String itemLabel = itemValue;
                             for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
                                 Node itemNode = itemNodes.item(itemIdx);
                                 if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -260,13 +276,12 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                                     if ("selectionitem".equals(itemElement.getLocalName())) {
                                         String thisItemValue = itemElement.getAttribute("ejsf-input-item");
                                         if (itemValue.equals(thisItemValue)) {
-                                            itemLabel = itemElement.getTextContent();
+                                            toResult(itemElement, stringBuilder);
                                             break;
                                         }
                                     }
                                 }
                             }
-                            stringBuilder.append(itemLabel);
                             stringBuilder.append("</li></ul>] ");
                         } else {
                             // exclusive="NO"

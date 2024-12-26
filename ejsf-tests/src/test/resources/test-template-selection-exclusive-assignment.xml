@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f-element id="fmt_msa.3.1">
+    Some text
+    <assignment>
+        <assignmentitem>some assignment</assignmentitem>
+        <assignmentnotes>
+            <para>
+                assignment notes
+            </para>
+        </assignmentnotes>
+    </assignment>
+    and
+    <selection exclusive="YES">
+        <selectionitem>item 1</selectionitem>
+        <selectionitem>item 2</selectionitem>
+        <selectionitem>
+            <assignment>
+                <assignmentitem>some assignment</assignmentitem>
+                <assignmentnotes>
+                    <para>
+                        assignment notes
+                    </para>
+                </assignmentnotes>
+            </assignment>
+        </selectionitem>
+        <selectionnotes>
+            <para>
+                selection notes.
+            </para>
+        </selectionnotes>
+    </selection>
+    end.
+</f-element>
