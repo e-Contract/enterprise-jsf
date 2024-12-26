@@ -92,7 +92,6 @@ import org.primefaces.selenium.component.DatePicker;
 import org.primefaces.selenium.component.InputText;
 import org.primefaces.selenium.component.Message;
 import org.primefaces.selenium.component.Messages;
-import org.primefaces.selenium.component.SelectManyCheckbox;
 import org.primefaces.selenium.component.SelectOneMenu;
 import org.primefaces.selenium.component.SelectOneRadio;
 import org.primefaces.selenium.spi.WebDriverProvider;
@@ -1128,8 +1127,13 @@ public class JettySeleniumTest {
 
         this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
 
-        SelectManyCheckbox selectManyCheckbox = PrimeSelenium.createFragment(SelectManyCheckbox.class, By.id("form:input:input-0"));
-        selectManyCheckbox.select(0, 2);
+        WebElement item0 = this.driver.findElement(By.id("form:input:input-0-item-0"));
+        WebElement parentNextSibling0 = item0.findElement(By.xpath("./parent::*/following-sibling::*[1]"));
+        parentNextSibling0.click();
+
+        WebElement item2 = this.driver.findElement(By.id("form:input:input-0-item-2"));
+        WebElement parentNextSibling2 = item2.findElement(By.xpath("./parent::*/following-sibling::*[1]"));
+        parentNextSibling2.click();
 
         CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
         submitButton.click();
@@ -1162,6 +1166,35 @@ public class JettySeleniumTest {
             LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
             LOGGER.debug("result: {}", inputTemplateController.getResult());
             assertEquals("Some text:<ul><li>first item;</li><li>Some text [<ul><li>item 1</li></ul>] end.</li><li>Some text [assignment value] .</li></ul>", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
+    public void testInputTemplateSelectionNonExclusiveAssignment() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-selection-non-exclusive-assignment.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        WebElement item0 = this.driver.findElement(By.id("form:input:input-0-item-0"));
+        WebElement parentNextSibling0 = item0.findElement(By.xpath("./parent::*/following-sibling::*[1]"));
+        parentNextSibling0.click();
+
+        WebElement item2 = this.driver.findElement(By.id("form:input:input-0-item-2"));
+        WebElement parentNextSibling2 = item2.findElement(By.xpath("./parent::*/following-sibling::*[1]"));
+        parentNextSibling2.click();
+
+        WebElement input = this.driver.findElement(By.id("form:input:input-1"));
+        input.sendKeys("assignment value");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertEquals("Some text [<ul><li>item 1</li><li> [assignment value] .</li></ul>] end.", inputTemplateController.getResult());
         });
     }
 

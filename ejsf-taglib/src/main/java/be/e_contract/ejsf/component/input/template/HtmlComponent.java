@@ -30,6 +30,7 @@ public class HtmlComponent extends UIComponentBase {
 
     enum PropertyKeys {
         tag,
+        style,
     }
 
     public void setTag(String tag) {
@@ -40,6 +41,14 @@ public class HtmlComponent extends UIComponentBase {
         return (String) getStateHelper().get(PropertyKeys.tag);
     }
 
+    public void setStyle(String style) {
+        getStateHelper().put(PropertyKeys.style, style);
+    }
+
+    public String getStyle() {
+        return (String) getStateHelper().get(PropertyKeys.style);
+    }
+
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
         super.encodeBegin(context);
@@ -47,6 +56,10 @@ public class HtmlComponent extends UIComponentBase {
         ResponseWriter responseWriter = context.getResponseWriter();
         String tag = getTag();
         responseWriter.startElement(tag, this);
+        String style = getStyle();
+        if (null != style) {
+            responseWriter.writeAttribute("style", style, "style");
+        }
     }
 
     @Override

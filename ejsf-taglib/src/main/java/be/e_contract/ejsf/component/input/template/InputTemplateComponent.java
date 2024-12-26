@@ -38,6 +38,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.primefaces.component.checkbox.Checkbox;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.selectoneradio.SelectOneRadio;
@@ -101,7 +102,6 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                         String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
                         inputComponentIndex++;
                         inputComponent.setId(inputComponentId);
-                        inputComponent.setRequired(true);
                         element.setAttribute("ejsf-input", inputComponentId);
                         parentComponent.getChildren().add(inputComponent);
                     } else if ("list".equals(localName)) {
@@ -131,7 +131,6 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                             String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
                             inputComponentIndex++;
                             selectOneRadio.setId(inputComponentId);
-                            selectOneRadio.setRequired(true);
                             selectOneRadio.setLayout("pageDirection");
                             element.setAttribute("ejsf-input", inputComponentId);
                             parentComponent.getChildren().add(selectOneRadio);
@@ -156,22 +155,37 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                             String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
                             inputComponentIndex++;
                             selectManyCheckbox.setId(inputComponentId);
-                            selectManyCheckbox.setRequired(true);
-                            selectManyCheckbox.setLayout("pageDirection");
+                            selectManyCheckbox.setLayout("custom");
                             element.setAttribute("ejsf-input", inputComponentId);
                             parentComponent.getChildren().add(selectManyCheckbox);
+                            HtmlComponent ul = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
+                            ul.setTag("ul");
+                            ul.setStyle("list-style-type: none;");
+                            parentComponent.getChildren().add(ul);
                             NodeList itemNodes = childNode.getChildNodes();
-                            for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
-                                Node itemNode = itemNodes.item(itemIdx);
+                            int itemIndex = 0;
+                            for (int itemNodeIdx = 0; itemNodeIdx < itemNodes.getLength(); itemNodeIdx++) {
+                                Node itemNode = itemNodes.item(itemNodeIdx);
                                 if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
                                     Element itemElement = (Element) itemNode;
                                     if ("selectionitem".equals(itemElement.getLocalName())) {
                                         UISelectItem selectItem = (UISelectItem) application.createComponent(UISelectItem.COMPONENT_TYPE);
                                         selectManyCheckbox.getChildren().add(selectItem);
                                         selectItem.setItemLabel(itemElement.getTextContent());
-                                        String itemValue = "item" + itemIdx;
+                                        String itemValue = "item-" + itemIndex;
                                         itemElement.setAttribute("ejsf-input-item", itemValue);
                                         selectItem.setItemValue(itemValue);
+
+                                        HtmlComponent li = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
+                                        li.setTag("li");
+                                        ul.getChildren().add(li);
+                                        Checkbox checkbox = (Checkbox) application.createComponent(Checkbox.COMPONENT_TYPE);
+                                        checkbox.setItemIndex(itemIndex);
+                                        checkbox.setFor(inputComponentId);
+                                        checkbox.setId(inputComponentId + "-" + itemValue);
+                                        itemIndex++;
+                                        li.getChildren().add(checkbox);
+                                        toComponents(itemElement, li, inputComponentIndex, application);
                                     }
                                 }
                             }
@@ -263,7 +277,6 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                             while (stringTokenizer.hasMoreTokens()) {
                                 String itemValue = stringTokenizer.nextToken();
                                 stringBuilder.append("<li>");
-                                String itemLabel = itemValue;
                                 for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
                                     Node itemNode = itemNodes.item(itemIdx);
                                     if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -271,13 +284,12 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                                         if ("selectionitem".equals(itemElement.getLocalName())) {
                                             String thisItemValue = itemElement.getAttribute("ejsf-input-item");
                                             if (itemValue.equals(thisItemValue)) {
-                                                itemLabel = itemElement.getTextContent();
+                                                toResult(itemElement, stringBuilder);
                                                 break;
                                             }
                                         }
                                     }
                                 }
-                                stringBuilder.append(itemLabel);
                                 stringBuilder.append("</li>");
                             }
                             stringBuilder.append("</ul>] ");
