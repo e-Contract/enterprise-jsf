@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output.highlight;
@@ -107,7 +107,9 @@ public class HighlightRenderer extends CoreRenderer {
         if (null != language) {
             responseWriter.writeAttribute("class", "language-" + language, "language");
         }
-        responseWriter.writeText(value, null);
+        if (null != value) {
+            responseWriter.writeText(value, null);
+        }
         responseWriter.endElement("code");
         responseWriter.endElement("pre");
 
