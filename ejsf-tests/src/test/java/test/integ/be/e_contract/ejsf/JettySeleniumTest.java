@@ -990,6 +990,22 @@ public class JettySeleniumTest {
     }
 
     @Test
+    public void testInputTemplateNoTemplate() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
     public void testInputTemplate() throws Exception {
         runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
             inputTemplateController.loadTemplate("/test-template.xml");

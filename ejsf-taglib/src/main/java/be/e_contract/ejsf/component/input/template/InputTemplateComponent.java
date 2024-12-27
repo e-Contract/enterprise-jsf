@@ -6,7 +6,6 @@
  */
 package be.e_contract.ejsf.component.input.template;
 
-import be.e_contract.ejsf.component.input.InputComponent;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -61,7 +60,7 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
 
     public static final String COMPONENT_FAMILY = "ejsf";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InputComponent.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InputTemplateComponent.class);
 
     public InputTemplateComponent() {
         setRendererType(null);
@@ -108,6 +107,7 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                         String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
                         inputComponentIndex++;
                         inputComponent.setId(inputComponentId);
+                        inputComponent.setSize(60);
                         element.setAttribute("ejsf-input", inputComponentId);
                         parentComponent.getChildren().add(inputComponent);
 
@@ -233,7 +233,12 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
     @Override
     public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
         if (event instanceof PostAddToViewEvent) {
+            LOGGER.debug("processEvent PostAddToViewEvent");
             String input = (String) getValue();
+            if (null == input) {
+                LOGGER.debug("no input value");
+                return;
+            }
             Document document = loadDocument(input);
             FacesContext facesContext = event.getFacesContext();
             Application application = facesContext.getApplication();
@@ -390,7 +395,13 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
     public void updateModel(FacesContext context) {
         LOGGER.debug("updateModel");
         String input = (String) getValue();
+        if (null == input) {
+            return;
+        }
         Document document = loadDocument(input);
+        if (null == document) {
+            return;
+        }
 
         updateDocumentValue(getChildren(), (UIInput inputComponent) -> inputComponent.getValue(), document);
 
@@ -436,7 +447,9 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                 String inputComponentId = inputComponent.getId();
                 Element inputElement = findInputElement(inputComponentId, document);
                 Object value = valueFunc.apply(inputComponent);
-                if (value.getClass().isArray()) {
+                if (null == value) {
+                    inputElement.setAttribute("ejsf-input-value", null);
+                } else if (value.getClass().isArray()) {
                     String[] strValues = (String[]) value;
                     StringBuilder stringBuilder = new StringBuilder();
                     for (String strValue : strValues) {
@@ -455,6 +468,9 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
     }
 
     private Document loadDocument(String documentText) {
+        if (null == documentText) {
+            return null;
+        }
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setValidating(false);
         documentBuilderFactory.setNamespaceAware(true);
