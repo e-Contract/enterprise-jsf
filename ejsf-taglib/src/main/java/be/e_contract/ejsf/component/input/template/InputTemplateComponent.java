@@ -178,7 +178,7 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                                         radioButton.setId(inputComponentId + "-" + itemValue);
                                         itemIndex++;
                                         li.getChildren().add(radioButton);
-                                        toComponents(itemElement, li, inputComponentIndex, application);
+                                        inputComponentIndex = toComponents(itemElement, li, inputComponentIndex, application);
                                     }
                                 }
                             }
@@ -218,7 +218,7 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
                                         checkbox.setId(inputComponentId + "-" + itemValue);
                                         itemIndex++;
                                         li.getChildren().add(checkbox);
-                                        toComponents(itemElement, li, inputComponentIndex, application);
+                                        inputComponentIndex = toComponents(itemElement, li, inputComponentIndex, application);
                                     }
                                 }
                             }
