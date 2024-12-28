@@ -128,16 +128,26 @@ class EJSFTemplate {
                                     if ("selectionitem" === itemNode.localName) {
                                         let li = document.createElement("li");
                                         ul.appendChild(li);
-                                        let checkbox = document.createElement("input");
-                                        checkbox.setAttribute("type", "checkbox");
-                                        checkbox.setAttribute("name", checkboxId);
+                                        let checkbox = document.createElement("div");
+                                        checkbox.className = "ui-chkbox ui-widget";
+                                        let checkboxBox = document.createElement("div");
+                                        checkboxBox.className = "ui-chkbox-box ui-widget ui-corner-all ui-state-default";
+                                        checkbox.appendChild(checkboxBox);
                                         let itemValue = "item-" + itemIndex;
                                         itemIndex++;
                                         itemNode.setAttribute("ejsf-input-item", itemValue);
-                                        checkbox.setAttribute("value", itemValue);
+                                        let checkboxIcon = document.createElement("span");
+                                        checkboxIcon.className = "ui-chkbox-icon ui-icon ui-c ui-icon-blank";
+                                        checkboxBox.appendChild(checkboxIcon);
                                         checkbox.addEventListener("click", function (event) {
-                                            let checked = event.target.checked;
                                             let value = childNode.getAttribute("ejsf-input-value");
+                                            let checked;
+                                            if (value === null) {
+                                                checked = false;
+                                            } else {
+                                                checked = value.includes(itemValue);
+                                            }
+                                            checked = !checked;
                                             if (checked) {
                                                 if (null === value) {
                                                     value = itemValue;
@@ -147,6 +157,9 @@ class EJSFTemplate {
                                                     }
                                                 }
                                                 childNode.setAttribute("ejsf-input-value", value);
+                                                checkboxIcon.classList.remove("ui-icon-blank");
+                                                checkboxIcon.classList.add("ui-icon-check");
+                                                checkboxBox.classList.add("ui-state-active");
                                             } else {
                                                 if (value.includes(itemValue)) {
                                                     let values = value.split(",");
@@ -166,7 +179,22 @@ class EJSFTemplate {
                                                         childNode.setAttribute("ejsf-input-value", value);
                                                     }
                                                 }
+                                                checkboxIcon.classList.remove("ui-icon-check");
+                                                checkboxIcon.classList.add("ui-icon-blank");
+                                                checkboxBox.classList.remove("ui-state-active");
                                             }
+                                        });
+                                        checkbox.addEventListener("focus", function (event) {
+                                            checkboxBox.classList.add("ui-state-focus");
+                                        });
+                                        checkbox.addEventListener("blur", function (event) {
+                                            checkboxBox.classList.remove("ui-state-focus");
+                                        });
+                                        checkbox.addEventListener("mouseover", function (event) {
+                                            checkboxBox.classList.add("ui-state-hover");
+                                        });
+                                        checkbox.addEventListener("mouseout", function (event) {
+                                            checkboxBox.classList.remove("ui-state-hover");
                                         });
                                         li.appendChild(checkbox);
                                         inputComponentIndex = this.toComponents(itemNode, li, inputComponentIndex);
