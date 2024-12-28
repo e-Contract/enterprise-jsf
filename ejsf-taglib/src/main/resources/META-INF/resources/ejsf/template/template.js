@@ -91,21 +91,49 @@ class EJSFTemplate {
                             parentComponent.appendChild(ul);
                             let itemIndex = 0;
                             let itemNodes = childNode.childNodes;
+                            let radioBoxSet = new Set();
+                            let radioIconSet = new Set();
                             for (let itemIdx = 0; itemIdx < itemNodes.length; itemIdx++) {
                                 let itemNode = itemNodes[itemIdx];
                                 if (itemNode.nodeType === Node.ELEMENT_NODE) {
                                     if ("selectionitem" === itemNode.localName) {
                                         let li = document.createElement("li");
                                         ul.appendChild(li);
-                                        let radio = document.createElement("input");
-                                        radio.setAttribute("type", "radio");
-                                        radio.setAttribute("name", radioId);
+                                        let radio = document.createElement("div");
+                                        radio.className = "ui-radiobutton ui-widget";
+                                        let radioBox = document.createElement("div");
+                                        radioBoxSet.add(radioBox);
+                                        radioBox.className = "ui-radiobutton-box ui-widget ui-corner-all ui-state-default";
+                                        radio.appendChild(radioBox);
                                         let itemValue = "item-" + itemIndex;
                                         itemIndex++;
                                         itemNode.setAttribute("ejsf-input-item", itemValue);
-                                        radio.setAttribute("value", itemValue);
+                                        let radioIcon = document.createElement("span");
+                                        radioIconSet.add(radioIcon);
+                                        radioIcon.className = "ui-radiobutton-icon ui-icon ui-c ui-icon-blank";
+                                        radioBox.appendChild(radioIcon);
                                         radio.addEventListener("click", function (event) {
                                             childNode.setAttribute("ejsf-input-value", itemValue);
+                                            radioBoxSet.forEach((rb) => {
+                                                rb.classList.remove("ui-state-active");
+                                            });
+                                            radioIconSet.forEach((ri) => {
+                                                ri.classList.remove("ui-icon-blank");
+                                            });
+                                            radioBox.classList.add("ui-state-active");
+                                            radioIcon.classList.add("ui-icon-bullet");
+                                        });
+                                        radio.addEventListener("focus", function (event) {
+                                            radioBox.classList.add("ui-state-focus");
+                                        });
+                                        radio.addEventListener("blur", function (event) {
+                                            radioBox.classList.remove("ui-state-focus");
+                                        });
+                                        radio.addEventListener("mouseover", function (event) {
+                                            radioBox.classList.add("ui-state-hover");
+                                        });
+                                        radio.addEventListener("mouseout", function (event) {
+                                            radioBox.classList.remove("ui-state-hover");
                                         });
                                         li.appendChild(radio);
                                         inputComponentIndex = this.toComponents(itemNode, li, inputComponentIndex);
