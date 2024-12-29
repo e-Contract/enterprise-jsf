@@ -1082,6 +1082,11 @@ public class JettySeleniumTest {
         CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
         submitButton.click();
 
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            assertNull(inputTemplateController.getResult());
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+        });
+
         WebElement input1 = this.driver.findElement(By.id("form:input:content:input-1"));
         input1.sendKeys("assignment value 2");
 

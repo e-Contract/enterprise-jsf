@@ -9,15 +9,12 @@ package be.e_contract.ejsf.component.input.template;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.List;
 import java.util.StringTokenizer;
-import java.util.function.Function;
 import javax.el.ELContext;
 import javax.el.ValueExpression;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
-import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.xml.parsers.DocumentBuilder;
@@ -29,6 +26,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.component.api.Widget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,19 +171,52 @@ public class InputTemplateComponent extends UIInput implements Widget {
     @Override
     public void processValidators(FacesContext context) {
         LOGGER.debug("processValidators");
+        String submittedValue = (String) getSubmittedValue();
+        if (null != submittedValue) {
+            Document document = loadDocument(submittedValue);
+            if (null != document) {
+                boolean hasErrors = updateValidationErrors(document.getDocumentElement().getChildNodes());
+                setSubmittedValue(toString(document));
+                LOGGER.debug("submitted value: {}", getSubmittedValue());
+                if (hasErrors) {
+                    setValid(false);
+                }
+            }
+        }
         super.processValidators(context);
     }
 
-    private void updateRequired(List<UIComponent> components, Document document) {
-        for (UIComponent component : components) {
-            if (component instanceof UIInput) {
-                UIInput inputComponent = (UIInput) component;
-                String inputComponentId = inputComponent.getId();
-                Element inputElement = findInputElement(inputComponentId, document);
-                inputComponent.setRequired(isRequired(inputElement));
+    private boolean updateValidationErrors(NodeList nodes) {
+        boolean result = false;
+        for (int idx = 0; idx < nodes.getLength(); idx++) {
+            Node node = nodes.item(idx);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                String ejsfInput = element.getAttribute("ejsf-input");
+                if (!StringUtils.isEmpty(ejsfInput)) {
+                    boolean required = isRequired(element);
+                    boolean error;
+                    if (required) {
+                        String value = element.getAttribute("ejsf-input-value");
+                        if (StringUtils.isEmpty(value)) {
+                            error = true;
+                            result = true;
+                        } else {
+                            error = false;
+                        }
+                    } else {
+                        error = false;
+                    }
+                    if (error) {
+                        element.setAttribute("ejsf-input-error", null);
+                    } else {
+                        element.removeAttribute("ejsf-input-error");
+                    }
+                }
+                result |= updateValidationErrors(element.getChildNodes());
             }
-            updateRequired(component.getChildren(), document);
         }
+        return result;
     }
 
     private boolean isRequired(Element inputElement) {
@@ -217,79 +248,29 @@ public class InputTemplateComponent extends UIInput implements Widget {
 
     @Override
     public void updateModel(FacesContext context) {
-        LOGGER.debug("updateModel");
-        String input = (String) getValue();
-        if (null == input) {
-            return;
-        }
-        Document document = loadDocument(input);
-        if (null == document) {
-            return;
-        }
-
         super.updateModel(context);
 
-        StringBuilder stringBuilder = new StringBuilder();
-        toResult(document.getDocumentElement(), stringBuilder);
+        String resultValue;
+        String value = (String) getValue();
+        Document document = loadDocument(value);
+        if (null != document) {
+            StringBuilder stringBuilder = new StringBuilder();
+            toResult(document.getDocumentElement(), stringBuilder);
+            resultValue = stringBuilder.toString();
+        } else {
+            resultValue = null;
+        }
+
         ValueExpression resultValueExpression = getResult();
         ELContext elContext = context.getELContext();
-        resultValueExpression.setValue(elContext, stringBuilder.toString());
-    }
-
-    private Element findInputElement(String id, Node parent) {
-        NodeList childNodes = parent.getChildNodes();
-        for (int idx = 0; idx < childNodes.getLength(); idx++) {
-            Node childNode = childNodes.item(idx);
-            if (childNode.getNodeType() != Node.ELEMENT_NODE) {
-                continue;
-            }
-            Element childElement = (Element) childNode;
-            String childId = childElement.getAttribute("ejsf-input");
-            if (null == childId) {
-                continue;
-            }
-            if (id.equals(childId)) {
-                return childElement;
-            }
-            Element inputElement = findInputElement(id, childElement);
-            if (null != inputElement) {
-                return inputElement;
-            }
-        }
-        return null;
-    }
-
-    private void updateDocumentValue(List<UIComponent> components,
-            Function<UIInput, Object> valueFunc,
-            Document document) {
-        for (UIComponent component : components) {
-            if (component instanceof UIInput) {
-                UIInput inputComponent = (UIInput) component;
-                String inputComponentId = inputComponent.getId();
-                Element inputElement = findInputElement(inputComponentId, document);
-                Object value = valueFunc.apply(inputComponent);
-                if (null == value) {
-                    inputElement.setAttribute("ejsf-input-value", null);
-                } else if (value.getClass().isArray()) {
-                    String[] strValues = (String[]) value;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (String strValue : strValues) {
-                        if (stringBuilder.length() > 0) {
-                            stringBuilder.append(",");
-                        }
-                        stringBuilder.append(strValue);
-                        inputElement.setAttribute("ejsf-input-value", stringBuilder.toString());
-                    }
-                } else {
-                    inputElement.setAttribute("ejsf-input-value", value.toString());
-                }
-            }
-            updateDocumentValue(component.getChildren(), valueFunc, document);
-        }
+        resultValueExpression.setValue(elContext, resultValue);
     }
 
     private Document loadDocument(String documentText) {
         if (null == documentText) {
+            return null;
+        }
+        if (StringUtils.isEmpty(documentText)) {
             return null;
         }
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -305,11 +286,13 @@ public class InputTemplateComponent extends UIInput implements Widget {
             documentBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
             documentBuilder = documentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
+            LOGGER.error("parser config error: " + ex.getMessage(), ex);
             return null;
         }
         try {
             return documentBuilder.parse(new InputSource(new StringReader(documentText)));
         } catch (SAXException | IOException ex) {
+            LOGGER.error("XML parser error: " + ex.getMessage(), ex);
             return null;
         }
     }

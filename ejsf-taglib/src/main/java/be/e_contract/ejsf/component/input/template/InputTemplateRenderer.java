@@ -37,7 +37,10 @@ public class InputTemplateRenderer extends CoreRenderer {
             responseWriter.startElement("input", null);
             responseWriter.writeAttribute("type", "hidden", null);
             responseWriter.writeAttribute("name", clientId + ":input", null);
-            String value = (String) inputTemplateComponent.getValue();
+            String value = (String) inputTemplateComponent.getSubmittedValue();
+            if (null == value) {
+                value = (String) inputTemplateComponent.getValue();
+            }
             if (null != value) {
                 responseWriter.writeAttribute("value", value, "value");
             }
