@@ -14,21 +14,12 @@ import java.util.StringTokenizer;
 import java.util.function.Function;
 import javax.el.ELContext;
 import javax.el.ValueExpression;
-import javax.faces.application.Application;
+import javax.faces.application.ResourceDependencies;
+import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
-import javax.faces.component.UIOutput;
-import javax.faces.component.UISelectItem;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.ComponentSystemEvent;
-import javax.faces.event.ComponentSystemEventListener;
-import javax.faces.event.ListenerFor;
-import javax.faces.event.PostAddToViewEvent;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,11 +29,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.primefaces.component.checkbox.Checkbox;
-import org.primefaces.component.inputtext.InputText;
-import org.primefaces.component.radiobutton.RadioButton;
-import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
-import org.primefaces.component.selectoneradio.SelectOneRadio;
+import org.primefaces.component.api.Widget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -53,8 +40,16 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 @FacesComponent(InputTemplateComponent.COMPONENT_TYPE)
-@ListenerFor(systemEventClass = PostAddToViewEvent.class)
-public class InputTemplateComponent extends UIInput implements NamingContainer, ComponentSystemEventListener {
+@ResourceDependencies({
+    @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
+    @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
+    @ResourceDependency(library = "primefaces", name = "core.js"),
+    @ResourceDependency(library = "primefaces", name = "components.js"),
+    @ResourceDependency(library = "primefaces", name = "components.css"),
+    @ResourceDependency(library = "ejsf", name = "template/template.js"),
+    @ResourceDependency(library = "ejsf", name = "template/template-widget.js")
+})
+public class InputTemplateComponent extends UIInput implements Widget {
 
     public static final String COMPONENT_TYPE = "ejsf.inputTemplateComponent";
 
@@ -63,7 +58,7 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
     private static final Logger LOGGER = LoggerFactory.getLogger(InputTemplateComponent.class);
 
     public InputTemplateComponent() {
-        setRendererType(null);
+        setRendererType(InputTemplateRenderer.RENDERER_TYPE);
     }
 
     @Override
@@ -81,172 +76,6 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
 
     public ValueExpression getResult() {
         return (ValueExpression) getStateHelper().get(PropertyKeys.result);
-    }
-
-    private int toComponents(Node parentNode, UIComponent parentComponent, int inputComponentIndex, Application application) {
-        NodeList childNodes = parentNode.getChildNodes();
-        for (int idx = 0; idx < childNodes.getLength(); idx++) {
-            Node childNode = childNodes.item(idx);
-            LOGGER.debug("child node type: {}", childNode.getNodeType());
-            switch (childNode.getNodeType()) {
-                case Node.TEXT_NODE:
-                    UIOutput output = (UIOutput) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
-                    output.setValue(childNode.getTextContent());
-                    parentComponent.getChildren().add(output);
-                    break;
-                case Node.ELEMENT_NODE:
-                    Element element = (Element) childNode;
-                    String localName = element.getLocalName();
-                    LOGGER.debug("element local name: {}", localName);
-                    if ("xref".equals(localName)) {
-                        UIOutput xref = (UIOutput) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
-                        xref.setValue(element.getAttribute("id").toUpperCase());
-                        parentComponent.getChildren().add(xref);
-                    } else if ("assignment".equals(localName)) {
-                        InputText inputComponent = (InputText) application.createComponent(InputText.COMPONENT_TYPE);
-                        String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
-                        inputComponentIndex++;
-                        inputComponent.setId(inputComponentId);
-                        inputComponent.setSize(60);
-                        element.setAttribute("ejsf-input", inputComponentId);
-                        parentComponent.getChildren().add(inputComponent);
-
-                        NodeList itemNodes = element.getChildNodes();
-                        for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
-                            Node itemNode = itemNodes.item(itemIdx);
-                            if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
-                                Element itemElement = (Element) itemNode;
-                                if ("assignmentitem".equals(itemElement.getLocalName())) {
-                                    inputComponent.setPlaceholder(itemElement.getTextContent());
-                                }
-                            }
-                        }
-                    } else if ("list".equals(localName)) {
-                        String type = element.getAttribute("type");
-                        if ("itemized".equals(type)) {
-                            HtmlComponent ul = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
-                            ul.setTag("ul");
-                            parentComponent.getChildren().add(ul);
-                            NodeList itemNodes = childNode.getChildNodes();
-                            for (int itemIdx = 0; itemIdx < itemNodes.getLength(); itemIdx++) {
-                                Node itemNode = itemNodes.item(itemIdx);
-                                if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
-                                    Element itemElement = (Element) itemNode;
-                                    if ("item".equals(itemElement.getLocalName())) {
-                                        HtmlComponent li = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
-                                        li.setTag("li");
-                                        ul.getChildren().add(li);
-                                        inputComponentIndex = toComponents(itemElement, li, inputComponentIndex, application);
-                                    }
-                                }
-                            }
-                        }
-                    } else if ("selection".equals(localName)) {
-                        String exclusive = element.getAttribute("exclusive");
-                        if ("YES".equals(exclusive)) {
-                            SelectOneRadio selectOneRadio = (SelectOneRadio) application.createComponent(SelectOneRadio.COMPONENT_TYPE);
-                            String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
-                            inputComponentIndex++;
-                            selectOneRadio.setId(inputComponentId);
-                            selectOneRadio.setLayout("custom");
-                            element.setAttribute("ejsf-input", inputComponentId);
-                            parentComponent.getChildren().add(selectOneRadio);
-                            HtmlComponent ul = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
-                            ul.setTag("ul");
-                            ul.setStyle("list-style-type: none;");
-                            parentComponent.getChildren().add(ul);
-                            int itemIndex = 0;
-                            NodeList itemNodes = childNode.getChildNodes();
-                            for (int itemNodeIdx = 0; itemNodeIdx < itemNodes.getLength(); itemNodeIdx++) {
-                                Node itemNode = itemNodes.item(itemNodeIdx);
-                                if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
-                                    Element itemElement = (Element) itemNode;
-                                    if ("selectionitem".equals(itemElement.getLocalName())) {
-                                        UISelectItem selectItem = (UISelectItem) application.createComponent(UISelectItem.COMPONENT_TYPE);
-                                        selectOneRadio.getChildren().add(selectItem);
-                                        selectItem.setItemLabel(itemElement.getTextContent());
-                                        String itemValue = "item-" + itemIndex;
-                                        itemElement.setAttribute("ejsf-input-item", itemValue);
-                                        selectItem.setItemValue(itemValue);
-
-                                        HtmlComponent li = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
-                                        li.setTag("li");
-                                        ul.getChildren().add(li);
-                                        RadioButton radioButton = (RadioButton) application.createComponent(RadioButton.COMPONENT_TYPE);
-                                        radioButton.setItemIndex(itemIndex);
-                                        radioButton.setFor(inputComponentId);
-                                        radioButton.setId(inputComponentId + "-" + itemValue);
-                                        itemIndex++;
-                                        li.getChildren().add(radioButton);
-                                        inputComponentIndex = toComponents(itemElement, li, inputComponentIndex, application);
-                                    }
-                                }
-                            }
-                        } else {
-                            // exclusive="NO"
-                            SelectManyCheckbox selectManyCheckbox = (SelectManyCheckbox) application.createComponent(SelectManyCheckbox.COMPONENT_TYPE);
-                            String inputComponentId = "input-" + Integer.toString(inputComponentIndex);
-                            inputComponentIndex++;
-                            selectManyCheckbox.setId(inputComponentId);
-                            selectManyCheckbox.setLayout("custom");
-                            element.setAttribute("ejsf-input", inputComponentId);
-                            parentComponent.getChildren().add(selectManyCheckbox);
-                            HtmlComponent ul = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
-                            ul.setTag("ul");
-                            ul.setStyle("list-style-type: none;");
-                            parentComponent.getChildren().add(ul);
-                            NodeList itemNodes = childNode.getChildNodes();
-                            int itemIndex = 0;
-                            for (int itemNodeIdx = 0; itemNodeIdx < itemNodes.getLength(); itemNodeIdx++) {
-                                Node itemNode = itemNodes.item(itemNodeIdx);
-                                if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
-                                    Element itemElement = (Element) itemNode;
-                                    if ("selectionitem".equals(itemElement.getLocalName())) {
-                                        UISelectItem selectItem = (UISelectItem) application.createComponent(UISelectItem.COMPONENT_TYPE);
-                                        selectManyCheckbox.getChildren().add(selectItem);
-                                        selectItem.setItemLabel(itemElement.getTextContent());
-                                        String itemValue = "item-" + itemIndex;
-                                        itemElement.setAttribute("ejsf-input-item", itemValue);
-                                        selectItem.setItemValue(itemValue);
-
-                                        HtmlComponent li = (HtmlComponent) application.createComponent(HtmlComponent.COMPONENT_TYPE);
-                                        li.setTag("li");
-                                        ul.getChildren().add(li);
-                                        Checkbox checkbox = (Checkbox) application.createComponent(Checkbox.COMPONENT_TYPE);
-                                        checkbox.setItemIndex(itemIndex);
-                                        checkbox.setFor(inputComponentId);
-                                        checkbox.setId(inputComponentId + "-" + itemValue);
-                                        itemIndex++;
-                                        li.getChildren().add(checkbox);
-                                        inputComponentIndex = toComponents(itemElement, li, inputComponentIndex, application);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
-        return inputComponentIndex;
-    }
-
-    @Override
-    public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
-        if (event instanceof PostAddToViewEvent) {
-            LOGGER.debug("processEvent PostAddToViewEvent");
-            String input = (String) getValue();
-            if (null == input) {
-                LOGGER.debug("no input value");
-                return;
-            }
-            Document document = loadDocument(input);
-            FacesContext facesContext = event.getFacesContext();
-            Application application = facesContext.getApplication();
-            int inputComponentIndex = 0;
-            toComponents(document.getDocumentElement(), this, inputComponentIndex, application);
-            setValue(toString(document));
-        }
-        super.processEvent(event);
     }
 
     private void toResult(Node parentNode, StringBuilder stringBuilder) {
@@ -344,11 +173,6 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
     @Override
     public void processValidators(FacesContext context) {
         LOGGER.debug("processValidators");
-        String input = (String) getValue();
-        Document document = loadDocument(input);
-        updateDocumentValue(getChildren(), (UIInput inputComponent) -> inputComponent.getSubmittedValue(), document);
-        setValue(toString(document));
-        updateRequired(getChildren(), document);
         super.processValidators(context);
     }
 
@@ -403,9 +227,6 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
             return;
         }
 
-        updateDocumentValue(getChildren(), (UIInput inputComponent) -> inputComponent.getValue(), document);
-
-        setValue(toString(document));
         super.updateModel(context);
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -508,23 +329,5 @@ public class InputTemplateComponent extends UIInput implements NamingContainer, 
             return null;
         }
         return stringWriter.toString();
-    }
-
-    @Override
-    public void encodeBegin(FacesContext context) throws IOException {
-        super.encodeBegin(context);
-
-        ResponseWriter responseWriter = context.getResponseWriter();
-        responseWriter.startElement("div", this);
-        String clientId = getClientId(context);
-        responseWriter.writeAttribute("id", clientId, "id");
-    }
-
-    @Override
-    public void encodeEnd(FacesContext context) throws IOException {
-        super.encodeEnd(context);
-
-        ResponseWriter responseWriter = context.getResponseWriter();
-        responseWriter.endElement("div");
     }
 }

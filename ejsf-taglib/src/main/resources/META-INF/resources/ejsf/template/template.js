@@ -5,7 +5,6 @@
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 
-
 class EJSFTemplate {
 
     element;
@@ -47,6 +46,7 @@ class EJSFTemplate {
                         let inputId = "input-" + inputComponentIndex;
                         inputComponentIndex++;
                         childNode.setAttribute("ejsf-input", inputId);
+                        input.setAttribute("id", this.element.getAttribute("id") + ":" + inputId);
                         input.dataset.ejsfInput = inputId;
                         let $this = this;
                         input.addEventListener("input", function (event) {
@@ -113,6 +113,7 @@ class EJSFTemplate {
                                         let itemValue = "item-" + itemIndex;
                                         itemIndex++;
                                         itemNode.setAttribute("ejsf-input-item", itemValue);
+                                        radio.setAttribute("id", this.element.getAttribute("id") + ":" + radioId + "-" + itemValue);
                                         let radioIcon = document.createElement("span");
                                         radioIconSet.add(radioIcon);
                                         radioIcon.className = "ui-radiobutton-icon ui-icon ui-c ui-icon-blank";
@@ -172,6 +173,7 @@ class EJSFTemplate {
                                         let itemValue = "item-" + itemIndex;
                                         itemIndex++;
                                         itemNode.setAttribute("ejsf-input-item", itemValue);
+                                        checkbox.setAttribute("id", this.element.getAttribute("id") + ":" + checkboxId + "-" + itemValue);
                                         let checkboxIcon = document.createElement("span");
                                         checkboxIcon.className = "ui-chkbox-icon ui-icon ui-c ui-icon-blank";
                                         checkboxBox.appendChild(checkboxIcon);

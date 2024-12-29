@@ -2335,6 +2335,7 @@
         <tag-name>inputTemplate</tag-name>
         <component>
             <component-type>ejsf.inputTemplateComponent</component-type>
+            <renderer-type>ejsf.inputTemplateRenderer</renderer-type>
             <handler-class>be.e_contract.ejsf.component.input.template.InputTemplateComponentHandler</handler-class>
         </component>
         <attribute>
