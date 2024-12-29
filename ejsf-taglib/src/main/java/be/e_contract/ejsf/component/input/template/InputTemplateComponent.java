@@ -27,6 +27,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.lang3.StringUtils;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
 import org.primefaces.component.api.Widget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +79,7 @@ public class InputTemplateComponent extends UIInput implements Widget {
     }
 
     private void toResult(Node parentNode, StringBuilder stringBuilder) {
+        PolicyFactory policy = new HtmlPolicyBuilder().toFactory();
         NodeList childNodes = parentNode.getChildNodes();
         for (int idx = 0; idx < childNodes.getLength(); idx++) {
             Node childNode = childNodes.item(idx);
@@ -96,7 +99,7 @@ public class InputTemplateComponent extends UIInput implements Widget {
                     } else if ("assignment".equals(localName)) {
                         String value = element.getAttribute("ejsf-input-value");
                         stringBuilder.append(" [");
-                        stringBuilder.append(value);
+                        stringBuilder.append(policy.sanitize(value));
                         stringBuilder.append("] ");
                     } else if ("list".equals(localName)) {
                         String type = element.getAttribute("type");

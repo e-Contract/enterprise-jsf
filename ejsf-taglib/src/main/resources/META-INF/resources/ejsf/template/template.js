@@ -56,6 +56,16 @@ class EJSFTemplate {
                         if (childNode.hasAttribute("ejsf-input-error")) {
                             input.classList.add("ui-state-error");
                         }
+                        let itemNodes = childNode.childNodes;
+                        for (let itemIdx = 0; itemIdx < itemNodes.length; itemIdx++) {
+                            let itemNode = itemNodes[itemIdx];
+                            if (itemNode.nodeType === Node.ELEMENT_NODE) {
+                                if ("assignmentitem" === itemNode.localName) {
+                                    input.setAttribute("placeholder", itemNode.textContent);
+                                    break;
+                                }
+                            }
+                        }
                         let $this = this;
                         input.addEventListener("input", function (event) {
                             console.log("input: " + input.value);

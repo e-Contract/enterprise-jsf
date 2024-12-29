@@ -12,6 +12,12 @@ PrimeFaces.widget.EJSFInputTemplate = PrimeFaces.widget.BaseWidget.extend({
 
         let element = $(this.jqId + $.escapeSelector(":content")).get(0);
         let template = this.jq.find("input[type=hidden]").val();
+        if (null === template) {
+            return;
+        }
+        if (template.length === 0) {
+            return;
+        }
         let $this = this;
         let ejsfTemplate = new EJSFTemplate(element, template, function (result) {
             $this.resultCallback(result);
