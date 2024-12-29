@@ -26,7 +26,6 @@ PrimeFaces.widget.EJSFInputTemplate = PrimeFaces.widget.BaseWidget.extend({
     },
 
     resultCallback(result) {
-        console.log("result: " + result);
         this.jq.find("input[type=hidden]").val(result);
     }
 });

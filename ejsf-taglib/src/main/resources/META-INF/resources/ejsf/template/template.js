@@ -19,10 +19,8 @@ class EJSFTemplate {
     }
 
     init() {
-        console.log("init");
         let domParser = new DOMParser();
         this.document = domParser.parseFromString(this.template, "application/xml");
-        console.log(this.document);
         this.element.innerHTML = "";
         this.toComponents(this.document.documentElement, this.element);
         this.invokeCallback();
@@ -68,7 +66,6 @@ class EJSFTemplate {
                         }
                         let $this = this;
                         input.addEventListener("input", function (event) {
-                            console.log("input: " + input.value);
                             childNode.setAttribute("ejsf-input-value", input.value);
                             $this.invokeCallback();
                         });

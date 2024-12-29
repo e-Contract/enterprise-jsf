@@ -68,7 +68,6 @@ public class InputTemplateRenderer extends CoreRenderer {
         String submittedValue
                 = (String) requestParameterMap.get(clientId + ":input");
         if (null != submittedValue) {
-            LOGGER.debug("submitted value: {}", submittedValue);
             inputTemplateComponent.setSubmittedValue(submittedValue);
             inputTemplateComponent.setValid(true);
         }

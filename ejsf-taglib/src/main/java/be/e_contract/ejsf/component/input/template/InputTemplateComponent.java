@@ -90,7 +90,6 @@ public class InputTemplateComponent extends UIInput implements Widget {
                 case Node.ELEMENT_NODE:
                     Element element = (Element) childNode;
                     String localName = element.getLocalName();
-                    LOGGER.debug("element local name: {}", localName);
                     if ("xref".equals(localName)) {
                         String value = element.getAttribute("id").toUpperCase();
                         stringBuilder.append(" ");
@@ -173,14 +172,12 @@ public class InputTemplateComponent extends UIInput implements Widget {
 
     @Override
     public void processValidators(FacesContext context) {
-        LOGGER.debug("processValidators");
         String submittedValue = (String) getSubmittedValue();
         if (null != submittedValue) {
             Document document = loadDocument(submittedValue);
             if (null != document) {
                 boolean hasErrors = updateValidationErrors(document.getDocumentElement().getChildNodes());
                 setSubmittedValue(toString(document));
-                LOGGER.debug("submitted value: {}", getSubmittedValue());
                 if (hasErrors) {
                     setValid(false);
                 }
