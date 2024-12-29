@@ -10,11 +10,13 @@ class EJSFTemplate {
 
     element;
     template;
+    callback;
     document;
 
-    constructor(element, template) {
+    constructor(element, template, callback) {
         this.element = element;
         this.template = template;
+        this.callback = callback;
     }
 
     init() {
@@ -46,9 +48,11 @@ class EJSFTemplate {
                         inputComponentIndex++;
                         childNode.setAttribute("ejsf-input", inputId);
                         input.dataset.ejsfInput = inputId;
+                        let $this = this;
                         input.addEventListener("input", function (event) {
                             console.log("input: " + input.value);
                             childNode.setAttribute("ejsf-input-value", input.value);
+                            $this.invokeCallback();
                         });
                         input.addEventListener("focus", function (event) {
                             input.classList.add("ui-state-focus");
@@ -102,6 +106,7 @@ class EJSFTemplate {
                                         let radio = document.createElement("div");
                                         radio.className = "ui-radiobutton ui-widget";
                                         let radioBox = document.createElement("div");
+                                        radioBox.dataset.ejsfInput = radioId;
                                         radioBoxSet.add(radioBox);
                                         radioBox.className = "ui-radiobutton-box ui-widget ui-corner-all ui-state-default";
                                         radio.appendChild(radioBox);
@@ -112,8 +117,10 @@ class EJSFTemplate {
                                         radioIconSet.add(radioIcon);
                                         radioIcon.className = "ui-radiobutton-icon ui-icon ui-c ui-icon-blank";
                                         radioBox.appendChild(radioIcon);
+                                        let $this = this;
                                         radio.addEventListener("click", function (event) {
                                             childNode.setAttribute("ejsf-input-value", itemValue);
+                                            $this.invokeCallback();
                                             radioBoxSet.forEach((rb) => {
                                                 rb.classList.remove("ui-state-active");
                                             });
@@ -159,6 +166,7 @@ class EJSFTemplate {
                                         let checkbox = document.createElement("div");
                                         checkbox.className = "ui-chkbox ui-widget";
                                         let checkboxBox = document.createElement("div");
+                                        checkboxBox.dataset.ejsfInput = checkboxId;
                                         checkboxBox.className = "ui-chkbox-box ui-widget ui-corner-all ui-state-default";
                                         checkbox.appendChild(checkboxBox);
                                         let itemValue = "item-" + itemIndex;
@@ -167,6 +175,7 @@ class EJSFTemplate {
                                         let checkboxIcon = document.createElement("span");
                                         checkboxIcon.className = "ui-chkbox-icon ui-icon ui-c ui-icon-blank";
                                         checkboxBox.appendChild(checkboxIcon);
+                                        let $this = this;
                                         checkbox.addEventListener("click", function (event) {
                                             let value = childNode.getAttribute("ejsf-input-value");
                                             let checked;
@@ -211,6 +220,7 @@ class EJSFTemplate {
                                                 checkboxIcon.classList.add("ui-icon-blank");
                                                 checkboxBox.classList.remove("ui-state-active");
                                             }
+                                            $this.invokeCallback();
                                         });
                                         checkbox.addEventListener("focus", function (event) {
                                             checkboxBox.classList.add("ui-state-focus");
@@ -237,7 +247,79 @@ class EJSFTemplate {
         return inputComponentIndex;
     }
 
+    updateRequired(elements) {
+        for (let idx = 0; idx < elements.length; idx++) {
+            let element = elements.item(idx);
+            let ejsfInput = element.getAttribute("ejsf-input");
+            if (ejsfInput) {
+                let required = this.isRequired(element);
+                let valueError;
+                if (required) {
+                    console.log("required: " + ejsfInput);
+                    let value = element.getAttribute("ejsf-input-value");
+                    if (null === value || value.length === 0) {
+                        console.log("missing value: " + ejsfInput);
+                        valueError = true;
+                    } else {
+                        valueError = false;
+                    }
+                } else {
+                    valueError = false;
+                }
+                let inputElements = this.element.querySelectorAll("[data-ejsf-input='" + ejsfInput + "']");
+                for (let inputIdx = 0; inputIdx < inputElements.length; inputIdx++) {
+                    let inputElement = inputElements.item(inputIdx);
+                    if (valueError) {
+                        inputElement.classList.add("ui-state-error");
+                    } else {
+                        inputElement.classList.remove("ui-state-error");
+                    }
+                }
+            }
+            this.updateRequired(element.children);
+        }
+    }
+
+    isRequired(element) {
+        let node = element.parentNode;
+        let itemValue = null;
+        while (node !== null) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                let localName = node.localName;
+                if ("selectionitem" === localName) {
+                    if (null === itemValue) {
+                        itemValue = node.getAttribute("ejsf-input-item");
+                    }
+                } else if ("selection" === localName) {
+                    let inputValue = node.getAttribute("ejsf-input-value");
+                    if (null === inputValue) {
+                        return false;
+                    }
+                    let values = inputValue.split(",");
+                    for (let valueIdx = 0; valueIdx < values.length; valueIdx++) {
+                        let selectedValue = values[valueIdx];
+                        if (selectedValue === itemValue) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            node = node.parentNode;
+        }
+        return true;
+    }
+
+    invokeCallback() {
+        if (this.callback) {
+            let xmlSerializer = new XMLSerializer();
+            let result = xmlSerializer.serializeToString(this.document.documentElement);
+            this.callback(result);
+        }
+    }
+
     getResult() {
+        this.updateRequired(this.document.documentElement.children);
         let xmlSerializer = new XMLSerializer();
         return xmlSerializer.serializeToString(this.document.documentElement);
     }
