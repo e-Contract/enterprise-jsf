@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f-element id="fpt_ini.1.2">
+    Some text.
+    <table>
+        <tgroup cols="3">
+            <thead>
+                <row>
+                    <entry>col 1</entry>
+                    <entry>col 2</entry>
+                    <entry>col 3</entry>
+                </row>
+            </thead>
+            <tbody>
+                <row>
+                    <entry>1</entry>
+                    <entry>
+                        <assignment>
+                            <assignmentitem>some assignment</assignmentitem>
+                            <assignmentnotes>
+                                <para>
+                                    some notes
+                                </para>
+                            </assignmentnotes>
+                        </assignment>
+                    </entry>
+                    <entry>
+                        <assignment>
+                            <assignmentitem>some assignment</assignmentitem>
+                        </assignment>
+                    </entry>
+                </row>
+                <row>
+                    <entry>...</entry>
+                    <entry>...</entry>
+                    <entry>...</entry>
+                </row>
+            </tbody>
+        </tgroup>
+    </table>
+</f-element>

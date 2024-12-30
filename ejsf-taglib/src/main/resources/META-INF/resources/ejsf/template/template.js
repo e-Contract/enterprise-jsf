@@ -272,6 +272,96 @@ class EJSFTemplate {
                                 }
                             }
                         }
+                    } else if (childNode.localName === "table") {
+                        let tableId = "input-" + inputComponentIndex;
+                        inputComponentIndex++;
+                        childNode.setAttribute("ejsf-input", tableId);
+                        let entries = childNode.getElementsByTagName("tgroup").item(0)
+                                .getElementsByTagName("thead").item(0)
+                                .getElementsByTagName("row").item(0)
+                                .getElementsByTagName("entry");
+                        let columns = new Array();
+                        for (let idx = 0; idx < entries.length; idx++) {
+                            let entry = entries[idx];
+                            columns.push(entry.textContent);
+                        }
+                        columns.forEach((column) => {
+                            console.log("column: '" + column + "'");
+                        });
+                        let table = document.createElement("table");
+                        table.setAttribute("id", this.element.getAttribute("id") + ":" + tableId);
+                        table.style = "border: 1px solid black; border-collapse: collapse;";
+                        parentComponent.appendChild(table);
+                        let thead = document.createElement("thead");
+                        table.appendChild(thead);
+                        let thead_tr = document.createElement("tr");
+                        thead.appendChild(thead_tr);
+                        columns.forEach((column) => {
+                            let th = document.createElement("th");
+                            th.style = "border: 1px solid black; border-collapse: collapse;";
+                            thead_tr.appendChild(th);
+                            th.innerText = column;
+                        });
+                        let tbody = document.createElement("tbody");
+                        table.appendChild(tbody);
+                        let tfoot = document.createElement("tfoot");
+                        table.appendChild(tfoot);
+                        let tfoot_tr = document.createElement("tr");
+                        tfoot.appendChild(tfoot_tr);
+                        let tfoot_tr_td = document.createElement("td");
+                        tfoot_tr.appendChild(tfoot_tr_td);
+                        let table_add_button = document.createElement("i");
+                        table_add_button.className = "pi pi-plus-circle";
+                        table_add_button.style = "cursor: pointer;";
+                        table_add_button.setAttribute("id", this.element.getAttribute("id") + ":" + tableId + ":addRow");
+                        tfoot_tr_td.appendChild(table_add_button);
+                        let $this = this;
+                        table_add_button.addEventListener("click", function (event) {
+                            let row = $this.document.createElement("row");
+                            childNode.getElementsByTagName("tgroup").item(0)
+                                    .getElementsByTagName("tbody").item(0).appendChild(row);
+                            let tr = document.createElement("tr");
+                            tbody.appendChild(tr);
+                            columns.forEach((column) => {
+                                let entry = $this.document.createElement("entry");
+                                row.appendChild(entry);
+                                let td = document.createElement("td");
+                                td.style = "border: 1px solid black; border-collapse: collapse;";
+                                tr.appendChild(td);
+                                let input = document.createElement("input");
+                                input.setAttribute("type", "text");
+                                input.size = 30;
+                                input.className = "ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all";
+                                input.setAttribute("placeholder", column);
+                                td.appendChild(input);
+                                input.addEventListener("input", function (event) {
+                                    entry.setAttribute("ejsf-input-value", input.value);
+                                    $this.invokeCallback();
+                                });
+                                input.addEventListener("focus", function (event) {
+                                    input.classList.add("ui-state-focus");
+                                });
+                                input.addEventListener("blur", function (event) {
+                                    input.classList.remove("ui-state-focus");
+                                });
+                                input.addEventListener("mouseover", function (event) {
+                                    input.classList.add("ui-state-hover");
+                                });
+                                input.addEventListener("mouseout", function (event) {
+                                    input.classList.remove("ui-state-hover");
+                                });
+                            });
+                            let td = document.createElement("td");
+                            td.style = "border: 1px solid black; border-collapse: collapse;";
+                            tr.appendChild(td);
+                            let table_remove_button = document.createElement("i");
+                            table_remove_button.className = "pi pi-minus-circle";
+                            table_remove_button.style = "cursor: pointer;";
+                            td.appendChild(table_remove_button);
+                            table_remove_button.addEventListener("click", function (event) {
+                                tbody.removeChild(tr);
+                            });
+                        });
                     }
                     break;
             }

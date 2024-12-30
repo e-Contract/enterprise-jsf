@@ -34,6 +34,7 @@ import java.security.spec.RSAKeyGenParameterSpec;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
@@ -1268,6 +1269,37 @@ public class JettySeleniumTest {
             LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
             LOGGER.debug("result: {}", inputTemplateController.getResult());
             assertEquals("Some text [<ul><li>item 1</li><li>item 2 FTP_ITC </li><li> [assignment value] .</li></ul>] end.", inputTemplateController.getResult());
+        });
+    }
+
+    @Test
+    public void testInputTemplateTable() throws Exception {
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            inputTemplateController.loadTemplate("/test-template-table.xml");
+        });
+
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-input-template.xhtml");
+
+        WebElement addRowButton = this.driver.findElement(By.id("form:input:content:input-0:addRow"));
+        addRowButton.click();
+
+        WebElement table = this.driver.findElement(By.id("form:input:content:input-0"));
+        List<WebElement> tableInputs = table.findElements(By.cssSelector("tbody input[type='text']"));
+        int dataIdx = 0;
+        for (WebElement tableInput : tableInputs) {
+            tableInput.sendKeys("value " + dataIdx);
+            dataIdx++;
+        }
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        runOnBean(InputTemplateController.class, (InputTemplateController inputTemplateController) -> {
+            LOGGER.debug("template value: {}", inputTemplateController.getTemplate());
+            LOGGER.debug("result: {}", inputTemplateController.getResult());
+            assertTrue(inputTemplateController.getResult().contains("value 0"));
+            assertTrue(inputTemplateController.getResult().contains("value 1"));
+            assertTrue(inputTemplateController.getResult().contains("value 2"));
         });
     }
 

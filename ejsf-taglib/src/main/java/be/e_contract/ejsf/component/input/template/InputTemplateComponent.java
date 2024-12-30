@@ -46,6 +46,7 @@ import org.xml.sax.SAXException;
     @ResourceDependency(library = "primefaces", name = "core.js"),
     @ResourceDependency(library = "primefaces", name = "components.js"),
     @ResourceDependency(library = "primefaces", name = "components.css"),
+    @ResourceDependency(library = "primefaces", name = "primeicons/primeicons.css"),
     @ResourceDependency(library = "ejsf", name = "template/template.js"),
     @ResourceDependency(library = "ejsf", name = "template/template-widget.js")
 })
@@ -164,6 +165,49 @@ public class InputTemplateComponent extends UIInput implements Widget {
                             }
                             stringBuilder.append("</ul>] ");
                         }
+                    } else if ("table".equals(localName)) {
+                        stringBuilder.append("<table style=\"border: 1px solid black; border-collapse: collapse;\"><thead><tr>");
+                        Element tgroup = (Element) element.getElementsByTagName("tgroup").item(0);
+                        Element thead = (Element) tgroup.getElementsByTagName("thead").item(0);
+                        Element row = (Element) thead.getElementsByTagName("row").item(0);
+                        NodeList entries = row.getElementsByTagName("entry");
+                        for (int entryIdx = 0; entryIdx < entries.getLength(); entryIdx++) {
+                            Element entry = (Element) entries.item(entryIdx);
+                            String columnName = entry.getTextContent();
+                            stringBuilder.append("<th style=\"border: 1px solid black; border-collapse: collapse;\">");
+                            stringBuilder.append(columnName);
+                            stringBuilder.append("</th>");
+                        }
+                        stringBuilder.append("</tr></thead><tbody>");
+                        Element tbody = (Element) tgroup.getElementsByTagName("tbody").item(0);
+                        NodeList rows = tbody.getElementsByTagName("row");
+                        for (int rowIdx = 0; rowIdx < rows.getLength(); rowIdx++) {
+                            row = (Element) rows.item(rowIdx);
+                            entries = row.getElementsByTagName("entry");
+                            boolean hasInput = false;
+                            for (int entryIdx = 0; entryIdx < entries.getLength(); entryIdx++) {
+                                Element entry = (Element) entries.item(entryIdx);
+                                if (entry.hasAttribute("ejsf-input-value")) {
+                                    hasInput = true;
+                                    break;
+                                }
+                            }
+                            if (!hasInput) {
+                                continue;
+                            }
+                            stringBuilder.append("<tr>");
+                            for (int entryIdx = 0; entryIdx < entries.getLength(); entryIdx++) {
+                                Element entry = (Element) entries.item(entryIdx);
+                                stringBuilder.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">");
+                                String value = entry.getAttribute("ejsf-input-value");
+                                if (value != null) {
+                                    stringBuilder.append(policy.sanitize(value));
+                                }
+                                stringBuilder.append("</td>");
+                            }
+                            stringBuilder.append("</tr>");
+                        }
+                        stringBuilder.append("</tbody></table>");
                     }
                     break;
             }
@@ -192,6 +236,10 @@ public class InputTemplateComponent extends UIInput implements Widget {
             Node node = nodes.item(idx);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
+                if ("table".equals(element.getLocalName())) {
+                    // skip table input validation
+                    continue;
+                }
                 String ejsfInput = element.getAttribute("ejsf-input");
                 if (!StringUtils.isEmpty(ejsfInput)) {
                     boolean required = isRequired(element);
