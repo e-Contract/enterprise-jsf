@@ -302,20 +302,84 @@ class EJSFTemplate {
                             thead_tr.appendChild(th);
                             th.innerText = column;
                         });
+                        let $this = this;
                         let tbody = document.createElement("tbody");
                         table.appendChild(tbody);
+                        let rows = childNode.getElementsByTagName("tgroup").item(0)
+                                .getElementsByTagName("tbody").item(0)
+                                .getElementsByTagName("row");
+                        for (let rowIdx = 0; rowIdx < rows.length; rowIdx++) {
+                            let dataRow = rows[rowIdx];
+                            let rowEntries = dataRow.getElementsByTagName("entry");
+                            let hasInput = false;
+                            for (let entryIdx = 0; entryIdx < rowEntries.length; entryIdx++) {
+                                let rowEntry = rowEntries[entryIdx];
+                                if (rowEntry.hasAttribute("ejsf-input-value")) {
+                                    hasInput = true;
+                                    break;
+                                }
+                            }
+                            if (!hasInput) {
+                                continue;
+                            }
+                            let tr = document.createElement("tr");
+                            tbody.appendChild(tr);
+                            for (let entryIdx = 0; entryIdx < rowEntries.length; entryIdx++) {
+                                let entry = rowEntries[entryIdx];
+                                let td = document.createElement("td");
+                                td.style = "border: 1px solid black; border-collapse: collapse;";
+                                tr.appendChild(td);
+                                let input = document.createElement("input");
+                                input.setAttribute("type", "text");
+                                input.size = 30;
+                                input.className = "ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all";
+                                input.setAttribute("placeholder", columns[entryIdx]);
+                                td.appendChild(input);
+                                input.value = entry.getAttribute("ejsf-input-value");
+                                input.addEventListener("input", function (event) {
+                                    entry.setAttribute("ejsf-input-value", input.value);
+                                    $this.invokeCallback();
+                                });
+                                input.addEventListener("focus", function (event) {
+                                    input.classList.add("ui-state-focus");
+                                });
+                                input.addEventListener("blur", function (event) {
+                                    input.classList.remove("ui-state-focus");
+                                });
+                                input.addEventListener("mouseover", function (event) {
+                                    input.classList.add("ui-state-hover");
+                                });
+                                input.addEventListener("mouseout", function (event) {
+                                    input.classList.remove("ui-state-hover");
+                                });
+                            }
+                            let td = document.createElement("td");
+                            td.style = "border: 1px solid black; border-collapse: collapse;";
+                            tr.appendChild(td);
+                            let table_remove_button = document.createElement("i");
+                            table_remove_button.className = "pi pi-minus-circle";
+                            table_remove_button.style = "cursor: pointer;";
+                            td.appendChild(table_remove_button);
+                            table_remove_button.addEventListener("click", function (event) {
+                                tbody.removeChild(tr);
+                                childNode.getElementsByTagName("tgroup").item(0)
+                                        .getElementsByTagName("tbody").item(0)
+                                        .removeChild(dataRow);
+                                $this.invokeCallback();
+                            });
+                        }
                         let tfoot = document.createElement("tfoot");
                         table.appendChild(tfoot);
                         let tfoot_tr = document.createElement("tr");
                         tfoot.appendChild(tfoot_tr);
                         let tfoot_tr_td = document.createElement("td");
+                        tfoot_tr_td.colSpan = columns.length + 1;
                         tfoot_tr.appendChild(tfoot_tr_td);
                         let table_add_button = document.createElement("i");
                         table_add_button.className = "pi pi-plus-circle";
                         table_add_button.style = "cursor: pointer;";
                         table_add_button.setAttribute("id", this.element.getAttribute("id") + ":" + tableId + ":addRow");
                         tfoot_tr_td.appendChild(table_add_button);
-                        let $this = this;
                         table_add_button.addEventListener("click", function (event) {
                             let row = $this.document.createElement("row");
                             childNode.getElementsByTagName("tgroup").item(0)
@@ -360,6 +424,10 @@ class EJSFTemplate {
                             td.appendChild(table_remove_button);
                             table_remove_button.addEventListener("click", function (event) {
                                 tbody.removeChild(tr);
+                                childNode.getElementsByTagName("tgroup").item(0)
+                                        .getElementsByTagName("tbody").item(0)
+                                        .removeChild(row);
+                                $this.invokeCallback();
                             });
                         });
                     }
