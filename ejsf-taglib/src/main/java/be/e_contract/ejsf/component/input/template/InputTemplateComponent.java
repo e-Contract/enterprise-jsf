@@ -12,6 +12,7 @@ import java.io.StringWriter;
 import java.util.StringTokenizer;
 import javax.el.ELContext;
 import javax.el.ValueExpression;
+import javax.faces.application.FacesMessage;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
@@ -224,6 +225,10 @@ public class InputTemplateComponent extends UIInput implements Widget {
                 setSubmittedValue(toString(document));
                 if (hasErrors) {
                     setValid(false);
+                    // emit message to ensure proper update in for example ui:repeat when invalid
+                    // hence when within some UIData iterator component, we have to emit per rendering something
+                    // so JSF knows which rendered iteration to mark as invalid
+                    context.addMessage(getClientId(context), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Missing required input.", null));
                 }
             }
         }
