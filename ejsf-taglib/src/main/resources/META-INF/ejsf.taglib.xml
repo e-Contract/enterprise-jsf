@@ -143,6 +143,10 @@
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -166,6 +170,10 @@
         <attribute>
             <description>The optional validation error message.</description>
             <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
@@ -263,6 +271,10 @@
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -297,6 +309,10 @@
         <attribute>
             <description>The optional validation error message.</description>
             <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
@@ -372,6 +388,10 @@
         <attribute>
             <description>The optional validation error message.</description>
             <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
@@ -568,6 +588,10 @@
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -749,6 +773,10 @@
         <validator>
             <validator-id>ejsf.passwordValidator</validator-id>
         </validator>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -768,6 +796,10 @@
         <attribute>
             <description>The optional validation error message.</description>
             <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
@@ -871,6 +903,10 @@
         <attribute>
             <description>The optional validation error message.</description>
             <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
@@ -1108,6 +1144,10 @@
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -1147,6 +1187,10 @@
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -1170,6 +1214,10 @@
         <attribute>
             <description>The optional validation error message.</description>
             <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
@@ -1200,6 +1248,10 @@
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -1213,6 +1265,10 @@
         <attribute>
             <description>The optional validation error message.</description>
             <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
@@ -1234,6 +1290,10 @@
         <attribute>
             <description>The optional validation error message.</description>
             <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
@@ -1492,6 +1552,10 @@
             <name>message</name>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -1500,6 +1564,10 @@
         <converter>
             <converter-id>ejsf.trimConverter</converter-id>
         </converter>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
@@ -1978,6 +2046,10 @@
         <attribute>
             <description>The variable name for the value of the previous row.</description>
             <name>prevRowVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
             <type>java.lang.String</type>
         </attribute>
     </tag>
