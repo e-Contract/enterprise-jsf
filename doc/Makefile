@@ -1,7 +1,7 @@
 #
 # Enterprise JSF project.
 #
-# Copyright 2022-2024 e-Contract.be BV. All rights reserved.
+# Copyright 2022-2025 e-Contract.be BV. All rights reserved.
 # e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 #
 
@@ -34,7 +34,7 @@ enterprise-jsf.pdf : enterprise-jsf.tex $(TEX_INCLUDES) $(SVG:.svg=.pdf) $(FIGS:
 # tried inkscape: does not always rasterize
 # tried chromium headless: always outputs in A4
 %.pdf: %.puml
-	java -jar $(PLANTUML_JAR) -DPLANTUML_LIMIT_SIZE=8192 -Djava.awt.headless=true -charset UTF-8 -tlatex $*.puml
+	java -Djava.awt.headless=true -jar $(PLANTUML_JAR) -DPLANTUML_LIMIT_SIZE=8192 -charset UTF-8 -tlatex $*.puml
 	pdflatex $*.tex
 	rm $*.tex
 
@@ -48,10 +48,10 @@ enterprise-jsf.pdf : enterprise-jsf.tex $(TEX_INCLUDES) $(SVG:.svg=.pdf) $(FIGS:
 version:
 	pdflatex -version
 	java -version
-	java -jar $(PLANTUML_JAR) -Djava.awt.headless=true -version
+	java -Djava.awt.headless=true -jar $(PLANTUML_JAR) -version
 
 %.png: %.puml
-	java -jar $(PLANTUML_JAR) -DPLANTUML_LIMIT_SIZE=8192 -Djava.awt.headless=true $*.puml
+	java -Djava.awt.headless=true -jar $(PLANTUML_JAR) -DPLANTUML_LIMIT_SIZE=8192 $*.puml
 
 .PHONY: clean
 clean:

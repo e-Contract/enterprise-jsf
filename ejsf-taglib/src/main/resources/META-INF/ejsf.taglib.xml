@@ -2424,4 +2424,29 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>
+            Prefix validator.
+        </description>
+        <tag-name>prefixValidator</tag-name>
+        <validator>
+            <validator-id>ejsf.prefixValidator</validator-id>
+        </validator>
+        <attribute>
+            <description>The expected prefix.</description>
+            <name>prefix</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional validation error message.</description>
+            <name>message</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>for</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>

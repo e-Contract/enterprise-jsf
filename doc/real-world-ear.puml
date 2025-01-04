@@ -9,7 +9,7 @@ allow_mixing
 hide empty methods
 hide empty fields
 
-component "Application"<<EAR>> {
+component "Application" <<EAR>> {
     component "model" <<EJB>> as Model {
         class "Message Consumer" as MessageConsumer <<MDB>>
     }
