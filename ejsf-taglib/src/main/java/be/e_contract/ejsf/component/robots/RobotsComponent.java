@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.robots;
@@ -85,7 +85,6 @@ public class RobotsComponent extends UIComponentBase implements ComponentSystemE
 
     @Override
     public void processEvent(ComponentSystemEvent event) throws AbortProcessingException {
-        LOGGER.debug("processEvent");
         if (event instanceof PostAddToViewEvent) {
             FacesContext facesContext = event.getFacesContext();
             UIComponent headComponent = findHead(facesContext);
