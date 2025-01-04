@@ -9,7 +9,11 @@
     <ui:define name="body">
         <h:form>
             <h:panelGrid columns="3">
-                <p:outputLabel for="email" value="Email:"/>
+                <p:outputLabel for="email" value="Email:">
+                    <ejsf:help>
+                        The email address.
+                    </ejsf:help>
+                </p:outputLabel>
                 <p:inputText id="email" value="#{inputOutputController.value}" size="40">
                     <ejsf:emailValidator/>
                 </p:inputText>

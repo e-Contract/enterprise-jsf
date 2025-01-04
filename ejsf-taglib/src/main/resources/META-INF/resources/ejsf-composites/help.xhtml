@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>This content will not be displayed</title>
+    </h:head>
+    <h:body>
+        <composite:interface>
+        </composite:interface>
+        <composite:implementation>
+            <span id="#{cc.clientId}">
+                <p:commandButton id="help"
+                                 icon="pi pi-question-circle"
+                                 styleClass="rounded-button ui-button-flat"
+                                 type="button"/>
+                <p:overlayPanel for="help" showCloseIcon="true">
+                    <div style="max-width: 400px;">
+                        <composite:insertChildren/>
+                    </div>
+                </p:overlayPanel>
+            </span>
+        </composite:implementation>
+    </h:body>
+</html>
