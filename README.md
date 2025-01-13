@@ -20,7 +20,7 @@ The following dependencies are required for building the PDF document:
 * PlantUML, and a `PLANTUML_JAR` environment variable pointing to the corresponding JAR.
 PlantUML can be downloaded from: https://plantuml.com
 
-Building this project should be possible on Mac OS, Linux, and FreeBSD.
+Building this project should be possible on macOS, Linux, and FreeBSD.
 
 Compile the PDF document via:
 ```
@@ -168,12 +168,12 @@ mvn clean package payara-micro:start -Ppayara
 
 Running the demo web application requires an application server that supports Jakarta EE version 10.
 We prefer WildFly as application server.
-WildFly version 34.0.0.Final is the latest version that supports Jakarta EE 10.
+WildFly version 35.0.0.Final is the latest version that supports Jakarta EE 10.
 WildFly can be downloaded from: https://www.wildfly.org
 
-Start a WildFly version 34.0.0.Final via:
+Start a WildFly version 35.0.0.Final via:
 ```
-cd wildfly-34.0.0.Final/bin
+cd wildfly-35.0.0.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
 ```
 

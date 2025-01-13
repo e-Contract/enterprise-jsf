@@ -169,7 +169,7 @@
         <npm.version>10.9.0</npm.version>
         <jackson.version>2.18.2</jackson.version>
         <webauthn-server.version>2.5.4</webauthn-server.version>
-        <webauthn4j.version>0.28.3.RELEASE</webauthn4j.version>
+        <webauthn4j.version>0.28.4.RELEASE</webauthn4j.version>
         <primefaces.version>13.0.10</primefaces.version>
         <slf4j.version>2.0.16</slf4j.version>
     </properties>
@@ -245,7 +245,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.17.1</version>
+                <version>1.17.2</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
