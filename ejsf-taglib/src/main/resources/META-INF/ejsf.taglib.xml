@@ -123,6 +123,11 @@
             <name>reverse</name>
             <type>java.lang.Boolean</type>
         </attribute>
+        <attribute>
+            <description>Set to false to disable red/green coloring.</description>
+            <name>colors</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
     </tag>
 
     <tag>

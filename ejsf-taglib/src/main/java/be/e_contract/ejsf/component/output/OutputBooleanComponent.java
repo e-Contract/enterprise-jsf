@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2014-2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2014-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output;
@@ -36,7 +36,8 @@ public class OutputBooleanComponent extends UIOutput {
     }
 
     enum PropertyKeys {
-        reverse
+        reverse,
+        colors,
     }
 
     public boolean isReverse() {
@@ -45,6 +46,14 @@ public class OutputBooleanComponent extends UIOutput {
 
     public void setReverse(boolean reverse) {
         getStateHelper().put(PropertyKeys.reverse, reverse);
+    }
+
+    public boolean isColors() {
+        return (Boolean) getStateHelper().eval(PropertyKeys.colors, true);
+    }
+
+    public void setColors(boolean colors) {
+        getStateHelper().put(PropertyKeys.colors, colors);
     }
 
     @Override
@@ -63,8 +72,13 @@ public class OutputBooleanComponent extends UIOutput {
             } else {
                 output = resourceBundle.getString("no");
             }
-            boolean reverse = isReverse();
-            classValue = "ejsf-output-boolean ejsf-output-boolean-" + Boolean.toString(value ^ reverse);
+            boolean colors = isColors();
+            if (colors) {
+                boolean reverse = isReverse();
+                classValue = "ejsf-output-boolean ejsf-output-boolean-" + Boolean.toString(value ^ reverse);
+            } else {
+                classValue = "ejsf-output-boolean";
+            }
         } else {
             output = "";
             classValue = null;
