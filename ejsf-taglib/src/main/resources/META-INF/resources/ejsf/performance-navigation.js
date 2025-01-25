@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 
@@ -12,60 +12,60 @@ PrimeFaces.widget.EJSFPerformanceNavigation = PrimeFaces.widget.BaseWidget.exten
         if (!("performance" in window)) {
             return;
         }
-        this.entry = window.performance.getEntriesByType("navigation")[0];
         let $this = this;
-        this.timer = window.setInterval(function () {
-            $this.onTimer();
-        }, 1000);
+        this.observer = new PerformanceObserver(function (list) {
+            $this.observerCallback(list);
+        });
+        this.observer.observe({
+            type: "navigation",
+            buffered: true
+        });
     },
 
-    onTimer: function () {
-        if (this.entry.duration === 0) {
-            return;
-        }
-        window.clearInterval(this.timer);
-        this.timer = null;
+    observerCallback: function (list) {
+        this.observer.disconnect();
+        let entry = list.getEntries()[0];
         let options = {
             params: [
                 {
                     name: this.id + "_startTime",
-                    value: this.entry.startTime
+                    value: entry.startTime
                 },
                 {
                     name: this.id + "_duration",
-                    value: this.entry.duration
+                    value: entry.duration
                 },
                 {
                     name: this.id + "_loadEventStart",
-                    value: this.entry.loadEventStart
+                    value: entry.loadEventStart
                 },
                 {
                     name: this.id + "_loadEventEnd",
-                    value: this.entry.loadEventEnd
+                    value: entry.loadEventEnd
                 },
                 {
                     name: this.id + "_domInteractive",
-                    value: this.entry.domInteractive
+                    value: entry.domInteractive
                 },
                 {
                     name: this.id + "_domComplete",
-                    value: this.entry.domComplete
+                    value: entry.domComplete
                 },
                 {
                     name: this.id + "_requestStart",
-                    value: this.entry.requestStart
+                    value: entry.requestStart
                 },
                 {
                     name: this.id + "_responseStart",
-                    value: this.entry.responseStart
+                    value: entry.responseStart
                 },
                 {
                     name: this.id + "_responseEnd",
-                    value: this.entry.responseEnd
+                    value: entry.responseEnd
                 },
                 {
                     name: this.id + "_name",
-                    value: this.entry.name
+                    value: entry.name
                 }
             ]
         };
