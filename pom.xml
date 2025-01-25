@@ -165,8 +165,8 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <node.version>v22.12.0</node.version>
-        <npm.version>10.9.0</npm.version>
+        <node.version>v22.13.1</node.version>
+        <npm.version>10.9.2</npm.version>
         <jackson.version>2.18.2</jackson.version>
         <webauthn-server.version>2.5.4</webauthn-server.version>
         <webauthn4j.version>0.28.4.RELEASE</webauthn4j.version>
@@ -330,7 +330,7 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
-                <version>4.27.0</version>
+                <version>4.28.1</version>
             </dependency>
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>

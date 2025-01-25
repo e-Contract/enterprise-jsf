@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 
@@ -209,6 +209,35 @@ class EJSFCarousel {
         });
         image.addEventListener("load", () => {
             $this.updateImageCaption();
+        });
+
+        let startX;
+        let startTime;
+        image.addEventListener("touchstart", (event) => {
+            let touchObj = event.changedTouches[0];
+            startX = touchObj.pageX;
+            startTime = new Date().getTime();
+        });
+        image.addEventListener("touchmove", (event) => {
+            let touchObj = event.changedTouches[0];
+            let distX = touchObj.pageX - startX;
+            image.style.transform = "translateX(" + distX + "px)";
+            event.preventDefault();
+        });
+        image.addEventListener("touchend", (event) => {
+            image.style.transform = "translateX(0px)";
+            let touchObj = event.changedTouches[0];
+            let elapsedTime = new Date().getTime() - startTime;
+            if (elapsedTime <= 1000) {
+                let distX = touchObj.pageX - startX;
+                if (Math.abs(distX) > 50) {
+                    if (distX < 0) {
+                        $this.nextNavClicked();
+                    } else {
+                        $this.prevNavClicked();
+                    }
+                }
+            }
         });
     }
 
