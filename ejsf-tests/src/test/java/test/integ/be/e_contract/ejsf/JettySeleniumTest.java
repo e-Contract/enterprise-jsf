@@ -1329,6 +1329,16 @@ public class JettySeleniumTest {
         assertEquals("", message.getText());
     }
 
+    @Test
+    public void testKatex() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-katex.xhtml");
+
+        WebElement result = this.driver.findElement(By.id("result"));
+        String resultText = result.getText();
+        LOGGER.debug("result: {}", resultText);
+        assertFalse(resultText.contains("$$E = m c^2$$"));
+    }
+
     @FunctionalInterface
     interface ExceptionConsumer<T> {
 

@@ -79,6 +79,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>be.e-contract.enterprise-jsf</groupId>
+            <artifactId>ejsf-taglib-katex</artifactId>
+            <version>1.26.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <scope>test</scope>
