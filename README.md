@@ -102,6 +102,20 @@ For Jakarta EE 10 runtimes, use the following dependency:
 </dependency>
 ```
 
+Note that some JSF tags require additional runtime dependencies.
+For example:
+```xml
+<ejsf:katex/>
+```
+requires the following additional dependency:
+```xml
+<dependency>
+    <groupId>be.e-contract.enterprise-jsf</groupId>
+    <artifactId>ejsf-taglib-katex</artifactId>
+    <version>1.26.0</version>
+</dependency>
+```
+
 ## Running the demo web application
 
 We use Apache Maven as build system.
