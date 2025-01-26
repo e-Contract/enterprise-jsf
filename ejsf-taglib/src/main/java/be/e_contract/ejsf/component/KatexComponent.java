@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component;
@@ -19,6 +19,7 @@ import javax.faces.context.ResponseWriter;
     @ResourceDependency(library = "ejsf", name = "katex/katex.min.css"),
     @ResourceDependency(library = "ejsf", name = "katex/katex.min.js"),
     @ResourceDependency(library = "ejsf", name = "katex/auto-render.min.js"),
+    @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
     @ResourceDependency(library = "ejsf", name = "katex.js")
 })
 public class KatexComponent extends UIComponentBase {
