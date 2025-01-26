@@ -9,7 +9,7 @@
     <groupId>be.e-contract.enterprise-jsf</groupId>
     <artifactId>ejsf-demo-ee10</artifactId>
     <packaging>war</packaging>
-    <name>Enterprise JSF Demo - Jakarta EE 10</name>
+    <name>Enterprise JSF Demo - Jakarta EE 10/11</name>
     <build>
         <plugins>
             <plugin>
@@ -270,6 +270,72 @@
             </dependencies>
         </profile>
         <profile>
+            <id>mojarra-ee11</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set-system-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <properties>
+                                        <property>
+                                            <name>log4j2.configurationFile</name>
+                                            <value>file:./src/test/resources/log4j2.xml</value>
+                                        </property>
+                                    </properties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <version>11.0.24</version>
+                        <configuration>
+                            <webApp>
+                                <contextPath>/ejsf-demo</contextPath>
+                                <resourceBases>
+                                    <baseResource>src/main/webapp</baseResource>
+                                    <baseResource>src/main/java</baseResource>
+                                </resourceBases>
+                            </webApp>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>jakarta.platform</groupId>
+                    <artifactId>jakarta.jakartaee-api</artifactId>
+                    <version>11.0.0-M4</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish</groupId>
+                    <artifactId>jakarta.faces</artifactId>
+                    <version>4.1.2</version>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.inject</groupId>
+                    <artifactId>jakarta.inject-api</artifactId>
+                    <version>2.0.1</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.weld.servlet</groupId>
+                    <artifactId>weld-servlet-core</artifactId>
+                    <version>6.0.0.Final</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j2-impl</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
             <id>myfaces</id>
             <build>
                 <plugins>
@@ -328,6 +394,77 @@
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
                     <version>5.1.5.Final</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j2-impl</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>myfaces-ee11</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set-system-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <properties>
+                                        <property>
+                                            <name>log4j2.configurationFile</name>
+                                            <value>file:./src/test/resources/log4j2.xml</value>
+                                        </property>
+                                    </properties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <version>11.0.24</version>
+                        <configuration>
+                            <webApp>
+                                <contextPath>/ejsf-demo</contextPath>
+                                <resourceBases>
+                                    <baseResource>src/main/webapp</baseResource>
+                                    <baseResource>src/main/java</baseResource>
+                                </resourceBases>
+                            </webApp>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>jakarta.platform</groupId>
+                    <artifactId>jakarta.jakartaee-api</artifactId>
+                    <version>11.0.0-M4</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.myfaces.core</groupId>
+                    <artifactId>myfaces-api</artifactId>
+                    <version>4.1.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.myfaces.core</groupId>
+                    <artifactId>myfaces-impl</artifactId>
+                    <version>4.1.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.inject</groupId>
+                    <artifactId>jakarta.inject-api</artifactId>
+                    <version>2.0.1</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.weld.servlet</groupId>
+                    <artifactId>weld-servlet-core</artifactId>
+                    <version>6.0.0.Final</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.logging.log4j</groupId>
