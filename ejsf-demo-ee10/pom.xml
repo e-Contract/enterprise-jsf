@@ -261,7 +261,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>5.1.3.Final</version>
+                    <version>5.1.5.Final</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -327,7 +327,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>5.1.3.Final</version>
+                    <version>5.1.5.Final</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -345,7 +345,7 @@
                         <version>2.4</version>
                         <configuration>
                             <deployWar>true</deployWar>
-                            <payaraVersion>6.2024.10</payaraVersion>
+                            <payaraVersion>6.2024.11</payaraVersion>
                         </configuration>
                     </plugin>
                 </plugins>
