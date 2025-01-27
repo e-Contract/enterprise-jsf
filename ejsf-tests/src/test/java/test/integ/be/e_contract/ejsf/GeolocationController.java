@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package test.integ.be.e_contract.ejsf;
@@ -29,12 +29,15 @@ public class GeolocationController {
 
     private GeolocationPositionError error;
 
+    private boolean received;
+
     @PostConstruct
     public void postConstruct() {
         reset();
     }
 
     public void reset() {
+        this.received = false;
         this.latitude = null;
         this.longitude = null;
         this.accuracy = null;
@@ -60,15 +63,21 @@ public class GeolocationController {
         LOGGER.debug("latitude: {}", this.latitude);
         LOGGER.debug("longitude: {}", this.longitude);
         LOGGER.debug("accuracy: {} meter", this.accuracy);
+        this.received = true;
     }
 
     public void handleErrorEvent(GeolocationErrorEvent event) {
         LOGGER.debug("error code: {}", event.getError());
         LOGGER.debug("error message: {}", event.getMessage());
         this.error = event.getError();
+        this.received = true;
     }
 
     public GeolocationPositionError getError() {
         return this.error;
+    }
+
+    public boolean isReceived() {
+        return this.received;
     }
 }

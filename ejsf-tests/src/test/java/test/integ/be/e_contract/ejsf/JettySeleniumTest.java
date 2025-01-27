@@ -388,13 +388,15 @@ public class JettySeleniumTest {
         Button button = PrimeSelenium.createFragment(Button.class, By.id("button"));
         button.click();
 
-        while (true) {
-            WebElement latitude = this.driver.findElement(By.id("latitude"));
-            if (!latitude.getText().isEmpty()) {
-                break;
+        runOnBean(GeolocationController.class, (GeolocationController geolocationController) -> {
+            while (!geolocationController.isReceived()) {
+                Thread.sleep(100);
             }
-            Thread.sleep(500);
-        }
+            assertEquals(1.0, geolocationController.getLatitude());
+            assertEquals(2.0, geolocationController.getLongitude());
+            assertEquals(3.0, geolocationController.getAccuracy());
+            Thread.sleep(100);
+        });
 
         WebElement latitude = this.driver.findElement(By.id("latitude"));
         assertEquals("1.0", latitude.getText());
@@ -406,10 +408,6 @@ public class JettySeleniumTest {
         assertEquals("3.0 m", accuracy.getText());
 
         runOnBean(GeolocationController.class, (GeolocationController geolocationController) -> {
-            assertEquals(1.0, geolocationController.getLatitude());
-            assertEquals(2.0, geolocationController.getLongitude());
-            assertEquals(3.0, geolocationController.getAccuracy());
-
             geolocationController.reset();
         });
 
@@ -842,7 +840,7 @@ public class JettySeleniumTest {
         LOGGER.debug("error detail: {}", message.getDetailError().getText());
         assertEquals("Warning message: " + paramValue, message.getText());
         InputText inputText = PrimeSelenium.createFragment(InputText.class, By.id("form2:input"));
-        String inputClasses = inputText.getInput().getAttribute("class");
+        String inputClasses = inputText.getInput().getDomAttribute("class");
         LOGGER.debug("input classes: {}", inputClasses);
         assertTrue(inputClasses.contains("ui-state-error"));
 
@@ -947,7 +945,7 @@ public class JettySeleniumTest {
         this.driver.get(JettySeleniumTest.urlPrefix + "test-link.xhtml");
 
         WebElement webElement = this.driver.findElement(By.cssSelector("link[rel='canonical']"));
-        String href = webElement.getAttribute("href");
+        String href = webElement.getDomAttribute("href");
         assertEquals("https://www.e-contract.be/", href);
     }
 
@@ -956,7 +954,7 @@ public class JettySeleniumTest {
         this.driver.get(JettySeleniumTest.urlPrefix + "test-linked-data.xhtml");
 
         WebElement webElement = this.driver.findElement(By.cssSelector("script[type='application/ld+json']"));
-        String jsonLd = webElement.getAttribute("innerHTML");
+        String jsonLd = webElement.getDomProperty("innerHTML");
         LOGGER.debug("JSON-LD: {}", jsonLd);
         assertTrue(StringUtils.isNotEmpty(jsonLd));
     }
@@ -966,7 +964,7 @@ public class JettySeleniumTest {
         this.driver.get(JettySeleniumTest.urlPrefix + "test-robots.xhtml");
 
         WebElement webElement = this.driver.findElement(By.cssSelector("meta[name='robots']"));
-        String content = webElement.getAttribute("content");
+        String content = webElement.getDomAttribute("content");
         assertEquals("noindex, nofollow", content);
 
         runOnBean(RobotsController.class, (RobotsController robotsController) -> {
@@ -976,7 +974,7 @@ public class JettySeleniumTest {
         this.driver.get(JettySeleniumTest.urlPrefix + "test-robots.xhtml");
 
         webElement = this.driver.findElement(By.cssSelector("meta[name='robots']"));
-        content = webElement.getAttribute("content");
+        content = webElement.getDomAttribute("content");
         assertEquals("noindex, follow", content);
 
         runOnBean(RobotsController.class, (RobotsController robotsController) -> {
@@ -986,7 +984,7 @@ public class JettySeleniumTest {
         this.driver.get(JettySeleniumTest.urlPrefix + "test-robots.xhtml");
 
         webElement = this.driver.findElement(By.cssSelector("meta[name='robots']"));
-        content = webElement.getAttribute("content");
+        content = webElement.getDomAttribute("content");
         assertEquals("index, follow", content);
     }
 
