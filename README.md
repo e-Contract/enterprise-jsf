@@ -44,6 +44,13 @@ The library is compatible with the following versions of Primefaces:
 * 12
 * 13
 * 14
+* 15
+
+The library is compatible with the following versions of JSF/Jakarta Faces:
+* 2.1 (most components)
+* 2.3 - Java EE 8
+* 4.0 - Jakarta EE 10
+* 4.1 - Jakarta EE 11
 
 The JSF component library is available within the e-Contract.be public Maven repository.
 If you use Maven, refer to the e-Contract.be Maven repository via:
@@ -121,7 +128,8 @@ requires the following additional dependency:
 We use Apache Maven as build system.
 Apache Maven can be downloaded from: https://maven.apache.org
 
-You need Java JDK 11 or higher to build this project.
+You need Java JDK 17 or higher to build this project.
+However, we will try to keep the Enterprise JSF library compatible with Java 8 for as long as possible.
 
 Build the project via:
 ```

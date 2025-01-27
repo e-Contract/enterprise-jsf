@@ -49,19 +49,20 @@ import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.DefaultDigestAlgorithmIdentifierFinder;
 import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
 import org.bouncycastle.operator.bc.BcRSAContentSignerBuilder;
-import org.eclipse.jetty.cdi.CdiDecoratingListener;
-import org.eclipse.jetty.cdi.CdiServletContainerInitializer;
+import org.eclipse.jetty.ee10.cdi.CdiDecoratingListener;
+import org.eclipse.jetty.ee10.cdi.CdiServletContainerInitializer;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.toolchain.test.MavenTestingUtils;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
+import org.eclipse.jetty.util.resource.ResourceFactory;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.weld.environment.servlet.EnhancedListener;
 import org.junit.jupiter.api.AfterAll;
@@ -128,10 +129,11 @@ public class JettySeleniumTest {
         // Per default Jetty does not scan JARs for annotations.
         // This causes our JSF components not to get registered.
         // Hence we force our JAR upon Jetty.
-        context.getMetaData().addContainerResource(Resource.newResource(ejsfTaglibJar));
+        ResourceFactory resourceFactory = ResourceFactory.root();
+        context.getMetaData().addContainerResource(resourceFactory.newResource(ejsfTaglibJar.getAbsolutePath()));
 
         File baseDir = MavenTestingUtils.getTestResourcesDir();
-        context.setBaseResource(Resource.newResource(baseDir));
+        context.setBaseResource(resourceFactory.newResource(baseDir.getAbsolutePath()));
         JettySeleniumTest.server.setHandler(context);
 
         ServletHolder facesServletHolder = new ServletHolder(FacesServlet.class);
