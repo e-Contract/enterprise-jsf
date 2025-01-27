@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator.ratelimiter;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
-import javax.faces.component.ActionSource2;
+import javax.faces.component.ActionSource;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -81,12 +81,12 @@ public class RateLimiterValidatorTagHandler extends TagHandler {
             parentEditableValueHolder.addValidator(rateLimiterValidator);
             return;
         }
-        if (parent instanceof ActionSource2) {
-            ActionSource2 parentActionSource = (ActionSource2) parent;
+        if (parent instanceof ActionSource) {
+            ActionSource parentActionSource = (ActionSource) parent;
             parentActionSource.addActionListener(rateLimiterValidator);
             return;
         }
-        throw new TagException(this.tag, "parent must be EditableValueHolder or ActionSource2");
+        throw new TagException(this.tag, "parent must be EditableValueHolder or ActionSource");
     }
 
     private int getIntegerAttributeValue(String attributeName, int defaultValue, FaceletContext context) {

@@ -1,13 +1,13 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.webauthn;
 
 import java.io.IOException;
-import javax.faces.component.ActionSource2;
+import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.view.facelets.ComponentHandler;
 import javax.faces.view.facelets.FaceletContext;
@@ -30,8 +30,8 @@ public class WebAuthnRegisterTagHandler extends TagHandler {
         if (!ComponentHandler.isNew(parent)) {
             return;
         }
-        if (parent instanceof ActionSource2) {
-            ActionSource2 parentActionSource = (ActionSource2) parent;
+        if (parent instanceof ActionSource) {
+            ActionSource parentActionSource = (ActionSource) parent;
             String forValue;
             if (null != this.forAttribute) {
                 forValue = this.forAttribute.getValue(context);
@@ -42,6 +42,6 @@ public class WebAuthnRegisterTagHandler extends TagHandler {
             parentActionSource.addActionListener(actionListener);
             return;
         }
-        throw new TagException(this.tag, "parent must be ActionSource2");
+        throw new TagException(this.tag, "parent must be ActionSource");
     }
 }
