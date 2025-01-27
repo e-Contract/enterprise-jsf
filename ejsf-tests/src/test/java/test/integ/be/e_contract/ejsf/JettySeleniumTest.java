@@ -20,6 +20,7 @@ import jakarta.enterprise.inject.spi.CDI;
 import java.io.File;
 import jakarta.faces.webapp.FacesServlet;
 import java.io.ByteArrayInputStream;
+import java.lang.management.ManagementFactory;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -37,6 +38,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
@@ -59,7 +62,6 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.toolchain.test.MavenTestingUtils;
-import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.util.resource.ResourceFactory;
@@ -69,6 +71,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
@@ -1337,6 +1340,20 @@ public class JettySeleniumTest {
         String resultText = result.getText();
         LOGGER.debug("result: {}", resultText);
         assertFalse(resultText.contains("$$E = m c^2$$"));
+    }
+
+    @Test
+    public void testJmsInfo() throws Exception {
+        MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        TestDynamicMBean mBean = new TestDynamicMBean();
+        mBeanServer.registerMBean(mBean, new ObjectName("jboss.as:management-root=server"));
+        mBeanServer.registerMBean(mBean, new ObjectName("jboss.as:subsystem=messaging-activemq,server=default,jms-queue=TestDeadLetterQueue"));
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-jms-info.xhtml");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:jmsInfo:jmsMessagesTable:0:replayButton"));
+        submitButton.click();
+
+        assertNotNull(mBean.getReplayedMessageId());
     }
 
     @FunctionalInterface

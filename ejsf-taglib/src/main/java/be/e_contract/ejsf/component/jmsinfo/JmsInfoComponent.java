@@ -201,6 +201,7 @@ public class JmsInfoComponent extends UIComponentBase implements NamingContainer
     private boolean isEAP6() {
         ArrayList<MBeanServer> mBeanServers = MBeanServerFactory.findMBeanServer(null);
         if (mBeanServers.isEmpty()) {
+            LOGGER.error("no MBean Server");
             return false;
         }
         MBeanServer mBeanServer = mBeanServers.get(0);
