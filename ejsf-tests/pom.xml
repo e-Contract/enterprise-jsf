@@ -3,7 +3,7 @@
     <parent>
         <groupId>be.e-contract</groupId>
         <artifactId>enterprise-jsf</artifactId>
-        <version>1.26.1-SNAPSHOT</version>
+        <version>1.27.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>be.e-contract.enterprise-jsf</groupId>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib</artifactId>
-            <version>1.26.1-SNAPSHOT</version>
+            <version>1.27.0</version>
             <classifier>jakarta</classifier>
             <scope>test</scope>
             <exclusions>
@@ -68,20 +68,20 @@
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-api</artifactId>
-            <version>1.26.1-SNAPSHOT</version>
+            <version>1.27.0</version>
             <classifier>jakarta</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-webauthn</artifactId>
-            <version>1.26.1-SNAPSHOT</version>
+            <version>1.27.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib-katex</artifactId>
-            <version>1.26.1-SNAPSHOT</version>
+            <version>1.27.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
