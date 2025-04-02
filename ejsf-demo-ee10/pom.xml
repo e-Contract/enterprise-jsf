@@ -234,7 +234,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.24</version>
+                        <version>11.0.25</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -251,7 +251,7 @@
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>jakarta.faces</artifactId>
-                    <version>4.0.9</version>
+                    <version>4.0.11</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
@@ -295,7 +295,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.24</version>
+                        <version>11.0.25</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -312,12 +312,12 @@
                 <dependency>
                     <groupId>jakarta.platform</groupId>
                     <artifactId>jakarta.jakartaee-api</artifactId>
-                    <version>11.0.0-M4</version>
+                    <version>11.0.0-RC1</version>
                 </dependency>
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>jakarta.faces</artifactId>
-                    <version>4.1.2</version>
+                    <version>4.1.3</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
@@ -327,7 +327,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>6.0.0.Final</version>
+                    <version>6.0.1.Final</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -361,7 +361,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.24</version>
+                        <version>11.0.25</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -378,12 +378,12 @@
                 <dependency>
                     <groupId>org.apache.myfaces.core</groupId>
                     <artifactId>myfaces-api</artifactId>
-                    <version>4.0.2</version>
+                    <version>4.0.3</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.myfaces.core</groupId>
                     <artifactId>myfaces-impl</artifactId>
-                    <version>4.0.2</version>
+                    <version>4.0.3</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
@@ -427,7 +427,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.24</version>
+                        <version>11.0.25</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -444,17 +444,17 @@
                 <dependency>
                     <groupId>jakarta.platform</groupId>
                     <artifactId>jakarta.jakartaee-api</artifactId>
-                    <version>11.0.0-M4</version>
+                    <version>11.0.0-RC1</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.myfaces.core</groupId>
                     <artifactId>myfaces-api</artifactId>
-                    <version>4.1.0</version>
+                    <version>4.1.1</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.myfaces.core</groupId>
                     <artifactId>myfaces-impl</artifactId>
-                    <version>4.1.0</version>
+                    <version>4.1.1</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
@@ -464,7 +464,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>6.0.0.Final</version>
+                    <version>6.0.1.Final</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -482,7 +482,7 @@
                         <version>2.4</version>
                         <configuration>
                             <deployWar>true</deployWar>
-                            <payaraVersion>6.2024.11</payaraVersion>
+                            <payaraVersion>6.2025.3</payaraVersion>
                         </configuration>
                     </plugin>
                 </plugins>
