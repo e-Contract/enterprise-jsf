@@ -1,7 +1,7 @@
 {
     "name": "taglib",
     "dependencies": {
-        "katex": "0.16.21"
+        "katex": "0.16.22"
     },
     "scripts": {
         "build": "node css-font-urls.js"
