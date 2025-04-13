@@ -1,14 +1,11 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2021-2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2021-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator;
 
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
 import java.util.ResourceBundle;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -70,10 +67,10 @@ public class PhoneNumberValidator implements Validator, PartialStateHolder {
             // allow for optional
             return;
         }
-        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        com.google.i18n.phonenumbers.PhoneNumberUtil phoneUtil = com.google.i18n.phonenumbers.PhoneNumberUtil.getInstance();
         try {
-            Phonenumber.PhoneNumber phoneNumber = phoneUtil.parseAndKeepRawInput((String) value, this.defaultRegion);
-            boolean validNumber = phoneUtil.isPossibleNumberForType(phoneNumber, PhoneNumberUtil.PhoneNumberType.valueOf(this.phoneNumberType));
+            com.google.i18n.phonenumbers.Phonenumber.PhoneNumber phoneNumber = phoneUtil.parseAndKeepRawInput((String) value, this.defaultRegion);
+            boolean validNumber = phoneUtil.isPossibleNumberForType(phoneNumber, com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberType.valueOf(this.phoneNumberType));
             if (!validNumber) {
                 Application application = facesContext.getApplication();
                 ResourceBundle resourceBundle = application.getResourceBundle(facesContext, "ejsfMessages");
@@ -82,7 +79,7 @@ public class PhoneNumberValidator implements Validator, PartialStateHolder {
                 facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
                 throw new ValidatorException(facesMessage);
             }
-        } catch (NumberParseException ex) {
+        } catch (Exception ex) {
             LOGGER.debug("invalid phone number: {} : {}", value, ex.getMessage());
             String errorMessage;
             if (null != this.message) {
