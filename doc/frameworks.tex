@@ -1,6 +1,6 @@
 % Enterprise JSF project.
 %
-% Copyright 2023-2024 e-Contract.be BV. All rights reserved.
+% Copyright 2023-2025 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter{Front-end Frameworks}
@@ -162,6 +162,15 @@ Especially given the ever growing server-side CPU power and available memory, JS
 A way more important aspect for most companies is scalability in terms of added application functionality, let us call this functional scaling.
 Does your framework scale well when adding another 50 data tables to your business model, accompanied with an additional 50 CRUD pages?
 This is where, in my view, JS frameworks go into full mental breakdown.
+
+Even when using React routing, each dropdown, table, or list component on the "page" requires some data, and hence an AJAX call to fetch it from some REST endpoint.
+If you want to optimize this somehow, this would mean you would have to write an aggregating REST endpoint for every React "page".
+Same for updating some section of a page.
+Each component within this page section that shows a list somehow requires an additional AJAX call.
+One should also not underestimate the impact this has on the server.
+Each of these AJAX calls requires its own transaction context.
+With JSF, an update of multiple components is nicely combined within a single AJAX call (and on the server-side a single transaction), as it should be.
+
 By now all JS frameworks offer some kind of server-side rendering to be able to cope with functional scaling up to the point where they are basically replicating JSF.
 The big difference here is that they drag along yet another NodeJS based server-side rendering runtime, which further complicates the management of application deployments.
 Unless you are willing to rewrite your entire business logic in Typescript, with its corresponding callback hell because of async-is-better, you thus end up with two server-side runtimes: Java and NodeJS.
