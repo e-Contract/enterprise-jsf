@@ -3,7 +3,7 @@
     <parent>
         <groupId>be.e-contract</groupId>
         <artifactId>enterprise-jsf</artifactId>
-        <version>1.27.1-SNAPSHOT</version>
+        <version>1.28.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>be.e-contract.enterprise-jsf</groupId>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-taglib</artifactId>
-            <version>1.27.1-SNAPSHOT</version>
+            <version>1.28.0</version>
             <classifier>jakarta</classifier>
             <exclusions>
                 <exclusion>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>be.e-contract.enterprise-jsf</groupId>
             <artifactId>ejsf-api</artifactId>
-            <version>1.27.1-SNAPSHOT</version>
+            <version>1.28.0</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
