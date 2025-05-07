@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ejsf="urn:be:e-contract:ejsf"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Refresh Demo</ui:define>
+    <ui:define name="body">
+        <p>
+            This page gets refreshed every 5 seconds.
+        </p>
+        <ejsf:refresh delay="5" viewId="/refresh" id="example"/>
+        <p:tabView>
+            <p:tab title="XHTML">
+                <ejsf:highlight for="example"/>
+            </p:tab>
+            <p:tab title="API">
+                <ejsf:tagInfo library="ejsf" tag="refresh"/>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

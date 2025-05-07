@@ -467,6 +467,11 @@
                             ajax="false"
                             onclick="selectMenuitemLink(this);"
                             styleClass="#{menuController.getMenuitemStyleClass('max-viewport-height')}"/>
+                <p:menuitem value="Refresh"
+                            action="refresh?faces-redirect=true"
+                            ajax="false"
+                            onclick="selectMenuitemLink(this);"
+                            styleClass="#{menuController.getMenuitemStyleClass('refresh')}"/>
             </p:submenu>
         </ui:composition>
     </body>
