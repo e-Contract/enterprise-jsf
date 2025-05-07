@@ -2454,4 +2454,22 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Refreshes the page.</description>
+        <tag-name>refresh</tag-name>
+        <component>
+            <component-type>ejsf.refreshComponent</component-type>
+        </component>
+        <attribute>
+            <description>Sets the delay after which to refresh. Default is 5 seconds.</description>
+            <name>delay</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <description>The optional viewId to which to redirect.</description>
+            <name>viewId</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
