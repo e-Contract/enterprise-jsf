@@ -40,7 +40,7 @@ The Enterprise JSF library provides various JSF components.
 An overview of all JSF tags is available at:
 https://demo.e-contract.be/ejsf-demo/api.xhtml
 
-The library is compatible with the following versions of Primefaces:
+The library is compatible with the following versions of PrimeFaces:
 * 12
 * 13
 * 14

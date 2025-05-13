@@ -482,7 +482,7 @@
                         <version>2.4</version>
                         <configuration>
                             <deployWar>true</deployWar>
-                            <payaraVersion>6.2025.3</payaraVersion>
+                            <payaraVersion>6.2025.4</payaraVersion>
                         </configuration>
                     </plugin>
                 </plugins>
