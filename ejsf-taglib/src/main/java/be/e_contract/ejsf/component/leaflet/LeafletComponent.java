@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.leaflet;
@@ -45,6 +45,7 @@ public class LeafletComponent extends UIOutput implements Widget {
         zoom,
         minZoom,
         maxZoom,
+        urlTemplate,
     }
 
     public String getWidgetVar() {
@@ -101,5 +102,14 @@ public class LeafletComponent extends UIOutput implements Widget {
 
     public int getMaxZoom() {
         return (int) getStateHelper().eval(PropertyKeys.maxZoom, 19);
+    }
+
+    public void setUrlTemplate(String urlTemplate) {
+        getStateHelper().put(PropertyKeys.urlTemplate, urlTemplate);
+    }
+
+    public String getUrlTemplate() {
+        return (String) getStateHelper().eval(PropertyKeys.urlTemplate,
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png");
     }
 }

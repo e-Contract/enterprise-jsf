@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.leaflet;
@@ -64,6 +64,8 @@ public class LeafletRenderer extends CoreRenderer {
         int minZoom = leafletComponent.getMinZoom();
         int maxZoom = leafletComponent.getMaxZoom();
 
+        String urlTemplate = leafletComponent.getUrlTemplate();
+
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
         widgetBuilder.init("EJSFLeaflet", leafletComponent);
         widgetBuilder.attr("latitude", latitude);
@@ -74,6 +76,7 @@ public class LeafletRenderer extends CoreRenderer {
         widgetBuilder.attr("zoom", zoom);
         widgetBuilder.attr("minZoom", minZoom);
         widgetBuilder.attr("maxZoom", maxZoom);
+        widgetBuilder.attr("urlTemplate", urlTemplate);
         widgetBuilder.finish();
     }
 }

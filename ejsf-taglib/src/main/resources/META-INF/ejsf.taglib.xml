@@ -1874,6 +1874,11 @@
             <name>maxZoom</name>
             <type>java.lang.Integer</type>
         </attribute>
+        <attribute>
+            <description>The URL template. Defaults to https://tile.openstreetmap.org/{z}/{x}/{y}.png</description>
+            <name>urlTemplate</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
