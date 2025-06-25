@@ -396,6 +396,11 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <description>Set to true to allow email addresses. Defaults to false.</description>
+            <name>allowEmail</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
             <name>for</name>
             <type>java.lang.String</type>
         </attribute>

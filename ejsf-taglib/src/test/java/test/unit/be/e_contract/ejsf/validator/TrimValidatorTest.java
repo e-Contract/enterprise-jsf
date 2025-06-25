@@ -1,13 +1,12 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package test.unit.be.e_contract.ejsf.validator;
 
 import be.e_contract.ejsf.validator.TrimValidator;
-import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.faces.application.Application;

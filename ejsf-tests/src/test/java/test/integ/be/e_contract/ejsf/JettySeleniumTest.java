@@ -346,6 +346,54 @@ public class JettySeleniumTest {
 
         input = this.driver.findElement(By.id("form:input"));
         input.clear();
+        input.sendKeys("info@e-contract.be");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Invalid characters.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("plain text");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+    }
+
+    @Test
+    public void testPlainTextValidatorAllowEmail() throws Exception {
+        this.driver.get(JettySeleniumTest.urlPrefix + "test-plain-text-validator-allow-email.xhtml");
+
+        WebElement input = this.driver.findElement(By.id("form:input"));
+        input.sendKeys("<b>HTML text</b>");
+
+        CommandButton submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        Message message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        String messageText = message.getText();
+        LOGGER.debug("message text: {}", messageText);
+        assertEquals("Invalid characters.", messageText);
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
+        input.sendKeys("info@e-contract.be");
+
+        submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
+        submitButton.click();
+
+        message = PrimeSelenium.createFragment(Message.class, By.id("form:message"));
+        assertEquals("", message.getText());
+
+        input = this.driver.findElement(By.id("form:input"));
+        input.clear();
         input.sendKeys("plain text");
 
         submitButton = PrimeSelenium.createFragment(CommandButton.class, By.id("form:submit"));
@@ -387,7 +435,7 @@ public class JettySeleniumTest {
         devTools.createSession();
 
         devTools.send(Emulation.setGeolocationOverride(Optional.of(1), Optional.of(2), Optional.of(3),
-            Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
+                Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
 
         this.driver.get(JettySeleniumTest.urlPrefix + "test-geolocation.xhtml");
 
@@ -418,7 +466,7 @@ public class JettySeleniumTest {
         });
 
         devTools.send(Emulation.setGeolocationOverride(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(),Optional.empty(),Optional.empty(),Optional.empty()));
+                Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
 
         this.driver.get(JettySeleniumTest.urlPrefix + "test-geolocation.xhtml");
         button = PrimeSelenium.createFragment(Button.class, By.id("button"));

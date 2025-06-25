@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2022-2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2022-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.validator;
@@ -12,7 +12,6 @@ import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.PartialStateHolder;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
@@ -33,6 +32,8 @@ public class PlainTextValidator implements Validator, PartialStateHolder {
 
     private String message;
 
+    private boolean allowEmail;
+
     public String getMessage() {
         return this.message;
     }
@@ -42,12 +43,26 @@ public class PlainTextValidator implements Validator, PartialStateHolder {
         this.message = message;
     }
 
+    public boolean isAllowEmail() {
+        return this.allowEmail;
+    }
+
+    public void setAllowEmail(boolean allowEmail) {
+        this.initialState = false;
+        this.allowEmail = allowEmail;
+    }
+
     @Override
     public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
-        if (UIInput.isEmpty(value)) {
+        if (null == value) {
+            // allow for optional
             return;
         }
         String strValue = (String) value;
+        if (strValue.isEmpty()) {
+            // allow for optional
+            return;
+        }
         if (!Environment.hasOwaspHtmlSanitizer()) {
             String errorMessage = "Missing owasp-java-html-sanitizer";
             LOGGER.error(errorMessage);
@@ -57,6 +72,9 @@ public class PlainTextValidator implements Validator, PartialStateHolder {
         }
         PolicyFactory policy = new HtmlPolicyBuilder().toFactory();
         String safeHTML = policy.sanitize(strValue);
+        if (this.allowEmail) {
+            strValue = strValue.replaceAll("@", "&#64;");
+        }
         if (!safeHTML.equals(strValue)) {
             String errorMessage;
             if (null != this.message) {
@@ -81,7 +99,8 @@ public class PlainTextValidator implements Validator, PartialStateHolder {
             return null;
         }
         return new Object[]{
-            this.message
+            this.message,
+            this.allowEmail
         };
     }
 
@@ -98,6 +117,7 @@ public class PlainTextValidator implements Validator, PartialStateHolder {
             return;
         }
         this.message = (String) stateObjects[0];
+        this.allowEmail = (boolean) stateObjects[1];
     }
 
     @Override
