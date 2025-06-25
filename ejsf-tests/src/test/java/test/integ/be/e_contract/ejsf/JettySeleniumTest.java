@@ -83,13 +83,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v135.webauthn.WebAuthn;
-import org.openqa.selenium.devtools.v135.webauthn.model.AuthenticatorId;
-import org.openqa.selenium.devtools.v135.webauthn.model.AuthenticatorProtocol;
-import org.openqa.selenium.devtools.v135.webauthn.model.AuthenticatorTransport;
-import org.openqa.selenium.devtools.v135.webauthn.model.Ctap2Version;
-import org.openqa.selenium.devtools.v135.webauthn.model.VirtualAuthenticatorOptions;
-import org.openqa.selenium.devtools.v135.emulation.Emulation;
+import org.openqa.selenium.devtools.v137.webauthn.WebAuthn;
+import org.openqa.selenium.devtools.v137.webauthn.model.AuthenticatorId;
+import org.openqa.selenium.devtools.v137.webauthn.model.AuthenticatorProtocol;
+import org.openqa.selenium.devtools.v137.webauthn.model.AuthenticatorTransport;
+import org.openqa.selenium.devtools.v137.webauthn.model.Ctap2Version;
+import org.openqa.selenium.devtools.v137.webauthn.model.VirtualAuthenticatorOptions;
+import org.openqa.selenium.devtools.v137.emulation.Emulation;
 import org.primefaces.selenium.PrimeSelenium;
 import org.primefaces.selenium.component.Button;
 import org.primefaces.selenium.component.CommandButton;
@@ -386,7 +386,8 @@ public class JettySeleniumTest {
         DevTools devTools = this.driver.getDevTools();
         devTools.createSession();
 
-        devTools.send(Emulation.setGeolocationOverride(Optional.of(1), Optional.of(2), Optional.of(3)));
+        devTools.send(Emulation.setGeolocationOverride(Optional.of(1), Optional.of(2), Optional.of(3),
+            Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
 
         this.driver.get(JettySeleniumTest.urlPrefix + "test-geolocation.xhtml");
 
@@ -416,7 +417,8 @@ public class JettySeleniumTest {
             geolocationController.reset();
         });
 
-        devTools.send(Emulation.setGeolocationOverride(Optional.empty(), Optional.empty(), Optional.empty()));
+        devTools.send(Emulation.setGeolocationOverride(Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(),Optional.empty(),Optional.empty(),Optional.empty()));
 
         this.driver.get(JettySeleniumTest.urlPrefix + "test-geolocation.xhtml");
         button = PrimeSelenium.createFragment(Button.class, By.id("button"));
