@@ -17,10 +17,14 @@
         </p>
         <h:outputScript library="demo" name="echarts.js"/>
         <h:form>
-            <p:selectOneMenu onchange="resizeECharts(event)">
-                <f:selectItem itemValue="600px" itemLabel="600px"/>
-                <f:selectItem itemValue="800px" itemLabel="800px"/>
-            </p:selectOneMenu>
+            <h:panelGrid columns="3">
+                <p:selectOneMenu onchange="return resizeECharts(event)">
+                    <f:selectItem itemValue="600px" itemLabel="600px"/>
+                    <f:selectItem itemValue="800px" itemLabel="800px"/>
+                </p:selectOneMenu>
+                <p:button value="Unselect All" onclick="return unselectAllECharts()"/>
+                <p:button value="Select All" onclick="return selectAllECharts()"/>
+            </h:panelGrid>
         </h:form>
         <h:form id="example">
             <ejsf:echarts value="#{echartsController.value}"

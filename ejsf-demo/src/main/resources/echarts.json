@@ -21,7 +21,9 @@
             "type": "line"
         }
     ],
-    "legend": {},
+    "legend": {
+        "top": "top"
+    },
     "dataZoom": [
         {
             "type": "slider"
