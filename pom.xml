@@ -165,7 +165,7 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <node.version>v22.18.0</node.version>
+        <node.version>v22.19.0</node.version>
         <npm.version>10.9.3</npm.version>
         <jackson.version>2.19.0</jackson.version>
         <webauthn-server.version>2.7.0</webauthn-server.version>
