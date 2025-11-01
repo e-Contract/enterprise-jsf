@@ -1,0 +1,6 @@
+{
+    "name": "taglib",
+    "dependencies": {
+        "ol": "10.6.1"
+    }
+}

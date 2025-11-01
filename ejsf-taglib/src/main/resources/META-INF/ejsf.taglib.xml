@@ -2482,4 +2482,34 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Displays a map using OpenLayers.</description>
+        <tag-name>openLayersMap</tag-name>
+        <component>
+            <component-type>ejsf.openLayersComponent</component-type>
+            <renderer-type>ejsf.openLayersRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The initial latitude and longitude for the map.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>be.e_contract.ejsf.component.output.ol.LatLng</type>
+        </attribute>
+        <attribute>
+            <description>The optional height of the map. Defaults to "200px".</description>
+            <name>height</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The optional width of the map.</description>
+            <name>width</name>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Initial zoom level. Defaults to 15.</description>
+            <name>zoom</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
