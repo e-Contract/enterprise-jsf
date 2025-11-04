@@ -7,12 +7,15 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">Marked Demo</ui:define>
     <ui:define name="body">
-        <ejsf:marked id="example" value="#{markedController.value}"/>
+        <ejsf:marked id="example" value="#{markedController.value}" widgetVar="example"/>
         <h:form>
-            <h:panelGrid columns="1">
-                <p:inputTextarea value="#{markedController.value}"
-                                 rows="10" cols="80"/>
+            <p:inputTextarea value="#{markedController.value}"
+                             rows="10" cols="80"/>
+            <h:panelGrid columns="2">
                 <p:commandButton value="Update" update=":example"/>
+                <p:commandButton type="button"
+                                 value="Hello World"
+                                 onclick="PF('example').setValue('Hello World')"/>
             </h:panelGrid>
         </h:form>
         <p:tabView>
@@ -27,6 +30,9 @@
             </p:tab>
             <p:tab title="API">
                 <ejsf:tagInfo library="ejsf" tag="marked"/>
+            </p:tab>
+            <p:tab title="Client API">
+                <ejsf:highlight resource="/META-INF/resources/ejsf/marked.js"/>
             </p:tab>
         </p:tabView>
     </ui:define>

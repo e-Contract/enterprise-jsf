@@ -2367,6 +2367,11 @@
             <required>true</required>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
     </tag>
 
     <tag>
