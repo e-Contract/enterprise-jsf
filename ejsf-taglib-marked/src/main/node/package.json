@@ -1,7 +1,7 @@
 {
     "name": "taglib",
     "dependencies": {
-        "marked": "16.4.1",
+        "marked": "17.0.0",
         "dompurify": "3.3.0"
     }
 }
