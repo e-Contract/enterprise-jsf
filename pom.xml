@@ -82,7 +82,7 @@
                 <plugin>
                     <groupId>com.github.eirslett</groupId>
                     <artifactId>frontend-maven-plugin</artifactId>
-                    <version>1.15.1</version>
+                    <version>1.15.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -123,7 +123,7 @@
                 <plugin>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>9.4.57.v20241219</version>
+                    <version>9.4.58.v20250814</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -136,7 +136,7 @@
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>3.11.4</version>
+                    <version>3.11.5</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -165,11 +165,11 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <node.version>v24.11.0</node.version>
-        <npm.version>11.6.1</npm.version>
+        <node.version>v24.11.1</node.version>
+        <npm.version>11.6.2</npm.version>
         <jackson.version>2.19.0</jackson.version>
         <webauthn-server.version>2.7.0</webauthn-server.version>
-        <webauthn4j.version>0.29.1.RELEASE</webauthn4j.version>
+        <webauthn4j.version>0.29.7.RELEASE</webauthn4j.version>
         <primefaces.version>13.0.10</primefaces.version>
         <slf4j.version>2.0.17</slf4j.version>
     </properties>
@@ -215,7 +215,7 @@
             <dependency>
                 <groupId>com.googlecode.libphonenumber</groupId>
                 <artifactId>libphonenumber</artifactId>
-                <version>9.0.8</version>
+                <version>9.0.1</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
@@ -271,7 +271,7 @@
             <dependency>
                 <groupId>org.openjdk.nashorn</groupId>
                 <artifactId>nashorn-core</artifactId>
-                <version>15.6</version>
+                <version>15.7</version>
             </dependency>
             <dependency>
                 <groupId>org.apache-extras.beanshell</groupId>
@@ -346,7 +346,7 @@
             <dependency>
                 <groupId>net.coobird</groupId>
                 <artifactId>thumbnailator</artifactId>
-                <version>0.4.20</version>
+                <version>0.4.21</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
