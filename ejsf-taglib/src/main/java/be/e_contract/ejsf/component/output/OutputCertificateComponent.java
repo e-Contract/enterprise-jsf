@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023-2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output;
@@ -169,6 +169,46 @@ public class OutputCertificateComponent extends UIOutput implements NamingContai
         }
         BigInteger serialNumber = certificate.getSerialNumber();
         return serialNumber.toString(16).toUpperCase();
+    }
+
+    public String getSubjectDN() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return "";
+        }
+        return certificate.getSubjectDN().toString();
+    }
+
+    public String getIssuerDN() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return "";
+        }
+        return certificate.getIssuerDN().toString();
+    }
+
+    public Date getNotBeforeValue() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return null;
+        }
+        return certificate.getNotBefore();
+    }
+
+    public Date getNotAfterValue() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return null;
+        }
+        return certificate.getNotAfter();
+    }
+
+    public String getPublicKeyAlgorithm() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return "";
+        }
+        return certificate.getPublicKey().getAlgorithm();
     }
 
     @Override

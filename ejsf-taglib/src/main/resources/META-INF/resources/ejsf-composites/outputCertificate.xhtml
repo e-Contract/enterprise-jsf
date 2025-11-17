@@ -26,20 +26,20 @@
             <div id="#{cc.clientId}">
                 <h:panelGrid columns="2" rendered="#{not empty cc.attrs.value}">
                     <h:outputText value="#{ejsfMessages.certificateSubject}:"/>
-                    <h:outputText value="#{cc.attrs.value.subjectDN}"/>
+                    <h:outputText value="#{cc.subjectDN}"/>
 
                     <h:outputText value="#{ejsfMessages.certificateIssuer}:"/>
-                    <h:outputText value="#{cc.attrs.value.issuerDN}"/>
+                    <h:outputText value="#{cc.issuerDN}"/>
 
                     <h:outputText value="#{ejsfMessages.certificateNotBefore}:"/>
-                    <h:outputText value="#{cc.attrs.value.notBefore}"
+                    <h:outputText value="#{cc.notBeforeValue}"
                                   style="#{cc.notBeforeStyle}"
                                   binding="#{cc.notBefore}">
                         <f:convertDateTime type="both" timeStyle="full" />
                     </h:outputText>
 
                     <h:outputText value="#{ejsfMessages.certificateNotAfter}:"/>
-                    <h:outputText value="#{cc.attrs.value.notAfter}"
+                    <h:outputText value="#{cc.notAfterValue}"
                                   style="#{cc.notAfterStyle}"
                                   binding="#{cc.notAfter}">
                         <f:convertDateTime type="both" timeStyle="full" />
@@ -53,7 +53,7 @@
                     <h:outputText value="#{cc.serialNumber}"/>
 
                     <h:outputText value="#{ejsfMessages.certificateAlgorithm}:"/>
-                    <h:outputText value="#{cc.attrs.value.publicKey.algorithm}"/>
+                    <h:outputText value="#{cc.publicKeyAlgorithm}"/>
 
                     <h:outputText value="#{ejsfMessages.certificateKeySize}:"/>
                     <h:outputText value="#{cc.keySize} bit"/>
