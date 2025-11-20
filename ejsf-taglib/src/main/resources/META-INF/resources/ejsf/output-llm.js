@@ -5,6 +5,29 @@
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 
+marked.use(markedKatex({
+    globalGroup: true,
+    nonStandard: true
+}), {
+    hooks: {
+        preprocess: function (markdown) {
+            if (/\\(.*\\)|\\[.*\\]/.test(markdown)) {
+                const katexNode = document.createElement("div");
+                katexNode.textContent = markdown;
+                renderMathInElement(katexNode, {
+                    delimiters: [
+                        {left: "\\(", right: "\\)", display: false},
+                        {left: "\\[", right: "\\]", display: true}
+                    ],
+                    throwOnError: false
+                });
+                return katexNode.innerHTML;
+            }
+            return markdown;
+        }
+    }
+});
+
 PrimeFaces.widget.EJSFOutputLLM = PrimeFaces.widget.BaseWidget.extend({
 
     init: function (cfg) {

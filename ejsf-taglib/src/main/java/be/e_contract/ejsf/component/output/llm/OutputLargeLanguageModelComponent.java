@@ -20,6 +20,10 @@ import org.primefaces.component.api.Widget;
     @ResourceDependency(library = "primefaces", name = "components.js"),
     @ResourceDependency(library = "ejsf", name = "dompurify/purify.min.js"),
     @ResourceDependency(library = "ejsf", name = "marked/marked.umd.js"),
+    @ResourceDependency(library = "ejsf", name = "katex/katex.min.css"),
+    @ResourceDependency(library = "ejsf", name = "katex/katex.min.js"),
+    @ResourceDependency(library = "ejsf", name = "katex/auto-render.min.js"),
+    @ResourceDependency(library = "ejsf", name = "marked-katex-extension/index.umd.js"),
     @ResourceDependency(library = "ejsf", name = "output-llm.js")
 })
 public class OutputLargeLanguageModelComponent extends UIOutput implements Widget {
