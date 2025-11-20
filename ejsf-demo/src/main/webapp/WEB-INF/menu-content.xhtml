@@ -132,6 +132,11 @@
                             ajax="false"
                             onclick="selectMenuitemLink(this);"
                             styleClass="#{menuController.getMenuitemStyleClass('ol')}"/>
+                <p:menuitem value="LLM"
+                            action="output-llm?faces-redirect=true"
+                            ajax="false"
+                            onclick="selectMenuitemLink(this);"
+                            styleClass="#{menuController.getMenuitemStyleClass('output-llm')}"/>
             </p:submenu>
             <p:separator/>
             <p:submenu label="Input Components">

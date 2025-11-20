@@ -2517,4 +2517,24 @@
         </attribute>
     </tag>
 
+    <tag>
+        <description>Output LLM output.</description>
+        <tag-name>outputLLM</tag-name>
+        <component>
+            <component-type>ejsf.outputLLMComponent</component-type>
+            <renderer-type>ejsf.outputLLMRenderer</renderer-type>
+        </component>
+        <attribute>
+            <description>The LLM markdown output to display.</description>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The PrimeFaces widget client-side variable.</description>
+            <name>widgetVar</name>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
 </facelet-taglib>
