@@ -24,6 +24,9 @@ import org.primefaces.component.api.Widget;
     @ResourceDependency(library = "ejsf", name = "katex/katex.min.js"),
     @ResourceDependency(library = "ejsf", name = "katex/auto-render.min.js"),
     @ResourceDependency(library = "ejsf", name = "marked-katex-extension/index.umd.js"),
+    @ResourceDependency(library = "ejsf", name = "highlight/highlight.min.js"),
+    @ResourceDependency(library = "ejsf", name = "highlight/default.css"),
+    @ResourceDependency(library = "ejsf", name = "marked-highlight/index.umd.js"),
     @ResourceDependency(library = "ejsf", name = "output-llm.js")
 })
 public class OutputLargeLanguageModelComponent extends UIOutput implements Widget {

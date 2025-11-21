@@ -28,6 +28,15 @@ marked.use(markedKatex({
     }
 });
 
+marked.use(markedHighlight.markedHighlight({
+    emptyLangClass: "hljs",
+    langPrefix: "hljs language-",
+    highlight: function (code, lang, info) {
+        let language = hljs.getLanguage(lang) ? lang : "plaintext";
+        return hljs.highlight(code, {language: language}).value;
+    }
+}));
+
 PrimeFaces.widget.EJSFOutputLLM = PrimeFaces.widget.BaseWidget.extend({
 
     init: function (cfg) {

@@ -84,6 +84,24 @@
                             </resources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>prepare-package-copy-resources-marked-highlight</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes/META-INF/resources/ejsf/marked-highlight</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/target/node_modules/marked-highlight/lib</directory>
+                                    <includes>
+                                        <include>index.umd.js</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

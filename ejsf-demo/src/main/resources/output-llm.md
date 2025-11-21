@@ -14,3 +14,16 @@ E^{2}= (pc)^{2}+ (mc^{2})^{2}.
 * \(p\) – relativistic momentum
 * \(m\) – **rest** mass (the mass measured in the particle’s own rest frame)
 * \(c\) – speed of light in vacuum
+
+
+## qwen2.5-coder:32b
+
+Certainly! Below is a simple Java program that prints "Hello World" to the console:
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World");
+    }
+}
+```
