@@ -24,17 +24,17 @@ public class OutputLargeLanguageModelRenderer extends CoreRenderer {
 
     @Override
     public void encodeBegin(FacesContext facesContext, UIComponent component) throws IOException {
-        OutputLargeLanguageModelComponent markedComponent = (OutputLargeLanguageModelComponent) component;
+        OutputLargeLanguageModelComponent outputLargeLanguageModelComponent = (OutputLargeLanguageModelComponent) component;
 
         ResponseWriter responseWriter = facesContext.getResponseWriter();
-        responseWriter.startElement("span", markedComponent);
-        String clientId = markedComponent.getClientId(facesContext);
+        responseWriter.startElement("span", outputLargeLanguageModelComponent);
+        String clientId = outputLargeLanguageModelComponent.getClientId(facesContext);
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.endElement("span");
 
-        String value = (String) markedComponent.getValue();
+        String value = (String) outputLargeLanguageModelComponent.getValue();
         WidgetBuilder widgetBuilder = getWidgetBuilder(facesContext);
-        widgetBuilder.init("EJSFOutputLLM", markedComponent);
+        widgetBuilder.init("EJSFOutputLLM", outputLargeLanguageModelComponent);
         widgetBuilder.attr("value", value);
         widgetBuilder.finish();
     }
