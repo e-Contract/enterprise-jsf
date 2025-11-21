@@ -27,3 +27,5 @@ public class HelloWorld {
     }
 }
 ```
+
+This declares a class named `HelloWorld`.
