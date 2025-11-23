@@ -1,12 +1,12 @@
 % Enterprise JSF project.
 %
-% Copyright 2022-2024 e-Contract.be BV. All rights reserved.
+% Copyright 2022-2025 e-Contract.be BV. All rights reserved.
 % e-Contract.be BV proprietary/confidential. Use is subject to license terms.
 
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
-While there are a lot of good books/references on JSF/Jakarta Faces, none I know of are completely dedicated to the development of custom JSF components.
-With this effort, we try to create such "book/reference".
+Although many excellent references cover JSF (now Jakarta Faces), none focus exclusively on building custom UI components.
+This work aims to fill that gap.
 
 There is a strong tendency towards Single Page Applications (SPA), entirely constructed in some of the numerous Javascript frameworks out there.
 However, for very large applications, where the (initial) development cycle surpasses the lifetime of the average Javascript framework, JSF is still a very viable solution.
@@ -14,18 +14,18 @@ By large applications we mean applications with at least 50 underlying data tabl
 Construction of very large applications also tend to go well beyond the scope of your favorite Javascript framework tutorial.
 We are talking huge investments here for companies that are hence looking for solutions that have a proven track record, to prevent having to rework the application every 5 years or so because the once chosen Javascript framework hit its EOL.
 
-Instead of going in the direction of technical argumentation, let me take a step back and try to detail the bigger picture.
+Rather than diving immediately into technical details, let us first consider the broader business context.
 JSF is far from perfect.
 However, you rather want to feel proven pain, than finding yourself in a situation realizing after a few years of development that you made the wrong bet for the at-that-time popular front-end Javascript framework.
 For huge applications, a company is not looking for fancy content to fill up the CVs of their freelancers with the latest kid on the block.
-A company's primary goal is to safeguard its heavy investment in terms of low-risk and hence low-cost maintenance over the long term.
-This goal conflicts often with the goal of its freelancers: filling up CVs with fancy shit, and trying to monthly invoice for as long as possible.
+Enterprises prioritize low‑risk, cost‑effective long‑term maintenance of their substantial investments.
+This goal conflicts often with the goal of its freelancers: filling up CVs with cut‑edge technologies, and trying to monthly invoice for as long as possible.
 Especially when there is a shortage within the market of developers,
 it is tempting for project managers/CTOs to give in to the demands of their development teams to go after the latest fancy Javascript framework.
 What is also not helping here, is that the larger the required maintenance budget is for a project,
 the more authority the project manager can have within the company,
 which directly translates into more fine lunches with upper management.
-Hence a lot of companies find themselves in the situation where they are stuck with unmaintainable maintenance costs on their large corner stone projects, and nobody has the decency to step forward and admit the stupidities made that is burning money like hell.
+Hence a lot of companies find themselves in the situation where they are stuck with unmaintainable maintenance costs on their large corner stone projects, and nobody has the decency to step forward and admit the stupidities made that is incurring unsustainable maintenance costs.
 
 I like JSF because it is not fancy.
 It has been there for ages, and will be there for ages to come.
