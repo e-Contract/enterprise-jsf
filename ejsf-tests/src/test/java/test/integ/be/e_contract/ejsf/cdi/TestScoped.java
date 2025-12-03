@@ -1,12 +1,12 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package test.integ.be.e_contract.ejsf.cdi;
 
-import jakarta.inject.Scope;
+import jakarta.enterprise.context.NormalScope;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -18,7 +18,7 @@ import java.lang.annotation.ElementType;
  *
  * @author Frank Cornelis
  */
-@Scope
+@NormalScope
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 public @interface TestScoped {

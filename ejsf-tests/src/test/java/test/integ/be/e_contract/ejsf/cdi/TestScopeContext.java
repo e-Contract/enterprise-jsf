@@ -1,12 +1,12 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package test.integ.be.e_contract.ejsf.cdi;
 
-import jakarta.enterprise.context.spi.Context;
+import jakarta.enterprise.context.spi.AlterableContext;
 import jakarta.enterprise.context.spi.Contextual;
 import jakarta.enterprise.context.spi.CreationalContext;
 import jakarta.enterprise.event.Observes;
@@ -19,7 +19,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestScopeContext implements Context, Serializable {
+public class TestScopeContext implements AlterableContext, Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestScopeContext.class);
 
@@ -79,6 +79,12 @@ public class TestScopeContext implements Context, Serializable {
             bean.destroy(instance.instance, instance.creationalContext);
         }
         TestScopeContext.instances.clear();
+    }
+
+    @Override
+    public void destroy(Contextual<?> contextual) {
+        Bean bean = (Bean) contextual;
+        LOGGER.debug("destroy");
     }
 
     private static class TestScopeInstance<T> {
