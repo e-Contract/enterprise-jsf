@@ -97,4 +97,26 @@ public class PlainTextValidatorTest {
         this.testedInstance.setAllowEmail(true);
         this.testedInstance.validate(null, null, "info_test@e-contract.be");
     }
+
+    /**
+     * Tests for CVE-2025-66021.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testSanitizerVulnerability() throws Exception {
+        HtmlPolicyBuilder htmlPolicyBuilder = new HtmlPolicyBuilder();
+        PolicyFactory vulnerablePolicy = htmlPolicyBuilder
+                .allowElements("style", "noscript")
+                .allowTextIn("style")
+                .toFactory();
+        String payload = "<noscript><style></noscript><script>alert(1)</script>";
+
+        LOGGER.debug("payload: {}", payload);
+        LOGGER.debug("sanitized: {}", vulnerablePolicy.sanitize(payload));
+
+        PolicyFactory ourPolicy = htmlPolicyBuilder.toFactory();
+        LOGGER.debug("payload: {}", payload);
+        LOGGER.debug("sanitized: {}", ourPolicy.sanitize(payload));
+    }
 }
