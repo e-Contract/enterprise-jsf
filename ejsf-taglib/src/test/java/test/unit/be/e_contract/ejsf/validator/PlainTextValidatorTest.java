@@ -115,6 +115,7 @@ public class PlainTextValidatorTest {
         LOGGER.debug("payload: {}", payload);
         LOGGER.debug("sanitized: {}", vulnerablePolicy.sanitize(payload));
 
+        htmlPolicyBuilder = new HtmlPolicyBuilder();
         PolicyFactory ourPolicy = htmlPolicyBuilder.toFactory();
         LOGGER.debug("payload: {}", payload);
         LOGGER.debug("sanitized: {}", ourPolicy.sanitize(payload));
