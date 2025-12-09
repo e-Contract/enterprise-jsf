@@ -21,6 +21,9 @@
             <composite:attribute name="dateTimePattern"
                                  shortDescription="The pattern used for formatting datetimes."
                                  type="java.lang.String"/>
+            <composite:attribute name="showKeyIdentifiers"
+                                 shortDescription="Set to true to show Authority and Subject Key Identifier."
+                                 type="java.lang.Boolean"/>
         </composite:interface>
         <composite:implementation>
             <div id="#{cc.clientId}">
@@ -63,6 +66,12 @@
 
                     <h:outputText value="Fingerprint (SHA-256):"/>
                     <ejsf:outputFingerprint value="#{cc.certificateData}" algo="SHA-256"/>
+
+                    <h:outputText value="Authority Key Identifier:" rendered="#{cc.attrs.showKeyIdentifiers}"/>
+                    <h:outputText value="#{cc.authorityKeyIdentifier}" rendered="#{cc.attrs.showKeyIdentifiers}"/>
+
+                    <h:outputText value="Subject Key Identifier:" rendered="#{cc.attrs.showKeyIdentifiers}"/>
+                    <h:outputText value="#{cc.subjectKeyIdentifier}" rendered="#{cc.attrs.showKeyIdentifiers}"/>
 
                     <composite:insertChildren/>
                 </h:panelGrid>

@@ -7,6 +7,7 @@
 package be.e_contract.ejsf.component.output;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.PublicKey;
@@ -27,6 +28,12 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.ListenerFor;
 import javax.faces.event.PostAddToViewEvent;
+import org.apache.commons.codec.binary.Hex;
+import org.bouncycastle.asn1.ASN1OctetString;
+import org.bouncycastle.asn1.ASN1Primitive;
+import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier;
+import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.asn1.x509.SubjectKeyIdentifier;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
@@ -209,6 +216,57 @@ public class OutputCertificateComponent extends UIOutput implements NamingContai
             return "";
         }
         return certificate.getPublicKey().getAlgorithm();
+    }
+
+    public String getAuthorityKeyIdentifier() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return "";
+        }
+        byte[] authorityKeyIdentifierData = certificate
+                .getExtensionValue(Extension.authorityKeyIdentifier.getId());
+        AuthorityKeyIdentifier authorityKeyIdentifier;
+        try {
+            authorityKeyIdentifier = AuthorityKeyIdentifier
+                    .getInstance(ASN1Primitive.fromByteArray(ASN1OctetString.getInstance(authorityKeyIdentifierData).getOctets()));
+        } catch (IOException ex) {
+            return "";
+        }
+        String result = toHex(authorityKeyIdentifier.getKeyIdentifier());
+        return result;
+    }
+
+    public String getSubjectKeyIdentifier() {
+        X509Certificate certificate = (X509Certificate) getValue();
+        if (null == certificate) {
+            return "";
+        }
+        byte[] subjectKeyIdentifierData = certificate
+                .getExtensionValue(Extension.subjectKeyIdentifier.getId());
+        SubjectKeyIdentifier subjectKeyIdentifier;
+        try {
+            subjectKeyIdentifier = SubjectKeyIdentifier
+                    .getInstance(ASN1Primitive.fromByteArray(ASN1OctetString.getInstance(subjectKeyIdentifierData).getOctets()));
+        } catch (IOException ex) {
+            return "";
+        }
+        String result = toHex(subjectKeyIdentifier.getKeyIdentifier());
+        return result;
+    }
+
+    private String toHex(byte[] data) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String fingerprint = Hex.encodeHexString(data, false);
+        String separator = ":";
+        int length = fingerprint.length();
+        for (int idx = 0; idx < length; idx += 2) {
+            stringBuilder.append(fingerprint.charAt(idx));
+            stringBuilder.append(fingerprint.charAt(idx + 1));
+            if (idx + 2 < length) {
+                stringBuilder.append(separator);
+            }
+        }
+        return stringBuilder.toString();
     }
 
     @Override
