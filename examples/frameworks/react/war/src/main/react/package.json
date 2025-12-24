@@ -6,19 +6,19 @@
     "build": "node esbuild.config.mjs build"
   },
   "dependencies": {
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "primereact": "10.9.7",
     "primeflex": "4.0.0",
     "primeicons": "7.0.0"
   },
   "devDependencies": {
-    "esbuild": "0.25.11",
+    "esbuild": "0.27.1",
     "esbuild-plugin-copy": "2.1.1",
-    "express": "5.1.0",
-    "open": "10.2.0",
-    "@types/react-dom": "19.2.2",
-    "@types/express": "5.0.5",
+    "express": "5.2.1",
+    "open": "11.0.0",
+    "@types/react-dom": "19.2.3",
+    "@types/express": "5.0.6",
     "esbuild-plugin-tsc": "0.5.0",
     "typescript": "5.9.3"
   }

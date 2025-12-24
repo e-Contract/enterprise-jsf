@@ -16,3 +16,4 @@ nb-configuration.xml
 .project
 .settings
 .classpath
+*.iml
