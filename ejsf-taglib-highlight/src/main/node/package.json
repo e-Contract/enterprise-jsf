@@ -4,10 +4,10 @@
         "highlight.js": "11.11.1"
     },
     "devDependencies": {
-        "browserify": "17.0.1",
-        "tinyify": "4.0.0"
+        "webpack": "5.104.1",
+        "webpack-cli": "6.0.1"
     },
     "scripts": {
-        "build": "browserify index.js --standalone hljs --plugin tinyify --outfile highlight.min.js"
+        "build": "webpack"
     }
 }
