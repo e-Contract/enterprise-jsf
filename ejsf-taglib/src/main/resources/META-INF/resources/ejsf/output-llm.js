@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2026 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 
@@ -41,8 +41,9 @@ PrimeFaces.widget.EJSFOutputLLM = PrimeFaces.widget.BaseWidget.extend({
 
     init: function (cfg) {
         this._super(cfg);
-        let html = DOMPurify.sanitize(marked.parse(this.cfg.value));
-        $(this.jqId).html(html);
+        this._renderInProgress = false;
+        this._pending = null;
+        this._scheduleRender(this.cfg.value);
     },
 
     /**
@@ -50,8 +51,36 @@ PrimeFaces.widget.EJSFOutputLLM = PrimeFaces.widget.BaseWidget.extend({
      *
      * @param {string} value
      */
-    setValue: function (value) {
+    setValue: function (value, callback) {
+        this._scheduleRender(value, callback);
+    },
+
+    _render: function (value) {
         let html = DOMPurify.sanitize(marked.parse(value));
         $(this.jqId).html(html);
+    },
+
+    _scheduleRender: function (value, callback) {
+        if (this._renderInProgress) {
+            this._pending = {
+                value: value,
+                callback: callback
+            };
+            return;
+        }
+        this._renderInProgress = true;
+        const _this = this;
+        requestAnimationFrame(function () {
+            _this._render(value);
+            if (callback) {
+                callback();
+            }
+            _this._renderInProgress = false;
+            if (_this._pending !== null) {
+                const next = _this._pending;
+                _this._pending = null;
+                _this._scheduleRender(next.value, next.callback);
+            }
+        });
     }
 });
