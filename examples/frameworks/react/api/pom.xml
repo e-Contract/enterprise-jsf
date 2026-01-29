@@ -39,6 +39,9 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
                                 </useSwaggerAnnotations>
                                 <generatePom>false</generatePom>
                                 <useJakartaEe>true</useJakartaEe>
+                                <openApiNullable>
+                                    false
+                                </openApiNullable>
                             </configOptions>
                         </configuration>
                     </execution>
