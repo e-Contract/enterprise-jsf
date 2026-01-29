@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2026 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package test.integ.be.e_contract.ejsf;
@@ -83,13 +83,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v142.webauthn.WebAuthn;
-import org.openqa.selenium.devtools.v142.webauthn.model.AuthenticatorId;
-import org.openqa.selenium.devtools.v142.webauthn.model.AuthenticatorProtocol;
-import org.openqa.selenium.devtools.v142.webauthn.model.AuthenticatorTransport;
-import org.openqa.selenium.devtools.v142.webauthn.model.Ctap2Version;
-import org.openqa.selenium.devtools.v142.webauthn.model.VirtualAuthenticatorOptions;
-import org.openqa.selenium.devtools.v142.emulation.Emulation;
+import org.openqa.selenium.devtools.v143.webauthn.WebAuthn;
+import org.openqa.selenium.devtools.v143.webauthn.model.AuthenticatorId;
+import org.openqa.selenium.devtools.v143.webauthn.model.AuthenticatorProtocol;
+import org.openqa.selenium.devtools.v143.webauthn.model.AuthenticatorTransport;
+import org.openqa.selenium.devtools.v143.webauthn.model.Ctap2Version;
+import org.openqa.selenium.devtools.v143.webauthn.model.VirtualAuthenticatorOptions;
+import org.openqa.selenium.devtools.v143.emulation.Emulation;
 import org.primefaces.selenium.PrimeSelenium;
 import org.primefaces.selenium.component.Button;
 import org.primefaces.selenium.component.CommandButton;

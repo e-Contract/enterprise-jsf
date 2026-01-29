@@ -190,12 +190,12 @@ mvn clean package payara-micro:start -Ppayara
 
 Running the demo web application requires an application server that supports Jakarta EE version 10.
 We prefer WildFly as application server.
-WildFly version 38.0.1.Final is the latest version that supports Jakarta EE 10.
+WildFly version 39.0.0.Final is the latest version that supports Jakarta EE 10.
 WildFly can be downloaded from: https://www.wildfly.org
 
 Start WildFly via:
 ```
-cd wildfly-38.0.1.Final/bin
+cd wildfly-39.0.0.Final/bin
 ./standalone.sh --server-config=standalone-full.xml
 ```
 
@@ -231,6 +231,22 @@ Run the demo web application on the Payara application server via:
 cd ejsf-demo-ee10
 mvn clean package payara-micro:start -Ppayara
 ```
+
+
+### Jakarta EE 11 demo web application
+
+Run the demo web application with Mojarra as JSF implementation via:
+```
+cd ejsf-demo-ee10
+mvn clean jetty:run -Pmojarra-ee11
+```
+
+Run the demo web application with MyFaces as JSF implementation via:
+```
+cd ejsf-demo-ee10
+mvn clean jetty:run -Pmyfaces-ee11
+```
+
 
 ## Integration Tests
 

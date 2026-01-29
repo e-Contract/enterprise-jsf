@@ -125,7 +125,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>${primefaces.version}</version>
+            <version>15.0.12</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
@@ -261,7 +261,7 @@
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>jakarta.faces</artifactId>
-                    <version>4.0.13</version>
+                    <version>4.0.14</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
@@ -271,7 +271,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>5.1.6.Final</version>
+                    <version>5.1.7.Final</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -327,7 +327,7 @@
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>jakarta.faces</artifactId>
-                    <version>4.1.5</version>
+                    <version>4.1.6</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
@@ -337,7 +337,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>6.0.3.Final</version>
+                    <version>6.0.4.Final</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -403,7 +403,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>5.1.6.Final</version>
+                    <version>5.1.7.Final</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -474,7 +474,7 @@
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>6.0.3.Final</version>
+                    <version>6.0.4.Final</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -492,7 +492,7 @@
                         <version>2.5.2</version>
                         <configuration>
                             <deployWar>true</deployWar>
-                            <payaraVersion>6.2025.4</payaraVersion>
+                            <payaraVersion>6.2025.11</payaraVersion>
                         </configuration>
                     </plugin>
                 </plugins>
