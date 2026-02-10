@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2026 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.copybutton;
@@ -31,6 +31,7 @@ public class CopyButtonRenderer extends CoreRenderer {
         responseWriter.startElement("span", copyButtonComponent);
         responseWriter.writeAttribute("id", clientId, "id");
         responseWriter.writeAttribute("style", "cursor: pointer;", null);
+        responseWriter.writeAttribute("class", "ui-button ui-widget ui-state-default ui-button-icon-only rounded-button ui-button-flat", null);
 
         responseWriter.startElement("i", null);
         responseWriter.writeAttribute("id", clientId + ":icon", null);
