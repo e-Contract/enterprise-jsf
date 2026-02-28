@@ -29,3 +29,12 @@ public class HelloWorld {
 ```
 
 This declares a class named `HelloWorld`.
+
+
+## Mermaid Support
+
+A diagram:
+```mermaid
+sequenceDiagram
+    Alice ->> Bob: Hello World
+```

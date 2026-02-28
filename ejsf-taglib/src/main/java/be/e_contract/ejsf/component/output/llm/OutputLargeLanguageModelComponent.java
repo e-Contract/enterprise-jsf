@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2024-2025 e-Contract.be BV. All rights reserved.
+ * Copyright 2024-2026 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package be.e_contract.ejsf.component.output.llm;
@@ -27,6 +27,7 @@ import org.primefaces.component.api.Widget;
     @ResourceDependency(library = "ejsf", name = "highlight/highlight.min.js"),
     @ResourceDependency(library = "ejsf", name = "highlight/default.css"),
     @ResourceDependency(library = "ejsf", name = "marked-highlight/index.umd.js"),
+    @ResourceDependency(library = "ejsf", name = "mermaid/mermaid.min.js"),
     @ResourceDependency(library = "ejsf", name = "output-llm.js")
 })
 public class OutputLargeLanguageModelComponent extends UIOutput implements Widget {

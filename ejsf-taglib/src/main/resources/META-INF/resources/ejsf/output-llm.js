@@ -32,10 +32,24 @@ marked.use(markedHighlight.markedHighlight({
     emptyLangClass: "hljs",
     langPrefix: "hljs language-",
     highlight: function (code, lang, info) {
+        if (lang === "mermaid") {
+            return code;
+        }
         let language = hljs.getLanguage(lang) ? lang : "plaintext";
         return hljs.highlight(code, {language: language}).value;
     }
 }));
+
+marked.use({
+    renderer: {
+        code({text, lang}) {
+            if (lang === "mermaid") {
+                return '<pre class="mermaid">' + text + "</pre>";
+            }
+            return false;
+        }
+    }
+});
 
 PrimeFaces.widget.EJSFOutputLLM = PrimeFaces.widget.BaseWidget.extend({
 
@@ -58,6 +72,9 @@ PrimeFaces.widget.EJSFOutputLLM = PrimeFaces.widget.BaseWidget.extend({
     _render: function (value) {
         let html = DOMPurify.sanitize(marked.parse(value));
         $(this.jqId).html(html);
+        mermaid.run({
+            nodes: $(this.jqId).find("pre.mermaid").toArray()
+        });
     },
 
     _scheduleRender: function (value, callback) {
