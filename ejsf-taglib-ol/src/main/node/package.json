@@ -1,6 +1,6 @@
 {
     "name": "taglib",
     "dependencies": {
-        "ol": "10.8.0"
+        "ol": "10.9.0"
     }
 }

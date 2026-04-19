@@ -1,6 +1,6 @@
 {
     "name": "taglib",
     "dependencies": {
-        "mermaid": "11.12.3"
+        "mermaid": "11.14.0"
     }
 }
