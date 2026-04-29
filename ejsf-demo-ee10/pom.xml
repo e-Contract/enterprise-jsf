@@ -202,6 +202,7 @@
         <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy-jsr223</artifactId>
+            <version>5.0.5</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -242,9 +243,9 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.26</version>
+                        <groupId>org.eclipse.jetty.ee10</groupId>
+                        <artifactId>jetty-ee10-maven-plugin</artifactId>
+                        <version>12.1.8</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -303,9 +304,9 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.26</version>
+                        <groupId>org.eclipse.jetty.ee11</groupId>
+                        <artifactId>jetty-ee11-maven-plugin</artifactId>
+                        <version>12.1.8</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -369,9 +370,9 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.26</version>
+                        <groupId>org.eclipse.jetty.ee10</groupId>
+                        <artifactId>jetty-ee10-maven-plugin</artifactId>
+                        <version>12.1.8</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -435,9 +436,9 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                        <version>11.0.26</version>
+                        <groupId>org.eclipse.jetty.ee11</groupId>
+                        <artifactId>jetty-ee11-maven-plugin</artifactId>
+                        <version>12.1.8</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
