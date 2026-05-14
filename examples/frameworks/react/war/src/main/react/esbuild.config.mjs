@@ -15,12 +15,6 @@ const esBuildOptions = {
         ".svg": "file",
     },
     bundle: true,
-    target: [
-        "chrome58",
-        "firefox57",
-        "safari11",
-        "edge18",
-    ],
     plugins: [
         copy({
             resolveFrom: "cwd",

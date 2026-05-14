@@ -159,7 +159,7 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
-            <version>4.1.7</version>
+            <version>4.1.9</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -177,7 +177,7 @@
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-depchain</artifactId>
-            <version>3.3.5</version>
+            <version>3.3.6</version>
             <scope>test</scope>
             <type>pom</type>
         </dependency>
@@ -229,7 +229,7 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>3.2.3</version>
+            <version>3.2.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>

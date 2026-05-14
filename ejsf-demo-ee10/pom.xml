@@ -125,7 +125,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>15.0.14</version>
+            <version>15.0.15</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
@@ -184,7 +184,7 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>3.2.3</version>
+            <version>3.2.4</version>
         </dependency>
         <dependency>
             <groupId>org.passay</groupId>
@@ -202,7 +202,7 @@
         <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy-jsr223</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -245,7 +245,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty.ee10</groupId>
                         <artifactId>jetty-ee10-maven-plugin</artifactId>
-                        <version>12.1.8</version>
+                        <version>12.1.9</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -262,7 +262,7 @@
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>jakarta.faces</artifactId>
-                    <version>4.0.15</version>
+                    <version>4.0.17</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
@@ -306,7 +306,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty.ee11</groupId>
                         <artifactId>jetty-ee11-maven-plugin</artifactId>
-                        <version>12.1.8</version>
+                        <version>12.1.9</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -328,7 +328,7 @@
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>jakarta.faces</artifactId>
-                    <version>4.1.7</version>
+                    <version>4.1.9</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
@@ -372,7 +372,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty.ee10</groupId>
                         <artifactId>jetty-ee10-maven-plugin</artifactId>
-                        <version>12.1.8</version>
+                        <version>12.1.9</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -438,7 +438,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty.ee11</groupId>
                         <artifactId>jetty-ee11-maven-plugin</artifactId>
-                        <version>12.1.8</version>
+                        <version>12.1.9</version>
                         <configuration>
                             <webApp>
                                 <contextPath>/ejsf-demo</contextPath>
@@ -460,12 +460,12 @@
                 <dependency>
                     <groupId>org.apache.myfaces.core</groupId>
                     <artifactId>myfaces-api</artifactId>
-                    <version>4.1.2</version>
+                    <version>4.1.3</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.myfaces.core</groupId>
                     <artifactId>myfaces-impl</artifactId>
-                    <version>4.1.2</version>
+                    <version>4.1.3</version>
                 </dependency>
                 <dependency>
                     <groupId>jakarta.inject</groupId>
