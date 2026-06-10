@@ -4,8 +4,8 @@
         "highlight.js": "11.11.1"
     },
     "devDependencies": {
-        "webpack": "5.106.2",
-        "webpack-cli": "7.0.2"
+        "webpack": "5.107.2",
+        "webpack-cli": "7.0.3"
     },
     "scripts": {
         "build": "webpack"

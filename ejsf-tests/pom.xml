@@ -49,7 +49,7 @@
         </profile>
     </profiles>
     <properties>
-        <jetty.version>12.1.8</jetty.version>
+        <jetty.version>12.1.9</jetty.version>
     </properties>
     <dependencies>
         <dependency>
