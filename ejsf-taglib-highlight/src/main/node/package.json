@@ -1,5 +1,6 @@
 {
     "name": "taglib",
+    "type": "commonjs",
     "dependencies": {
         "highlight.js": "11.11.1"
     },
