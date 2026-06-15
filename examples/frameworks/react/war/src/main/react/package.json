@@ -6,9 +6,9 @@
     "build": "node esbuild.config.mjs build"
   },
   "dependencies": {
-    "react": "19.2.6",
-    "react-dom": "19.2.6",
-    "primereact": "10.9.7",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "primereact": "10.9.8",
     "primeflex": "4.0.0",
     "primeicons": "7.0.0"
   },
