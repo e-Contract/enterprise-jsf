@@ -1,7 +1,7 @@
 /*
  * Enterprise JSF project.
  *
- * Copyright 2023 e-Contract.be BV. All rights reserved.
+ * Copyright 2023-2026 e-Contract.be BV. All rights reserved.
  * e-Contract.be BV proprietary/confidential. Use is subject to license terms.
  */
 package test.unit.be.e_contract.ejsf.validator;
@@ -35,6 +35,22 @@ public class EmailValidatorTest {
     @Test
     public void testEmailPasses() throws Exception {
         this.testedInstance.validate(null, null, "info@e-contract.be");
+    }
+
+    @Test
+    public void testDoubleAtFails() throws Exception {
+        FacesContext mockFacesContext = EasyMock.mock(FacesContext.class);
+        Application mockApplication = EasyMock.mock(Application.class);
+        EasyMock.expect(mockFacesContext.getApplication()).andReturn(mockApplication);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("be.e_contract.ejsf.Messages", Locale.ENGLISH);
+        EasyMock.expect(mockApplication.getResourceBundle(mockFacesContext, "ejsfMessages")).andReturn(resourceBundle);
+
+        EasyMock.replay(mockFacesContext, mockApplication);
+
+        Assertions.assertThrows(ValidatorException.class, ()
+                -> this.testedInstance.validate(mockFacesContext, null, "kikker@1234@gmail.com"));
+
+        EasyMock.verify(mockFacesContext, mockApplication);
     }
 
     @Test
