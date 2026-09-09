@@ -83,13 +83,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v149.webauthn.WebAuthn;
-import org.openqa.selenium.devtools.v149.webauthn.model.AuthenticatorId;
-import org.openqa.selenium.devtools.v149.webauthn.model.AuthenticatorProtocol;
-import org.openqa.selenium.devtools.v149.webauthn.model.AuthenticatorTransport;
-import org.openqa.selenium.devtools.v149.webauthn.model.Ctap2Version;
-import org.openqa.selenium.devtools.v149.webauthn.model.VirtualAuthenticatorOptions;
-import org.openqa.selenium.devtools.v149.emulation.Emulation;
+import org.openqa.selenium.devtools.v152.webauthn.WebAuthn;
+import org.openqa.selenium.devtools.v152.webauthn.model.AuthenticatorId;
+import org.openqa.selenium.devtools.v152.webauthn.model.AuthenticatorProtocol;
+import org.openqa.selenium.devtools.v152.webauthn.model.AuthenticatorTransport;
+import org.openqa.selenium.devtools.v152.webauthn.model.Ctap2Version;
+import org.openqa.selenium.devtools.v152.webauthn.model.VirtualAuthenticatorOptions;
+import org.openqa.selenium.devtools.v152.emulation.Emulation;
 import org.primefaces.selenium.PrimeSelenium;
 import org.primefaces.selenium.component.Button;
 import org.primefaces.selenium.component.CommandButton;
@@ -568,6 +568,7 @@ public class JettySeleniumTest {
                 = new VirtualAuthenticatorOptions(AuthenticatorProtocol.CTAP2,
                         Optional.of(Ctap2Version.CTAP2_1),
                         AuthenticatorTransport.NFC,
+                        Optional.of(true),
                         Optional.of(true),
                         Optional.of(true),
                         Optional.of(true),

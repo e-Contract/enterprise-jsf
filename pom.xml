@@ -46,7 +46,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.15.0</version>
+                    <version>3.16.0</version>
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
@@ -82,7 +82,7 @@
                 <plugin>
                     <groupId>com.github.eirslett</groupId>
                     <artifactId>frontend-maven-plugin</artifactId>
-                    <version>2.0.1</version>
+                    <version>2.0.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -136,7 +136,7 @@
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>3.12.0</version>
+                    <version>3.12.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -151,7 +151,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.5.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -165,13 +165,13 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <node.version>v24.18.0</node.version>
-        <npm.version>11.16.0</npm.version>
+        <node.version>v24.21.0</node.version>
+        <npm.version>11.19.0</npm.version>
         <jackson.version>2.21.5</jackson.version>
         <webauthn-server.version>2.9.0</webauthn-server.version>
         <webauthn4j.version>0.31.8.RELEASE</webauthn4j.version>
-        <primefaces.version>13.0.10</primefaces.version>
-        <slf4j.version>2.0.18</slf4j.version>
+        <primefaces.version>13.0.28</primefaces.version>
+        <slf4j.version>2.0.19</slf4j.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -210,12 +210,12 @@
             <dependency>
                 <groupId>commons-validator</groupId>
                 <artifactId>commons-validator</artifactId>
-                <version>1.10.1</version>
+                <version>1.11.0</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.libphonenumber</groupId>
                 <artifactId>libphonenumber</artifactId>
-                <version>9.0.34</version>
+                <version>9.0.39</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
@@ -246,7 +246,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.22.0</version>
+                <version>1.22.1</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
@@ -256,12 +256,12 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>6.1.1</version>
+                <version>6.1.3</version>
             </dependency>
             <dependency>
                 <groupId>org.easymock</groupId>
                 <artifactId>easymock</artifactId>
-                <version>5.6.0</version>
+                <version>5.7.0</version>
             </dependency>
             <dependency>
                 <groupId>com.cronutils</groupId>
@@ -281,7 +281,7 @@
             <dependency>
                 <groupId>org.apache.groovy</groupId>
                 <artifactId>groovy-jsr223</artifactId>
-                <version>4.0.32</version>
+                <version>4.0.33</version>
             </dependency>
             <dependency>
                 <groupId>com.yubico</groupId>
@@ -331,7 +331,7 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
-                <version>4.45.0</version>
+                <version>4.48.0</version>
             </dependency>
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
@@ -351,7 +351,7 @@
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk18on</artifactId>
-                <version>1.84</version>
+                <version>1.85.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
