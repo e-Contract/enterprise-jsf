@@ -1,9 +1,9 @@
 {
     "name": "taglib",
     "dependencies": {
-        "marked": "18.0.6",
-        "dompurify": "3.4.12",
-        "marked-katex-extension": "5.1.10",
+        "marked": "18.0.12",
+        "dompurify": "3.4.15",
+        "marked-katex-extension": "5.1.12",
         "marked-highlight": "2.2.4"
     }
 }
