@@ -167,9 +167,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <node.version>v26.13.0</node.version>
         <npm.version>11.20.0</npm.version>
-        <jackson.version>2.21.8</jackson.version>
-        <webauthn-server.version>2.9.0</webauthn-server.version>
-        <webauthn4j.version>0.31.8.RELEASE</webauthn4j.version>
+        <jackson.version>2.23.0</jackson.version>
+        <webauthn-server.version>2.10.1</webauthn-server.version>
+        <webauthn4j.version>0.32.0.RELEASE</webauthn4j.version>
         <primefaces.version>13.0.29</primefaces.version>
         <slf4j.version>2.0.20</slf4j.version>
     </properties>
@@ -341,7 +341,7 @@
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
-                <version>2.14.0</version>
+                <version>2.15.0</version>
             </dependency>
             <dependency>
                 <groupId>net.coobird</groupId>

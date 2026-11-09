@@ -27,7 +27,8 @@
                                username="#{webAuthnController.username}"
                                credentialRepository="#{webAuthnCredentialRepository}"
                                relyingPartyId="#{webAuthnController.relyingPartyId}"
-                               relyingPartyName="Enterprise JSF Demo">
+                               relyingPartyName="Enterprise JSF Demo"
+                               allowOriginPort="true">
                     <ejsf:webAuthnRegistration update=":messages"
                                                listener="#{webAuthnController.registeredListener}"
                                                userId="#{webAuthnController.userId}"
